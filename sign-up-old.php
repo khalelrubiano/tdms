@@ -38,8 +38,8 @@ if ( !isset($_SESSION) ) {
 
     <div class="container">
 
-      <div class="columns is-centered">
-        <div class="column is-8-mobile is-8-tablet is-6-desktop is-6-widescreen">
+      <div class="columns is-mobile">
+        <div class="column is-6 is-offset-3">
 
           <form id="signUpForm" action="classes/sign-up-controller.class.php" class="box has-background-white-ter" method="POST">
 

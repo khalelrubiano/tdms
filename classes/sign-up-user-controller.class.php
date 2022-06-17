@@ -1,20 +1,20 @@
-<?php 
-include 'add-user-model.class.php';
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+<?php
+//PART OF NEW SYSTEM
+include 'sign-up-user-model.class.php';
+
+if (isset($_POST["submitAddForm"])) {
 
     $usernameAdd = $_POST['usernameAdd'];
     $passwordAdd = $_POST['passwordAdd'];
-    $accessTypeAdd = $_POST['accessTypeAdd'];
     $firstNameAdd = $_POST['firstNameAdd'];
     $middleNameAdd = $_POST['middleNameAdd'];
     $lastNameAdd = $_POST['lastNameAdd'];
-    $companyName = $_SESSION["companyName"];
+    $companyName = $_POST["companyNameSelect"];
 
     $addObj = new AddUserModel(
-        $usernameAdd, 
-        $passwordAdd, 
-        $accessTypeAdd,
+        $usernameAdd,
+        $passwordAdd,
         $firstNameAdd,
         $middleNameAdd,
         $lastNameAdd,
@@ -22,5 +22,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     );
 
     $addObj->addUserRecord();
-
+    
 }

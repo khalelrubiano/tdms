@@ -1,4 +1,7 @@
+
+
 <?php
+//PART OF NEW SYSTEM
 session_start();
 include 'navbar.php';
 

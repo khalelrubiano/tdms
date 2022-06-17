@@ -1,8 +1,10 @@
-<?php
 
+
+<?php
+//PART OF NEW SYSTEM
 include 'navbar.php';
 
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION["shipmentAccess"] === 'Yes') {
   header("location: index.php");
   exit;
 }
@@ -16,7 +18,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign-up</title>
+  <title>Default Dashboard</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <style>
@@ -25,18 +27,17 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 </head>
 
 <body>
-  <div class="section">
-    <div class="tiles is-ancestor">
-      <div class="tiles is-parent">
-        <div class="tiles is-child box">
 
-        </div>
-        <div class="tiles is-child box">
-
-        </div>
-      </div>
+  <section class="hero is-dark is-fullheight-with-navbar">
+    <div class="hero-body">
+      <div class="">
+        <!-- classless div used for making the subtitle start on new line-->
+        <p class="title">
+          Your account does not have access to any module. Please contact your company administrator.
+        </p>
+      </div> <!-- classless div used for making the subtitle start on new line-->
     </div>
-  </div>
+  </section>
 
   <footer class="footer">
     <div class="content has-text-centered">
@@ -62,11 +63,9 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
   let loginBtn = document.getElementById('loginBtn')
   let logoutBtn = document.getElementById('logoutBtn')
 
-  if (<?php echo !isset($_SESSION["loggedin"]) ?>) {
+  if (<?php echo isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true ?>) {
 
-    clientTrackingBtn.classList.remove("is-hidden");
-    signupBtn.classList.remove("is-hidden");
-    loginBtn.classList.remove("is-hidden");
+    logoutBtn.classList.remove("is-hidden");
 
   }
 </script>

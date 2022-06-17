@@ -1,5 +1,6 @@
-<?php
 
+<?php
+//PART OF NEW SYSTEM
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -52,16 +53,16 @@ if (!isset($_SESSION)) {
                 <a href="index.php" class="navbar-item is-hidden" id="shipmentBtn"> SHIPMENT </a>
                 <a href="tracking.php" class="navbar-item is-hidden" id="trackingBtn"> CLIENT </a>
                 <!--VEHICLES AND -->
-                <a href="billing.php" class="navbar-item is-hidden" id="billingBtn"> SUBCONTRACTOR </a>
-                <a href="payslip.php" class="navbar-item is-hidden" id="payslipBtn"> SUBCONTRACTOR </a>
+                <a href="billing.php" class="navbar-item is-hidden" id="billingBtn"> BILLING </a>
+                <a href="payslip.php" class="navbar-item is-hidden" id="payslipBtn"> PAYSLIP </a>
                 <a href="client-tracking.php" class="navbar-item is-hidden" id="clientTrackingBtn"> TRACK SHIPMENT </a>
 
                 <div class="navbar-item has-dropdown is-hoverable has-text-black">
                     <a class="navbar-link is-hidden" id="manageBtn"> MANAGE </a>
 
                     <div class="navbar-dropdown">
-                        <a href="manage-account.php" class="navbar-item" id="accountBtn"> ACCOUNT </a>
-                        <a href="manage-vehicle.php" class="navbar-item" id="vehicleBtn"> VEHICLE </a>
+                        <a href="manage-account.php" class="navbar-item is-hidden" id="accountBtn"> ACCOUNT </a>
+                        <a href="manage-vehicle.php" class="navbar-item is-hidden" id="vehicleBtn"> VEHICLE </a>
                     </div>
                 </div>
             </div>
@@ -70,7 +71,7 @@ if (!isset($_SESSION)) {
                 <a href="view-account.php" class="navbar-item has-text-weight-bold is-hidden" id="userBtn"> <?php echo $_SESSION["username"]; ?> </a>
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a href="sign_up_home.php" class="button is-link is-rounded is-hidden" id="signupBtn"> <i class="fas fa-user-plus mr-3"></i><strong>Sign Up</strong> </a>
+                        <a href="sign-up-home.php" class="button is-link is-rounded is-hidden" id="signupBtn"> <i class="fas fa-user-plus mr-3"></i><strong>Sign Up</strong> </a>
                         <a href="login.php" class="button has-background-grey-lighter is-rounded is-hidden" id="loginBtn"><i class="fas fa-sign-in-alt mr-3"></i><strong> Login </strong></a>
                         <a href="logout.php" class="button has-background-dark is-rounded has-text-white is-hidden" id="logoutBtn"><i class="fas fa-sign-out-alt mr-3"></i><strong> Logout </strong></a>
                     </div>

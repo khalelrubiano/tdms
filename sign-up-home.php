@@ -1,19 +1,11 @@
+
+
 <?php
 //PART OF NEW SYSTEM
-
 include 'navbar.php';
 
-if ( !isset($_SESSION) ) {
-  session_start();
-}
-
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-  header("location: homepage.php");
-  exit;
-}
-
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION["accountAccess"] === 'No') {
-  header("location: dashboard-default.php");
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+  header("location: index.php");
   exit;
 }
 
@@ -26,7 +18,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION[
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Account</title>
+  <title>Sign-up</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <style>
@@ -35,13 +27,29 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION[
 </head>
 
 <body>
-  <section class="hero is-dark is-fullheight-with-navbar">
+  <section class="hero is-fullheight-with-navbar">
     <div class="hero-body">
-      <div class="">
+      <div class="container">
         <!-- classless div used for making the subtitle start on new line-->
         <p class="title">
-          ACCOUNT HERE
+          Sign-up as:
         </p>
+        <div class="tile is-ancestor">
+          <div class="tile is-parent">
+            <div class="tile is-child">
+              <p class="title">
+                Company
+              </p>
+              <a href="sign-up-company.php" class="button is-link is-rounded" id="signupCompanyBtn"><strong>Sign Up</strong> </a>
+            </div>
+            <div class="tile is-child">
+              <p class="title">
+                User
+              </p>
+              <a href="sign-up-user.php" class="button is-link is-rounded" id="signupUserBtn"><strong>Sign Up</strong> </a>
+            </div>
+          </div>
+        </div>
       </div> <!-- classless div used for making the subtitle start on new line-->
     </div>
   </section>
@@ -56,7 +64,6 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION[
     </div>
   </footer>
 
-
 </body>
 
 <script>
@@ -64,8 +71,6 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION[
   let trackingBtn = document.getElementById('trackingBtn')
   let payslipBtn = document.getElementById('payslipBtn')
   let manageBtn = document.getElementById('manageBtn')
-  let accountBtn = document.getElementById('accountBtn')
-  let vehicleBtn = document.getElementById('vehicleBtn')
   let billingBtn = document.getElementById('billingBtn')
   let clientTrackingBtn = document.getElementById('clientTrackingBtn')
 
@@ -73,12 +78,11 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION[
   let loginBtn = document.getElementById('loginBtn')
   let logoutBtn = document.getElementById('logoutBtn')
 
-  if (<?php echo isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true ?>) {
+  if (<?php echo !isset($_SESSION["loggedin"]) ?>) {
 
-    logoutBtn.classList.remove("is-hidden");
-    manageBtn.classList.remove("is-hidden");
-    shipmentBtn.classList.remove("is-hidden");
-    accountBtn.classList.remove("is-hidden");
+    clientTrackingBtn.classList.remove("is-hidden");
+    signupBtn.classList.remove("is-hidden");
+    loginBtn.classList.remove("is-hidden");
 
   }
 </script>

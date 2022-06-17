@@ -1,15 +1,35 @@
 <?php
+//PART OF NEW SYSTEM
 
 include 'navbar.php';
 
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-    header("location: shipment.php");
-    exit;
+if ( !isset($_SESSION) ) {
+  session_start();
 }
-else{
+
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: homepage.php");
   exit;
 }
+
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION["shipmentAccess"] === 'No') {
+  header("location: dashboard-default.php");
+  exit;
+}
+
+/*
+if($_SESSION["accessType"] != "Admin" && $_SESSION["accessType"] != "Full"){
+  // Unset all of the session variables
+  $_SESSION = array();
+ 
+  // Destroy the session.
+  session_destroy();
+   
+  // Redirect to login page
+  header("location: login.php");
+  exit;
+}
+*/
 
 ?>
 
@@ -17,59 +37,64 @@ else{
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Index</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <style>
 
-    </style>
+  </style>
 </head>
 
 <body>
-<section class="hero has-background-primary">
-  <div class="hero-body">
-    <div class="container box">
-    <p class="title">
-      Hero title
-    </p>
+  <section class="hero is-dark is-fullheight-with-navbar">
+    <div class="hero-body">
+      <div class="">
+        <!-- classless div used for making the subtitle start on new line-->
+        <p class="title">
+          SHIPMENT HERE
+        </p>
+      </div> <!-- classless div used for making the subtitle start on new line-->
     </div>
-    <p class="subtitle">
-      Hero subtitle
-    </p>
-  </div>
-</section>
+  </section>
 
-<section class="section has-background-link">
-  <h1 class="title">Section</h1>
-  <h2 class="subtitle">
-    A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading.
-  </h2>
-  <button class="button">Button</button>
-</section>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+        is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+      </p>
+    </div>
+  </footer>
+
 
 </body>
 
 <script>
-  /*
   let shipmentBtn = document.getElementById('shipmentBtn')
   let trackingBtn = document.getElementById('trackingBtn')
   let payslipBtn = document.getElementById('payslipBtn')
   let manageBtn = document.getElementById('manageBtn')
+  let accountBtn = document.getElementById('accountBtn')
+  let vehicleBtn = document.getElementById('vehicleBtn')
   let billingBtn = document.getElementById('billingBtn')
   let clientTrackingBtn = document.getElementById('clientTrackingBtn')
-  
-  if(<?php //echo !isset($_SESSION["loggedin"])?>){
-    shipmentBtn.className = "navbar-item is-hidden";
-    trackingBtn.className = "navbar-item is-hidden";
-    payslipBtn.className = "navbar-item is-hidden";
-    manageBtn.className = "navbar-item is-hidden";
-    billingBtn.className = "navbar-item is-hidden";
-    clientTrackingBtn.className = "navbar-item";
+
+  let signupBtn = document.getElementById('signupBtn')
+  let loginBtn = document.getElementById('loginBtn')
+  let logoutBtn = document.getElementById('logoutBtn')
+
+  if (<?php echo isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true ?>) {
+
+    logoutBtn.classList.remove("is-hidden");
+    manageBtn.classList.remove("is-hidden");
+    shipmentBtn.classList.remove("is-hidden");
+    accountBtn.classList.remove("is-hidden");
+
   }
-*/
 </script>
 
 </html>

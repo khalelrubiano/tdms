@@ -1,9 +1,11 @@
-<?php
 
+<?php
+//PART OF NEW SYSTEM
 require_once "../config.php";
 
 
-class SignUpModel{
+class SignUpCompanyModel
+{
     private $username;
     private $password;
     private $companyName;
@@ -15,7 +17,8 @@ class SignUpModel{
     private $city;
     private $barangay;
 
-    public function __construct($username, $password, $companyName, $companyEmail, $companyNumber, $companyAddress, $region, $province, $city, $barangay){
+    public function __construct($username, $password, $companyName, $companyEmail, $companyNumber, $companyAddress, $region, $province, $city, $barangay)
+    {
 
         $this->username = $username;
         $this->password = $password;
@@ -27,74 +30,62 @@ class SignUpModel{
         $this->province = $province;
         $this->city = $city;
         $this->barangay = $barangay;
-
     }
 
-    public function signUp(){
-
-        if($this->emptyValidator() == false || $this->lengthValidator() == false || $this->patternValidator() == false ){
-            session_start();
-            $_SESSION['prompt'] = "The information you entered are not valid!";
-            header('location: ../prompt.php');
-            exit();
-        }
-
-        if($this->usernameValidator() == false){
+    public function signUpCompany()
+    {
+        //FIX THIS
+        /*
+        if ($this->usernameValidator() == false) {
             session_start();
             $_SESSION['prompt'] = "The username you entered is already taken!";
             header('location: ../prompt.php');
             exit();
         }
 
-        if($this->companyValidator() == false){
+        if ($this->companyValidator() == false) {
             session_start();
             $_SESSION['prompt'] = "A company with the same name is already registered!";
             header('location: ../prompt.php');
             exit();
         }
+        */
 
+
+        //PUT THESE IN IF STATEMENT
         $this->companySubmit();
+        $this->roleAdminSubmit();
+        $this->roleDefaultSubmit();
         $this->accountSubmit();
-
-        
-        
     }
 
-    private function accountSubmit(){
-
-        $sql = "INSERT INTO user (username, password, accessType, firstName, middleName, lastName, companyName) VALUES (:username, :password, :accessType, :firstName, :middleName, :lastName, :companyName)";
-
+    private function roleAdminSubmit()
+    {
+        //UPDATE THIS FOR EACH MODULE
+        $sql = "INSERT INTO permission (role, accountType, shipmentAccess, accountAccess, companyName) VALUES (:role, :accountType, :shipmentAccess, :accountAccess, :companyName)";
 
         $configObj = new Config();
-    
+
         $pdoVessel = $configObj->pdoConnect();
 
-        if($stmt = $pdoVessel->prepare($sql)){
+        if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":username", $paramUsername, PDO::PARAM_STR);
-            $stmt->bindParam(":password", $paramPassword, PDO::PARAM_STR);
-            $stmt->bindParam(":accessType", $paramAccessType, PDO::PARAM_STR);
-            $stmt->bindParam(":firstName", $paramFirstName, PDO::PARAM_STR);
-            $stmt->bindParam(":middleName", $paramMiddleName, PDO::PARAM_STR);
-            $stmt->bindParam(":lastName", $paramLastName, PDO::PARAM_STR);
+            $stmt->bindParam(":role", $paramRole, PDO::PARAM_STR);
+            $stmt->bindParam(":accountType", $paramAccountType, PDO::PARAM_STR);
+            $stmt->bindParam(":shipmentAccess", $paramShipmentAccess, PDO::PARAM_STR);
+            $stmt->bindParam(":accountAccess", $paramAccountAccess, PDO::PARAM_STR);
             $stmt->bindParam(":companyName", $paramCompanyName, PDO::PARAM_STR);
 
-            $paramUsername = $this->username;
-            $paramPassword = password_hash($this->password, PASSWORD_DEFAULT);
-            $paramAccessType = 'Admin';
-            $paramFirstName = 'Company';
-            $paramMiddleName = 'Admin';
-            $paramLastName = 'Account';
+            $paramRole = 'Admin';
+            $paramAccountType = 'Employee';
+            $paramShipmentAccess = 'Yes';
+            $paramAccountAccess = 'Yes';
             $paramCompanyName = $this->companyName;
 
-            if($stmt->execute()){
+            if ($stmt->execute()) {
+            } else {
                 session_start();
-                $_SESSION ["prompt"] = "Sign-up was successful!";
-                header('location: ../prompt.php');
-                exit();
-            } else{
-               session_start();
-                $_SESSION ["prompt"] = "Something went wrong!";
+                $_SESSION["prompt"] = "Something went wrong!";
                 header('location: ../prompt.php');
                 exit();
             }
@@ -105,15 +96,99 @@ class SignUpModel{
         unset($pdoVessel);
     }
 
-    private function companySubmit(){
+    private function roleDefaultSubmit()
+    {
+        //UPDATE THIS FOR EACH MODULE
+        $sql = "INSERT INTO permission (role, accountType, shipmentAccess, accountAccess, companyName) VALUES (:role, :accountType, :shipmentAccess, :accountAccess, :companyName)";
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":role", $paramRole, PDO::PARAM_STR);
+            $stmt->bindParam(":accountType", $paramAccountType, PDO::PARAM_STR);
+            $stmt->bindParam(":shipmentAccess", $paramShipmentAccess, PDO::PARAM_STR);
+            $stmt->bindParam(":accountAccess", $paramAccountAccess, PDO::PARAM_STR);
+            $stmt->bindParam(":companyName", $paramCompanyName, PDO::PARAM_STR);
+
+            $paramRole = 'Default';
+            $paramAccountType = 'Default';
+            $paramShipmentAccess = 'No';
+            $paramAccountAccess = 'No';
+            $paramCompanyName = $this->companyName;
+
+            if ($stmt->execute()) {
+            } else {
+                session_start();
+                $_SESSION["prompt"] = "Something went wrong!";
+                header('location: ../prompt.php');
+                exit();
+            }
+
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+    private function accountSubmit()
+    {
+
+        $sql = "INSERT INTO user (username, password, role, firstName, middleName, lastName, companyName) VALUES (:username, :password, :role, :firstName, :middleName, :lastName, :companyName)";
+
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":username", $paramUsername, PDO::PARAM_STR);
+            $stmt->bindParam(":password", $paramPassword, PDO::PARAM_STR);
+            $stmt->bindParam(":role", $paramRole, PDO::PARAM_STR);
+            $stmt->bindParam(":firstName", $paramFirstName, PDO::PARAM_STR);
+            $stmt->bindParam(":middleName", $paramMiddleName, PDO::PARAM_STR);
+            $stmt->bindParam(":lastName", $paramLastName, PDO::PARAM_STR);
+            $stmt->bindParam(":companyName", $paramCompanyName, PDO::PARAM_STR);
+
+            $paramUsername = $this->username;
+            $paramPassword = password_hash($this->password, PASSWORD_DEFAULT);
+            $paramRole = 'Admin';
+            $paramFirstName = 'Company';
+            $paramMiddleName = 'Admin';
+            $paramLastName = 'Account';
+            $paramCompanyName = $this->companyName;
+
+            if ($stmt->execute()) {
+                session_start();
+                $_SESSION["prompt"] = "Sign-up was successful!";
+                header('location: ../prompt.php');
+                exit();
+            } else {
+                session_start();
+                $_SESSION["prompt"] = "Something went wrong!";
+                header('location: ../prompt.php');
+                exit();
+            }
+
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+    private function companySubmit()
+    {
 
         $sql = "INSERT INTO company (companyName, companyEmail, companyNumber, companyAddress, region, province, city, barangay) VALUES (:companyName, :companyEmail, :companyNumber, :companyAddress, :region, :province, :city, :barangay)";
 
         $configObj = new Config();
-    
+
         $pdoVessel = $configObj->pdoConnect();
 
-        if($stmt = $pdoVessel->prepare($sql)){
+        if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":companyName", $paramCompanyName, PDO::PARAM_STR);
             $stmt->bindParam(":companyEmail", $paramCompanyEmail, PDO::PARAM_STR);
@@ -123,7 +198,7 @@ class SignUpModel{
             $stmt->bindParam(":province", $paramProvince, PDO::PARAM_STR);
             $stmt->bindParam(":city", $paramCity, PDO::PARAM_STR);
             $stmt->bindParam(":barangay", $paramBarangay, PDO::PARAM_STR);
-            
+
             $paramCompanyName = $this->companyName;
             $paramCompanyEmail = $this->companyEmail;
             $paramCompanyNumber = $this->companyNumber;
@@ -132,13 +207,12 @@ class SignUpModel{
             $paramProvince = $this->provinceConverter($this->province);
             $paramCity = $this->cityConverter($this->city);
             $paramBarangay = strtoupper($this->barangayConverter($this->barangay));
-            
 
-            if($stmt->execute()){
 
-            } else{
-               session_start();
-                $_SESSION ["prompt"] = "Something went wrong!";
+            if ($stmt->execute()) {
+            } else {
+                session_start();
+                $_SESSION["prompt"] = "Something went wrong!";
                 header('location: ../prompt.php');
                 exit();
             }
@@ -149,64 +223,34 @@ class SignUpModel{
         unset($pdoVessel);
     }
 
-    private function emptyValidator(){
-        if(empty(trim($this->username)) || empty(trim($this->password)) || empty(trim($this->companyName)) || empty(trim($this->companyEmail)) || empty(trim($this->companyNumber)) || empty(trim($this->companyAddress)) || empty(trim($this->region)) || empty(trim($this->province)) || empty(trim($this->city)) || empty(trim($this->barangay)) ){
-            $result = false;
-        }
-        else{
-            $result = true;
-        }
-        return $result;
-    }
 
-    private function lengthValidator(){
-        if(strlen(trim($this->username)) < 6 && strlen(trim($this->username)) > 30 && strlen(trim($this->password)) < 6 && strlen(trim($this->password)) > 20 && strlen(trim($this->companyName)) < 1 && strlen(trim($this->companyName)) > 255 && strlen(trim($this->companyNumber)) != 8 && strlen(trim($this->companyNumber)) != 11 && strlen(trim($this->companyAddress)) < 1 && strlen(trim($this->companyAddress)) > 100 ){
-            $result = false;
-        }
-        else{
-            $result = true;
-        }
-        return $result;
-    }
-
-    private function patternValidator(){
-        if(!preg_match('/^[a-zA-Z0-9_]+$/', trim($this->username)) || !preg_match('/(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/', trim($this->companyEmail)) || !preg_match('/^[0-9]+$/', trim($this->companyNumber)) || !preg_match('/^[a-zA-Z0-9 ]+$/', trim($this->companyAddress)) ){
-            $result = false;
-        }
-        else{
-            $result = true;
-        }
-        return $result;
-    }
-
-    public function usernameValidator(){
+    public function usernameValidator()
+    {
         $configObj = new Config();
-    
+
         $pdoVessel = $configObj->pdoConnect();
-    
+
         $sql = "SELECT * FROM user WHERE username = :username";
-            
-        if($stmt = $pdoVessel->prepare($sql)){
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":username", $paramUsername, PDO::PARAM_STR);
-            
+
             $paramUsername = $this->username;
 
-            if($stmt->execute()){
-                if($stmt->rowCount() == 1){
+            if ($stmt->execute()) {
+                if ($stmt->rowCount() == 1) {
                     $result = false;
-                }
-                else{
+                } else {
                     $result = true;
                 }
-    
-            } else{
+            } else {
                 session_start();
-                $_SESSION ["prompt"] = "Something went wrong!";
+                $_SESSION["prompt"] = "Something went wrong!";
                 header('location: ../prompt.php');
                 exit();
             }
-    
+
             unset($stmt);
 
             return $result;
@@ -214,34 +258,33 @@ class SignUpModel{
         unset($pdoVessel);
     }
 
-    public function companyValidator(){
+    public function companyValidator()
+    {
         $configObj = new Config();
-    
+
         $pdoVessel = $configObj->pdoConnect();
-    
+
         $sql = "SELECT * FROM company WHERE companyName = :companyName";
-            
-        if($stmt = $pdoVessel->prepare($sql)){
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":companyName", $paramCompany, PDO::PARAM_STR);
-            
+
             $paramCompany = $this->companyName;
 
-            if($stmt->execute()){
-                if($stmt->rowCount() == 1){
+            if ($stmt->execute()) {
+                if ($stmt->rowCount() == 1) {
                     $result = false;
-                }
-                else{
+                } else {
                     $result = true;
                 }
-    
-            } else{
+            } else {
                 session_start();
-                $_SESSION ["prompt"] = "Something went wrong!";
+                $_SESSION["prompt"] = "Something went wrong!";
                 header('location: ../prompt.php');
                 exit();
             }
-    
+
             unset($stmt);
 
             return $result;
@@ -249,52 +292,56 @@ class SignUpModel{
         unset($pdoVessel);
     }
 
-    private function regionConverter($regionCode){
+    private function regionConverter($regionCode)
+    {
 
         $json = file_get_contents('../json/refregion.json');
         $jsonData = json_decode($json, true);
-    
+
         for ($i = 0; $i <= count($jsonData); $i++) {
-            if($jsonData[$i]['regCode'] == $regionCode){
+            if ($jsonData[$i]['regCode'] == $regionCode) {
                 $regionVal = $jsonData[$i]['regDesc'];
                 return $regionVal;
                 break;
             }
         }
     }
-    private function provinceConverter($provinceCode){
+    private function provinceConverter($provinceCode)
+    {
 
         $json = file_get_contents('../json/refprovince.json');
         $jsonData = json_decode($json, true);
-    
+
         for ($i = 0; $i <= count($jsonData); $i++) {
-            if($jsonData[$i]['provCode'] == $provinceCode){
+            if ($jsonData[$i]['provCode'] == $provinceCode) {
                 $provinceVal = $jsonData[$i]['provDesc'];
                 return $provinceVal;
                 break;
             }
         }
     }
-    private function cityConverter($cityCode){
+    private function cityConverter($cityCode)
+    {
 
         $json = file_get_contents('../json/refcitymun.json');
         $jsonData = json_decode($json, true);
-    
+
         for ($i = 0; $i <= count($jsonData); $i++) {
-            if($jsonData[$i]['citymunCode'] == $cityCode){
+            if ($jsonData[$i]['citymunCode'] == $cityCode) {
                 $cityVal = $jsonData[$i]['citymunDesc'];
                 return $cityVal;
                 break;
             }
         }
     }
-    private function barangayConverter($barangayCode){
+    private function barangayConverter($barangayCode)
+    {
 
         $json = file_get_contents('../json/refbrgy.json');
         $jsonData = json_decode($json, true);
-    
+
         for ($i = 0; $i <= count($jsonData); $i++) {
-            if($jsonData[$i]['brgyCode'] == $barangayCode){
+            if ($jsonData[$i]['brgyCode'] == $barangayCode) {
                 $barangayVal = $jsonData[$i]['brgyDesc'];
                 return $barangayVal;
                 break;

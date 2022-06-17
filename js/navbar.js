@@ -1,3 +1,4 @@
+//PART OF NEW SYSTEM
 const burgerIcon = document.querySelector('#burger');
 const navbarMenu = document.querySelector('#nav-links');
 

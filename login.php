@@ -1,5 +1,5 @@
 <?php
-
+//PART OF NEW SYSTEM
 include 'navbar.php';
 
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
@@ -79,20 +79,23 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
 
 <script src="js/login.js"></script>
 <script>
-  const shipmentBtn = document.getElementById('shipmentBtn')
-  const trackingBtn = document.getElementById('trackingBtn')
-  const payslipBtn = document.getElementById('payslipBtn')
-  const manageBtn = document.getElementById('manageBtn')
-  const billingBtn = document.getElementById('billingBtn')
-  const clientTrackingBtn = document.getElementById('clientTrackingBtn')
-  
-  if(<?php echo !isset($_SESSION["loggedin"])?>){
-    shipmentBtn.className = "navbar-item is-hidden";
-    trackingBtn.className = "navbar-item is-hidden";
-    payslipBtn.className = "navbar-item is-hidden";
-    manageBtn.className = "navbar-item is-hidden";
-    billingBtn.className = "navbar-item is-hidden";
-    clientTrackingBtn.className = "navbar-item";
+  let shipmentBtn = document.getElementById('shipmentBtn')
+  let trackingBtn = document.getElementById('trackingBtn')
+  let payslipBtn = document.getElementById('payslipBtn')
+  let manageBtn = document.getElementById('manageBtn')
+  let billingBtn = document.getElementById('billingBtn')
+  let clientTrackingBtn = document.getElementById('clientTrackingBtn')
+
+  let signupBtn = document.getElementById('signupBtn')
+  let loginBtn = document.getElementById('loginBtn')
+  let logoutBtn = document.getElementById('logoutBtn')
+
+  if (<?php echo !isset($_SESSION["loggedin"]) ?>) {
+
+    clientTrackingBtn.classList.remove("is-hidden");
+    signupBtn.classList.remove("is-hidden");
+    loginBtn.classList.remove("is-hidden");
+
   }
 
 </script>

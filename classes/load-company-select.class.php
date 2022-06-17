@@ -1,4 +1,6 @@
+
 <?php
+//PART OF NEW SYSTEM
 if ( !isset($_SESSION) ) {
     session_start();
 }
