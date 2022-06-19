@@ -45,24 +45,16 @@ if (!isset($_SESSION)) {
 
         <div class="navbar-menu" id="nav-links">
             <div class="navbar-start">
-                <!--
-                    <a href="login.php" class="navbar-item" id="login_btn"> LOGIN </a>
-                    <a href="sign-up.php" class="navbar-item" id="signup_btn"> SIGN UP </a>
-                    <a href="manage-account.php" class="navbar-item" id="account_btn"> MANAGE ACCOUNT </a>
-                    -->
+
                 <a href="index.php" class="navbar-item is-hidden" id="shipmentBtn"> SHIPMENT </a>
-                <a href="tracking.php" class="navbar-item is-hidden" id="trackingBtn"> CLIENT </a>
-                <!--VEHICLES AND -->
-                <a href="billing.php" class="navbar-item is-hidden" id="billingBtn"> BILLING </a>
-                <a href="payslip.php" class="navbar-item is-hidden" id="payslipBtn"> PAYSLIP </a>
                 <a href="client-tracking.php" class="navbar-item is-hidden" id="clientTrackingBtn"> TRACK SHIPMENT </a>
 
                 <div class="navbar-item has-dropdown is-hoverable has-text-black">
                     <a class="navbar-link is-hidden" id="manageBtn"> MANAGE </a>
 
                     <div class="navbar-dropdown">
-                        <a href="manage-account.php" class="navbar-item is-hidden" id="accountBtn"> ACCOUNT </a>
-                        <a href="manage-vehicle.php" class="navbar-item is-hidden" id="vehicleBtn"> VEHICLE </a>
+                        <a href="" class="navbar-item is-hidden" id="employeeBtn"> EMPLOYEE </a>
+                        <a href="" class="navbar-item is-hidden" id="subcontractorBtn"> SUBCONTRACTOR </a>
                     </div>
                 </div>
             </div>

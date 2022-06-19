@@ -75,13 +75,12 @@ if($_SESSION["accessType"] != "Admin" && $_SESSION["accessType"] != "Full"){
 
 <script>
   let shipmentBtn = document.getElementById('shipmentBtn')
-  let trackingBtn = document.getElementById('trackingBtn')
-  let payslipBtn = document.getElementById('payslipBtn')
-  let manageBtn = document.getElementById('manageBtn')
-  let accountBtn = document.getElementById('accountBtn')
-  let vehicleBtn = document.getElementById('vehicleBtn')
-  let billingBtn = document.getElementById('billingBtn')
   let clientTrackingBtn = document.getElementById('clientTrackingBtn')
+
+  let manageBtn = document.getElementById('manageBtn')
+  let employeeBtn = document.getElementById('employeeBtn')
+  let subcontractorBtn = document.getElementById('subcontractorBtn')
+
 
   let signupBtn = document.getElementById('signupBtn')
   let loginBtn = document.getElementById('loginBtn')
@@ -89,11 +88,13 @@ if($_SESSION["accessType"] != "Admin" && $_SESSION["accessType"] != "Full"){
 
   if (<?php echo isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true ?>) {
 
-    logoutBtn.classList.remove("is-hidden");
-    manageBtn.classList.remove("is-hidden");
     shipmentBtn.classList.remove("is-hidden");
-    accountBtn.classList.remove("is-hidden");
+    
+    manageBtn.classList.remove("is-hidden");
+    employeeBtn.classList.remove("is-hidden");
+    subcontractorBtn.classList.remove("is-hidden");
 
+    logoutBtn.classList.remove("is-hidden");
   }
 </script>
 

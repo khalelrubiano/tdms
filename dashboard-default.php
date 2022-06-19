@@ -1,5 +1,3 @@
-
-
 <?php
 //PART OF NEW SYSTEM
 include 'navbar.php';
@@ -30,12 +28,14 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION[
 
   <section class="hero is-dark is-fullheight-with-navbar">
     <div class="hero-body">
-      <div class="">
-        <!-- classless div used for making the subtitle start on new line-->
-        <p class="title">
-          Your account does not have access to any module. Please contact your company administrator.
-        </p>
-      </div> <!-- classless div used for making the subtitle start on new line-->
+      <div class="container">
+        <div class="">
+          <!-- classless div used for making the subtitle start on new line-->
+          <p class="title">
+            Your account does not have access to any module. Please contact your company administrator.
+          </p>
+        </div> <!-- classless div used for making the subtitle start on new line-->
+      </div>
     </div>
   </section>
 
@@ -53,20 +53,19 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION[
 
 <script>
   let shipmentBtn = document.getElementById('shipmentBtn')
-  let trackingBtn = document.getElementById('trackingBtn')
-  let payslipBtn = document.getElementById('payslipBtn')
-  let manageBtn = document.getElementById('manageBtn')
-  let billingBtn = document.getElementById('billingBtn')
   let clientTrackingBtn = document.getElementById('clientTrackingBtn')
+
+  let manageBtn = document.getElementById('manageBtn')
+  let employeeBtn = document.getElementById('employeeBtn')
+  let subcontractorBtn = document.getElementById('subcontractorBtn')
+
 
   let signupBtn = document.getElementById('signupBtn')
   let loginBtn = document.getElementById('loginBtn')
   let logoutBtn = document.getElementById('logoutBtn')
 
   if (<?php echo isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true ?>) {
-
     logoutBtn.classList.remove("is-hidden");
-
   }
 </script>
 

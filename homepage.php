@@ -56,22 +56,23 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION[
 
 <script>
   let shipmentBtn = document.getElementById('shipmentBtn')
-  let trackingBtn = document.getElementById('trackingBtn')
-  let payslipBtn = document.getElementById('payslipBtn')
-  let manageBtn = document.getElementById('manageBtn')
-  let billingBtn = document.getElementById('billingBtn')
   let clientTrackingBtn = document.getElementById('clientTrackingBtn')
+
+  let manageBtn = document.getElementById('manageBtn')
+  let employeeBtn = document.getElementById('employeeBtn')
+  let subcontractorBtn = document.getElementById('subcontractorBtn')
+
 
   let signupBtn = document.getElementById('signupBtn')
   let loginBtn = document.getElementById('loginBtn')
   let logoutBtn = document.getElementById('logoutBtn')
 
-  if (<?php echo !isset($_SESSION["loggedin"]) ?>) {
+  if (<?php echo !isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true ?>) {
 
     clientTrackingBtn.classList.remove("is-hidden");
+
     signupBtn.classList.remove("is-hidden");
     loginBtn.classList.remove("is-hidden");
-
   }
 </script>
 
