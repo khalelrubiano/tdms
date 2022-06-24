@@ -1,4 +1,4 @@
-
+//PART OF NEW SYSTEM
 
 let usernameAdd = document.getElementById('usernameAdd')
 let passwordAdd = document.getElementById('passwordAdd')
@@ -215,14 +215,14 @@ const companyNameSelect = document.getElementById('companyNameSelect')
 
 function populateSelect() {
     $.post("./classes/load-company-select.class.php", {
-    }, function (data) {
+    }, function (data1) {
 
-        var jsonArray = JSON.parse(data);
+        var jsonArray1 = JSON.parse(data1);
 
-        for (var i = 0; i < jsonArray.length; i++) {
+        for (var i = 0; i < jsonArray1.length; i++) {
             var newOption = document.createElement("option");
-            newOption.value = jsonArray[i][0];
-            newOption.innerHTML = jsonArray[i][1];
+            newOption.value = jsonArray1[i][0];
+            newOption.innerHTML = jsonArray1[i][0];
             companyNameSelect.options.add(newOption);
         }
 

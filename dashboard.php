@@ -4,12 +4,10 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-/*
-if (!isset($_SESSION["loggedin"])) {
-  header("location: https://google.com");
-  exit;
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION["dashboardAccess"] === 'No') {
+    header("location: dashboard-default.php");
+    exit;
 }
-*/
 
 include_once 'navbar.php';
 
@@ -22,7 +20,7 @@ include_once 'navbar.php';
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Homepage</title>
+  <title>Dashboard</title>
 
   <!--JQUERY CDN-->
   <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
@@ -42,12 +40,12 @@ include_once 'navbar.php';
 </head>
 
 <body>
-  <div class="mainAlt">
+  <div class="main">
     <section class="hero is-link is-fullheight">
       <div class="hero-body">
         <div class="">
           <p class="title">
-            Fullheight Homepage
+            Fullheight Dashboard
           </p>
           <p class="subtitle">
             Fullheight subtitle
@@ -55,15 +53,6 @@ include_once 'navbar.php';
         </div>
       </div>
     </section>
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p>
-          <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed
-          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-          is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-        </p>
-      </div>
-    </footer>
   </div>
 </body>
 
@@ -73,13 +62,8 @@ include_once 'navbar.php';
 
 <!--INTERNAL JAVASCRIPT-->
 <script>
-  clientTrackingBtn.classList.remove("is-hidden");
-
-  signUpBtn.classList.remove("is-hidden");
-  loginBtn.classList.remove("is-hidden");
-
-  sideNavbarClass.style.display = "none";
-  sideNavbarBurger.classList.add("is-hidden");
+  logoutBtn.classList.remove("is-hidden");
+  dashboardBtn.classList.add("is-active");
 </script>
 
 </html>

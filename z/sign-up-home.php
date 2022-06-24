@@ -1,17 +1,11 @@
 <?php
-//SESSION START
-if (!isset($_SESSION)) {
-  session_start();
-}
-
-/*
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION["shipmentAccess"] === 'No') {
-    header("location: dashboard-default.php");
-    exit;
-}
-*/
-
+//PART OF NEW SYSTEM
 include_once 'navbar.php';
+
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+  header("location: index.php");
+  exit;
+}
 
 ?>
 
@@ -23,42 +17,32 @@ include_once 'navbar.php';
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign-up</title>
-
-  <!--JQUERY CDN-->
-  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-  <!--AJAX CDN-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <!--BULMA CDN-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <!--FONTAWESOME CDN-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-  <!--NAVBAR CSS-->
   <link rel="stylesheet" href="navbar.css">
-
-  <!--INTERNAL CSS-->
   <style>
 
   </style>
 </head>
 
 <body>
-  <div class="mainAlt">
+  <div class="main_alt">
     <section class="hero is-fullheight-with-navbar">
       <div class="hero-body">
-        <div class="container has-text-centered">
+        <div class="container">
           <!-- classless div used for making the subtitle start on new line-->
           <p class="title">
             Sign-up as:
           </p>
           <div class="tile is-ancestor">
             <div class="tile is-parent">
-              <div class="tile is-child has-text-centered">
+              <div class="tile is-child">
                 <p class="title">
                   Company
                 </p>
                 <a href="sign-up-company.php" class="button is-link is-rounded" id="signupCompanyBtn"><strong>Sign Up</strong> </a>
               </div>
-              <div class="tile is-child has-text-centered">
+              <div class="tile is-child">
                 <p class="title">
                   User
                 </p>
@@ -82,19 +66,23 @@ include_once 'navbar.php';
   </div>
 </body>
 
-<!--EXTERNAL JAVASCRIPT
-<script src="js/login.js"></script>
--->
-
-<!--INTERNAL JAVASCRIPT-->
 <script>
-  clientTrackingBtn.classList.remove("is-hidden");
+  let clientTrackingBtn = document.getElementById('clientTrackingBtn')
 
-  signUpBtn.classList.remove("is-hidden");
-  loginBtn.classList.remove("is-hidden");
+  let signupBtn = document.getElementById('signupBtn')
+  let loginBtn = document.getElementById('loginBtn')
+  let logoutBtn = document.getElementById('logoutBtn')
 
-  sideNavbarClass.style.display = "none";
-  sideNavbarBurger.classList.add("is-hidden");
+  if (<?php echo !isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true ?>) {
+
+    clientTrackingBtn.classList.remove("is-hidden");
+
+    signupBtn.classList.remove("is-hidden");
+    loginBtn.classList.remove("is-hidden");
+  }
+  sidenav_class.style.display = "none";
+
+  burger_2.classList.add("is-hidden");
 </script>
 
 </html>

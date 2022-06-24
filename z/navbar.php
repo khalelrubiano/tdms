@@ -1,8 +1,5 @@
 <?php
-//SESSION START
-if (!isset($_SESSION)) {
-    session_start();
-}
+ob_start();
 ?>
 
 <!DOCTYPE html>
@@ -12,30 +9,17 @@ if (!isset($_SESSION)) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!--JQUERY CDN-->
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-    <!--AJAX CDN-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!--BULMA CDN-->
+    <title>Navbar</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <!--FONTAWESOME CDN-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <!--NAVBAR CSS-->
     <link rel="stylesheet" href="navbar.css">
-
-    <!--INTERNAL CSS-->
-    <style>
-
-    </style>
 </head>
 
 <body>
-    <!--NAVBAR-->
     <nav class="navbar has-background-white has-shadow is-fixed-top">
         <div class="navbar-brand">
 
-            <a class="navbar-burger" id="sideNavbarBurger" style="margin-left: 0;">
+            <a class="navbar-burger" id="burger_2" style="margin-left: 0;">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -47,25 +31,25 @@ if (!isset($_SESSION)) {
                 </figure>
             </a>
 
-            <a class="navbar-burger" id="navbarBurger">
+            <a class="navbar-burger" id="burger_1">
                 <span></span>
                 <span></span>
                 <span></span>
             </a>
         </div>
 
-        <div class="navbar-menu" id="navbarLinks">
+        <div class="navbar-menu" id="nav_links">
             <div class="navbar-start">
-                <a class="navbar-item is-hidden" id="clientTrackingBtn"> TRACK SHIPMENT </a>
+                <a href="client-tracking.php" class="navbar-item is-hidden" id="clientTrackingBtn"> TRACK SHIPMENT </a>
             </div>
 
             <div class="navbar-end">
-                <a class="navbar-item has-text-weight-bold is-hidden" id="userAccountBtn"> <?php echo $_SESSION["username"]; ?> </a>
+                <a href="" class="navbar-item has-text-weight-bold is-hidden" id="userAccountBtn"> <?php echo $_SESSION["username"]; ?> </a>
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-link is-rounded is-hidden" id="signUpBtn"> <i class="fas fa-user-plus mr-3"></i><strong>Sign Up</strong> </a>
-                        <a class="button has-background-grey-lighter is-rounded is-hidden" id="loginBtn"><i class="fas fa-sign-in-alt mr-3"></i><strong> Login </strong></a>
-                        <a class="button has-background-dark is-rounded has-text-white is-hidden" id="logoutBtn"><i class="fas fa-sign-out-alt mr-3"></i><strong> Logout </strong></a>
+                        <a href="sign-up-home.php" class="button is-link is-rounded is-hidden" id="signupBtn"> <i class="fas fa-user-plus mr-3"></i><strong>Sign Up</strong> </a>
+                        <a href="login.php" class="button has-background-grey-lighter is-rounded is-hidden" id="loginBtn"><i class="fas fa-sign-in-alt mr-3"></i><strong> Login </strong></a>
+                        <a href="logout.php" class="button has-background-dark is-rounded has-text-white is-hidden" id="logoutBtn"><i class="fas fa-sign-out-alt mr-3"></i><strong> Logout </strong></a>
                     </div>
                 </div>
             </div>
@@ -73,8 +57,8 @@ if (!isset($_SESSION)) {
 
     </nav>
 
-    <!--SIDE NAVBAR-->
-    <div class="sideNavbarClass has-background-white box" id="sideNavbar">
+    <!-- Side navigation -->
+    <div class="sidenav_class has-background-white box" id="sidenav_id">
 
         <aside class="menu">
             <p class="menu-label">
@@ -88,7 +72,7 @@ if (!isset($_SESSION)) {
                 Modules
             </p>
             <ul class="menu-list">
-                <li><a id="shipmentBtn">Shipment</a></li>
+                <li><a id="shipmentBtn">Shipments</a></li>
             </ul>
 
             <p class="menu-label">
@@ -96,33 +80,34 @@ if (!isset($_SESSION)) {
             </p>
             <ul class="menu-list">
                 <li>
-                    <a class="">Employee</a>
+                    <a>Default Users</a>
                     <ul>
-                        <li><a id="employeeViewListBtn">View List</a></li>
-                        <li><a id="employeePermissionBtn">Permission</a></li>
+                        <li><a id="defaultViewListBtn">View List</a></li>
                     </ul>
                 </li>
 
                 <li>
-                    <a class="">Subcontractor</a>
+                    <a class="">Employees</a>
                     <ul>
-                        <li><a id="subcontractorGroupBtn">Group</a></li>
+                        <li><a id="employeesViewListBtn">View List</a></li>
+                        <li><a id="employeesPermissionsBtn">Permissions</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a class="">Subcontractors</a>
+                    <ul>
+                        <li><a id="subcontractorsGroupsBtn">Groups</a></li>
                     </ul>
                 </li>
 
             </ul>
-            
         </aside>
 
     </div>
+
 </body>
 
-<!--EXTERNAL JAVASCRIPT-->
 <script src="js/navbar.js"></script>
-
-<!--INTERNAL JAVASCRIPT-->
-<script>
-
-</script>
 
 </html>

@@ -11,7 +11,7 @@ try {
 	$configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT company_id, company_name FROM company";
+    $sql = "SELECT companyName FROM company";
 
     $stmt = $pdoVessel->prepare($sql);
     

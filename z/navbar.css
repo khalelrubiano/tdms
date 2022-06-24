@@ -1,0 +1,49 @@
+.sidenav_class {
+    margin-top: 100px;
+    height: 100%;
+    /* Full-height: remove this if you want "auto" height */
+    width: 300px;
+    /* Set the width of the sidebar */
+    position: fixed;
+    /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1;
+    /* Stay on top */
+    top: 0;
+    /* Stay at the top */
+    left: 0;
+
+    /* Black */
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+    /*padding-top: 50px;*/
+    padding-bottom: 200px;
+}
+
+
+.main {
+    margin-left: 300px;
+    margin-top: 100px;
+
+    padding: 0px 10px;
+}
+
+.main_alt {
+    margin-top: 100px;
+
+
+}
+
+@media (max-width: 1000px) {
+    .sidenav_class {
+        display: none;
+    }
+
+    .sidenav_open {
+        display: block;
+    }
+
+    
+    .main {
+        margin-left: 0px;
+    }
+}

@@ -10,7 +10,7 @@ if (isset($_POST["submitAddForm"])) {
     $firstNameAdd = $_POST['firstNameAdd'];
     $middleNameAdd = $_POST['middleNameAdd'];
     $lastNameAdd = $_POST['lastNameAdd'];
-    $companyId = $_POST["companyNameSelect"];
+    $companyName = $_POST["companyNameSelect"];
 
     $addObj = new AddUserModel(
         $usernameAdd,
@@ -18,11 +18,9 @@ if (isset($_POST["submitAddForm"])) {
         $firstNameAdd,
         $middleNameAdd,
         $lastNameAdd,
-        $companyId
+        $companyName
     );
 
     $addObj->addUserRecord();
     
-
-    //echo $companyId;
 }
