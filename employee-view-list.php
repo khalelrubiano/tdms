@@ -3,12 +3,12 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-
+/*
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION["shipmentAccess"] === 'No') {
     header("location: dashboard-default.php");
     exit;
 }
-
+*/
 include_once 'navbar.php';
 
 ?>
@@ -35,123 +35,49 @@ include_once 'navbar.php';
 
     <!--INTERNAL CSS-->
     <style>
-        
-        table {
-            border: 1px solid #ccc;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            border-collapse: collapse;
-            border-spacing: 0;
+        @media (min-width: 1000px) {
+            #searchBarForm {
+                float: right;
+            }
         }
 
-        table tr {
-            border: 1px solid #ddd;
-            padding: 5px;
-            background: #fff;
-
+        @media (max-width: 1000px) {
+            #searchBarForm {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
         }
-
-        table th,
-        table td {
-            padding: 10px;
-            text-align: center;
-
-        }
-
-        table th {
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-
-        @media screen and (max-width: 600px) {
-
-            #card table {
-                border: 0;
-            }
-
-            #card table thead {
-                display: none;
-            }
-
-            #card table tr {
-                margin-bottom: 20px;
-                display: block;
-                border-bottom: 2px solid #ddd;
-                box-shadow: 2px 2px 1px #dadada;
-
-            }
-
-            #card table td {
-                display: block;
-                text-align: right;
-                font-size: 13px;
-                margin-top: 20px;
-            }
-
-            #card table td:last-child {
-                border-bottom: 0;
-                
-            }
-
-            #card table td::before {
-                content: attr(data-label);
-                float: left;
-                text-transform: uppercase;
-                font-weight: bold;
-            }
-
-            #card tbody {
-                line-height: 0 !important;
-            }
-
-        }
-        
     </style>
 </head>
 
 <body>
     <div class="main">
-        <div class="container">
-            <p class="title" style="margin-top: 130px;">Employees</p>
-            
-            <div id="card" class="mb-4">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Role</th>
-                            <th>First Name</th>
-                            <th>Middle Name</th>
-                            <th>Last Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableTbody">
-                        <!--
-                        <tr>
-                        <td data-label="First Name"> John</td>
-                        <td data-label="Last Name">Doe</td>
-                        <td data-label="Address">123 Main Street</td>
-                        <td data-label="City">Anytown</td>
-                        <td data-label="State">MN</td>
-                        <td data-label="Zip"> 12345</td>
-                        </tr>
-                        -->
-                    </tbody>
-                </table>
+        <div class="container" style="margin-bottom: 2%;">
+            <p class="title" id="arrayLengthHidden">sample</p>
+            <p class="title" id="test_indicator">Test</p>
+            <div class="select">
+                <select id="selectSort">
+                    <option value="Name" selected>Sort By Name</option>
+                    <option value="Role">Sort By Role</option>
+                </select>
             </div>
-            <nav class="pagination mt-6">
-                <ul class="pagination-list">
-                    <li>
-                        <a class="pagination-link is-current" id="paginationIndicatorBtn">1</a>
-                        <a class="pagination-link is-hidden" id="arrayLengthHidden"></a>
-                    </li>
-                </ul>
-                <a class="pagination-previous is-disabled" id="paginationPreviousBtn">Previous</a>
-                <a class="pagination-next" id="paginationNextBtn">Next page</a>
-            </nav>
+            <form class="" id="searchBarForm">
+                <div class="field">
+                    <p class="control has-icons-right">
+                        <input class="input is-rounded" type="text" placeholder="Search">
+                        <span class="icon is-small is-right">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                    </p>
+                </div>
+            </form>
+        </div>
+
+        <div class="container">
+
+            <div class="tile is-ancestor is-vertical" id="ancestorTile">
+
+            </div>
         </div>
     </div>
 </body>

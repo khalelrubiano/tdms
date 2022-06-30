@@ -30,7 +30,7 @@ sideNavbarBurger.addEventListener('click', () => {
 });
 
 signUpBtn.addEventListener('click', () => {
-    window.location.href = "sign-up-home.php";
+    window.location.href = "sign-up-company.php";
 });
 
 loginBtn.addEventListener('click', () => {

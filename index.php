@@ -4,12 +4,11 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-/*
-if (!isset($_SESSION["loggedin"])) {
-  header("location: https://google.com");
+
+if (isset($_SESSION["loggedin"])) {
+  header("location: dashboard.php");
   exit;
 }
-*/
 
 include_once 'navbar.php';
 

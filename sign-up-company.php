@@ -41,6 +41,17 @@ include_once 'navbar.php';
   </style>
 </head>
 
+<!--INTERNAL JAVASCRIPT-->
+<script>
+  clientTrackingBtn.classList.remove("is-hidden");
+
+  signUpBtn.classList.remove("is-hidden");
+  loginBtn.classList.remove("is-hidden");
+
+  sideNavbarClass.style.display = "none";
+  sideNavbarBurger.classList.add("is-hidden");
+</script>
+
 <body>
   <div class="mainAlt">
     <div class="section">
@@ -199,8 +210,8 @@ include_once 'navbar.php';
   </div>
 </body>
 
-<!--DO NOT AUTO FORMAT THIS CODE-->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>
+<!--DO NOT AUTO FORMAT THIS CODE
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>-->
         <!-- script type="text/javascript" src="../../jquery.ph-locations.js"></script -->
         <script type="text/javascript" src="https://f001.backblazeb2.com/file/buonzz-assets/jquery.ph-locations.js"></script -->
         <script type="text/javascript">
@@ -247,16 +258,5 @@ include_once 'navbar.php';
   <!--DO NOT AUTO FORMAT THIS CODE-->
   
 <script src="js/sign-up-company.js"></script>
-
-<!--INTERNAL JAVASCRIPT-->
-<script>
-  clientTrackingBtn.classList.remove("is-hidden");
-
-  signUpBtn.classList.remove("is-hidden");
-  loginBtn.classList.remove("is-hidden");
-
-  sideNavbarClass.style.display = "none";
-  sideNavbarBurger.classList.add("is-hidden");
-</script>
 
 </html>

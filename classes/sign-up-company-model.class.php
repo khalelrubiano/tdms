@@ -57,7 +57,6 @@ class SignUpCompanyModel
         
         $this->roleAdminSubmit();
         
-        $this->roleDefaultSubmit();
         $this->accountSubmit();
     }
 

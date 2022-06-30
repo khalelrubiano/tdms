@@ -37,7 +37,28 @@ include_once 'navbar.php';
 
   <!--INTERNAL CSS-->
   <style>
+    /*
+    @media (min-width: 1000px) {
+      .is-child {
+        width: 500px;
+      }
+    }
 
+    
+    @media (max-width: 1000px) {
+      .is-child {
+        min-width: 300px;
+      }
+    }
+*/
+    .is-parent {
+      align-items: center !important;
+    }
+
+    .is-child:hover {
+      background-color: hsl(217, 71%, 45%);
+      color: white;
+    }
   </style>
 </head>
 
@@ -47,23 +68,14 @@ include_once 'navbar.php';
       <div class="hero-body">
         <div class="container has-text-centered">
           <!-- classless div used for making the subtitle start on new line-->
-          <p class="title">
+          <p class="title mb-6">
             Sign-up as:
           </p>
-          <div class="tile is-ancestor">
-            <div class="tile is-parent">
-              <div class="tile is-child has-text-centered">
-                <p class="title">
-                  Company
-                </p>
-                <a href="sign-up-company.php" class="button is-link is-rounded" id="signupCompanyBtn"><strong>Sign Up</strong> </a>
-              </div>
-              <div class="tile is-child has-text-centered">
-                <p class="title">
-                  User
-                </p>
-                <a href="sign-up-user.php" class="button is-link is-rounded" id="signupUserBtn"><strong>Sign Up</strong> </a>
-              </div>
+          <div class="tile is-ancestor has-text-centered">
+            <div class="tile is-parent is-vertical">
+              <div class="tile title button is-child has-text-centered box is-4 is-rounded" id="signupCompanyBtn"> Company </div>
+              <div class="tile title button is-child has-text-centered box is-4 is-rounded" id="signupSubcontractorBtn"> Subcontractor </div>
+              <div class="tile title button is-child has-text-centered box is-4 is-rounded" id="signupUserBtn"> User </div>
             </div>
           </div>
         </div> <!-- classless div used for making the subtitle start on new line-->
@@ -88,6 +100,10 @@ include_once 'navbar.php';
 
 <!--INTERNAL JAVASCRIPT-->
 <script>
+  let signupCompanyBtn = document.getElementById("signupCompanyBtn");
+  let signupSubcontractorBtn = document.getElementById("signupSubcontractorBtn");
+  let signupUserBtn = document.getElementById("signupUserBtn");
+
   clientTrackingBtn.classList.remove("is-hidden");
 
   signUpBtn.classList.remove("is-hidden");
@@ -95,6 +111,21 @@ include_once 'navbar.php';
 
   sideNavbarClass.style.display = "none";
   sideNavbarBurger.classList.add("is-hidden");
+
+
+
+  signupCompanyBtn.addEventListener('click', () => {
+    window.location.href = "sign-up-company.php";
+  });
+
+  signupSubcontractorBtn.addEventListener('click', () => {
+    window.location.href = "sign-up-subcontractor.php";
+  });
+
+  signupUserBtn.addEventListener('click', () => {
+    window.location.href = "sign-up-user.php";
+  });
+
 </script>
 
 </html>
