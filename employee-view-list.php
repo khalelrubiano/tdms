@@ -36,12 +36,14 @@ include_once 'navbar.php';
     <!--INTERNAL CSS-->
     <style>
         @media (min-width: 1000px) {
+
             #searchBarForm {
                 float: right;
             }
         }
 
         @media (max-width: 1000px) {
+
             #searchBarForm {
                 padding-top: 10px;
                 padding-bottom: 10px;
@@ -51,26 +53,29 @@ include_once 'navbar.php';
 </head>
 
 <body>
-    <div class="main">
+    <div class="main" style="margin-bottom: 20%;">
         <div class="container" style="margin-bottom: 2%;">
-            <p class="title" id="arrayLengthHidden">sample</p>
-            <p class="title" id="test_indicator">Test</p>
-            <div class="select">
+            <p class="title is-hidden" id="arrayLengthHidden">sample</p>
+            <p class="title is-hidden" id="test_indicator">Test</p>
+            <p class="title is-hidden" id="indicator">Live Search Indicator</p>
+            <button class="button is-rounded mr-4 is-info" onclick="openAdd()"> <i class="fa-solid fa-user-plus mr-3"></i>Create Account</button>
+
+            <div class="select is-rounded" id="selectSortDiv">
                 <select id="selectSort">
-                    <option value="Name" selected>Sort By Name</option>
-                    <option value="Role">Sort By Role</option>
+                    <option value="user.user_id" selected>Sort By Name</option>
+                    <option value="permission.role_name">Sort By Role</option>
                 </select>
             </div>
-            <form class="" id="searchBarForm">
-                <div class="field">
-                    <p class="control has-icons-right">
-                        <input class="input is-rounded" type="text" placeholder="Search">
-                        <span class="icon is-small is-right">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </span>
-                    </p>
-                </div>
-            </form>
+
+            <div class="field" id="searchBarForm">
+                <p class="control has-icons-right">
+                    <input class="input is-rounded" type="text" placeholder="Search" id="searchBarInput">
+                    <span class="icon is-small is-right">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                </p>
+            </div>
+
         </div>
 
         <div class="container">
@@ -78,6 +83,107 @@ include_once 'navbar.php';
             <div class="tile is-ancestor is-vertical" id="ancestorTile">
 
             </div>
+        </div>
+
+    </div>
+
+    <!-- ADD MODAL -->
+    <div class="modal" id="addModal">
+        <div class="modal-background" id="addModalBg"></div>
+        <div class="modal-card">
+
+            <header class="modal-card-head has-background-info">
+                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-plus mr-3"></i>Create Account</p>
+                <button class="delete" aria-label="close" onclick="closeAdd()"></button>
+            </header>
+
+            <section class="modal-card-body">
+
+                <div class="field">
+                    <label for="" class="label">Username</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter username here" class="input is-rounded" name="usernameAdd" id="usernameAdd">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="usernameAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Password</label>
+                    <div class="control has-icons-left">
+                        <input type="password" placeholder="Enter password here" class="input is-rounded" name="passwordAdd" id="passwordAdd">
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="passwordAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Confirm Password</label>
+                    <div class="control has-icons-left">
+                        <input type="password" placeholder="Confirm password here" class="input is-rounded" name="confirmPasswordAdd" id="confirmPasswordAdd">
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="confirmPasswordAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">First Name</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter vehicle plate number here" class="input is-rounded" name="firstNameAdd" id="firstNameAdd">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="firstNameAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Middle Name</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter vehicle plate number here" class="input is-rounded" name="middleNameAdd" id="middleNameAdd">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="middleNameAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Last Name</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter vehicle plate number here" class="input is-rounded" name="lastNameAdd" id="lastNameAdd">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="lastNameAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Role</label>
+                    <div class="control">
+                        <div class="select is-rounded" id="roleNameAddDiv">
+                            <select id="roleNameAdd" name="roleNameAdd">
+                            </select>
+                        </div>
+                    </div>
+                    <p class="help" id="roleNameAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
+                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                    </button>
+                    <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
+                </div>
+
+            </section>
         </div>
     </div>
 </body>

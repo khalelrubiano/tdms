@@ -8,9 +8,10 @@ require_once "../config.php";
 
 
 $currentPageNumber = $_POST["currentPageNumber"];
+$orderBy = $_POST["orderBy"];
 
 //$test = 2;
-$startingLimitNumber = ($currentPageNumber - 1) * 1;
+$startingLimitNumber = ($currentPageNumber - 1) * 4;
 
 //echo $startingLimitNumber;
 
@@ -19,7 +20,17 @@ try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT user.user_name, user.first_name, user.middle_name, user.last_name, permission.role_name, user.user_id FROM permission INNER JOIN user ON permission.permission_id = user.permission_id WHERE permission.account_type = :account_type AND permission.company_id = :company_id ORDER BY user.user_name ASC LIMIT ". $startingLimitNumber . ',' . '1';
+    $sql = "SELECT 
+    user.user_name, 
+    user.first_name, 
+    user.middle_name, 
+    user.last_name, 
+    permission.role_name, 
+    user.user_id 
+    FROM permission INNER JOIN user ON permission.permission_id = user.permission_id 
+    WHERE permission.account_type = :account_type AND permission.company_id = :company_id " . 
+    "ORDER BY " . $orderBy . " ASC " .  
+    "LIMIT ". $startingLimitNumber . ',' . '4';
 
     $stmt = $pdoVessel->prepare($sql);
 

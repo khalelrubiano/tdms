@@ -7,14 +7,19 @@ if ( !isset($_SESSION) ) {
 require_once "../config.php";
 
 
+
 try {
 	$configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT company_id, company_name FROM company";
+    $sql = "SELECT permission_id, role_name FROM permission WHERE company_id = :company_id";
 
     $stmt = $pdoVessel->prepare($sql);
-    
+
+    $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
+
+    $paramCompanyId = $_SESSION["companyId"];
+
     $stmt->execute();
     $row = $stmt->fetchAll();
     $json = json_encode($row);

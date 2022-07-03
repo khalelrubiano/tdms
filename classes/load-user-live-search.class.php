@@ -19,7 +19,7 @@ try {
     $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
 
     $paramAccountType = "Employee";
-    $paramCompanyId = '2';
+    $paramCompanyId = $_SESSION["companyId"];
 
     $stmt->execute();
     $row = $stmt->fetchAll();

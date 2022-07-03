@@ -66,11 +66,19 @@ function refreshTable(){
 //ADD AJAX CALLS WITH VALIDATION
 let submitAddForm = document.getElementById('submitAddForm'); //save changes button
 
-let vehiclePlateNumberAdd = document.getElementById('vehiclePlateNumberAdd')
 let usernameAdd = document.getElementById('usernameAdd')
+let passwordAdd = document.getElementById('passwordAdd')
+let firstNameAdd = document.getElementById('firstNameAdd')
+let middleNameAdd = document.getElementById('middleNameAdd')
+let lastNameAdd = document.getElementById('lastNameAdd')
+let roleNameAdd = document.getElementById('roleNameAdd')
 
-let vehiclePlateNumberAddHelp = document.getElementById('vehiclePlateNumberAddHelp')
 let usernameAddHelp = document.getElementById('usernameAddHelp')
+let passwordAddHelp = document.getElementById('passwordAddHelp')
+let firstNameAddHelp = document.getElementById('firstNameAddHelp')
+let middleNameAddHelp = document.getElementById('middleNameAddHelp')
+let lastNameAddHelp = document.getElementById('lastNameAddHelp')
+let roleNameAddHelp = document.getElementById('roleNameAddHelp')
 
 var pattern1 = /^[a-zA-Z0-9_]+$/
 var pattern5 = /^[a-zA-Z0-9]+$/
