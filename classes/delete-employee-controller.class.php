@@ -2,15 +2,15 @@
 if ( !isset($_SESSION) ) {
     session_start();
 }
-include 'delete-user-model.class.php';
+include 'delete-employee-model.class.php';
 
 if($_SERVER["REQUEST_METHOD"] == "POST" /*&& $_POST['accessTypeEdit'] != "Admin"*/){
 
     $usernameDelete = $_POST['usernameDelete'];
 
-    $deleteObj = new DeleteUserModel($usernameDelete);
+    $deleteObj = new DeleteEmployeeModel($usernameDelete);
 
-    $deleteObj->deleteUserRecord();
+    $deleteObj->deleteEmployeeRecord();
 
 }/*else{
     $_SESSION['prompt'] = "Cannot delete this account!";

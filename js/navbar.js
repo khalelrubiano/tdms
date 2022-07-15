@@ -13,6 +13,7 @@ let dashboardBtn = document.getElementById("dashboardBtn")
 let shipmentBtn = document.getElementById("shipmentBtn")
 let employeeViewListBtn = document.getElementById("employeeViewListBtn")
 let employeePermissionBtn = document.getElementById("employeePermissionBtn")
+let subcontractorViewListBtn = document.getElementById("subcontractorViewListBtn")
 let subcontractorGroupBtn = document.getElementById("subcontractorGroupBtn")
 
 
@@ -52,4 +53,16 @@ shipmentBtn.addEventListener('click', () => {
 
 employeeViewListBtn.addEventListener('click', () => {
     window.location.href = "employee-view-list.php";
+});
+
+employeePermissionBtn.addEventListener('click', () => {
+    window.location.href = "employee-permission.php";
+});
+
+subcontractorViewListBtn.addEventListener('click', () => {
+    window.location.href = "subcontractor-view-list.php";
+});
+
+subcontractorGroupBtn.addEventListener('click', () => {
+    window.location.href = "subcontractor-group.php";
 });

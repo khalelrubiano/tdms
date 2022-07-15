@@ -11,14 +11,21 @@ try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT user.user_name, user.first_name, user.middle_name, user.last_name, permission.role_name FROM permission INNER JOIN user ON permission.permission_id = user.permission_id WHERE permission.account_type = :account_type AND permission.company_id = :company_id";
+    $sql = "SELECT 
+    employee.username, 
+    employee.first_name, 
+    employee.middle_name, 
+    employee.last_name, 
+    permission.role_name 
+    FROM permission 
+    INNER JOIN employee 
+    ON permission.permission_id = employee.permission_id
+    WHERE permission.company_id = :company_id";
 
     $stmt = $pdoVessel->prepare($sql);
 
-    $stmt->bindParam(":account_type", $paramAccountType, PDO::PARAM_STR);
     $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
 
-    $paramAccountType = "Employee";
     $paramCompanyId = $_SESSION["companyId"];
 
     $stmt->execute();
@@ -28,8 +35,11 @@ try {
     echo $json;
     
 } catch (Exception $ex) {
+    //echo $ex;
+    
     session_start();
     $_SESSION['prompt'] = "Something went wrong!";
     header('location: ../prompt.php');
     exit();
+    
 }

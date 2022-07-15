@@ -4,47 +4,52 @@
 
 require_once "../config.php";
 
-class AddUserModel
+class AddSubcontractorGroupModel
 {
-    private $usernameAdd;
-    private $passwordAdd;
-    private $firstNameAdd;
-    private $middleNameAdd;
-    private $lastNameAdd;
-    private $roleNameAdd;
+    private $groupNameAdd;
+    private $groupOwnerAdd;
+    private $companyId;
 
     public function __construct(
-        $usernameAdd,
-        $passwordAdd,
-        $firstNameAdd,
-        $middleNameAdd,
-        $lastNameAdd,
-        $roleNameAdd
+        $groupNameAdd,
+        $groupOwnerAdd,
+        $companyId
     ) {
 
-        $this->usernameAdd = $usernameAdd;
-        $this->passwordAdd = $passwordAdd;
-        $this->firstNameAdd = $firstNameAdd;
-        $this->middleNameAdd = $middleNameAdd;
-        $this->lastNameAdd = $lastNameAdd;
-        $this->roleNameAdd = $roleNameAdd;
+        $this->groupNameAdd = $groupNameAdd;
+        $this->groupOwnerAdd = $groupOwnerAdd;
+        $this->companyId = $companyId;
     }
 
-    public function addUserRecord()
+    public function addSubcontractorGroupRecord()
     {
-
+/*
         if ($this->usernameValidator() == false) {
             echo "The username you entered is already taken!";
             exit();
         }
-
-        $this->addUserSubmit();
+*/
+        $this->addSubcontractorGroupSubmit();
     }
 
-    private function addUserSubmit()
+    private function addOwnerAccountSubmit()
     {
 
-        $sql = "INSERT INTO user (user_name, password, first_name, middle_name, last_name, permission_id) VALUES (:user_name, :password, :first_name, :middle_name, :last_name, :permission_id)";
+        $sql = "INSERT INTO 
+        subcontractor 
+        (username, 
+        password, 
+        first_name, 
+        middle_name, 
+        last_name,
+        company_id) 
+        VALUES 
+        (:username, 
+        :password, 
+        :first_name, 
+        :middle_name, 
+        :last_name,
+        :company_id)";
 
         $configObj = new Config();
 
@@ -52,19 +57,19 @@ class AddUserModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":user_name", $paramUsernameAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":username", $paramUsernameAdd, PDO::PARAM_STR);
             $stmt->bindParam(":password", $paramPasswordAdd, PDO::PARAM_STR);
             $stmt->bindParam(":first_name", $paramFirstNameAdd, PDO::PARAM_STR);
             $stmt->bindParam(":middle_name", $paramMiddleNameAdd, PDO::PARAM_STR);
             $stmt->bindParam(":last_name", $paramLastNameAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":permission_id", $paramPermissionId, PDO::PARAM_STR);
+            $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
 
             $paramUsernameAdd = $this->usernameAdd;
             $paramPasswordAdd = password_hash($this->passwordAdd, PASSWORD_DEFAULT);
             $paramFirstNameAdd = $this->firstNameAdd;
             $paramMiddleNameAdd = $this->middleNameAdd;
             $paramLastNameAdd = $this->lastNameAdd;
-            $paramPermissionId = $this->roleNameAdd;
+            $paramCompanyId = $this->companyId;
 
             if ($stmt->execute()) {
                 /*
@@ -73,13 +78,13 @@ class AddUserModel
                 header('location: ../prompt.php');
                 exit();
                 */
-                echo "Successfully created an account!";
+                //echo "Successfully created an account!";
             } else {
 /*
                 $_SESSION["prompt"] = "Something went wrong!";
                 header('location: ../prompt.php');
                 exit();*/
-                echo "Something went wrong, account creation was not successful!";
+                //echo "Something went wrong, account creation was not successful!";
             }
 
 
@@ -88,22 +93,58 @@ class AddUserModel
         unset($pdoVessel);
     }
 
-   /*
-    public function getPermissionId()
+    private function addSubcontractorGroupSubmit()
+    {
+
+        $sql = "INSERT INTO 
+        ownergroup 
+        (group_name, 
+        owner_id) 
+        VALUES 
+        (:group_name, 
+        :owner_id) ";
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":group_name", $paramGroupNameAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":owner_id", $paramGroupOwnerAdd, PDO::PARAM_STR);
+
+            $paramGroupNameAdd = $this->groupNameAdd;
+            $paramGroupOwnerAdd = $this->groupOwnerAdd;
+
+            if ($stmt->execute()) {
+                echo "Successfully created a group!";
+            } else {
+                echo "Something went wrong, group creation was not successful!";
+            }
+
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+   
+    public function getSubcontractorId()
     {
         $configObj = new Config();
 
         $pdoVessel = $configObj->pdoConnect();
 
-        $sql = "SELECT * FROM permission WHERE role_name = :role_name AND company_id = :company_id";
+        $sql = "SELECT * FROM subcontractor WHERE username = :username AND company_id = :company_id";
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
+            $stmt->bindParam(":username", $paramUsernameAdd, PDO::PARAM_STR);
             $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
-            $stmt->bindParam(":role_name", $paramRoleName, PDO::PARAM_STR);
+            
 
+            $paramUsernameAdd = $this->usernameAdd;
             $paramCompanyId = $this->companyId;
-            $paramRoleName = "Default";
 
             if ($stmt->execute()) {
                 $row = $stmt->fetchAll();
@@ -120,7 +161,7 @@ class AddUserModel
             return $returnValue;
         }
         unset($pdoVessel);
-    }*/
+    }
 
     public function usernameValidator()
     {
@@ -128,11 +169,11 @@ class AddUserModel
 
         $pdoVessel = $configObj->pdoConnect();
 
-        $sql = "SELECT * FROM user WHERE user_name = :user_name";
+        $sql = "SELECT * FROM employee WHERE username = :username";
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":user_name", $paramUsernameAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":username", $paramUsernameAdd, PDO::PARAM_STR);
 
 
             $paramUsernameAdd = $this->usernameAdd;
@@ -145,10 +186,6 @@ class AddUserModel
                     $result = true;
                 }
             } else {
-/*
-                $_SESSION["prompt"] = "Something went wrong!";
-                header('location: ../prompt.php');
-                exit();*/
             }
 
             unset($stmt);

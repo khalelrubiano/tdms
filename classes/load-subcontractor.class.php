@@ -7,20 +7,29 @@ if (!isset($_SESSION)) {
 require_once "../config.php";
 
 
+$currentPageNumber = $_POST["currentPageNumber"];
+$orderBy = $_POST["orderBy"];
+
+//$test = 2;
+$startingLimitNumber = ($currentPageNumber - 1) * 4;
+
+//echo $startingLimitNumber;
+
+
 try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
     $sql = "SELECT 
-    employee.username, 
-    employee.first_name, 
-    employee.middle_name, 
-    employee.last_name, 
-    permission.role_name 
-    FROM permission 
-    INNER JOIN employee 
-    ON permission.permission_id = employee.permission_id 
-    WHERE permission.company_id = :company_id";
+    subcontractor_id,
+    username, 
+    first_name, 
+    middle_name, 
+    last_name
+    FROM subcontractor
+    WHERE company_id = :company_id " . 
+    "ORDER BY " . $orderBy . " ASC " .  
+    "LIMIT ". $startingLimitNumber . ',' . '4';
 
     $stmt = $pdoVessel->prepare($sql);
 

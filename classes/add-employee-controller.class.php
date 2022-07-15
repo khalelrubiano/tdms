@@ -1,7 +1,7 @@
 
 <?php
 //PART OF NEW SYSTEM
-include 'add-user-model.class.php';
+include 'add-employee-model.class.php';
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
@@ -12,7 +12,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $lastNameAdd = $_POST['lastNameAdd'];
     $roleNameAdd = $_POST["roleNameAdd"];
 
-    $addObj = new AddUserModel(
+    $addObj = new AddEmployeeModel(
         $usernameAdd,
         $passwordAdd,
         $firstNameAdd,
@@ -21,7 +21,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $roleNameAdd
     );
 
-    $addObj->addUserRecord();
+    $addObj->addEmployeeRecord();
     
 
     //echo $companyId;

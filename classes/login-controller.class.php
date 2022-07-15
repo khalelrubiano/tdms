@@ -8,6 +8,8 @@ if(isset($_POST["submit"])){
     $loginObj = new LoginModel($username, $password);
     
     $loginObj->login();
+}else{
+    echo "FAIL";
 }
 
 

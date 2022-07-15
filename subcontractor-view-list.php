@@ -20,7 +20,7 @@ include_once 'navbar.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee</title>
+    <title>Subcontractor</title>
 
     <!--JQUERY CDN-->
     <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
@@ -62,8 +62,8 @@ include_once 'navbar.php';
 
             <div class="select is-rounded" id="selectSortDiv">
                 <select id="selectSort">
-                    <option value="employee.first_name" selected>Sort By Name</option>
-                    <option value="permission.role_name">Sort By Role</option>
+                    <option value="first_name" selected>Sort By Name</option>
+                    <option value="username">Sort By Username</option>
                 </select>
             </div>
 
@@ -87,18 +87,17 @@ include_once 'navbar.php';
 
     </div>
 
-    <!-- ADD MODAL -->
-    <div class="modal" id="addModal">
+   <!-- ADD MODAL -->
+   <div class="modal" id="addModal">
         <div class="modal-background" id="addModalBg"></div>
         <div class="modal-card">
 
             <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-plus mr-3"></i>Create Account</p>
+                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-group mr-3"></i>Create Subcontractor Account</p>
                 <button class="delete" aria-label="close" onclick="closeAdd()"></button>
             </header>
 
             <section class="modal-card-body">
-
                 <div class="field">
                     <label for="" class="label">Username</label>
                     <div class="control has-icons-left">
@@ -165,17 +164,6 @@ include_once 'navbar.php';
                     <p class="help" id="lastNameAddHelp"></p>
                 </div>
 
-                <div class="field">
-                    <label for="" class="label">Role</label>
-                    <div class="control">
-                        <div class="select is-rounded" id="roleNameAddDiv">
-                            <select id="roleNameAdd" name="roleNameAdd">
-                            </select>
-                        </div>
-                    </div>
-                    <p class="help" id="roleNameAddHelp"></p>
-                </div>
-
                 <div class="field has-text-centered mt-6">
                     <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
                         <i class="fas fa-paper-plane mr-3"></i>Submit
@@ -189,12 +177,12 @@ include_once 'navbar.php';
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->
-<script src="js/employee-view-list.js"></script>
+<script src="js/subcontractor-view-list.js"></script>
 
 <!--INTERNAL JAVASCRIPT-->
 <script>
     logoutBtn.classList.remove("is-hidden");
-    employeeViewListBtn.classList.add("is-active");
+    subcontractorViewListBtn.classList.add("is-active");
 </script>
 
 </html>

@@ -2,20 +2,20 @@
 
 require_once "../config.php";
 
-class DeleteUserModel{
+class DeleteGroupModel{
     private $usernameDelete;
     
     public function __construct( $usernameDelete){
         $this->usernameDelete = $usernameDelete;
     }
 
-    public function deleteUserRecord(){
-        $this->deleteUserSubmit();
+    public function deleteGroupRecord(){
+        $this->deleteGroupSubmit();
     }
 
-    public function deleteUserSubmit(){
+    public function deleteGroupSubmit(){
 
-        $sql = "DELETE FROM user WHERE user_name = :user_name";
+        $sql = "DELETE FROM ownergroup WHERE group_id = :group_id";
 
         $configObj = new Config();
     
@@ -23,14 +23,14 @@ class DeleteUserModel{
 
         if($stmt = $pdoVessel->prepare($sql)){
 
-            $stmt->bindParam(":user_name", $paramUsernameDelete, PDO::PARAM_STR);
+            $stmt->bindParam(":group_id", $paramUsernameDelete, PDO::PARAM_STR);
 
             $paramUsernameDelete = $this->usernameDelete;
 
             if($stmt->execute()){
                 echo "Successfully deleted a record!";
             } else{
-                echo "Something went wrong, unable to delete user account!";
+                echo "Something went wrong, unable to delete group!";
                 exit();
             }
 

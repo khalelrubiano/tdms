@@ -1,26 +1,25 @@
+
 <?php
 //PART OF NEW SYSTEM
-
-if (!isset($_SESSION)) {
+if ( !isset($_SESSION) ) {
     session_start();
 }
 require_once "../config.php";
 
 
+
 try {
-    $configObj = new Config();
+	$configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
     $sql = "SELECT 
-    employee.username, 
-    employee.first_name, 
-    employee.middle_name, 
-    employee.last_name, 
-    permission.role_name 
-    FROM permission 
-    INNER JOIN employee 
-    ON permission.permission_id = employee.permission_id 
-    WHERE permission.company_id = :company_id";
+    subcontractor_id,
+    username, 
+    first_name, 
+    middle_name, 
+    last_name
+    FROM subcontractor
+    WHERE company_id = :company_id";
 
     $stmt = $pdoVessel->prepare($sql);
 
@@ -33,7 +32,7 @@ try {
     $json = json_encode($row);
 
     echo $json;
-    
+
 } catch (Exception $ex) {
     session_start();
     $_SESSION['prompt'] = "Something went wrong!";

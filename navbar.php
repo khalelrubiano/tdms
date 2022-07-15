@@ -12,7 +12,7 @@ if (!isset($_SESSION)) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!--JQUERY CDN-->
     <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
     <!--AJAX CDN-->
@@ -106,12 +106,13 @@ if (!isset($_SESSION)) {
                 <li>
                     <a class="">Subcontractor</a>
                     <ul>
+                        <li><a id="subcontractorViewListBtn">View List</a></li>
                         <li><a id="subcontractorGroupBtn">Group</a></li>
                     </ul>
                 </li>
 
             </ul>
-            
+
         </aside>
 
     </div>

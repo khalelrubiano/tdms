@@ -1,3 +1,4 @@
+
 const arrayLengthHidden = document.getElementById('arrayLengthHidden');
 const ancestorTile = document.getElementById('ancestorTile');
 const selectSort = document.getElementById('selectSort');
@@ -30,7 +31,7 @@ function closeAdd() {
 //DELETE AJAX CALL
 function deleteAjax(deleteVar) {
     if (confirm("Are you sure?")) {
-        $.post("./classes/delete-employee-controller.class.php", {
+        $.post("./classes/delete-subcontractor-controller.class.php", {
             usernameDelete: deleteVar
         }, function (data) {
             //$("#submitAddFormHelp").html(data);
@@ -49,6 +50,7 @@ function testAjax() {
     prompt("deleteVar");
 }
 
+
 //ADD AJAX CALLS WITH VALIDATION
 let submitAddForm = document.getElementById('submitAddForm'); //save changes button
 let submitAddFormHelp = document.getElementById('submitAddFormHelp'); //save changes button
@@ -59,7 +61,6 @@ let confirmPasswordAdd = document.getElementById('confirmPasswordAdd')
 let firstNameAdd = document.getElementById('firstNameAdd')
 let middleNameAdd = document.getElementById('middleNameAdd')
 let lastNameAdd = document.getElementById('lastNameAdd')
-let roleNameAdd = document.getElementById('roleNameAdd')
 
 let usernameAddHelp = document.getElementById('usernameAddHelp')
 let passwordAddHelp = document.getElementById('passwordAddHelp')
@@ -69,13 +70,12 @@ let middleNameAddHelp = document.getElementById('middleNameAddHelp')
 let lastNameAddHelp = document.getElementById('lastNameAddHelp')
 
 function addAjax() {
-    $.post("./classes/add-employee-controller.class.php", {
+    $.post("./classes/add-subcontractor-controller.class.php", {
         usernameAdd: usernameAdd.value,
         passwordAdd: passwordAdd.value,
         firstNameAdd: firstNameAdd.value,
         middleNameAdd: middleNameAdd.value,
-        lastNameAdd: lastNameAdd.value,
-        roleNameAdd: roleNameAdd.value
+        lastNameAdd: lastNameAdd.value
     }, function (data) {
         $("#submitAddFormHelp").html(data);
         //$("#submitAddFormHelp").attr('class', 'help is-success');
@@ -288,28 +288,10 @@ function clearAddFormInput() {
     lastNameAdd.value = null;
 }
 
-function populateSelect() {
-    $.post("./classes/load-company-role-select.class.php", {
-    }, function (data) {
 
-        var jsonArray = JSON.parse(data);
-
-        for (var i = 0; i < jsonArray.length; i++) {
-            var newOption = document.createElement("option");
-            newOption.value = jsonArray[i][0];
-            newOption.innerHTML = jsonArray[i][1];
-            roleNameAdd.options.add(newOption);
-        }
-
-        //closeSelect();
-    });
-}
-
-populateSelect();
-
-//EMPLOYEE LIST
+//SUBCONTRACTOR LIST
 function generateUserList1() {
-    $.post("./classes/load-user-all.class.php", {}, function (data) {
+    $.post("./classes/load-subcontractor-all.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
@@ -317,7 +299,7 @@ function generateUserList1() {
 }
 
 function generateUserList2(currentPageNumberVar, orderByVar) {
-    $.post("./classes/load-user.class.php", {
+    $.post("./classes/load-subcontractor.class.php", {
         currentPageNumber: currentPageNumberVar,
         orderBy: orderByVar
     }, function (data) {
@@ -354,7 +336,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 //CARD HEADER PARAGRAPH
                 var newCardHeaderParagraph = document.createElement("p");
                 newCardHeaderParagraph.classList.add('card-header-title');
-                newCardHeaderParagraph.innerHTML = jsonArray[i][4];
+                //newCardHeaderParagraph.innerHTML = jsonArray[i][4];
                 newCardHeader.appendChild(newCardHeaderParagraph);
 
                 //CARD HEADER BUTTON
@@ -408,14 +390,14 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 var newCardContentMediaContentTitle = document.createElement("p");
                 newCardContentMediaContentTitle.classList.add('title');
                 newCardContentMediaContentTitle.classList.add('is-4');
-                newCardContentMediaContentTitle.innerHTML = jsonArray[i][1] + " " + jsonArray[i][3];
+                newCardContentMediaContentTitle.innerHTML = jsonArray[i][2] + " " + jsonArray[i][4];
                 newCardContentMediaContent.appendChild(newCardContentMediaContentTitle);
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE
                 var newCardContentMediaContentSubtitle = document.createElement("p");
                 newCardContentMediaContentSubtitle.classList.add('subtitle');
                 newCardContentMediaContentSubtitle.classList.add('is-6');
-                newCardContentMediaContentSubtitle.innerHTML = "@" + jsonArray[i][0];
+                newCardContentMediaContentSubtitle.innerHTML = "@" + jsonArray[i][1];
                 newCardContentMediaContent.appendChild(newCardContentMediaContentSubtitle);
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE
@@ -439,7 +421,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
 }
 
 function generateUserList3(searchTerm) {
-    $.post("./classes/load-user-live-search.class.php", {}, function (data) {
+    $.post("./classes/load-subcontractor-live-search.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         //indicator.innerHTML = "live:" + jsonArray.length;
         
@@ -447,46 +429,39 @@ function generateUserList3(searchTerm) {
 
             switch (searchTerm) {
 
-                case jsonArray[i][0]:
+                case jsonArray[i][1]:
                     console.clear();
                     console.log("Username")
                     indicator.innerHTML = "Username";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4]);
-                    break;
-
-                case jsonArray[i][1]:
-                    console.clear();
-                    console.log("First Name")
-                    indicator.innerHTML = "First Name";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4]);
+                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3]);
                     break;
 
                 case jsonArray[i][2]:
                     console.clear();
-                    console.log("Middle Name")
-                    indicator.innerHTML = "Middle Name";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4]);
-                    return "Success";
+                    console.log("First Name")
+                    indicator.innerHTML = "First Name";
+                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3]);
+                    break;
 
                 case jsonArray[i][3]:
                     console.clear();
-                    console.log("Last Name")
-                    indicator.innerHTML = "Last Name";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4]);
-                    break;
-
-                case jsonArray[i][1] + " " + jsonArray[i][2] + " " + jsonArray[i][3]:
-                    console.clear();
-                    console.log("Full Name")
-                    indicator.innerHTML = "Full Name";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4]);
-                    break;
+                    console.log("Middle Name")
+                    indicator.innerHTML = "Middle Name";
+                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3]);
+                    return "Success";
 
                 case jsonArray[i][4]:
                     console.clear();
-                    console.log("Role")
-                    indicator.innerHTML = "Role";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4]);
+                    console.log("Last Name")
+                    indicator.innerHTML = "Last Name";
+                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3]);
+                    break;
+
+                case jsonArray[i][2] + " " + jsonArray[i][3] + " " + jsonArray[i][4]:
+                    console.clear();
+                    console.log("Full Name")
+                    indicator.innerHTML = "Full Name";
+                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3]);
                     break;
             }
 
@@ -495,7 +470,7 @@ function generateUserList3(searchTerm) {
     });
 
 }
-function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar, roleNameVar) {
+function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar) {
     ancestorTile.innerHTML = "";
     var newParentTile = document.createElement("div");
     newParentTile.classList.add('tile');
@@ -520,7 +495,7 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     //CARD HEADER PARAGRAPH
     var newCardHeaderParagraph = document.createElement("p");
     newCardHeaderParagraph.classList.add('card-header-title');
-    newCardHeaderParagraph.innerHTML = roleNameVar;
+    //newCardHeaderParagraph.innerHTML = roleNameVar;
     newCardHeader.appendChild(newCardHeaderParagraph);
 
     //CARD CONTENT

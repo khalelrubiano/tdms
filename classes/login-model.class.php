@@ -22,31 +22,31 @@ class LoginModel
     public function login()
     {
 
-        $this->loginSubmit();
-        $this->getPermission();
-        header("location: ../dashboard.php");
+        $this->loginEmployeeSubmit();
+        $this->loginSubcontractorSubmit();
+
     }
 
-    private function loginSubmit()
+    private function loginEmployeeSubmit()
     {
 
         $configObj = new Config();
         $pdoVessel = $configObj->pdoConnect();
 
         $sql = "SELECT
-        user_id,
-        user_name, 
+        employee_id,
+        username, 
         password,
         first_name,
         middle_name,
         last_name,
         permission_id 
-        FROM user
-        WHERE user_name = :user_name";
+        FROM employee
+        WHERE username = :username";
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":user_name", $paramUsername, PDO::PARAM_STR);
+            $stmt->bindParam(":username", $paramUsername, PDO::PARAM_STR);
 
             $paramUsername = trim($this->username);
 
@@ -55,8 +55,8 @@ class LoginModel
                 if ($stmt->rowCount() == 1) {
                     if ($row = $stmt->fetch()) {
 
-                        $userId = $row["user_id"];
-                        $username = $row["user_name"];
+                        $employeeId = $row["employee_id"];
+                        $username = $row["username"];
                         $firstName = $row["first_name"];
                         $middleName = $row["middle_name"];
                         $lastName = $row["last_name"];
@@ -67,7 +67,7 @@ class LoginModel
 
 
                             $_SESSION["loggedin"] = true;
-                            $_SESSION["userId"] = $userId;
+                            $_SESSION["employeeId"] = $employeeId;
                             $_SESSION["username"] = $username;
                             $_SESSION["password"] = $hashedPassword;
                             $_SESSION["firstName"] = $firstName;
@@ -76,26 +76,96 @@ class LoginModel
                             $_SESSION["permissionId"] = $permissionId;
                             //$_SESSION["shipmentAccess"] = 'Yes';
 
-                            //$this->getPermission();
-                            header("location: ../session_variable_test.php");
+                            $this->getPermission();
+                            header("location: ../dashboard.php");
+                            exit();
                         } else {
 
-                            $_SESSION["prompt"] = "Invalid username or password!";
-                            header('location: ../prompt.php');
+                            //$_SESSION["prompt"] = "Invalid username or password!";
+                            //header('location: ../prompt.php');
                             exit();
                         }
                     }
                 } else {
 
-                    $_SESSION["prompt"] = "Invalid username or password!";
-                    header('location: ../prompt.php');
-                    exit();
+                    //$_SESSION["prompt"] = "Invalid username or password!";
+                    //header('location: ../prompt.php');
+                    //exit();
                 }
             } else {
 
-                $_SESSION["prompt"] = "Something went wrong!";
-                header('location: ../prompt.php');
-                exit();
+                //$_SESSION["prompt"] = "Something went wrong!";
+                //header('location: ../prompt.php');
+                //exit();
+            }
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+    private function loginSubcontractorSubmit()
+    {
+
+        $configObj = new Config();
+        $pdoVessel = $configObj->pdoConnect();
+
+        $sql = "SELECT
+        subcontractor_id,
+        username, 
+        password,
+        first_name,
+        middle_name,
+        last_name 
+        FROM subcontractor WHERE username = :username";
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":username", $paramUsername, PDO::PARAM_STR);
+
+            $paramUsername = trim($this->username);
+
+            if ($stmt->execute()) {
+
+                if ($stmt->rowCount() == 1) {
+                    if ($row = $stmt->fetch()) {
+
+                        $subcontractorId = $row["subcontractor_id"];
+                        $username = $row["username"];
+                        $firstName = $row["first_name"];
+                        $middleName = $row["middle_name"];
+                        $lastName = $row["last_name"];
+                        $hashedPassword = $row["password"];
+
+                        if (password_verify($this->password, $hashedPassword)) {
+
+
+                            $_SESSION["loggedin"] = true;
+                            $_SESSION["subcontractorId"] = $subcontractorId;
+                            $_SESSION["username"] = $username;
+                            $_SESSION["password"] = $hashedPassword;
+                            $_SESSION["firstName"] = $firstName;
+                            $_SESSION["middleName"] = $middleName;
+                            $_SESSION["lastName"] = $lastName;
+
+                            header("location: ../dashboard-default.php");
+                        } else {
+
+                            //$_SESSION["prompt"] = "Invalid username or password!";
+                            //header('location: ../prompt.php');
+                            exit();
+                        }
+                    }
+                } else {
+
+                    //$_SESSION["prompt"] = "Invalid username or password!";
+                    //header('location: ../prompt.php');
+                    //exit();
+                }
+            } else {
+
+                //$_SESSION["prompt"] = "Something went wrong!";
+                //header('location: ../prompt.php');
+                //exit();
             }
             unset($stmt);
         }
@@ -122,19 +192,21 @@ class LoginModel
                     if ($row = $stmt->fetch()) {
 
                         $roleName = $row["role_name"];
-                        $accountType = $row["account_type"];
-                        $dashboardAccess = $row["dashboard_access"];
                         $shipmentAccess = $row["shipment_access"];
                         $employeeAccess = $row["employee_access"];
                         $subcontractorAccess = $row["subcontractor_access"];
+                        $clientAccess = $row["client_access"];
+                        $billingAccess = $row["billing_access"];
+                        $payrollAccess = $row["payroll_access"];
                         $companyId = $row["company_id"];
 
                         $_SESSION["roleName"] = $roleName;
-                        $_SESSION["accountType"] = $accountType;
-                        $_SESSION["dashboardAccess"] = $dashboardAccess;
                         $_SESSION["shipmentAccess"] = $shipmentAccess;
                         $_SESSION["employeeAccess"] = $employeeAccess;
                         $_SESSION["subcontractorAccess"] = $subcontractorAccess;
+                        $_SESSION["clientAccess"] = $clientAccess;
+                        $_SESSION["billingAccess"] = $billingAccess;
+                        $_SESSION["payrollAccess"] = $payrollAccess;
                         $_SESSION["companyId"] = $companyId;
 
                     }

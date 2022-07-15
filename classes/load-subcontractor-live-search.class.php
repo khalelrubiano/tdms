@@ -12,15 +12,12 @@ try {
     $pdoVessel = $configObj->pdoConnect();
 
     $sql = "SELECT 
-    employee.username, 
-    employee.first_name, 
-    employee.middle_name, 
-    employee.last_name, 
-    permission.role_name 
-    FROM permission 
-    INNER JOIN employee 
-    ON permission.permission_id = employee.permission_id 
-    WHERE permission.company_id = :company_id";
+    username, 
+    first_name, 
+    middle_name, 
+    last_name
+    FROM subcontractor
+    WHERE company_id = :company_id";
 
     $stmt = $pdoVessel->prepare($sql);
 
@@ -35,8 +32,11 @@ try {
     echo $json;
     
 } catch (Exception $ex) {
+    //echo $ex;
+    
     session_start();
     $_SESSION['prompt'] = "Something went wrong!";
     header('location: ../prompt.php');
     exit();
+    
 }

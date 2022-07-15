@@ -188,7 +188,7 @@ include_once 'navbar.php';
             <p class="help" id="barangayHelp"></p>
           </div>
 
-          <div class="field mt-5">
+          <div class="field mt-5 has-text-centered">
             <button class="button has-background-link has-text-white is-rounded" type="submit" name="submit" id="submitForm">
               <i class="fas fa-paper-plane mr-3"></i>Submit
             </button>

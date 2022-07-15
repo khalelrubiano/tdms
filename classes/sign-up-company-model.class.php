@@ -63,7 +63,25 @@ class SignUpCompanyModel
     private function roleAdminSubmit()
     {
         //UPDATE THIS FOR EACH MODULE
-        $sql = "INSERT INTO permission (role_name, account_type, dashboard_access, shipment_access, employee_access, subcontractor_access, company_id) VALUES (:role_name, :account_type, :dashboard_access, :shipment_access, :employee_access, :subcontractor_access, :company_id)";
+        $sql = "INSERT INTO 
+        permission 
+        (role_name,  
+        shipment_access, 
+        employee_access, 
+        subcontractor_access, 
+        client_access, 
+        billing_access, 
+        payroll_access, 
+        company_id) 
+        VALUES 
+        (:role_name, 
+        :shipment_access, 
+        :employee_access, 
+        :subcontractor_access, 
+        :client_access, 
+        :billing_access, 
+        :payroll_access, 
+        :company_id)";
 
         $configObj = new Config();
 
@@ -72,19 +90,21 @@ class SignUpCompanyModel
         if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":role_name", $paramRoleName, PDO::PARAM_STR);
-            $stmt->bindParam(":account_type", $paramAccountType, PDO::PARAM_STR);
-            $stmt->bindParam(":dashboard_access", $paramDashboardAccess, PDO::PARAM_STR);
             $stmt->bindParam(":shipment_access", $paramShipmentAccess, PDO::PARAM_STR);
             $stmt->bindParam(":employee_access", $paramEmployeeAccess, PDO::PARAM_STR);
             $stmt->bindParam(":subcontractor_access", $paramSubcontractorAccess, PDO::PARAM_STR);
+            $stmt->bindParam(":client_access", $paramClientAccess, PDO::PARAM_STR);
+            $stmt->bindParam(":billing_access", $paramBillingAccess, PDO::PARAM_STR);
+            $stmt->bindParam(":payroll_access", $paramPayrollAccess, PDO::PARAM_STR);
             $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
 
             $paramRoleName = 'Admin';
-            $paramAccountType = 'Employee';
-            $paramDashboardAccess = 'Yes';
-            $paramShipmentAccess = 'Yes';
-            $paramEmployeeAccess = 'Yes';
-            $paramSubcontractorAccess = 'Yes';
+            $paramShipmentAccess = 'true';
+            $paramEmployeeAccess = 'true';
+            $paramSubcontractorAccess = 'true';
+            $paramClientAccess = 'true';
+            $paramBillingAccess = 'true';
+            $paramPayrollAccess = 'true';
             $paramCompanyId = $this->getCompanyId();
 
             if ($stmt->execute()) {
@@ -104,7 +124,25 @@ class SignUpCompanyModel
     private function roleDefaultSubmit()
     {
         //UPDATE THIS FOR EACH MODULE
-        $sql = "INSERT INTO permission (role_name, account_type, dashboard_access, shipment_access, employee_access, subcontractor_access, company_id) VALUES (:role_name, :account_type, :dashboard_access, :shipment_access, :employee_access, :subcontractor_access, :company_id)";
+        $sql = "INSERT INTO 
+        permission 
+        (role_name,  
+        shipment_access, 
+        employee_access, 
+        subcontractor_access, 
+        client_access, 
+        billing_access, 
+        payroll_access, 
+        company_id) 
+        VALUES 
+        (:role_name, 
+        :shipment_access, 
+        :employee_access, 
+        :subcontractor_access, 
+        :client_access, 
+        :billing_access, 
+        :payroll_access, 
+        :company_id)";
 
         $configObj = new Config();
 
@@ -113,19 +151,21 @@ class SignUpCompanyModel
         if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":role_name", $paramRoleName, PDO::PARAM_STR);
-            $stmt->bindParam(":account_type", $paramAccountType, PDO::PARAM_STR);
-            $stmt->bindParam(":dashboard_access", $paramDashboardAccess, PDO::PARAM_STR);
             $stmt->bindParam(":shipment_access", $paramShipmentAccess, PDO::PARAM_STR);
             $stmt->bindParam(":employee_access", $paramEmployeeAccess, PDO::PARAM_STR);
             $stmt->bindParam(":subcontractor_access", $paramSubcontractorAccess, PDO::PARAM_STR);
+            $stmt->bindParam(":client_access", $paramClientAccess, PDO::PARAM_STR);
+            $stmt->bindParam(":billing_access", $paramBillingAccess, PDO::PARAM_STR);
+            $stmt->bindParam(":payroll_access", $paramPayrollAccess, PDO::PARAM_STR);
             $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
 
             $paramRoleName = 'Default';
-            $paramAccountType = 'Default';
-            $paramDashboardAccess = 'No';
-            $paramShipmentAccess = 'No';
-            $paramEmployeeAccess = 'No';
-            $paramSubcontractorAccess = 'No';
+            $paramShipmentAccess = 'false';
+            $paramEmployeeAccess = 'false';
+            $paramSubcontractorAccess = 'false';
+            $paramClientAccess = 'false';
+            $paramBillingAccess = 'false';
+            $paramPayrollAccess = 'false';
             $paramCompanyId = $this->getCompanyId();
 
             if ($stmt->execute()) {
@@ -145,7 +185,20 @@ class SignUpCompanyModel
     private function accountSubmit()
     {
 
-        $sql = "INSERT INTO user (user_name, password, first_name, middle_name, last_name, permission_id) VALUES (:user_name, :password, :first_name, :middle_name, :last_name, :permission_id)";
+        $sql = "INSERT INTO employee 
+        (username, 
+        password, 
+        first_name, 
+        middle_name, 
+        last_name, 
+        permission_id) 
+        VALUES 
+        (:username, 
+        :password, 
+        :first_name, 
+        :middle_name, 
+        :last_name, 
+        :permission_id)";
 
         $configObj = new Config();
 
@@ -153,7 +206,7 @@ class SignUpCompanyModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":user_name", $paramUsername, PDO::PARAM_STR);
+            $stmt->bindParam(":username", $paramUsername, PDO::PARAM_STR);
             $stmt->bindParam(":password", $paramPassword, PDO::PARAM_STR);
             $stmt->bindParam(":first_name", $paramFirstName, PDO::PARAM_STR);
             $stmt->bindParam(":middle_name", $paramMiddleName, PDO::PARAM_STR);

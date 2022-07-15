@@ -15,7 +15,7 @@ include_once 'navbar.php';
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Template</title>
+  <title>Login</title>
 
   <!--JQUERY CDN-->
   <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
@@ -69,7 +69,7 @@ include_once 'navbar.php';
                   <p class="help" id="passwordHelp"></p>
                 </div>
 
-                <div class="field">
+                <div class="field has-text-centered mt-4">
                   <button class="button is-info has-text-white is-rounded" name="submit" type="submit" id="submitForm">
                     <i class="fas fa-sign-in-alt mr-3"></i>Login
                   </button>

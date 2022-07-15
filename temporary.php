@@ -1,27 +1,23 @@
-<div class="card">
+//ADD AJAX CALLS WITH VALIDATION
+let submitEditForm = document.getElementById('submitEditForm'); //save changes button
+let submitEditFormHelp = document.getElementById('submitEditFormHelp'); //save changes button
 
-<header class="card-header">
-    <p class="card-header-title">
-        Admin
-    </p>
-</header>
+let groupNameEdit = document.getElementById('groupNameEdit')
+let groupOwnerEdit = document.getElementById('groupOwnerEdit')
 
-<div class="card-content">
-    <div class="media">
-        <div class="media-left">
-            <figure class="image is-48x48">
-                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-            </figure>
-        </div>
-        <div class="media-content">
-            <p class="title is-4">John Smith</p>
-            <p class="subtitle is-6">@johnsmith</p>
-        </div>
-    </div>
+let groupNameEditHelp = document.getElementById('groupNameEditHelp')
 
 
-</div>
-<footer class="card-footer">
-    <a href="#" class="card-footer-item">View Profile</a>
-</footer>
-</div>
+function editAjax() {
+    $.post("./classes/edit-subcontractor-group-controller.class.php", {
+        groupNameEdit: groupNameEdit.value,
+        groupOwnerEdit: groupOwnerEdit.value
+    }, function (data) {
+        $("#submitEditFormHelp").html(data);
+        //$("#submitEditFormHelp").attr('class', 'help is-success');
+        //clearEditFormHelp();
+        //clearEditFormInput();
+        //editModal.classList.remove('is-active');
+        refreshList();
+    });
+}

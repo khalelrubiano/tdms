@@ -21,23 +21,21 @@ try {
     $pdoVessel = $configObj->pdoConnect();
 
     $sql = "SELECT 
-    user.user_name, 
-    user.first_name, 
-    user.middle_name, 
-    user.last_name, 
+    employee.username, 
+    employee.first_name, 
+    employee.middle_name, 
+    employee.last_name, 
     permission.role_name, 
-    user.user_id 
-    FROM permission INNER JOIN user ON permission.permission_id = user.permission_id 
-    WHERE permission.account_type = :account_type AND permission.company_id = :company_id " . 
+    employee.employee_id 
+    FROM permission INNER JOIN employee ON permission.permission_id = employee.permission_id 
+    WHERE permission.company_id = :company_id " . 
     "ORDER BY " . $orderBy . " ASC " .  
     "LIMIT ". $startingLimitNumber . ',' . '4';
 
     $stmt = $pdoVessel->prepare($sql);
 
-    $stmt->bindParam(":account_type", $paramAccountType, PDO::PARAM_STR);
     $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
 
-    $paramAccountType = "Employee";
     $paramCompanyId = $_SESSION["companyId"];
 
     $stmt->execute();

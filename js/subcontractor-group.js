@@ -1,17 +1,18 @@
-const arrayLengthHidden = document.getElementById('arrayLengthHidden');
-const ancestorTile = document.getElementById('ancestorTile');
-const selectSort = document.getElementById('selectSort');
-const test_indicator = document.getElementById('test_indicator');
-let indicator = document.getElementById('indicator')
-let searchBarInput = document.getElementById('searchBarInput')
-
 const addModal = document.getElementById('addModal');
-
+const editModal = document.getElementById('editModal');
+const editHeader = document.getElementById('editHeader');
+const editHeader2 = document.getElementById('editHeader2');
+const ancestorTile = document.getElementById('ancestorTile');
+const arrayLengthHidden = document.getElementById('arrayLengthHidden');
+const selectSort = document.getElementById('selectSort');
+let indicator = document.getElementById('indicator');
 let currentPageNumber = 1;
+let searchBarInput = document.getElementById('searchBarInput')
 
 //MODALS
 function openAdd() {
     addModal.classList.add('is-active');
+    populateSelect();
     //populateUsernameAdd();
 }
 
@@ -23,14 +24,34 @@ function closeAdd() {
     submitAddFormHelp.innerText = ""
 
     addModal.classList.remove('is-active');
-    
+
+    //removeSelectAdd(document.getElementById('usernameAdd'));
+}
+
+function openEdit(idVar, nameVar) {
+    editModal.classList.add('is-active');
+    populateSelect();
+    editHeader.innerHTML = "Edit " + nameVar;
+    editHeader2.innerHTML = idVar;
+    //populateUsernameAdd();
+}
+
+function closeEdit() {
+    /*clearEditFormHelp();
+    clearEditFormInput();
+
+    submitEditFormHelp.className = "help"
+    submitEditFormHelp.innerText = ""*/
+
+    editModal.classList.remove('is-active');
+
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
 
 //DELETE AJAX CALL
 function deleteAjax(deleteVar) {
     if (confirm("Are you sure?")) {
-        $.post("./classes/delete-employee-controller.class.php", {
+        $.post("./classes/delete-group-controller.class.php", {
             usernameDelete: deleteVar
         }, function (data) {
             //$("#submitAddFormHelp").html(data);
@@ -44,43 +65,25 @@ function deleteAjax(deleteVar) {
     }
 }
 
-
-function testAjax() {
-    prompt("deleteVar");
-}
-
 //ADD AJAX CALLS WITH VALIDATION
 let submitAddForm = document.getElementById('submitAddForm'); //save changes button
 let submitAddFormHelp = document.getElementById('submitAddFormHelp'); //save changes button
 
-let usernameAdd = document.getElementById('usernameAdd')
-let passwordAdd = document.getElementById('passwordAdd')
-let confirmPasswordAdd = document.getElementById('confirmPasswordAdd')
-let firstNameAdd = document.getElementById('firstNameAdd')
-let middleNameAdd = document.getElementById('middleNameAdd')
-let lastNameAdd = document.getElementById('lastNameAdd')
-let roleNameAdd = document.getElementById('roleNameAdd')
+let groupNameAdd = document.getElementById('groupNameAdd')
+let groupOwnerAdd = document.getElementById('groupOwnerAdd')
 
-let usernameAddHelp = document.getElementById('usernameAddHelp')
-let passwordAddHelp = document.getElementById('passwordAddHelp')
-let confirmPasswordAddHelp = document.getElementById('confirmPasswordAddHelp')
-let firstNameAddHelp = document.getElementById('firstNameAddHelp')
-let middleNameAddHelp = document.getElementById('middleNameAddHelp')
-let lastNameAddHelp = document.getElementById('lastNameAddHelp')
+let groupNameAddHelp = document.getElementById('groupNameAddHelp')
+
 
 function addAjax() {
-    $.post("./classes/add-employee-controller.class.php", {
-        usernameAdd: usernameAdd.value,
-        passwordAdd: passwordAdd.value,
-        firstNameAdd: firstNameAdd.value,
-        middleNameAdd: middleNameAdd.value,
-        lastNameAdd: lastNameAdd.value,
-        roleNameAdd: roleNameAdd.value
+    $.post("./classes/add-subcontractor-group-controller.class.php", {
+        groupNameAdd: groupNameAdd.value,
+        groupOwnerAdd: groupOwnerAdd.value
     }, function (data) {
         $("#submitAddFormHelp").html(data);
         //$("#submitAddFormHelp").attr('class', 'help is-success');
-        clearAddFormHelp();
-        clearAddFormInput();
+        //clearAddFormHelp();
+        //clearAddFormInput();
         //addModal.classList.remove('is-active');
         refreshList();
     });
@@ -95,157 +98,36 @@ submitAddForm.addEventListener('click', (e) => {
     clearAddFormHelp();
     //clearAddFormInput();
 
-    let usernameAddMessages = []
-    let passwordAddMessages = []
-    let confirmPasswordAddMessages = []
+    let groupNameAddMessages = []
 
-    let firstNameAddMessages = []
-    let middleNameAddMessages = []
-    let lastNameAddMessages = []
+    //Company Name Validation
 
-    //Username Validation
-
-    if (pattern1.test(usernameAdd.value) == false) {
-        usernameAdd.className = "input is-danger is-rounded"
-        usernameAddHelp.className = "help is-danger"
-        usernameAddMessages.push('Username should only consist of numbers, letters, or an underscore!')
+    if (groupNameAdd.value === "" || groupNameAdd.value == null) {
+        groupNameAdd.className = "input is-danger is-rounded"
+        groupNameAddHelp.className = "help is-danger"
+        groupNameAddMessages.push('Group name is required!')
+    }
+    if (groupNameAdd.value.length < 1) {
+        groupNameAdd.className = "input is-danger is-rounded"
+        groupNameAddHelp.className = "help is-danger"
+        groupNameAddMessages.push('Group name must be longer than 1 character!')
     }
 
-    if (usernameAdd.value === "" || usernameAdd.value == null) {
-        usernameAdd.className = "input is-danger is-rounded"
-        usernameAddHelp.className = "help is-danger"
-        usernameAddMessages.push('Username is required!')
-    }
-    if (usernameAdd.value.length <= 6) {
-        usernameAdd.className = "input is-danger is-rounded"
-        usernameAddHelp.className = "help is-danger"
-        usernameAddMessages.push('Username must be longer than 6 characters!')
+    if (groupNameAdd.value.length >= 255) {
+        groupNameAdd.className = "input is-danger is-rounded"
+        groupNameAddHelp.className = "help is-danger"
+        groupNameAddMessages.push('Group name must be less than 50 characters!')
     }
 
-    if (usernameAdd.value.length >= 20) {
-        usernameAdd.className = "input is-danger is-rounded"
-        usernameAddHelp.className = "help is-danger"
-        usernameAddMessages.push('Username must be less than 20 characters!')
-    }
-
-    //Password Validation
-    if (passwordAdd.value === "" || passwordAdd.value == null) {
-        passwordAdd.className = "input is-danger is-rounded"
-        passwordAddHelp.className = "help is-danger"
-        passwordAddMessages.push('Password is required!')
-    }
-    if (passwordAdd.value.length <= 6) {
-        passwordAdd.className = "input is-danger is-rounded"
-        passwordAddHelp.className = "help is-danger"
-        passwordAddMessages.push('Password must be longer than 6 characters!')
-    }
-
-    if (passwordAdd.value.length >= 20) {
-        passwordAdd.className = "input is-danger is-rounded"
-        passwordAddHelp.className = "help is-danger"
-        passwordAddMessages.push('Password must be less than 20 characters!')
-    }
-
-    //Confirm Password Validation
-    if (confirmPasswordAdd.value != passwordAdd.value) {
-        confirmPasswordAdd.className = "input is-danger is-rounded"
-        confirmPasswordAddHelp.className = "help is-danger"
-        confirmPasswordAddMessages.push('Password does not match!')
-    }
-
-    //First Name Validation
-    if (pattern3.test(firstNameAdd.value) == false) {
-        firstNameAdd.className = "input is-danger is-rounded"
-        firstNameAddHelp.className = "help is-danger"
-        firstNameAddMessages.push('First name should only consist of letters!')
-    }
-
-    if (firstNameAdd.value === "" || firstNameAdd.value == null) {
-        firstNameAdd.className = "input is-danger is-rounded"
-        firstNameAddHelp.className = "help is-danger"
-        firstNameAddMessages.push('First name is required!')
-    }
-
-    if (firstNameAdd.value.length >= 255) {
-        firstNameAdd.className = "input is-danger is-rounded"
-        firstNameAddHelp.className = "help is-danger"
-        firstNameAddMessages.push('First name must be less than 255 characters!')
-    }
-
-    //Middle Name Validation
-    if (pattern3.test(middleNameAdd.value) == false) {
-        middleNameAdd.className = "input is-danger is-rounded"
-        middleNameAddHelp.className = "help is-danger"
-        middleNameAddMessages.push('Middle name should only consist of letters!')
-    }
-
-    if (middleNameAdd.value === "" || middleNameAdd.value == null) {
-        middleNameAdd.className = "input is-danger is-rounded"
-        middleNameAddHelp.className = "help is-danger"
-        middleNameAddMessages.push('Middle name is required!')
-    }
-
-    if (middleNameAdd.value.length >= 20) {
-        middleNameAdd.className = "input is-danger is-rounded"
-        middleNameAddHelp.className = "help is-danger"
-        middleNameAddMessages.push('Middle name must be less than 255 characters!')
-    }
-
-    //Last Name Validation
-    if (pattern3.test(lastNameAdd.value) == false) {
-        lastNameAdd.className = "input is-danger is-rounded"
-        lastNameAddHelp.className = "help is-danger"
-        lastNameAddMessages.push('Last name should only consist of letters!')
-    }
-
-    if (lastNameAdd.value === "" || lastNameAdd.value == null) {
-        lastNameAdd.className = "input is-danger is-rounded"
-        lastNameAddHelp.className = "help is-danger"
-        lastNameAddMessages.push('Last name is required!')
-    }
-
-    if (lastNameAdd.value.length >= 20) {
-        lastNameAdd.className = "input is-danger is-rounded"
-        lastNameAddHelp.className = "help is-danger"
-        lastNameAddMessages.push('Last name must be less than 255 characters!')
-    }
 
     //Messages
-    if (usernameAddMessages.length > 0) {
+    if (groupNameAddMessages.length > 0) {
         e.preventDefault()
-        usernameAddHelp.innerText = usernameAddMessages.join(', ');
-    }
-
-    if (passwordAddMessages.length > 0) {
-        e.preventDefault()
-        passwordAddHelp.innerText = passwordAddMessages.join(', ')
-    }
-
-    if (confirmPasswordAddMessages.length > 0) {
-        e.preventDefault()
-        confirmPasswordAddHelp.innerText = confirmPasswordAddMessages.join(', ')
-    }
-
-    if (firstNameAddMessages.length > 0) {
-        e.preventDefault()
-        firstNameAddHelp.innerText = firstNameAddMessages.join(', ')
-    }
-    if (middleNameAddMessages.length > 0) {
-        e.preventDefault()
-        middleNameAddHelp.innerText = middleNameAddMessages.join(', ')
-    }
-    if (lastNameAddMessages.length > 0) {
-        e.preventDefault()
-        lastNameAddHelp.innerText = lastNameAddMessages.join(', ')
+        groupNameAddHelp.innerText = groupNameAddMessages.join(', ');
     }
 
     if (
-        usernameAddMessages.length <= 0 &&
-        passwordAddMessages.length <= 0 &&
-        confirmPasswordAddMessages.length <= 0 &&
-        firstNameAddMessages.length <= 0 &&
-        middleNameAddMessages.length <= 0 &&
-        lastNameAddMessages.length <= 0
+        groupNameAddMessages.length <= 0
     ) {
         addAjax();
     }
@@ -254,62 +136,114 @@ submitAddForm.addEventListener('click', (e) => {
 
 function clearAddFormHelp() {
     //RESETTING FORM ELEMENTS
-    usernameAdd.className = "input is-rounded"
-    usernameAddHelp.className = "help"
-    usernameAddHelp.innerText = ""
+    groupNameAdd.className = "input is-rounded"
+    groupNameAddHelp.className = "help"
+    groupNameAddHelp.innerText = ""
 
-    passwordAdd.className = "input is-rounded"
-    passwordAddHelp.className = "help"
-    passwordAddHelp.innerText = ""
-
-    confirmPasswordAdd.className = "input is-rounded"
-    confirmPasswordAddHelp.className = "help"
-    confirmPasswordAddHelp.innerText = ""
-
-    firstNameAdd.className = "input is-rounded"
-    firstNameAddHelp.className = "help"
-    firstNameAddHelp.innerText = ""
-
-    middleNameAdd.className = "input is-rounded"
-    middleNameAddHelp.className = "help"
-    middleNameAddHelp.innerText = ""
-
-    lastNameAdd.className = "input is-rounded"
-    lastNameAddHelp.className = "help"
-    lastNameAddHelp.innerText = ""
 }
 
 function clearAddFormInput() {
-    usernameAdd.value = null;
-    passwordAdd.value = null;
-    confirmPasswordAdd.value = null;
-    firstNameAdd.value = null;
-    middleNameAdd.value = null;
-    lastNameAdd.value = null;
+    groupNameAdd.value = null;
+
 }
 
-function populateSelect() {
-    $.post("./classes/load-company-role-select.class.php", {
+//ADD AJAX CALLS WITH VALIDATION
+let submitEditForm = document.getElementById('submitEditForm'); //save changes button
+let submitEditFormHelp = document.getElementById('submitEditFormHelp'); //save changes button
+
+let groupNameEdit = document.getElementById('groupNameEdit')
+let groupOwnerEdit = document.getElementById('groupOwnerEdit')
+
+let groupNameEditHelp = document.getElementById('groupNameEditHelp')
+
+
+function editAjax() {
+    $.post("./classes/edit-subcontractor-group-controller.class.php", {
+        groupIdEdit: editHeader2.innerHTML,
+        groupNameEdit: groupNameEdit.value,
+        groupOwnerEdit: groupOwnerEdit.value
     }, function (data) {
-
-        var jsonArray = JSON.parse(data);
-
-        for (var i = 0; i < jsonArray.length; i++) {
-            var newOption = document.createElement("option");
-            newOption.value = jsonArray[i][0];
-            newOption.innerHTML = jsonArray[i][1];
-            roleNameAdd.options.add(newOption);
-        }
-
-        //closeSelect();
+        $("#submitEditFormHelp").html(data);
+        //$("#submitEditFormHelp").attr('class', 'help is-success');
+        //clearEditFormHelp();
+        //clearEditFormInput();
+        //editModal.classList.remove('is-active');
+        refreshList();
     });
 }
 
-populateSelect();
+submitEditForm.addEventListener('click', (e) => {
+    clearEditFormHelp();
+    //clearEditFormInput();
+
+    let groupNameEditMessages = []
+
+    //Company Name Validation
+
+    if (groupNameEdit.value === "" || groupNameEdit.value == null) {
+        groupNameEdit.className = "input is-danger is-rounded"
+        groupNameEditHelp.className = "help is-danger"
+        groupNameEditMessages.push('Group name is required!')
+    }
+    if (groupNameEdit.value.length < 1) {
+        groupNameEdit.className = "input is-danger is-rounded"
+        groupNameEditHelp.className = "help is-danger"
+        groupNameEditMessages.push('Group name must be longer than 1 character!')
+    }
+
+    if (groupNameEdit.value.length >= 255) {
+        groupNameEdit.className = "input is-danger is-rounded"
+        groupNameEditHelp.className = "help is-danger"
+        groupNameEditMessages.push('Group name must be less than 50 characters!')
+    }
+
+
+    //Messages
+    if (groupNameEditMessages.length > 0) {
+        e.preventDefault()
+        groupNameEditHelp.innerText = groupNameEditMessages.join(', ');
+    }
+
+    if (
+        groupNameEditMessages.length <= 0
+    ) {
+        editAjax();
+    }
+
+})
+
+function clearEditFormHelp() {
+    //RESETTING FORM ELEMENTS
+    groupNameEdit.className = "input is-rounded"
+    groupNameEditHelp.className = "help"
+    groupNameEditHelp.innerText = ""
+
+}
+
+function clearEditFormInput() {
+    groupNameEdit.value = null;
+
+}
+
+function redirectToGroupProfile(subcontractorIdVar, usernameVar, firstNameVar, middleNameVar, lastNameVar, groupIdVar, groupNameVar) {
+    $.post("./classes/set-group-session-variable.class.php", {
+        subcontractorId: subcontractorIdVar,
+        username: usernameVar,
+        firstName: firstNameVar,
+        middleName: middleNameVar,
+        lastName: lastNameVar,
+        groupId: groupIdVar,
+        groupName: groupNameVar
+    }, function (data) {
+        //var jsonArray = JSON.parse(data);
+        //alert("success call");
+        window.location.href = "subcontractor-group-profile.php";
+    });
+}
 
 //EMPLOYEE LIST
 function generateUserList1() {
-    $.post("./classes/load-user-all.class.php", {}, function (data) {
+    $.post("./classes/load-group-all.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
@@ -317,16 +251,16 @@ function generateUserList1() {
 }
 
 function generateUserList2(currentPageNumberVar, orderByVar) {
-    $.post("./classes/load-user.class.php", {
+    $.post("./classes/load-group.class.php", {
         currentPageNumber: currentPageNumberVar,
         orderBy: orderByVar
     }, function (data) {
 
         var jsonArray = JSON.parse(data);
-
+        indicator.innerHTML = "call success";
 
         if (currentPageNumber <= arrayLengthHidden.innerHTML) {
-            indicator.innerHTML = "success";
+            indicator.innerHTML = "condition success";
 
             var newParentTile = document.createElement("div");
             newParentTile.classList.add('tile');
@@ -347,6 +281,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newChildTile.appendChild(newCard);
 
                 //CARD HEADER
+                
                 var newCardHeader = document.createElement("header");
                 newCardHeader.classList.add('card-header');
                 newCard.appendChild(newCardHeader);
@@ -354,17 +289,18 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 //CARD HEADER PARAGRAPH
                 var newCardHeaderParagraph = document.createElement("p");
                 newCardHeaderParagraph.classList.add('card-header-title');
-                newCardHeaderParagraph.innerHTML = jsonArray[i][4];
+                newCardHeaderParagraph.innerHTML = "Owned By: " + jsonArray[i][2] + " " + jsonArray[i][4];
                 newCardHeader.appendChild(newCardHeaderParagraph);
 
                 //CARD HEADER BUTTON
                 var newCardHeaderButton = document.createElement("button");
-                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
+                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][5] + "')");
                 newCardHeaderButton.classList.add('card-header-icon');
                 newCardHeader.appendChild(newCardHeaderButton);
 
                 var newCardHeaderButtonSpan = document.createElement("span");
                 newCardHeaderButtonSpan.classList.add('icon');
+                newCardHeaderButtonSpan.classList.add('is-right');
                 newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
 
                 var newCardHeaderButtonSpanI = document.createElement("i");
@@ -408,16 +344,16 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 var newCardContentMediaContentTitle = document.createElement("p");
                 newCardContentMediaContentTitle.classList.add('title');
                 newCardContentMediaContentTitle.classList.add('is-4');
-                newCardContentMediaContentTitle.innerHTML = jsonArray[i][1] + " " + jsonArray[i][3];
+                newCardContentMediaContentTitle.innerHTML = jsonArray[i][6];
                 newCardContentMediaContent.appendChild(newCardContentMediaContentTitle);
-
+/*
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE
                 var newCardContentMediaContentSubtitle = document.createElement("p");
                 newCardContentMediaContentSubtitle.classList.add('subtitle');
                 newCardContentMediaContentSubtitle.classList.add('is-6');
-                newCardContentMediaContentSubtitle.innerHTML = "@" + jsonArray[i][0];
+                newCardContentMediaContentSubtitle.innerHTML = jsonArray[i][2] + " " + jsonArray[i][4];
                 newCardContentMediaContent.appendChild(newCardContentMediaContentSubtitle);
-
+*/
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE
                 var newCardFooter = document.createElement("footer");
                 newCardFooter.classList.add('card-footer');
@@ -425,9 +361,16 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                 var newCardFooterLink = document.createElement("a");
+                newCardFooterLink.setAttribute("onclick", "redirectToGroupProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
-                newCardFooterLink.innerHTML = "View Profile";
+                newCardFooterLink.innerHTML = "View";
                 newCardFooter.appendChild(newCardFooterLink);
+
+                var newCardFooterLink2 = document.createElement("a");
+                newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
+                newCardFooterLink2.classList.add('card-footer-item');
+                newCardFooterLink2.innerHTML = "Edit";
+                newCardFooter.appendChild(newCardFooterLink2);
 
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
                 newParentTile.appendChild(newChildTile);
@@ -438,55 +381,59 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
     });
 }
 
+function testFunction(var1) {
+    alert(var1);
+}
+
 function generateUserList3(searchTerm) {
-    $.post("./classes/load-user-live-search.class.php", {}, function (data) {
+    $.post("./classes/load-group-live-search.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         //indicator.innerHTML = "live:" + jsonArray.length;
-        
+
         for (var i = 0; i < jsonArray.length; i++) {
 
             switch (searchTerm) {
 
-                case jsonArray[i][0]:
+                case jsonArray[i][1]:
                     console.clear();
                     console.log("Username")
                     indicator.innerHTML = "Username";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4]);
-                    break;
-
-                case jsonArray[i][1]:
-                    console.clear();
-                    console.log("First Name")
-                    indicator.innerHTML = "First Name";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4]);
+                    generateUserList4(jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][6], jsonArray[i][5]);
                     break;
 
                 case jsonArray[i][2]:
                     console.clear();
-                    console.log("Middle Name")
-                    indicator.innerHTML = "Middle Name";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4]);
-                    return "Success";
+                    console.log("First Name")
+                    indicator.innerHTML = "First Name";
+                    generateUserList4(jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][6], jsonArray[i][5]);
+                    break;
 
                 case jsonArray[i][3]:
                     console.clear();
-                    console.log("Last Name")
-                    indicator.innerHTML = "Last Name";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4]);
-                    break;
-
-                case jsonArray[i][1] + " " + jsonArray[i][2] + " " + jsonArray[i][3]:
-                    console.clear();
-                    console.log("Full Name")
-                    indicator.innerHTML = "Full Name";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4]);
-                    break;
+                    console.log("Middle Name")
+                    indicator.innerHTML = "Middle Name";
+                    generateUserList4(jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][6], jsonArray[i][5]);
+                    return "Success";
 
                 case jsonArray[i][4]:
                     console.clear();
-                    console.log("Role")
-                    indicator.innerHTML = "Role";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4]);
+                    console.log("Last Name")
+                    indicator.innerHTML = "Last Name";
+                    generateUserList4(jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][6], jsonArray[i][5]);
+                    break;
+
+                case jsonArray[i][2] + " " + jsonArray[i][3] + " " + jsonArray[i][4]:
+                    console.clear();
+                    console.log("Full Name")
+                    indicator.innerHTML = "Full Name";
+                    generateUserList4(jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][6], jsonArray[i][5]);
+                    break;
+
+                case jsonArray[i][6]:
+                    console.clear();
+                    console.log("Group Name")
+                    indicator.innerHTML = "Group Name";
+                    generateUserList4(jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][6], jsonArray[i][5]);
                     break;
             }
 
@@ -495,7 +442,8 @@ function generateUserList3(searchTerm) {
     });
 
 }
-function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar, roleNameVar) {
+
+function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar, groupNameVar, ownerIdVar) {
     ancestorTile.innerHTML = "";
     var newParentTile = document.createElement("div");
     newParentTile.classList.add('tile');
@@ -520,8 +468,27 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     //CARD HEADER PARAGRAPH
     var newCardHeaderParagraph = document.createElement("p");
     newCardHeaderParagraph.classList.add('card-header-title');
-    newCardHeaderParagraph.innerHTML = roleNameVar;
+    newCardHeaderParagraph.innerHTML = "Owned By: " + firstNameVar + " " + lastNameVar;
     newCardHeader.appendChild(newCardHeaderParagraph);
+
+    //CARD HEADER BUTTON
+    var newCardHeaderButton = document.createElement("button");
+    newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + ownerIdVar + "')");
+    newCardHeaderButton.classList.add('card-header-icon');
+    newCardHeader.appendChild(newCardHeaderButton);
+
+    var newCardHeaderButtonSpan = document.createElement("span");
+    newCardHeaderButtonSpan.classList.add('icon');
+    newCardHeaderButtonSpan.classList.add('is-right');
+    newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
+
+    var newCardHeaderButtonSpanI = document.createElement("i");
+    newCardHeaderButtonSpanI.classList.add('fa-solid');
+    newCardHeaderButtonSpanI.classList.add('fa-xmark');
+    newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
+
+    //newCardHeaderButton.innerHTML = jsonArray[i][4];
+    //newCardHeader.appendChild(newCardHeaderParagraph);
 
     //CARD CONTENT
     var newCardContent = document.createElement("div");
@@ -556,16 +523,16 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     var newCardContentMediaContentTitle = document.createElement("p");
     newCardContentMediaContentTitle.classList.add('title');
     newCardContentMediaContentTitle.classList.add('is-4');
-    newCardContentMediaContentTitle.innerHTML = firstNameVar + " " + lastNameVar;
+    newCardContentMediaContentTitle.innerHTML = groupNameVar;
     newCardContentMediaContent.appendChild(newCardContentMediaContentTitle);
-
+/*
     //CARD CONTENT MEDIA-CONTENT SUBTITLE
     var newCardContentMediaContentSubtitle = document.createElement("p");
     newCardContentMediaContentSubtitle.classList.add('subtitle');
     newCardContentMediaContentSubtitle.classList.add('is-6');
-    newCardContentMediaContentSubtitle.innerHTML = "@" + usernameVar;
+    newCardContentMediaContentSubtitle.innerHTML = firstNameVar + " " + lastNameVar;
     newCardContentMediaContent.appendChild(newCardContentMediaContentSubtitle);
-
+*/
     //CARD CONTENT MEDIA-CONTENT SUBTITLE
     var newCardFooter = document.createElement("footer");
     newCardFooter.classList.add('card-footer');
@@ -574,7 +541,7 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
     var newCardFooterLink = document.createElement("a");
     newCardFooterLink.classList.add('card-footer-item');
-    newCardFooterLink.innerHTML = "View Profile";
+    newCardFooterLink.innerHTML = "View";
     newCardFooter.appendChild(newCardFooterLink);
 
     //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
@@ -588,21 +555,28 @@ function refreshList() {
     generateUserList2(1, selectSort.value);
 }
 
-window.addEventListener('scroll', () => {
-    let scrollable = document.documentElement.scrollHeight - window.innerHeight;
-    let scrollable2 = scrollable * 0.80;
-    let scrolled = window.scrollY;
+function populateSelect() {
+    $.post("./classes/load-subcontractor-select.class.php", {
+    }, function (data) {
 
-    if (Math.ceil(scrolled) > scrollable2) {
-        currentPageNumber = currentPageNumber + 1;
-        generateUserList2(currentPageNumber, selectSort.value);
-    }
+        var jsonArray = JSON.parse(data);
 
-});
+        for (var i = 0; i < jsonArray.length; i++) {
+            var newOption = document.createElement("option");
+            newOption.value = jsonArray[i][0];
+            newOption.innerHTML = "@" + jsonArray[i][1] + " - " + jsonArray[i][2] + " " + jsonArray[i][3] + " " + jsonArray[i][4];
+            groupOwnerAdd.options.add(newOption);
+            groupOwnerEdit.options.add(newOption);
+        }
+
+        //closeSelect();
+    });
+}
+
 
 selectSort.addEventListener('change', () => {
 
-    test_indicator.innerHTML = selectSort.value;
+    indicator.innerHTML = selectSort.value;
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
     generateUserList2(1, selectSort.value);
@@ -621,5 +595,4 @@ searchBarInput.addEventListener('input', () => {
 });
 
 generateUserList1();
-
 generateUserList2(1, selectSort.value);

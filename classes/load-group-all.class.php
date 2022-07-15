@@ -11,16 +11,18 @@ try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT 
-    employee.username, 
-    employee.first_name, 
-    employee.middle_name, 
-    employee.last_name, 
-    permission.role_name 
-    FROM permission 
-    INNER JOIN employee 
-    ON permission.permission_id = employee.permission_id 
-    WHERE permission.company_id = :company_id";
+    $sql = "SELECT
+    subcontractor.subcontractor_id,
+    subcontractor.username,
+    subcontractor.first_name, 
+    subcontractor.middle_name, 
+    subcontractor.last_name,
+    ownergroup.group_id,
+    ownergroup.group_name 
+    FROM subcontractor
+    INNER JOIN ownergroup 
+    ON subcontractor.subcontractor_id = ownergroup.owner_id 
+    WHERE subcontractor.company_id = :company_id";
 
     $stmt = $pdoVessel->prepare($sql);
 
