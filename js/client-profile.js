@@ -1,5 +1,4 @@
 let returnBtn = document.getElementById('returnBtn')
-const arrayLengthHidden = document.getElementById('arrayLengthHidden');
 const ancestorTile = document.getElementById('ancestorTile');
 const selectSort = document.getElementById('selectSort');
 const test_indicator = document.getElementById('test_indicator');
@@ -8,8 +7,13 @@ let searchBarInput = document.getElementById('searchBarInput')
 let currentPageNumber = 1;
 const editModal = document.getElementById('editModal');
 const addModal = document.getElementById('addModal');
-let vehicleIdHidden = document.getElementById('vehicleIdHidden');
 
+const paginationIndicatorBtn = document.getElementById('paginationIndicatorBtn')
+const arrayLengthHidden = document.getElementById('arrayLengthHidden')
+const areaIdHidden = document.getElementById('areaIdHidden')
+const paginationPreviousBtn = document.getElementById('paginationPreviousBtn')
+const paginationNextBtn = document.getElementById('paginationNextBtn')
+const tableTbody = document.getElementById('tableTbody')
 //MODALS
 function openAdd() {
     addModal.classList.add('is-active');
@@ -28,27 +32,28 @@ function closeAdd() {
 
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
+
 function openEdit(idVar) {
     editModal.classList.add('is-active');
-    populateSelect3();
-    populateSelect4();
-    vehicleIdHidden.innerHTML = idVar;
+    //populateSelect3();
+    //populateSelect4();
+    areaIdHidden.innerHTML = idVar;
     //populateUsernameAdd();
 }
 
 function closeEdit() {
-    /*
-        clearEditFormHelp();
-        clearEditFormInput();
-    
-        submitEditFormHelp.className = "help"
-        submitEditFormHelp.innerText = ""
-    */
+
+    clearEditFormHelp();
+    clearEditFormInput();
+
+    submitEditFormHelp.className = "help"
+    submitEditFormHelp.innerText = ""
+
     editModal.classList.remove('is-active');
 
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
-
+/*
 //DELETE AJAX CALL
 function deleteAjax(deleteVar) {
     if (confirm("Are you sure?")) {
@@ -64,36 +69,49 @@ function deleteAjax(deleteVar) {
             refreshList();
         });
     }
+}*/
+
+//DELETE AJAX CALL
+function deleteAjax(deleteVar) {
+    if (confirm("Are you sure?")) {
+        $.post("./classes/delete-client-area-controller.class.php", {
+            clientAreaIdDelete: deleteVar
+        }, function (data) {
+            //$("#submitAddFormHelp").html(data);
+            //$("#submitAddFormHelp").attr('class', 'help is-success');
+            //clearAddFormHelp();
+            //clearAddFormInput();
+            //addModal.classList.remove('is-active');
+            alert(data);
+            refreshTable();
+        });
+    }
 }
 
 //ADD AJAX CALLS WITH VALIDATION
 let submitAddForm = document.getElementById('submitAddForm'); //save changes button
 let submitAddFormHelp = document.getElementById('submitAddFormHelp'); //save changes button
 
-let plateNumberAdd = document.getElementById('plateNumberAdd');
-let commissionRateAdd = document.getElementById('commissionRateAdd');
-let driverAdd = document.getElementById('driverAdd');
-let helperAdd = document.getElementById('helperAdd');
-let groupIdHidden = document.getElementById('groupIdHidden')
+let areaNameAdd = document.getElementById('areaNameAdd');
+let areaRateAdd = document.getElementById('areaRateAdd');
+let clientIdHidden = document.getElementById('clientIdHidden');
 
-let plateNumberAddHelp = document.getElementById('plateNumberAddHelp');
-let commissionRateAddHelp = document.getElementById('commissionRateAddHelp');
+let areaNameAddHelp = document.getElementById('areaNameAddHelp');
+let areaRateAddHelp = document.getElementById('areaRateAddHelp');
 
 
 function addAjax() {
-    $.post("./classes/add-vehicle-controller.class.php", {
-        plateNumberAdd: plateNumberAdd.value,
-        commissionRateAdd: commissionRateAdd.value,
-        driverAdd: driverAdd.value,
-        helperAdd: helperAdd.value,
-        groupIdAdd: groupIdHidden.innerHTML
+    $.post("./classes/add-client-area-controller.class.php", {
+        areaNameAdd: areaNameAdd.value,
+        areaRateAdd: areaRateAdd.value,
+        clientId: clientIdHidden.innerHTML
     }, function (data) {
         $("#submitAddFormHelp").html(data);
         //$("#submitAddFormHelp").attr('class', 'help is-success');
         //clearAddFormHelp();
         //clearAddFormInput();
         //addModal.classList.remove('is-active');
-        refreshList();
+        refreshTable();
     });
 }
 
@@ -106,48 +124,48 @@ submitAddForm.addEventListener('click', (e) => {
     clearAddFormHelp();
     //clearAddFormInput();
 
-    let plateNumberAddMessages = []
-    let commissionRateAddMessages = []
+    let areaNameAddMessages = []
+    let areaRateAddMessages = []
 
     //Plate Number Validation
 
-    if (plateNumberAdd.value === "" || plateNumberAdd.value == null) {
-        plateNumberAdd.className = "input is-danger is-rounded"
-        plateNumberAddHelp.className = "help is-danger"
-        plateNumberAddMessages.push('Vehicle plate number is required!')
+    if (areaNameAdd.value === "" || areaNameAdd.value == null) {
+        areaNameAdd.className = "input is-danger is-rounded"
+        areaNameAddHelp.className = "help is-danger"
+        areaNameAddMessages.push('Area name is required!')
     }
-    if (plateNumberAdd.value.length < 1) {
-        plateNumberAdd.className = "input is-danger is-rounded"
-        plateNumberAddHelp.className = "help is-danger"
-        plateNumberAddMessages.push('Vehicle plate number must be longer than 1 character!')
-    }
-
-    if (plateNumberAdd.value.length >= 255) {
-        plateNumberAdd.className = "input is-danger is-rounded"
-        plateNumberAddHelp.className = "help is-danger"
-        plateNumberAddMessages.push('Vehicle plate number must be less than 50 characters!')
+    if (areaNameAdd.value.length < 1) {
+        areaNameAdd.className = "input is-danger is-rounded"
+        areaNameAddHelp.className = "help is-danger"
+        areaNameAddMessages.push('Area name must be longer than 1 character!')
     }
 
-    //Commission Rate Validation
+    if (areaNameAdd.value.length >= 255) {
+        areaNameAdd.className = "input is-danger is-rounded"
+        areaNameAddHelp.className = "help is-danger"
+        areaNameAddMessages.push('Area name must be less than 50 characters!')
+    }
 
-    if (commissionRateAdd.value === "" || commissionRateAdd.value == null) {
-        commissionRateAdd.className = "input is-danger is-rounded"
-        commissionRateAddHelp.className = "help is-danger"
-        commissionRateAddMessages.push('Commission rate is required!')
+    //Area Rate Validation
+
+    if (areaRateAdd.value === "" || areaRateAdd.value == null) {
+        areaRateAdd.className = "input is-danger is-rounded"
+        areaRateAddHelp.className = "help is-danger"
+        areaRateAddMessages.push('Area rate is required!')
     }
 
     //Messages
-    if (plateNumberAddMessages.length > 0) {
+    if (areaNameAddMessages.length > 0) {
         e.preventDefault()
-        plateNumberAddHelp.innerText = plateNumberAddMessages.join(', ');
+        areaNameAddHelp.innerText = areaNameAddMessages.join(', ');
     }
-    if (commissionRateAddMessages.length > 0) {
+    if (areaRateAddMessages.length > 0) {
         e.preventDefault()
-        commissionRateAddHelp.innerText = commissionRateAddMessages.join(', ');
+        areaRateAddHelp.innerText = areaRateAddMessages.join(', ');
     }
     if (
-        plateNumberAddMessages.length <= 0 &&
-        commissionRateAddMessages.length <= 0
+        areaNameAddMessages.length <= 0 &&
+        areaRateAddMessages.length <= 0
     ) {
         addAjax();
     }
@@ -156,22 +174,92 @@ submitAddForm.addEventListener('click', (e) => {
 
 function clearAddFormHelp() {
     //RESETTING FORM ELEMENTS
-    plateNumberAdd.className = "input is-rounded"
-    plateNumberAddHelp.className = "help"
-    plateNumberAddHelp.innerText = ""
+    areaNameAdd.className = "input is-rounded"
+    areaNameAddHelp.className = "help"
+    areaNameAddHelp.innerText = ""
 
-    commissionRateAdd.className = "input is-rounded"
-    commissionRateAddHelp.className = "help"
-    commissionRateAddHelp.innerText = ""
+    areaRateAdd.className = "input is-rounded"
+    areaRateAddHelp.className = "help"
+    areaRateAddHelp.innerText = ""
 
 }
 
 function clearAddFormInput() {
-    plateNumberAdd.value = null;
-    commissionRateAdd.value = null;
+    areaNameAdd.value = null;
+    areaRateAdd.value = null;
+
+}
+//EDIT AJAX CALLS WITH VALIDATION
+let submitEditForm = document.getElementById('submitEditForm'); //save changes button
+let submitEditFormHelp = document.getElementById('submitEditFormHelp'); //save changes button
+
+let areaRateEdit = document.getElementById('areaRateEdit');
+
+let areaRateEditHelp = document.getElementById('areaRateEditHelp');
+
+
+function editAjax(areaIdVar) {
+    $.post("./classes/edit-client-area-controller.class.php", {
+        areaRateEdit: areaRateEdit.value,
+        areaId: areaIdHidden.innerHTML
+    }, function (data) {
+        $("#submitEditFormHelp").html(data);
+        //$("#submitEditFormHelp").attr('class', 'help is-success');
+        //clearEditFormHelp();
+        //clearEditFormInput();
+        //editModal.classList.remove('is-active');
+        refreshTable();
+    });
+}
+
+var pattern1 = /^[a-zA-Z0-9_]+$/
+var pattern2 = /^[a-zA-Z0-9\s]+$/
+var pattern3 = /^[a-zA-Z\s]+$/
+var pattern4 = /^[0-9]+$/
+
+submitEditForm.addEventListener('click', (e) => {
+    clearEditFormHelp();
+    //clearEditFormInput();
+
+    let areaRateEditMessages = []
+
+    //Area Rate Validation
+
+    if (areaRateEdit.value === "" || areaRateEdit.value == null) {
+        areaRateEdit.className = "input is-danger is-rounded"
+        areaRateEditHelp.className = "help is-danger"
+        areaRateEditMessages.push('Area rate is required!')
+    }
+
+    //Messages
+
+    if (areaRateEditMessages.length > 0) {
+        e.preventDefault()
+        areaRateEditHelp.innerText = areaRateEditMessages.join(', ');
+    }
+    if (
+        areaRateEditMessages.length <= 0
+    ) {
+        editAjax();
+    }
+
+})
+
+function clearEditFormHelp() {
+    //RESETTING FORM ELEMENTS
+
+    areaRateEdit.className = "input is-rounded"
+    areaRateEditHelp.className = "help"
+    areaRateEditHelp.innerText = ""
 
 }
 
+function clearEditFormInput() {
+
+    areaRateEdit.value = null;
+
+}
+/*
 //EDIT AJAX CALLS WITH VALIDATION
 let submitEditForm = document.getElementById('submitEditForm'); //save changes button
 let submitEditFormHelp = document.getElementById('submitEditFormHelp'); //save changes button
@@ -743,12 +831,137 @@ function refreshList() {
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
     generateUserList2(1, selectSort.value);
+}*/
+
+function generateClientAreaListTable1() {
+    $.post("./classes/load-client-area.class.php", {
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+
+        arrayLengthHidden.innerHTML = Math.ceil(jsonArray.length / 5); //1 is the number of results per page
+        //arrayLengthHidden.innerHTML = jsonArray.length;
+        if (parseInt(arrayLengthHidden.innerHTML) == 1) {
+            paginationNextBtn.classList.add("is-disabled");
+        }
+
+    });
 }
 
+function generateClientAreaListTable2(currentPageNumberVar) {
+    $.post("./classes/load-client-area-pagination.class.php", {
+        currentPageNumber: currentPageNumberVar
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+
+        tableTbody.innerHTML = "";
+
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            //console.log(jsonArray[i][1]);
+
+            var newTableRow = document.createElement("tr");
+            tableTbody.appendChild(newTableRow);
+
+            var newTableData1 = document.createElement("td");
+
+            var newTableData2 = document.createElement("td");
+
+            var newTableData3 = document.createElement("td");
+
+            //EDIT BUTTON
+            var newEditBtn = document.createElement("button");
+            newEditBtn.classList.add('button');
+            newEditBtn.classList.add('mr-3');
+            newEditBtn.setAttribute("onclick", "openEdit('" + jsonArray[i][0] + "')");
+            var newEditBtnIcon = document.createElement("i");
+            newEditBtnIcon.classList.add('fa-solid');
+            newEditBtnIcon.classList.add('fa-pen-to-square');
+            newEditBtn.appendChild(newEditBtnIcon);
+
+            //DELETE BUTTON
+            var newDeleteBtn = document.createElement("button");
+            newDeleteBtn.classList.add('button');
+            newDeleteBtn.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
+            var newDeleteBtnIcon = document.createElement("i");
+            newDeleteBtnIcon.classList.add('fa-solid');
+            newDeleteBtnIcon.classList.add('fa-trash-can');
+            newDeleteBtn.appendChild(newDeleteBtnIcon);
+
+
+            newTableData3.appendChild(newEditBtn);
+            newTableData3.appendChild(newDeleteBtn);
+
+            newTableData1.setAttribute("data-label", "Area Name");
+
+            newTableData2.setAttribute("data-label", "Area Rate");
+
+            newTableData3.setAttribute("data-label", "");
+
+            newTableData1.innerHTML = jsonArray[i][1];
+            newTableData2.innerHTML = jsonArray[i][2];
+
+            newTableRow.appendChild(newTableData1);
+            newTableRow.appendChild(newTableData2);
+            newTableRow.appendChild(newTableData3);
+
+
+        }
+    });
+}
+
+function refreshTable() {
+    generateClientAreaListTable1();
+    generateClientAreaListTable2(1);
+    currentPageNumber = 1;
+}
+
+generateClientAreaListTable1();
+generateClientAreaListTable2(1);
+
 returnBtn.addEventListener('click', () => {
-    window.location.href = "subcontractor-group.php";
+    window.location.href = "client-view-list.php";
 });
 
+paginationNextBtn.addEventListener('click', () => {
+
+    if (currentPageNumber < parseInt(arrayLengthHidden.innerHTML)) {
+
+        currentPageNumber = currentPageNumber + 1;
+        paginationIndicatorBtn.innerHTML = currentPageNumber;
+        generateClientAreaListTable2(paginationIndicatorBtn.innerHTML);
+    }
+
+    if (currentPageNumber == parseInt(arrayLengthHidden.innerHTML)) {
+        paginationNextBtn.classList.add("is-disabled");
+    }
+
+    if (currentPageNumber != 1) {
+        paginationPreviousBtn.classList.remove("is-disabled");
+    }
+
+});
+
+paginationPreviousBtn.addEventListener('click', () => {
+
+    if (currentPageNumber > 1) {
+        currentPageNumber = currentPageNumber - 1;
+        paginationIndicatorBtn.innerHTML = currentPageNumber;
+        generateClientAreaListTable2(paginationIndicatorBtn.innerHTML);
+    }
+
+    if (currentPageNumber == 1) {
+        paginationPreviousBtn.classList.add("is-disabled");
+    }
+
+    if (currentPageNumber != parseInt(arrayLengthHidden.innerHTML)) {
+        paginationNextBtn.classList.remove("is-disabled");
+    }
+
+});
+
+/*
 selectSort.addEventListener('change', () => {
 
     indicator.innerHTML = selectSort.value;
@@ -773,4 +986,4 @@ populateSelect1();
 populateSelect2();
 
 generateUserList1();
-generateUserList2(1, selectSort.value);
+generateUserList2(1, selectSort.value);*/

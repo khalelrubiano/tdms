@@ -35,190 +35,175 @@ include_once 'navbar.php';
 
   <!--INTERNAL CSS-->
   <style>
-    table {
-      border: 1px solid #ccc;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      border-collapse: collapse;
-      border-spacing: 0;
+    @media (min-width: 1000px) {
+
+      #searchBarForm,
+      #selectSortDiv {
+        float: right;
+      }
     }
 
-    table tr {
-      border: 1px solid #ddd;
-      padding: 5px;
-      background: #fff;
+    @media (max-width: 1000px) {
 
-    }
-
-    table th,
-    table td {
-      padding: 10px;
-      text-align: center;
-
-    }
-
-    table th {
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-
-    @media screen and (max-width: 600px) {
-
-      #card table {
-        border: 0;
+      #searchBarForm {
+        padding-top: 10px;
+        padding-bottom: 10px;
       }
 
-      #card table thead {
-        display: none;
+      #selectSortDiv {
+        margin-bottom: 5%;
       }
-
-      #card table tr {
-        margin-bottom: 20px;
-        display: block;
-        border-bottom: 2px solid #ddd;
-        box-shadow: 2px 2px 1px #dadada;
-
-      }
-
-      #card table td {
-        display: block;
-        text-align: right;
-        font-size: 13px;
-      }
-
-      #card table td:last-child {
-        border-bottom: 0;
-      }
-
-      #card table td::before {
-        content: attr(data-label);
-        float: left;
-        text-transform: uppercase;
-        font-weight: bold;
-      }
-
-      #card tbody {
-        line-height: 0 !important;
-      }
-
     }
   </style>
 </head>
 
 <body>
-  <div class="main">
-    <div class="container">
-      <p class="title" style="margin-top: 130px;">Shipments</p>
-      <div id="card">
-        <table>
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Address</th>
-              <th>City</th>
-              <th>State</th>
-              <th>Zip</th>
-              <th>Height</th>
-              <th>Weight</th>
-              <th>Blood Type</th>
-              <th>Eye Color</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td data-label="First Name"> John</td>
-              <td data-label="Last Name">Doe</td>
-              <td data-label="Address">123 Main Street</td>
-              <td data-label="City">Anytown</td>
-              <td data-label="State">MN</td>
-              <td data-label="Zip"> 12345</td>
-              <td data-label="Height">5"8</td>
-              <td data-label="Weight">150 lb</td>
-              <td data-label="Blood Type">O</td>
-              <td data-label="Eye Color">Hazel</td>
-            </tr>
-            <tr>
-              <td data-label="First Name"> John</td>
-              <td data-label="Last Name">Doe</td>
-              <td data-label="Address">123 Main Street</td>
-              <td data-label="City">Anytown</td>
-              <td data-label="State">MN</td>
-              <td data-label="Zip"> 12345</td>
-              <td data-label="Height">5"8</td>
-              <td data-label="Weight">150 lb</td>
-              <td data-label="Blood Type">O</td>
-              <td data-label="Eye Color">Hazel</td>
-            </tr>
-            <tr>
-              <td data-label="First Name"> John</td>
-              <td data-label="Last Name">Doe</td>
-              <td data-label="Address">123 Main Street</td>
-              <td data-label="City">Anytown</td>
-              <td data-label="State">MN</td>
-              <td data-label="Zip"> 12345</td>
-              <td data-label="Height">5"8</td>
-              <td data-label="Weight">150 lb</td>
-              <td data-label="Blood Type">O</td>
-              <td data-label="Eye Color">Hazel</td>
-            </tr>
-            <tr>
-              <td data-label="First Name"> John</td>
-              <td data-label="Last Name">Doe</td>
-              <td data-label="Address">123 Main Street</td>
-              <td data-label="City">Anytown</td>
-              <td data-label="State">MN</td>
-              <td data-label="Zip"> 12345</td>
-              <td data-label="Height">5"8</td>
-              <td data-label="Weight">150 lb</td>
-              <td data-label="Blood Type">O</td>
-              <td data-label="Eye Color">Hazel</td>
-            </tr>
-            <tr>
-              <td data-label="First Name"> John</td>
-              <td data-label="Last Name">Doe</td>
-              <td data-label="Address">123 Main Street</td>
-              <td data-label="City">Anytown</td>
-              <td data-label="State">MN</td>
-              <td data-label="Zip"> 12345</td>
-              <td data-label="Height">5"8</td>
-              <td data-label="Weight">150 lb</td>
-              <td data-label="Blood Type">O</td>
-              <td data-label="Eye Color">Hazel</td>
-            </tr>
-            <tr>
-              <td data-label="First Name"> John</td>
-              <td data-label="Last Name">Doe</td>
-              <td data-label="Address">123 Main Street</td>
-              <td data-label="City">Anytown</td>
-              <td data-label="State">MN</td>
-              <td data-label="Zip"> 12345</td>
-              <td data-label="Height">5"8</td>
-              <td data-label="Weight">150 lb</td>
-              <td data-label="Blood Type">O</td>
-              <td data-label="Eye Color">Hazel</td>
-            </tr>
-          </tbody>
-        </table>
+  <div class="main" style="margin-bottom: 20%;">
+    <div class="container" style="margin-bottom: 2%;">
+      <p class="title is-hidden" id="arrayLengthHidden">sample</p>
+      <p class="title is-hidden" id="test_indicator">Test</p>
+      <p class="title is-hidden" id="indicator">Live Search Indicator</p>
+      <p class="title is-hidden" id="tabValueHidden">All</p>
+      <button class="button is-rounded mr-4 is-info" onclick="openAdd()"> <i class="fa-solid fa-plus mr-3"></i> Add Shipment</button>
+
+      <div class="field" id="searchBarForm">
+        <p class="control has-icons-right">
+          <input class="input is-rounded" type="text" placeholder="Search" id="searchBarInput">
+          <span class="icon is-small is-right">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+        </p>
       </div>
-      <nav class="pagination mt-6">
-        <ul class="pagination-list">
-          <li>
-            <a class="pagination-link is-current">1</a>
-          </li>
+
+      <div class="select is-rounded mr-3" id="selectSortDiv">
+        <select id="selectSort">
+          <option value="shipment.shipment_number" selected>Sort By Shipment Number</option>
+          <option value="shipment.created_at">Sort By Date</option>
+        </select>
+      </div>
+
+    </div>
+    <div class="container">
+      <div class="tabs is-centered is-toggle">
+        <ul>
+          <li class="is-active" id="allTabLi"><a id="allTabLink">All</a></li>
+          <li id="inProgressTabLi"><a id="inProgressTabLink">In-progress</a></li>
+          <li id="completedTabLi"><a id="completedTabLink">Completed</a></li>
+          <li id="cancelledTabLi"><a id="cancelledTabLink">Cancelled</a></li>
         </ul>
-        <a class="pagination-previous is-disabled">Previous</a>
-        <a class="pagination-next">Next page</a>
-      </nav>
+      </div>
+
+      <div class="tile is-ancestor is-vertical" id="ancestorTile">
+        
+      </div>
+        
+    </div>
+
+  </div>
+  <!-- ADD MODAL START-->
+  <div class="modal" id="addModal">
+    <div class="modal-background" id="addModalBg"></div>
+    <div class="modal-card">
+
+      <header class="modal-card-head has-background-info">
+        <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-group mr-3"></i>Add Shipment</p>
+        <button class="delete" aria-label="close" onclick="closeAdd()"></button>
+      </header>
+
+      <section class="modal-card-body">
+        <div class="field">
+          <label for="" class="label">Shipment Number</label>
+          <div class="control has-icons-left">
+            <input type="text" placeholder="Enter shipment number here" class="input is-rounded" name="shipmentNumberAdd" id="shipmentNumberAdd">
+            <span class="icon is-small is-left">
+              <i class="fa-solid fa-user"></i>
+            </span>
+          </div>
+          <p class="help" id="shipmentNumberAddHelp"></p>
+        </div>
+
+        <div class="field">
+          <label for="" class="label">Starting Point</label>
+          <div class="control has-icons-left">
+            <input type="text" placeholder="Enter starting point here" class="input is-rounded" name="startingPointAdd" id="startingPointAdd">
+            <span class="icon is-small is-left">
+              <i class="fa-solid fa-user"></i>
+            </span>
+          </div>
+          <p class="help" id="startingPointAddHelp"></p>
+        </div>
+
+        <div class="field">
+          <label for="" class="label">Destination</label>
+          <div class="control has-icons-left">
+            <input type="text" placeholder="Enter vehicle plate number here" class="input is-rounded" name="destinationAdd" id="destinationAdd">
+            <span class="icon is-small is-left">
+              <i class="fa-solid fa-user"></i>
+            </span>
+          </div>
+          <p class="help" id="destinationAddHelp"></p>
+        </div>
+
+        <div class="field">
+          <label for="" class="label">Expected Date of Delivery</label>
+          <div class="control has-icons-left">
+            <input type="date" class="input is-rounded" name="dateOfDeliveryAdd" id="dateOfDeliveryAdd">
+            <span class="icon is-small is-left">
+              <i class="far fa-calendar-alt"></i>
+            </span>
+          </div>
+          <p class="help" id="dateOfDeliveryAddHelp"></p>
+        </div>
+
+        <div class="field">
+          <label for="" class="label">Client</label>
+          <div class="control">
+            <div class="select is-rounded" id="clientAddDiv">
+              <select id="clientAdd" name="clientAdd">
+              </select>
+            </div>
+          </div>
+          <p class="help" id="clientAdd"></p>
+        </div>
+
+        <div class="field">
+          <label for="" class="label">Area</label>
+          <div class="control">
+            <div class="select is-rounded" id="areaRateAddDiv">
+              <select id="areaRateAdd" name="areaRateAdd">
+              </select>
+            </div>
+          </div>
+          <p class="help" id="areaRateAddHelp"></p>
+        </div>
+
+        <div class="field">
+          <label for="" class="label">Vehicle</label>
+          <div class="control">
+            <div class="select is-rounded" id="vehicleAddDiv">
+              <select id="vehicleAdd" name="vehicleAdd">
+              </select>
+            </div>
+          </div>
+          <p class="help" id="vehicleAddHelp"></p>
+        </div>
+
+        <div class="field has-text-centered mt-6">
+          <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
+            <i class="fas fa-paper-plane mr-3"></i>Submit
+          </button>
+          <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
+        </div>
+
+      </section>
     </div>
   </div>
+  <!-- ADD MODAL END-->
 </body>
 
-<!--EXTERNAL JAVASCRIPT
-<script src="js/index.js"></script>
--->
+<!--EXTERNAL JAVASCRIPT-->
+<script src="js/shipment.js"></script>
+
 
 <!--INTERNAL JAVASCRIPT-->
 <script>

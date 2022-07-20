@@ -111,6 +111,13 @@ if (!isset($_SESSION)) {
                     </ul>
                 </li>
 
+                <li>
+                    <a class="">Client</a>
+                    <ul>
+                        <li><a id="clientViewListBtn">View List</a></li>
+                    </ul>
+                </li>
+
             </ul>
 
         </aside>

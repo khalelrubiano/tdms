@@ -11,13 +11,11 @@ try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT *
-    FROM shipment
-    INNER JOIN clientarea
-    ON shipment.area_id = clientarea.area_id
-    INNER JOIN client
-    ON clientarea.client_id = client.client_id
-    WHERE client.company_id = :company_id";
+    $sql = "SELECT
+    client_id, 
+    client_name
+    FROM client 
+    WHERE company_id = :company_id";
 
     $stmt = $pdoVessel->prepare($sql);
 

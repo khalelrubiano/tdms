@@ -11,7 +11,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $startingPointAdd = $_POST['startingPointAdd'];
     $destinationAdd = $_POST['destinationAdd'];
     $dateOfDeliveryAdd = $_POST['dateOfDeliveryAdd'];
-    $clientAdd = $_POST['clientAdd'];
     $areaRateAdd = $_POST['areaRateAdd'];
     $vehicleAdd = $_POST['vehicleAdd'];
 
@@ -20,7 +19,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $startingPointAdd, 
         $destinationAdd, 
         $dateOfDeliveryAdd,
-        $clientAdd, 
         $areaRateAdd, 
         $vehicleAdd,
     );

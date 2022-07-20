@@ -1,0 +1,189 @@
+
+<?php
+//PART OF NEW SYSTEM
+
+require_once "../config.php";
+
+class EditVehicleModel
+{
+    private $vehicleIdEdit;
+    private $commissionRateEdit;
+    private $driverEdit;
+    private $helperEdit;
+
+    public function __construct(
+        $vehicleIdEdit,
+        $commissionRateEdit,
+        $driverEdit,
+        $helperEdit
+    ) {
+
+        $this->vehicleIdEdit = $vehicleIdEdit;
+        $this->commissionRateEdit = $commissionRateEdit;
+        $this->driverEdit = $driverEdit;
+        $this->helperEdit = $helperEdit;
+    }
+
+    public function editVehicleRecord()
+    {
+/*
+        if ($this->usernameValidator() == false) {
+            echo "The username you entered is already taken!";
+            exit();
+        }
+*/
+        $this->editVehicleSubmit();
+    }
+
+    private function editVehicleSubmit()
+    {
+        $sql = "UPDATE
+        vehicle 
+        SET
+        commission_rate = :commission_rate,
+        driver_id = :driver_id,  
+        helper_id = :helper_id
+        WHERE
+        vehicle_id = :vehicle_id";
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+
+            $stmt->bindParam(":commission_rate", $paramCommissionRateEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":driver_id", $paramDriverIdEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":helper_id", $paramHelperIdEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":vehicle_id", $paramVehicleIdEdit, PDO::PARAM_STR);
+
+            $paramCommissionRateEdit = $this->commissionRateEdit;
+            $paramDriverIdEdit = $this->driverEdit;
+            $paramHelperIdEdit = $this->helperEdit;
+            $paramVehicleIdEdit = $this->vehicleIdEdit;
+
+            if ($stmt->execute()) {
+                /*
+                session_start();
+                $_SESSION["prompt"] = "Sign-up was successful!";
+                header('location: ../prompt.php');
+                exit();
+                */
+                echo "Successfully edited a record!";
+            } else {
+/*
+                $_SESSION["prompt"] = "Something went wrong!";
+                header('location: ../prompt.php');
+                exit();*/
+                echo "Something went wrong, edit was not successful!";
+            }
+
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+    private function editSubcontractorGroupSubmit()
+    {
+
+        $sql = "INSERT INTO 
+        ownergroup 
+        (group_name, 
+        owner_id) 
+        VALUES 
+        (:group_name, 
+        :owner_id) ";
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":group_name", $paramGroupNameEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":owner_id", $paramGroupOwnerEdit, PDO::PARAM_STR);
+
+            $paramGroupNameEdit = $this->groupNameEdit;
+            $paramGroupOwnerEdit = $this->groupOwnerEdit;
+
+            if ($stmt->execute()) {
+                echo "Successfully created a group!";
+            } else {
+                echo "Something went wrong, group creation was not successful!";
+            }
+
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+   
+    public function getSubcontractorId()
+    {
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        $sql = "SELECT * FROM subcontractor WHERE username = :username AND company_id = :company_id";
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":username", $paramUsernameEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
+            
+
+            $paramUsernameEdit = $this->usernameEdit;
+            $paramCompanyId = $this->companyId;
+
+            if ($stmt->execute()) {
+                $row = $stmt->fetchAll();
+                $returnValue = $row[0][0];
+            } else {
+                session_start();
+                $_SESSION["prompt"] = "Something went wrong!";
+                header('location: ../prompt.php');
+                exit();
+            }
+
+            unset($stmt);
+
+            return $returnValue;
+        }
+        unset($pdoVessel);
+    }
+
+    public function usernameValidator()
+    {
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        $sql = "SELECT * FROM employee WHERE username = :username";
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":username", $paramUsernameEdit, PDO::PARAM_STR);
+
+
+            $paramUsernameEdit = $this->usernameEdit;
+
+
+            if ($stmt->execute()) {
+                if ($stmt->rowCount() == 1) {
+                    $result = false;
+                } else {
+                    $result = true;
+                }
+            } else {
+            }
+
+            unset($stmt);
+
+            return $result;
+        }
+        unset($pdoVessel);
+    }
+}

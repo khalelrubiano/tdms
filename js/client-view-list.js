@@ -1,18 +1,17 @@
-const addModal = document.getElementById('addModal');
-const editModal = document.getElementById('editModal');
-const editHeader = document.getElementById('editHeader');
-const editHeader2 = document.getElementById('editHeader2');
-const ancestorTile = document.getElementById('ancestorTile');
 const arrayLengthHidden = document.getElementById('arrayLengthHidden');
+const ancestorTile = document.getElementById('ancestorTile');
 const selectSort = document.getElementById('selectSort');
-let indicator = document.getElementById('indicator');
-let currentPageNumber = 1;
+const test_indicator = document.getElementById('test_indicator');
+let indicator = document.getElementById('indicator')
 let searchBarInput = document.getElementById('searchBarInput')
+
+const addModal = document.getElementById('addModal');
+
+let currentPageNumber = 1;
 
 //MODALS
 function openAdd() {
     addModal.classList.add('is-active');
-    populateSelect1();
     //populateUsernameAdd();
 }
 
@@ -28,31 +27,11 @@ function closeAdd() {
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
 
-function openEdit(idVar, nameVar) {
-    editModal.classList.add('is-active');
-    populateSelect2();
-    editHeader.innerHTML = "Edit " + nameVar;
-    editHeader2.innerHTML = idVar;
-    //populateUsernameAdd();
-}
-
-function closeEdit() {
-    /*clearEditFormHelp();
-    clearEditFormInput();
-
-    submitEditFormHelp.className = "help"
-    submitEditFormHelp.innerText = ""*/
-
-    editModal.classList.remove('is-active');
-
-    //removeSelectAdd(document.getElementById('usernameAdd'));
-}
-
 //DELETE AJAX CALL
 function deleteAjax(deleteVar) {
     if (confirm("Are you sure?")) {
-        $.post("./classes/delete-group-controller.class.php", {
-            usernameDelete: deleteVar
+        $.post("./classes/delete-client-controller.class.php", {
+            clientIdDelete: deleteVar
         }, function (data) {
             //$("#submitAddFormHelp").html(data);
             //$("#submitAddFormHelp").attr('class', 'help is-success');
@@ -65,25 +44,29 @@ function deleteAjax(deleteVar) {
     }
 }
 
+
+function testAjax() {
+    prompt("deleteVar");
+}
+
 //ADD AJAX CALLS WITH VALIDATION
 let submitAddForm = document.getElementById('submitAddForm'); //save changes button
 let submitAddFormHelp = document.getElementById('submitAddFormHelp'); //save changes button
 
-let groupNameAdd = document.getElementById('groupNameAdd')
-let groupOwnerAdd = document.getElementById('groupOwnerAdd')
+let clientNameAdd = document.getElementById('clientNameAdd');
 
-let groupNameAddHelp = document.getElementById('groupNameAddHelp')
+let clientNameAddHelp = document.getElementById('clientNameAddHelp');
 
 
 function addAjax() {
-    $.post("./classes/add-subcontractor-group-controller.class.php", {
-        groupNameAdd: groupNameAdd.value,
-        groupOwnerAdd: groupOwnerAdd.value
+    $.post("./classes/add-client-controller.class.php", {
+        clientNameAdd: clientNameAdd.value
+
     }, function (data) {
         $("#submitAddFormHelp").html(data);
         //$("#submitAddFormHelp").attr('class', 'help is-success');
-        //clearAddFormHelp();
-        //clearAddFormInput();
+        clearAddFormHelp();
+        clearAddFormInput();
         //addModal.classList.remove('is-active');
         refreshList();
     });
@@ -98,36 +81,37 @@ submitAddForm.addEventListener('click', (e) => {
     clearAddFormHelp();
     //clearAddFormInput();
 
-    let groupNameAddMessages = []
+    let clientNameAddMessages = []
 
-    //Company Name Validation
 
-    if (groupNameAdd.value === "" || groupNameAdd.value == null) {
-        groupNameAdd.className = "input is-danger is-rounded"
-        groupNameAddHelp.className = "help is-danger"
-        groupNameAddMessages.push('Group name is required!')
-    }
-    if (groupNameAdd.value.length < 1) {
-        groupNameAdd.className = "input is-danger is-rounded"
-        groupNameAddHelp.className = "help is-danger"
-        groupNameAddMessages.push('Group name must be longer than 1 character!')
+    //Username Validation
+
+    if (pattern1.test(clientNameAdd.value) == false) {
+        clientNameAdd.className = "input is-danger is-rounded"
+        clientNameAddHelp.className = "help is-danger"
+        clientNameAddMessages.push('Client name should only consist of numbers, letters!')
     }
 
-    if (groupNameAdd.value.length >= 255) {
-        groupNameAdd.className = "input is-danger is-rounded"
-        groupNameAddHelp.className = "help is-danger"
-        groupNameAddMessages.push('Group name must be less than 50 characters!')
+    if (clientNameAdd.value === "" || clientNameAdd.value == null) {
+        clientNameAdd.className = "input is-danger is-rounded"
+        clientNameAddHelp.className = "help is-danger"
+        clientNameAddMessages.push('Client name is required!')
     }
 
+    if (clientNameAdd.value.length >= 255) {
+        clientNameAdd.className = "input is-danger is-rounded"
+        clientNameAddHelp.className = "help is-danger"
+        clientNameAddMessages.push('Client name must be less than 255 characters!')
+    }
 
     //Messages
-    if (groupNameAddMessages.length > 0) {
+    if (clientNameAddMessages.length > 0) {
         e.preventDefault()
-        groupNameAddHelp.innerText = groupNameAddMessages.join(', ');
+        clientNameAddHelp.innerText = clientNameAddMessages.join(', ');
     }
 
     if (
-        groupNameAddMessages.length <= 0
+        clientNameAddMessages.length <= 0
     ) {
         addAjax();
     }
@@ -136,114 +120,39 @@ submitAddForm.addEventListener('click', (e) => {
 
 function clearAddFormHelp() {
     //RESETTING FORM ELEMENTS
-    groupNameAdd.className = "input is-rounded"
-    groupNameAddHelp.className = "help"
-    groupNameAddHelp.innerText = ""
-
+    clientNameAdd.className = "input is-rounded"
+    clientNameAddHelp.className = "help"
+    clientNameAddHelp.innerText = ""
 }
 
 function clearAddFormInput() {
-    groupNameAdd.value = null;
+    clientNameAdd.value = null;
 
 }
-
-//EDIT AJAX CALLS WITH VALIDATION
-let submitEditForm = document.getElementById('submitEditForm'); //save changes button
-let submitEditFormHelp = document.getElementById('submitEditFormHelp'); //save changes button
-
-let groupNameEdit = document.getElementById('groupNameEdit')
-let groupOwnerEdit = document.getElementById('groupOwnerEdit')
-
-let groupNameEditHelp = document.getElementById('groupNameEditHelp')
-
-
-function editAjax() {
-    $.post("./classes/edit-subcontractor-group-controller.class.php", {
-        groupIdEdit: editHeader2.innerHTML,
-        groupNameEdit: groupNameEdit.value,
-        groupOwnerEdit: groupOwnerEdit.value
+/*
+function populateSelect() {
+    $.post("./classes/load-company-role-select.class.php", {
     }, function (data) {
-        $("#submitEditFormHelp").html(data);
-        //$("#submitEditFormHelp").attr('class', 'help is-success');
-        //clearEditFormHelp();
-        //clearEditFormInput();
-        //editModal.classList.remove('is-active');
-        refreshList();
+
+        var jsonArray = JSON.parse(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            var newOption = document.createElement("option");
+            newOption.value = jsonArray[i][0];
+            newOption.innerHTML = jsonArray[i][1];
+            roleNameAdd.options.add(newOption);
+        }
+
+        //closeSelect();
     });
 }
 
-submitEditForm.addEventListener('click', (e) => {
-    clearEditFormHelp();
-    //clearEditFormInput();
-
-    let groupNameEditMessages = []
-
-    //Company Name Validation
-
-    if (groupNameEdit.value === "" || groupNameEdit.value == null) {
-        groupNameEdit.className = "input is-danger is-rounded"
-        groupNameEditHelp.className = "help is-danger"
-        groupNameEditMessages.push('Group name is required!')
-    }
-    if (groupNameEdit.value.length < 1) {
-        groupNameEdit.className = "input is-danger is-rounded"
-        groupNameEditHelp.className = "help is-danger"
-        groupNameEditMessages.push('Group name must be longer than 1 character!')
-    }
-
-    if (groupNameEdit.value.length >= 255) {
-        groupNameEdit.className = "input is-danger is-rounded"
-        groupNameEditHelp.className = "help is-danger"
-        groupNameEditMessages.push('Group name must be less than 50 characters!')
-    }
-
-
-    //Messages
-    if (groupNameEditMessages.length > 0) {
-        e.preventDefault()
-        groupNameEditHelp.innerText = groupNameEditMessages.join(', ');
-    }
-
-    if (
-        groupNameEditMessages.length <= 0
-    ) {
-        editAjax();
-    }
-
-})
-
-function clearEditFormHelp() {
-    //RESETTING FORM ELEMENTS
-    groupNameEdit.className = "input is-rounded"
-    groupNameEditHelp.className = "help"
-    groupNameEditHelp.innerText = ""
-
-}
-
-function clearEditFormInput() {
-    groupNameEdit.value = null;
-
-}
-
-function redirectToGroupProfile(subcontractorIdVar, usernameVar, firstNameVar, middleNameVar, lastNameVar, groupIdVar, groupNameVar) {
-    $.post("./classes/set-group-session-variable.class.php", {
-        subcontractorId: subcontractorIdVar,
-        username: usernameVar,
-        firstName: firstNameVar,
-        middleName: middleNameVar,
-        lastName: lastNameVar,
-        groupId: groupIdVar,
-        groupName: groupNameVar
-    }, function (data) {
-        //var jsonArray = JSON.parse(data);
-        //alert("success call");
-        window.location.href = "subcontractor-group-profile.php";
-    });
-}
+populateSelect();
+*/
 
 //EMPLOYEE LIST
 function generateUserList1() {
-    $.post("./classes/load-group-all.class.php", {}, function (data) {
+    $.post("./classes/load-client-all.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
@@ -251,16 +160,16 @@ function generateUserList1() {
 }
 
 function generateUserList2(currentPageNumberVar, orderByVar) {
-    $.post("./classes/load-group.class.php", {
+    $.post("./classes/load-client.class.php", {
         currentPageNumber: currentPageNumberVar,
         orderBy: orderByVar
     }, function (data) {
 
         var jsonArray = JSON.parse(data);
-        indicator.innerHTML = "call success";
+
 
         if (currentPageNumber <= arrayLengthHidden.innerHTML) {
-            indicator.innerHTML = "condition success";
+            indicator.innerHTML = "success";
 
             var newParentTile = document.createElement("div");
             newParentTile.classList.add('tile');
@@ -281,7 +190,6 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newChildTile.appendChild(newCard);
 
                 //CARD HEADER
-                
                 var newCardHeader = document.createElement("header");
                 newCardHeader.classList.add('card-header');
                 newCard.appendChild(newCardHeader);
@@ -289,18 +197,17 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 //CARD HEADER PARAGRAPH
                 var newCardHeaderParagraph = document.createElement("p");
                 newCardHeaderParagraph.classList.add('card-header-title');
-                newCardHeaderParagraph.innerHTML = "Owned By: " + jsonArray[i][2] + " " + jsonArray[i][4];
+                //newCardHeaderParagraph.innerHTML = jsonArray[i][4];
                 newCardHeader.appendChild(newCardHeaderParagraph);
 
                 //CARD HEADER BUTTON
                 var newCardHeaderButton = document.createElement("button");
-                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][5] + "')");
+                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
                 newCardHeaderButton.classList.add('card-header-icon');
                 newCardHeader.appendChild(newCardHeaderButton);
 
                 var newCardHeaderButtonSpan = document.createElement("span");
                 newCardHeaderButtonSpan.classList.add('icon');
-                newCardHeaderButtonSpan.classList.add('is-right');
                 newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
 
                 var newCardHeaderButtonSpanI = document.createElement("i");
@@ -344,16 +251,16 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 var newCardContentMediaContentTitle = document.createElement("p");
                 newCardContentMediaContentTitle.classList.add('title');
                 newCardContentMediaContentTitle.classList.add('is-4');
-                newCardContentMediaContentTitle.innerHTML = jsonArray[i][6];
+                newCardContentMediaContentTitle.innerHTML = jsonArray[i][1];
                 newCardContentMediaContent.appendChild(newCardContentMediaContentTitle);
-/*
-                //CARD CONTENT MEDIA-CONTENT SUBTITLE
+
+                /*CARD CONTENT MEDIA-CONTENT SUBTITLE
                 var newCardContentMediaContentSubtitle = document.createElement("p");
                 newCardContentMediaContentSubtitle.classList.add('subtitle');
                 newCardContentMediaContentSubtitle.classList.add('is-6');
-                newCardContentMediaContentSubtitle.innerHTML = jsonArray[i][2] + " " + jsonArray[i][4];
-                newCardContentMediaContent.appendChild(newCardContentMediaContentSubtitle);
-*/
+                newCardContentMediaContentSubtitle.innerHTML = "@" + jsonArray[i][0];
+                newCardContentMediaContent.appendChild(newCardContentMediaContentSubtitle);*/
+
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE
                 var newCardFooter = document.createElement("footer");
                 newCardFooter.classList.add('card-footer');
@@ -361,16 +268,10 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                 var newCardFooterLink = document.createElement("a");
-                newCardFooterLink.setAttribute("onclick", "redirectToGroupProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
+                newCardFooterLink.setAttribute("onclick", "redirectToClientProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
-                newCardFooterLink.innerHTML = "View";
+                newCardFooterLink.innerHTML = "Manage";
                 newCardFooter.appendChild(newCardFooterLink);
-
-                var newCardFooterLink2 = document.createElement("a");
-                newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
-                newCardFooterLink2.classList.add('card-footer-item');
-                newCardFooterLink2.innerHTML = "Edit";
-                newCardFooter.appendChild(newCardFooterLink2);
 
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
                 newParentTile.appendChild(newChildTile);
@@ -381,12 +282,9 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
     });
 }
 
-function testFunction(var1) {
-    alert(var1);
-}
 
 function generateUserList3(searchTerm) {
-    $.post("./classes/load-group-live-search.class.php", {}, function (data) {
+    $.post("./classes/load-client-all.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         //indicator.innerHTML = "live:" + jsonArray.length;
 
@@ -396,45 +294,11 @@ function generateUserList3(searchTerm) {
 
                 case jsonArray[i][1]:
                     console.clear();
-                    console.log("Username")
-                    indicator.innerHTML = "Username";
-                    generateUserList4(jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][6], jsonArray[i][5]);
+                    console.log("Client Name")
+                    indicator.innerHTML = "Client Name";
+                    generateUserList4(jsonArray[i][0], jsonArray[i][1]);
                     break;
 
-                case jsonArray[i][2]:
-                    console.clear();
-                    console.log("First Name")
-                    indicator.innerHTML = "First Name";
-                    generateUserList4(jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][6], jsonArray[i][5]);
-                    break;
-
-                case jsonArray[i][3]:
-                    console.clear();
-                    console.log("Middle Name")
-                    indicator.innerHTML = "Middle Name";
-                    generateUserList4(jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][6], jsonArray[i][5]);
-                    return "Success";
-
-                case jsonArray[i][4]:
-                    console.clear();
-                    console.log("Last Name")
-                    indicator.innerHTML = "Last Name";
-                    generateUserList4(jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][6], jsonArray[i][5]);
-                    break;
-
-                case jsonArray[i][2] + " " + jsonArray[i][3] + " " + jsonArray[i][4]:
-                    console.clear();
-                    console.log("Full Name")
-                    indicator.innerHTML = "Full Name";
-                    generateUserList4(jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][6], jsonArray[i][5]);
-                    break;
-
-                case jsonArray[i][6]:
-                    console.clear();
-                    console.log("Group Name")
-                    indicator.innerHTML = "Group Name";
-                    generateUserList4(jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][6], jsonArray[i][5]);
-                    break;
             }
 
         }
@@ -443,7 +307,7 @@ function generateUserList3(searchTerm) {
 
 }
 
-function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar, groupNameVar, ownerIdVar) {
+function generateUserList4(idVar, nameVar) {
     ancestorTile.innerHTML = "";
     var newParentTile = document.createElement("div");
     newParentTile.classList.add('tile');
@@ -468,18 +332,17 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     //CARD HEADER PARAGRAPH
     var newCardHeaderParagraph = document.createElement("p");
     newCardHeaderParagraph.classList.add('card-header-title');
-    newCardHeaderParagraph.innerHTML = "Owned By: " + firstNameVar + " " + lastNameVar;
+    //newCardHeaderParagraph.innerHTML = jsonArray[i][4];
     newCardHeader.appendChild(newCardHeaderParagraph);
 
     //CARD HEADER BUTTON
     var newCardHeaderButton = document.createElement("button");
-    newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + ownerIdVar + "')");
+    newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + idVar + "')");
     newCardHeaderButton.classList.add('card-header-icon');
     newCardHeader.appendChild(newCardHeaderButton);
 
     var newCardHeaderButtonSpan = document.createElement("span");
     newCardHeaderButtonSpan.classList.add('icon');
-    newCardHeaderButtonSpan.classList.add('is-right');
     newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
 
     var newCardHeaderButtonSpanI = document.createElement("i");
@@ -523,16 +386,16 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     var newCardContentMediaContentTitle = document.createElement("p");
     newCardContentMediaContentTitle.classList.add('title');
     newCardContentMediaContentTitle.classList.add('is-4');
-    newCardContentMediaContentTitle.innerHTML = groupNameVar;
+    newCardContentMediaContentTitle.innerHTML = nameVar;
     newCardContentMediaContent.appendChild(newCardContentMediaContentTitle);
-/*
-    //CARD CONTENT MEDIA-CONTENT SUBTITLE
+
+    /*CARD CONTENT MEDIA-CONTENT SUBTITLE
     var newCardContentMediaContentSubtitle = document.createElement("p");
     newCardContentMediaContentSubtitle.classList.add('subtitle');
     newCardContentMediaContentSubtitle.classList.add('is-6');
-    newCardContentMediaContentSubtitle.innerHTML = firstNameVar + " " + lastNameVar;
-    newCardContentMediaContent.appendChild(newCardContentMediaContentSubtitle);
-*/
+    newCardContentMediaContentSubtitle.innerHTML = "@" + jsonArray[i][0];
+    newCardContentMediaContent.appendChild(newCardContentMediaContentSubtitle);*/
+
     //CARD CONTENT MEDIA-CONTENT SUBTITLE
     var newCardFooter = document.createElement("footer");
     newCardFooter.classList.add('card-footer');
@@ -540,8 +403,9 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
 
     //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
     var newCardFooterLink = document.createElement("a");
+    newCardFooterLink.setAttribute("onclick", "redirectToClientProfile('" + idVar + "','" + nameVar + "')");
     newCardFooterLink.classList.add('card-footer-item');
-    newCardFooterLink.innerHTML = "View";
+    newCardFooterLink.innerHTML = "Manage";
     newCardFooter.appendChild(newCardFooterLink);
 
     //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
@@ -555,51 +419,39 @@ function refreshList() {
     generateUserList2(1, selectSort.value);
 }
 
-function populateSelect1() {
-    $.post("./classes/load-subcontractor-select.class.php", {
+function redirectToClientProfile(clientIdVar, clientNameVar) {
+    $.post("./classes/set-client-session-variable.class.php", {
+        clientId: clientIdVar,
+        clientName: clientNameVar
     }, function (data) {
-
-        var jsonArray = JSON.parse(data);
-
-        for (var i = 0; i < jsonArray.length; i++) {
-            var newOption = document.createElement("option");
-            newOption.value = jsonArray[i][0];
-            newOption.innerHTML = "@" + jsonArray[i][1] + " - " + jsonArray[i][2] + " " + jsonArray[i][3] + " " + jsonArray[i][4];
-            groupOwnerAdd.options.add(newOption);
-            //groupOwnerEdit.options.add(newOption);
-        }
-
-        //closeSelect();
+        //var jsonArray = JSON.parse(data);
+        //alert("success call");
+        window.location.href = "client-profile.php";
     });
 }
 
-function populateSelect2() {
-    $.post("./classes/load-subcontractor-select.class.php", {
-    }, function (data) {
+window.addEventListener('scroll', () => {
+    let scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    let scrollable2 = scrollable * 0.80;
+    let scrolled = window.scrollY;
 
-        var jsonArray = JSON.parse(data);
+    if (Math.ceil(scrolled) > scrollable2) {
+        currentPageNumber = currentPageNumber + 1;
+        generateUserList2(currentPageNumber, selectSort.value);
+    }
 
-        for (var i = 0; i < jsonArray.length; i++) {
-            var newOption = document.createElement("option");
-            newOption.value = jsonArray[i][0];
-            newOption.innerHTML = "@" + jsonArray[i][1] + " - " + jsonArray[i][2] + " " + jsonArray[i][3] + " " + jsonArray[i][4];
-            //groupOwnerAdd.options.add(newOption);
-            groupOwnerEdit.options.add(newOption);
-        }
-
-        //closeSelect();
-    });
-}
-
+});
+/*
 selectSort.addEventListener('change', () => {
 
-    indicator.innerHTML = selectSort.value;
+    test_indicator.innerHTML = selectSort.value;
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
     generateUserList2(1, selectSort.value);
 
 
 });
+*/
 
 searchBarInput.addEventListener('input', () => {
     generateUserList3(searchBarInput.value);
@@ -612,4 +464,5 @@ searchBarInput.addEventListener('input', () => {
 });
 
 generateUserList1();
+
 generateUserList2(1, selectSort.value);

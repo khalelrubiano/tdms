@@ -7,17 +7,26 @@ if (!isset($_SESSION)) {
 require_once "../config.php";
 
 
+$currentPageNumber = $_POST["currentPageNumber"];
+$orderBy = $_POST["orderBy"];
+
+//$test = 2;
+$startingLimitNumber = ($currentPageNumber - 1) * 4;
+
+//echo $startingLimitNumber;
+
+
 try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT *
-    FROM shipment
-    INNER JOIN clientarea
-    ON shipment.area_id = clientarea.area_id
-    INNER JOIN client
-    ON clientarea.client_id = client.client_id
-    WHERE client.company_id = :company_id";
+    $sql = "SELECT
+    client_id, 
+    client_name
+    FROM client 
+    WHERE company_id = :company_id " . 
+    "ORDER BY " . $orderBy . " ASC " .  
+    "LIMIT ". $startingLimitNumber . ',' . '4';
 
     $stmt = $pdoVessel->prepare($sql);
 

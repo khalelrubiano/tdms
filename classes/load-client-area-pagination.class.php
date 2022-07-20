@@ -7,23 +7,29 @@ if (!isset($_SESSION)) {
 require_once "../config.php";
 
 
+$currentPageNumber = $_POST["currentPageNumber"];
+
+//$test = 2;
+$startingLimitNumber = ($currentPageNumber - 1) * 5;
+
+//echo $startingLimitNumber;
+
+
 try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT *
-    FROM shipment
-    INNER JOIN clientarea
-    ON shipment.area_id = clientarea.area_id
-    INNER JOIN client
-    ON clientarea.client_id = client.client_id
-    WHERE client.company_id = :company_id";
+    $sql = "SELECT
+    *
+    FROM clientarea
+    WHERE client_id = :client_id
+    ORDER BY area_name ASC
+    LIMIT " . $startingLimitNumber . ',' . '5';
 
     $stmt = $pdoVessel->prepare($sql);
 
-    $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
-
-    $paramCompanyId = $_SESSION["companyId"];
+    $stmt->bindParam(":client_id", $paramClientId, PDO::PARAM_STR);
+    $paramClientId = $_SESSION["clientId"];
 
     $stmt->execute();
     $row = $stmt->fetchAll();
@@ -32,8 +38,11 @@ try {
     echo $json;
     
 } catch (Exception $ex) {
+    echo $ex;
+    /*
     session_start();
     $_SESSION['prompt'] = "Something went wrong!";
     header('location: ../prompt.php');
     exit();
+    */
 }

@@ -10,7 +10,6 @@ class AddShipmentModel
     private $startingPointAdd;
     private $destinationAdd;
     private $dateOfDeliveryAdd;
-    private $clientAdd;
     private $areaRateAdd;
     private $vehicleAdd;
 
@@ -20,7 +19,6 @@ class AddShipmentModel
         $startingPointAdd,
         $destinationAdd,
         $dateOfDeliveryAdd,
-        $clientAdd,
         $areaRateAdd,
         $vehicleAdd
     ) {
@@ -29,7 +27,6 @@ class AddShipmentModel
         $this->startingPointAdd = $startingPointAdd;
         $this->destinationAdd = $destinationAdd;
         $this->dateOfDeliveryAdd = $dateOfDeliveryAdd;
-        $this->clientAdd = $clientAdd;
         $this->areaRateAdd = $areaRateAdd;
         $this->vehicleAdd = $vehicleAdd;
     }
@@ -99,7 +96,7 @@ class AddShipmentModel
             $stmt->bindParam(":vehicle_id", $paramVehicleIdAdd, PDO::PARAM_STR);
 
             $paramShipmentNumberAdd = $this->shipmentNumberAdd;
-            $paramShipmentStatusAdd = $this->shipmentStatusAdd;
+            $paramShipmentStatusAdd = "In-progress";
             $paramStartingPointAdd = $this->startingPointAdd;
             $paramDestinationAdd = $this->destinationAdd;
             $paramDateOfDeliveryAdd = $this->dateOfDeliveryAdd;
@@ -110,9 +107,7 @@ class AddShipmentModel
                 echo "Successfully added a record!";
             } else {
 
-                $_SESSION["prompt"] = "Something went wrong!";
-                header('location: ../modal-prompt.php');
-                exit();
+                echo "Something went wrong, shipment was not successfully added!";
             }
 
 
