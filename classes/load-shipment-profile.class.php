@@ -6,7 +6,30 @@ if (!isset($_SESSION)) {
 }
 require_once "../config.php";
 
+/*
+shipment table
+shipment_id
+shipment_number
+shipment_description
+shipment_progress
+destination
+dateOfDelivery
 
+clientarea table
+area_id
+area_name
+area_rate
+client_id
+
+client table
+client_id
+client_name
+
+
+plateNumber
+
+progress_id
+*/
 try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();

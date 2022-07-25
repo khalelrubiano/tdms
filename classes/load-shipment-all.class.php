@@ -26,11 +26,13 @@ try {
             shipment.shipment_id,
             shipment.shipment_number,
             shipment.shipment_status,
-            shipment.starting_point,
+            shipment.shipment_description,
             shipment.destination,
             shipment.date_of_delivery,
             client.client_name,
-            vehicle.plate_number
+            vehicle.plate_number,
+            shipment.vehicle_id,
+            shipment.area_id
             FROM shipment
             INNER JOIN clientarea
             ON shipment.area_id = clientarea.area_id
@@ -46,11 +48,13 @@ try {
             shipment.shipment_id,
             shipment.shipment_number,
             shipment.shipment_status,
-            shipment.starting_point,
+            shipment.shipment_description,
             shipment.destination,
             shipment.date_of_delivery,
             client.client_name,
-            vehicle.plate_number
+            vehicle.plate_number,
+            shipment.vehicle_id,
+            shipment.area_id
             FROM shipment
             INNER JOIN clientarea
             ON shipment.area_id = clientarea.area_id
@@ -67,11 +71,13 @@ try {
             shipment.shipment_id,
             shipment.shipment_number,
             shipment.shipment_status,
-            shipment.starting_point,
+            shipment.shipment_description,
             shipment.destination,
             shipment.date_of_delivery,
             client.client_name,
-            vehicle.plate_number
+            vehicle.plate_number,
+            shipment.vehicle_id,
+            shipment.area_id
             FROM shipment
             INNER JOIN clientarea
             ON shipment.area_id = clientarea.area_id
@@ -88,11 +94,13 @@ try {
             shipment.shipment_id,
             shipment.shipment_number,
             shipment.shipment_status,
-            shipment.starting_point,
+            shipment.shipment_description,
             shipment.destination,
             shipment.date_of_delivery,
             client.client_name,
-            vehicle.plate_number
+            vehicle.plate_number,
+            shipment.vehicle_id,
+            shipment.area_id
             FROM shipment
             INNER JOIN clientarea
             ON shipment.area_id = clientarea.area_id

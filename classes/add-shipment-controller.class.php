@@ -8,7 +8,7 @@ include 'add-shipment-model.class.php';
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $shipmentNumberAdd = $_POST['shipmentNumberAdd'];
-    $startingPointAdd = $_POST['startingPointAdd'];
+    $shipmentDescriptionAdd = $_POST['shipmentDescriptionAdd'];
     $destinationAdd = $_POST['destinationAdd'];
     $dateOfDeliveryAdd = $_POST['dateOfDeliveryAdd'];
     $areaRateAdd = $_POST['areaRateAdd'];
@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $addObj = new AddShipmentModel(
         $shipmentNumberAdd, 
-        $startingPointAdd, 
+        $shipmentDescriptionAdd, 
         $destinationAdd, 
         $dateOfDeliveryAdd,
         $areaRateAdd, 

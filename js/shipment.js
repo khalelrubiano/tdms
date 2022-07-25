@@ -43,6 +43,11 @@ function closeAdd() {
 
 POST A THIRD VARIABLE TO THE LOAD SHIPMENT ALL FILE THAT DETERMINES WHETHER THE SQL QUERY RETURNS ALL / IN-PROGRESS / COMPLETED/ CANCELLED, USE CUSTOM FUNCTIONS FOR EACH TAB CATEGORY
 
+Vehicle1 arrived at pick-up location
+Vehicle1 started loading the goods
+Vehicle1 departed from the pick-up location
+
+etc...
 */
 
 
@@ -185,7 +190,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 var newContentTableTbody = document.createElement("tbody");
                 newContentTable.appendChild(newContentTableTbody);
 
-                //CONTENT TABLE TBODY TR 1
+                /*CONTENT TABLE TBODY TR 1
                 var newContentTableTbodyTr1 = document.createElement("tr");
                 newContentTableTbody.appendChild(newContentTableTbodyTr1);
 
@@ -195,7 +200,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
 
                 var newContentTableTbodyTr1Td2 = document.createElement("td");
                 newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][3];
-                newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);
+                newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);*/
 
                 //CONTENT TABLE TBODY TR 2
                 var newContentTableTbodyTr2 = document.createElement("tr");
@@ -240,7 +245,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                 var newCardFooterLink = document.createElement("a");
-                newCardFooterLink.setAttribute("onclick", "redirectToShipmentProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][7] + "')");
+                newCardFooterLink.setAttribute("onclick", "redirectToShipmentProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][6] + "','" + jsonArray[i][7] + "','" + jsonArray[i][8] + "','" + jsonArray[i][9] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
                 newCardFooterLink.innerHTML = "View Details";
                 newCardFooter.appendChild(newCardFooterLink);
@@ -273,14 +278,14 @@ function generateShipmentList3(searchTerm) {
                     console.clear();
                     console.log("Shipment Number")
                     indicator.innerHTML = "Shipment Number";
-                    generateShipmentList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][5], jsonArray[i][7]);
+                    generateShipmentList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][5], jsonArray[i][6], jsonArray[i][7], jsonArray[i][8], jsonArray[i][9]);
                     break;
 
                 case jsonArray[i][7]:
                     console.clear();
                     console.log("Vehicle Plate Number")
                     indicator.innerHTML = "Vehicle Plate Number";
-                    generateShipmentList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][5], jsonArray[i][7]);
+                    generateShipmentList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][4], jsonArray[i][5], jsonArray[i][6], jsonArray[i][7], jsonArray[i][8], jsonArray[i][9]);
                     break;
             }
 
@@ -290,7 +295,7 @@ function generateShipmentList3(searchTerm) {
 
 }
 
-function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusVar, startingPointVar, destinationVar, dateOfDeliveryVar, plateNumberVar) {
+function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusVar, shipmentDescriptionVar, destinationVar, dateOfDeliveryVar, clientNameVar, plateNumberVar, vehicleIdVar, areaIdVar) {
     ancestorTile.innerHTML = "";
     var newParentTile = document.createElement("div");
     newParentTile.classList.add('tile');
@@ -402,7 +407,7 @@ function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusV
     var newContentTableTbody = document.createElement("tbody");
     newContentTable.appendChild(newContentTableTbody);
 
-    //CONTENT TABLE TBODY TR 1
+    /*CONTENT TABLE TBODY TR 1
     var newContentTableTbodyTr1 = document.createElement("tr");
     newContentTableTbody.appendChild(newContentTableTbodyTr1);
 
@@ -411,8 +416,8 @@ function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusV
     newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td1);
 
     var newContentTableTbodyTr1Td2 = document.createElement("td");
-    newContentTableTbodyTr1Td2.innerHTML = startingPointVar;
-    newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);
+    newContentTableTbodyTr1Td2.innerHTML = shipmentDescriptionVar;
+    newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);*/
 
     //CONTENT TABLE TBODY TR 2
     var newContentTableTbodyTr2 = document.createElement("tr");
@@ -457,7 +462,7 @@ function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusV
 
     //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
     var newCardFooterLink = document.createElement("a");
-    newCardFooterLink.setAttribute("onclick", "redirectToShipmentProfile('" + shipmentIdVar + "','" + shipmentNumberVar + "','" + shipmentStatusVar + "','" + startingPointVar + "','" + destinationVar + "','" + dateOfDeliveryVar + "','" + plateNumberVar + "')");
+    newCardFooterLink.setAttribute("onclick", "redirectToShipmentProfile('" + shipmentIdVar + "','" + shipmentNumberVar + "','" + shipmentStatusVar + "','" + shipmentDescriptionVar + "','" + destinationVar + "','" + dateOfDeliveryVar + "','" + clientNameVar + "','" + plateNumberVar + "','" + vehicleIdVar + "','" + areaIdVar + "')");
     newCardFooterLink.classList.add('card-footer-item');
     newCardFooterLink.innerHTML = "View Details";
     newCardFooter.appendChild(newCardFooterLink);
@@ -472,15 +477,19 @@ function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusV
     newParentTile.appendChild(newChildTile);
 }
 
-function redirectToShipmentProfile(shipmentIdVar, shipmentNumberVar, shipmentStatusVar, startingPointVar, destinationVar, dateOfDeliveryVar, plateNumberVar) {
+//shipmentId, shipmentNumber, shipmentStatus, shipmentDescription, destination, dateOfDelivery, plateNumber, shipmentDescription, 
+function redirectToShipmentProfile(shipmentIdVar, shipmentNumberVar, shipmentStatusVar, shipmentDescriptionVar, destinationVar, dateOfDeliveryVar, clientNameVar, plateNumberVar, vehicleIdVar, areaIdVar) {
     $.post("./classes/set-shipment-session-variable.class.php", {
         shipmentId: shipmentIdVar,
         shipmentNumber: shipmentNumberVar,
         shipmentStatus: shipmentStatusVar,
-        startingPoint: startingPointVar,
+        shipmentDescription: shipmentDescriptionVar,
         destination: destinationVar,
         dateOfDelivery: dateOfDeliveryVar,
-        plateNumber: plateNumberVar
+        clientName: clientNameVar,
+        plateNumber: plateNumberVar,
+        vehicleId: vehicleIdVar,
+        areaId: areaIdVar
     }, function (data) {
         //var jsonArray = JSON.parse(data);
         //alert("success call");
@@ -552,7 +561,7 @@ const addModal = document.getElementById('addModal');
 let submitAddForm = document.getElementById('submitAddForm'); //save changes button
 
 let shipmentNumberAdd = document.getElementById('shipmentNumberAdd');
-let startingPointAdd = document.getElementById('startingPointAdd');
+let shipmentDescriptionAdd = document.getElementById('shipmentDescriptionAdd');
 let destinationAdd = document.getElementById('destinationAdd');
 let dateOfDeliveryAdd = document.getElementById('dateOfDeliveryAdd');
 let clientAdd = document.getElementById('clientAdd');
@@ -560,7 +569,7 @@ let areaRateAdd = document.getElementById('areaRateAdd');
 let vehicleAdd = document.getElementById('vehicleAdd');
 
 let shipmentNumberAddHelp = document.getElementById('shipmentNumberAddHelp');
-let startingPointAddHelp = document.getElementById('startingPointAddHelp');
+let shipmentDescriptionAddHelp = document.getElementById('shipmentDescriptionAddHelp');
 let destinationAddHelp = document.getElementById('destinationAddHelp');
 let dateOfDeliveryAddHelp = document.getElementById('dateOfDeliveryAddHelp');
 
@@ -571,7 +580,7 @@ var pattern4 = /^[0-9]+$/ //Numbers only
 function addAjax() {
     $.post("./classes/add-shipment-controller.class.php", {
         shipmentNumberAdd: shipmentNumberAdd.value,
-        startingPointAdd: startingPointAdd.value,
+        shipmentDescriptionAdd: shipmentDescriptionAdd.value,
         destinationAdd: destinationAdd.value,
         dateOfDeliveryAdd: dateOfDeliveryAdd.value,
         clientAdd: clientAdd.value,
@@ -592,7 +601,7 @@ submitAddForm.addEventListener('click', (e) => {
     //clearAddFormHelp();
 
     let shipmentNumberAddMessages = [];
-    let startingPointAddMessages = [];
+    let shipmentDescriptionAddMessages = [];
     let destinationAddMessages = [];
     let dateOfDeliveryAddMessages = [];
 
@@ -622,28 +631,28 @@ submitAddForm.addEventListener('click', (e) => {
     }
 
     //Starting Point Validation
-    if (pattern2.test(startingPointAdd.value) == false) {
-        startingPointAdd.className = "input is-danger is-rounded"
-        startingPointAddHelp.className = "help is-danger"
-        startingPointAddMessages.push('Starting point should only consist of numbers and letters!')
+    if (pattern2.test(shipmentDescriptionAdd.value) == false) {
+        shipmentDescriptionAdd.className = "input is-danger is-rounded"
+        shipmentDescriptionAddHelp.className = "help is-danger"
+        shipmentDescriptionAddMessages.push('Shipment description should only consist of numbers and letters!')
     }
 
-    if (startingPointAdd.value === "" || startingPointAdd.value == null) {
-        startingPointAdd.className = "input is-danger is-rounded"
-        startingPointAddHelp.className = "help is-danger"
-        startingPointAddMessages.push('Starting point is required!')
+    if (shipmentDescriptionAdd.value === "" || shipmentDescriptionAdd.value == null) {
+        shipmentDescriptionAdd.className = "input is-danger is-rounded"
+        shipmentDescriptionAddHelp.className = "help is-danger"
+        shipmentDescriptionAddMessages.push('Shipment description is required!')
     }
 
-    if (startingPointAdd.value.length < 1) {
-        startingPointAdd.className = "input is-danger is-rounded"
-        startingPointAddHelp.className = "help is-danger"
-        startingPointAddMessages.push('Starting point must be longer than 1 character!')
+    if (shipmentDescriptionAdd.value.length < 1) {
+        shipmentDescriptionAdd.className = "input is-danger is-rounded"
+        shipmentDescriptionAddHelp.className = "help is-danger"
+        shipmentDescriptionAddMessages.push('Shipment description must be longer than 1 character!')
     }
 
-    if (startingPointAdd.value.length > 255) {
-        startingPointAdd.className = "input is-danger is-rounded"
-        startingPointAddHelp.className = "help is-danger"
-        startingPointAddMessages.push('Starting point must be less than 255 characters!')
+    if (shipmentDescriptionAdd.value.length > 255) {
+        shipmentDescriptionAdd.className = "input is-danger is-rounded"
+        shipmentDescriptionAddHelp.className = "help is-danger"
+        shipmentDescriptionAddMessages.push('Shipment description must be less than 255 characters!')
     }
 
     //Destination Validation
@@ -683,9 +692,9 @@ submitAddForm.addEventListener('click', (e) => {
         e.preventDefault()
         shipmentNumberAddHelp.innerText = shipmentNumberAddMessages.join(', ')
     }
-    if (startingPointAddMessages.length > 0) {
+    if (shipmentDescriptionAddMessages.length > 0) {
         e.preventDefault()
-        startingPointAddHelp.innerText = startingPointAddMessages.join(', ')
+        shipmentDescriptionAddHelp.innerText = shipmentDescriptionAddMessages.join(', ')
     }
     if (destinationAddMessages.length > 0) {
         e.preventDefault()
@@ -697,7 +706,7 @@ submitAddForm.addEventListener('click', (e) => {
     }
     if (
         shipmentNumberAddMessages.length <= 0 &&
-        startingPointAddMessages.length <= 0 &&
+        shipmentDescriptionAddMessages.length <= 0 &&
         destinationAddMessages.length <= 0 &&
         dateOfDeliveryAddMessages.length <= 0
     ) {

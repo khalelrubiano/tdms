@@ -7,7 +7,7 @@ require_once "../config.php";
 class AddShipmentModel
 {
     private $shipmentNumberAdd;
-    private $startingPointAdd;
+    private $shipmentDescriptionAdd;
     private $destinationAdd;
     private $dateOfDeliveryAdd;
     private $areaRateAdd;
@@ -16,7 +16,7 @@ class AddShipmentModel
 
     public function __construct(
         $shipmentNumberAdd,
-        $startingPointAdd,
+        $shipmentDescriptionAdd,
         $destinationAdd,
         $dateOfDeliveryAdd,
         $areaRateAdd,
@@ -24,7 +24,7 @@ class AddShipmentModel
     ) {
 
         $this->shipmentNumberAdd = $shipmentNumberAdd;
-        $this->startingPointAdd = $startingPointAdd;
+        $this->shipmentDescriptionAdd = $shipmentDescriptionAdd;
         $this->destinationAdd = $destinationAdd;
         $this->dateOfDeliveryAdd = $dateOfDeliveryAdd;
         $this->areaRateAdd = $areaRateAdd;
@@ -65,7 +65,7 @@ class AddShipmentModel
                 shipment(
                 shipment_number, 
                 shipment_status, 
-                starting_point,
+                shipment_description,
                 destination,
                 date_of_delivery,
                 area_id,
@@ -74,7 +74,7 @@ class AddShipmentModel
                 VALUES( 
                 :shipment_number, 
                 :shipment_status, 
-                :starting_point,
+                :shipment_description,
                 :destination,
                 :date_of_delivery,
                 :area_id,
@@ -89,7 +89,7 @@ class AddShipmentModel
 
             $stmt->bindParam(":shipment_number", $paramShipmentNumberAdd, PDO::PARAM_STR);
             $stmt->bindParam(":shipment_status", $paramShipmentStatusAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":starting_point", $paramStartingPointAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":shipment_description", $paramShipmentDescriptionAdd, PDO::PARAM_STR);
             $stmt->bindParam(":destination", $paramDestinationAdd, PDO::PARAM_STR);
             $stmt->bindParam(":date_of_delivery", $paramDateOfDeliveryAdd, PDO::PARAM_STR);
             $stmt->bindParam(":area_id", $paramAreaIdAdd, PDO::PARAM_STR);
@@ -97,7 +97,7 @@ class AddShipmentModel
 
             $paramShipmentNumberAdd = $this->shipmentNumberAdd;
             $paramShipmentStatusAdd = "In-progress";
-            $paramStartingPointAdd = $this->startingPointAdd;
+            $paramShipmentDescriptionAdd = $this->shipmentDescriptionAdd;
             $paramDestinationAdd = $this->destinationAdd;
             $paramDateOfDeliveryAdd = $this->dateOfDeliveryAdd;
             $paramAreaIdAdd = $this->areaRateAdd;

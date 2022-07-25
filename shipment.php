@@ -123,14 +123,11 @@ include_once 'navbar.php';
         </div>
 
         <div class="field">
-          <label for="" class="label">Starting Point</label>
-          <div class="control has-icons-left">
-            <input type="text" placeholder="Enter starting point here" class="input is-rounded" name="startingPointAdd" id="startingPointAdd">
-            <span class="icon is-small is-left">
-              <i class="fa-solid fa-user"></i>
-            </span>
+          <label for="" class="label">Shipment Description</label>
+          <div class="control">
+            <textarea class="textarea" placeholder="Enter description here" name="shipmentDescriptionAdd" id="shipmentDescriptionAdd" style="resize: none;"></textarea>
           </div>
-          <p class="help" id="startingPointAddHelp"></p>
+          <p class="help" id="shipmentDescriptionAddHelp"></p>
         </div>
 
         <div class="field">
@@ -209,6 +206,7 @@ include_once 'navbar.php';
 <script>
   logoutBtn.classList.remove("is-hidden");
   shipmentBtn.classList.add("is-active");
+  
 </script>
 
 </html>
