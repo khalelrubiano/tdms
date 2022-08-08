@@ -41,6 +41,7 @@ try {
             INNER JOIN vehicle
             ON vehicle.vehicle_id = shipment.vehicle_id
             WHERE client.company_id = :company_id
+            AND vehicle.driver_id = :driver_id
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
         case "In-progress":
@@ -64,6 +65,7 @@ try {
             ON vehicle.vehicle_id = shipment.vehicle_id
             WHERE client.company_id = :company_id
             AND shipment.shipment_status = 'In-progress' 
+            AND vehicle.driver_id = :driver_id
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
         case "Completed":
@@ -87,6 +89,7 @@ try {
             ON vehicle.vehicle_id = shipment.vehicle_id
             WHERE client.company_id = :company_id
             AND shipment.shipment_status = 'Completed' 
+            AND vehicle.driver_id = :driver_id
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
         case "Cancelled":
@@ -110,6 +113,7 @@ try {
             ON vehicle.vehicle_id = shipment.vehicle_id
             WHERE client.company_id = :company_id
             AND shipment.shipment_status = 'Cancelled' 
+            AND vehicle.driver_id = :driver_id
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
     }
@@ -136,8 +140,10 @@ try {
     $stmt = $pdoVessel->prepare($sql);
 
     $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
+    $stmt->bindParam(":driver_id", $paramDriverId, PDO::PARAM_STR);
 
     $paramCompanyId = $_SESSION["companyId"];
+    $paramDriverId = $_SESSION["subcontractorId"];
 
     $stmt->execute();
     $row = $stmt->fetchAll();

@@ -18,104 +18,11 @@ let currentPageNumber = 1;
 
 let tabValueHidden = document.getElementById('tabValueHidden')
 
-let logList = document.getElementById('logList')
 
 
-//MODALS
-function openAdd() {
-    addModal.classList.add('is-active');
-    //populateSelect1();
-    //populateUsernameAdd();
-}
-
-function closeAdd() {
-    /*clearAddFormHelp();
-    clearAddFormInput();
-
-    submitAddFormHelp.className = "help"
-    submitAddFormHelp.innerText = ""*/
-
-    addModal.classList.remove('is-active');
-
-    //removeSelectAdd(document.getElementById('usernameAdd'));
-}
-
-function openLog() {
-    logModal.classList.add('is-active');
-    //populateSelect1();
-    //populateUsernameAdd();
-}
-
-function closeLog() {
-    /*clearAddFormHelp();
-    clearAddFormInput();
-
-    submitAddFormHelp.className = "help"
-    submitAddFormHelp.innerText = ""*/
-
-    logModal.classList.remove('is-active');
-
-    //removeSelectAdd(document.getElementById('usernameAdd'));
-}
-
-
-/*
-
-POST A THIRD VARIABLE TO THE LOAD SHIPMENT ALL FILE THAT DETERMINES WHETHER THE SQL QUERY RETURNS ALL / IN-PROGRESS / COMPLETED/ CANCELLED, USE CUSTOM FUNCTIONS FOR EACH TAB CATEGORY
-
-Vehicle1 arrived at pick-up location
-Vehicle1 started loading the goods
-Vehicle1 departed from the pick-up location
-
-etc...
-*/
-
-
-
-//DELETE AJAX CALL
-function deleteAjax(deleteVar, deleteVar2) {
-    if (confirm("Are you sure?")) {
-        $.post("./classes/delete-shipment-controller.class.php", {
-            shipmentId: deleteVar
-        }, function (data) {
-            //$("#submitAddFormHelp").html(data);
-            //$("#submitAddFormHelp").attr('class', 'help is-success');
-            //clearAddFormHelp();
-            //clearAddFormInput();
-            //addModal.classList.remove('is-active');
-            alert(data);
-            //refreshList();
-            addShipmentLog("Deleted", "Shipment #" + deleteVar2);
-        });
-    }
-}
-
-function addShipmentLog(logDescriptionVar, shipmentDescriptionVar) {
-    $.post("./classes/add-shipment-log-controller.class.php", {
-        logDescription: logDescriptionVar,
-        shipmentDescription: shipmentDescriptionVar
-    }, function (data) {
-        //alert(data);
-    });
-}
-
-function generateShipmentLog() {
-    $.post("./classes/load-shipment-log.class.php", {
-    }, function (data) {
-        var jsonArray = JSON.parse(data);
-
-        for (var i = 0; i < jsonArray.length; i++) {
-            var newLi = document.createElement("li");
-            newLi.innerHTML = jsonArray[i][3] + " - " + jsonArray[i][1] + " " + jsonArray[i][0] + " " + jsonArray[i][2];
-            logList.appendChild(newLi);
-        }
-
-    });
-}
-generateShipmentLog();
 //SHIPMENT LIST
 function generateShipmentList1() {
-    $.post("./classes/load-shipment.class.php", {}, function (data) {
+    $.post("./classes/load-shipment-individual.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
@@ -123,7 +30,7 @@ function generateShipmentList1() {
 }
 
 function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
-    $.post("./classes/load-shipment-all.class.php", {
+    $.post("./classes/load-shipment-all-individual.class.php", {
         tabValue: tabValueVar,
         currentPageNumber: currentPageNumberVar,
         orderBy: orderByVar
@@ -193,7 +100,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 }
 
                 //CARD HEADER BUTTON
-
+/*
                 var newCardHeaderButton = document.createElement("button");
                 newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "')");
                 newCardHeaderButton.classList.add('card-header-icon');
@@ -211,7 +118,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
 
                 //newCardHeaderButton.innerHTML = jsonArray[i][4];
                 //newCardHeader.appendChild(newCardHeaderParagraph);
-
+*/
                 //CARD CONTENT
                 var newCardContent = document.createElement("div");
                 newCardContent.classList.add('card-content');
@@ -308,13 +215,13 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newCardFooterLink.classList.add('card-footer-item');
                 newCardFooterLink.innerHTML = "View Details";
                 newCardFooter.appendChild(newCardFooterLink);
-
+/*
                 var newCardFooterLink2 = document.createElement("a");
                 newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
                 newCardFooterLink2.classList.add('card-footer-item');
                 newCardFooterLink2.innerHTML = "Edit Details";
                 newCardFooter.appendChild(newCardFooterLink2);
-
+*/
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
                 newParentTile.appendChild(newChildTile);
 
@@ -325,7 +232,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
 }
 
 function generateShipmentList3(searchTerm) {
-    $.post("./classes/load-shipment.class.php", {}, function (data) {
+    $.post("./classes/load-shipment-individual.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         //indicator.innerHTML = "live:" + jsonArray.length;
 
@@ -552,231 +459,11 @@ function redirectToShipmentProfile(shipmentIdVar, shipmentNumberVar, shipmentSta
     }, function (data) {
         //var jsonArray = JSON.parse(data);
         //alert("success call");
-        window.location.href = "shipment-profile.php";
-    });
-}
-
-function populateSelect1() {
-    $.post("./classes/load-client-all.class.php", {
-    }, function (data) {
-
-        var jsonArray = JSON.parse(data);
-
-        for (var i = 0; i < jsonArray.length; i++) {
-            var newOption = document.createElement("option");
-            newOption.value = jsonArray[i][0];
-            newOption.innerHTML = jsonArray[i][1];
-            clientAdd.options.add(newOption);
-            //helperAdd.options.add(newOption);
-        }
-
-        //closeSelect();
-    });
-}
-
-function populateSelect2(clientIdVar) {
-    $.post("./classes/load-client-area-select.class.php", {
-        clientId: clientIdVar
-    }, function (data) {
-
-        var jsonArray = JSON.parse(data);
-
-        for (var i = 0; i < jsonArray.length; i++) {
-            var newOption = document.createElement("option");
-            newOption.value = jsonArray[i][0];
-            newOption.innerHTML = jsonArray[i][1];
-            areaRateAdd.options.add(newOption);
-            //helperAdd.options.add(newOption);
-        }
-
-        //closeSelect();
-    });
-}
-
-function populateSelect3() {
-    $.post("./classes/load-vehicle-select.class.php", {
-
-    }, function (data) {
-        //alert("call success");
-        var jsonArray = JSON.parse(data);
-        //alert(jsonArray[i][0]);
-        for (var i = 0; i < jsonArray.length; i++) {
-            //alert(jsonArray[i][0]);
-            var newOption = document.createElement("option");
-            newOption.value = jsonArray[i][0];
-            newOption.innerHTML = "Plate Number: " + jsonArray[i][1] + " Driver: " + jsonArray[i][4];
-            vehicleAdd.options.add(newOption);
-            //helperAdd.options.add(newOption);
-        }
-
-        //closeSelect();
+        window.location.href = "shipment-profile-individual.php";
     });
 }
 
 
-//ADD AJAX CALLS WITH VALIDATION
-const addModal = document.getElementById('addModal');
-
-let submitAddForm = document.getElementById('submitAddForm'); //save changes button
-
-let shipmentNumberAdd = document.getElementById('shipmentNumberAdd');
-let shipmentDescriptionAdd = document.getElementById('shipmentDescriptionAdd');
-let destinationAdd = document.getElementById('destinationAdd');
-let dateOfDeliveryAdd = document.getElementById('dateOfDeliveryAdd');
-let clientAdd = document.getElementById('clientAdd');
-let areaRateAdd = document.getElementById('areaRateAdd');
-let vehicleAdd = document.getElementById('vehicleAdd');
-
-let shipmentNumberAddHelp = document.getElementById('shipmentNumberAddHelp');
-let shipmentDescriptionAddHelp = document.getElementById('shipmentDescriptionAddHelp');
-let destinationAddHelp = document.getElementById('destinationAddHelp');
-let dateOfDeliveryAddHelp = document.getElementById('dateOfDeliveryAddHelp');
-
-var pattern1 = /^[a-zA-Z0-9]+$/ //Alphanumeric
-var pattern2 = /^[a-zA-Z0-9\s]+$/ //Alphanumeric whitespace
-var pattern4 = /^[0-9]+$/ //Numbers only
-
-function addAjax() {
-    $.post("./classes/add-shipment-controller.class.php", {
-        shipmentNumberAdd: shipmentNumberAdd.value,
-        shipmentDescriptionAdd: shipmentDescriptionAdd.value,
-        destinationAdd: destinationAdd.value,
-        dateOfDeliveryAdd: dateOfDeliveryAdd.value,
-        clientAdd: clientAdd.value,
-        areaRateAdd: areaRateAdd.value,
-        vehicleAdd: vehicleAdd.value
-    }, function (data) {
-        $("#submitAddFormHelp").html(data);
-        //$("#submitAddFormHelp").attr('class', 'help is-success');
-        //clearAddFormHelp();
-        //clearAddFormInput();
-        //refreshTable();
-        addShipmentLog("Added", "Shipment #" + shipmentNumberAdd.value);
-    });
-    //refreshTable();
-
-}
-
-submitAddForm.addEventListener('click', (e) => {
-    //clearAddFormHelp();
-
-    let shipmentNumberAddMessages = [];
-    let shipmentDescriptionAddMessages = [];
-    let destinationAddMessages = [];
-    let dateOfDeliveryAddMessages = [];
-
-    //Shipment Number Validation
-    if (pattern4.test(shipmentNumberAdd.value) == false) {
-        shipmentNumberAdd.className = "input is-danger is-rounded"
-        shipmentNumberAddHelp.className = "help is-danger"
-        shipmentNumberAddMessages.push('Shipment number should only consist of numbers!')
-    }
-
-    if (shipmentNumberAdd.value === "" || shipmentNumberAdd.value == null) {
-        shipmentNumberAdd.className = "input is-danger is-rounded"
-        shipmentNumberAddHelp.className = "help is-danger"
-        shipmentNumberAddMessages.push('Shipment number is required!')
-    }
-
-    if (shipmentNumberAdd.value.length < 1) {
-        shipmentNumberAdd.className = "input is-danger is-rounded"
-        shipmentNumberAddHelp.className = "help is-danger"
-        shipmentNumberAddMessages.push('Shipment number must be longer than 1 character!')
-    }
-
-    if (shipmentNumberAdd.value.length > 255) {
-        shipmentNumberAdd.className = "input is-danger is-rounded"
-        shipmentNumberAddHelp.className = "help is-danger"
-        shipmentNumberAddMessages.push('Shipment number must be less than 255 characters!')
-    }
-
-    //Starting Point Validation
-    if (pattern2.test(shipmentDescriptionAdd.value) == false) {
-        shipmentDescriptionAdd.className = "input is-danger is-rounded"
-        shipmentDescriptionAddHelp.className = "help is-danger"
-        shipmentDescriptionAddMessages.push('Shipment description should only consist of numbers and letters!')
-    }
-
-    if (shipmentDescriptionAdd.value === "" || shipmentDescriptionAdd.value == null) {
-        shipmentDescriptionAdd.className = "input is-danger is-rounded"
-        shipmentDescriptionAddHelp.className = "help is-danger"
-        shipmentDescriptionAddMessages.push('Shipment description is required!')
-    }
-
-    if (shipmentDescriptionAdd.value.length < 1) {
-        shipmentDescriptionAdd.className = "input is-danger is-rounded"
-        shipmentDescriptionAddHelp.className = "help is-danger"
-        shipmentDescriptionAddMessages.push('Shipment description must be longer than 1 character!')
-    }
-
-    if (shipmentDescriptionAdd.value.length > 255) {
-        shipmentDescriptionAdd.className = "input is-danger is-rounded"
-        shipmentDescriptionAddHelp.className = "help is-danger"
-        shipmentDescriptionAddMessages.push('Shipment description must be less than 255 characters!')
-    }
-
-    //Destination Validation
-    if (pattern2.test(destinationAdd.value) == false) {
-        destinationAdd.className = "input is-danger is-rounded"
-        destinationAddHelp.className = "help is-danger"
-        destinationAddMessages.push('Destination should only consist of numbers and letters!')
-    }
-
-    if (destinationAdd.value === "" || destinationAdd.value == null) {
-        destinationAdd.className = "input is-danger is-rounded"
-        destinationAddHelp.className = "help is-danger"
-        destinationAddMessages.push('Destination is required!')
-    }
-
-    if (destinationAdd.value.length < 1) {
-        destinationAdd.className = "input is-danger is-rounded"
-        destinationAddHelp.className = "help is-danger"
-        destinationAddMessages.push('Destination must be longer than 1 character!')
-    }
-
-    if (destinationAdd.value.length > 255) {
-        destinationAdd.className = "input is-danger is-rounded"
-        destinationAddHelp.className = "help is-danger"
-        destinationAddMessages.push('Destination must be less than 255 characters!')
-    }
-
-    //Date of Delivery Validation
-    if (dateOfDeliveryAdd.value === "" || dateOfDeliveryAdd.value == null) {
-        dateOfDeliveryAdd.className = "input is-danger is-rounded"
-        dateOfDeliveryAddHelp.className = "help is-danger"
-        dateOfDeliveryAddMessages.push('Date of delivery is required!')
-    }
-
-    //Messages
-    if (shipmentNumberAddMessages.length > 0) {
-        e.preventDefault()
-        shipmentNumberAddHelp.innerText = shipmentNumberAddMessages.join(', ')
-    }
-    if (shipmentDescriptionAddMessages.length > 0) {
-        e.preventDefault()
-        shipmentDescriptionAddHelp.innerText = shipmentDescriptionAddMessages.join(', ')
-    }
-    if (destinationAddMessages.length > 0) {
-        e.preventDefault()
-        destinationAddHelp.innerText = destinationAddMessages.join(', ')
-    }
-    if (dateOfDeliveryAddMessages.length > 0) {
-        e.preventDefault()
-        dateOfDeliveryAddHelp.innerText = dateOfDeliveryAddMessages.join(', ')
-    }
-    if (
-        shipmentNumberAddMessages.length <= 0 &&
-        shipmentDescriptionAddMessages.length <= 0 &&
-        destinationAddMessages.length <= 0 &&
-        dateOfDeliveryAddMessages.length <= 0
-    ) {
-        addAjax();
-    }
-    //refreshTable();
-})
-
-populateSelect1();
-populateSelect3();
 generateShipmentList1();
 generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
@@ -832,10 +519,6 @@ cancelledTabLink.addEventListener('click', () => {
     generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
-clientAdd.addEventListener('change', () => {
-    areaRateAdd.innerHTML = "";
-    populateSelect2(clientAdd.value);
-});
 
 selectSort.addEventListener('change', () => {
 
@@ -855,8 +538,3 @@ searchBarInput.addEventListener('input', () => {
 
     }
 });
-/*
-
-POST A THIRD VARIABLE TO THE LOAD SHIPMENT ALL FILE THAT DETERMINES WHETHER THE SQL QUERY RETURNS ALL / IN-PROGRESS / COMPLETED/ CANCELLED, USE CUSTOM FUNCTIONS FOR EACH TAB CATEGORY
-
-*/

@@ -4,34 +4,38 @@ if (!isset($_SESSION)) {
 }
 require_once "../config.php";
 
-class AddShipmentModel
+class TransferShipmentModel
 {
-    private $shipmentNumberAdd;
-    private $shipmentDescriptionAdd;
-    private $destinationAdd;
-    private $dateOfDeliveryAdd;
-    private $areaRateAdd;
-    private $vehicleAdd;
+    private $shipmentId;
+    private $shipmentNumber;
+    private $shipmentDescription;
+    private $destination;
+    private $dateOfDelivery;
+    private $areaId;
+    private $vehicleId;
+
 
 
     public function __construct(
-        $shipmentNumberAdd,
-        $shipmentDescriptionAdd,
-        $destinationAdd,
-        $dateOfDeliveryAdd,
-        $areaRateAdd,
-        $vehicleAdd
+        $shipmentId,
+        $shipmentNumber,
+        $shipmentDescription,
+        $destination,
+        $dateOfDelivery,
+        $areaId,
+        $vehicleId
     ) {
 
-        $this->shipmentNumberAdd = $shipmentNumberAdd;
-        $this->shipmentDescriptionAdd = $shipmentDescriptionAdd;
-        $this->destinationAdd = $destinationAdd;
-        $this->dateOfDeliveryAdd = $dateOfDeliveryAdd;
-        $this->areaRateAdd = $areaRateAdd;
-        $this->vehicleAdd = $vehicleAdd;
+        $this->shipmentId = $shipmentId;
+        $this->shipmentNumber = $shipmentNumber;
+        $this->shipmentDescription = $shipmentDescription;
+        $this->destination = $destination;
+        $this->dateOfDelivery = $dateOfDelivery;
+        $this->areaId = $areaId;
+        $this->vehicleId = $vehicleId;
     }
 
-    public function addShipmentRecord()
+    public function transferShipmentRecord()
     {
         /*
         if($this->emptyValidator() == false || $this->lengthValidator() == false || $this->patternValidator() == false ){
@@ -55,12 +59,88 @@ class AddShipmentModel
             exit();
         }
 */
-        $this->addShipmentSubmit();
+        $this->transferShipmentSubmit1();
+        $this->transferShipmentSubmit2();
+        $this->transferShipmentSubmit3();
         $this->addShipmentProgressSubmit();
-        
     }
 
-    public function addShipmentSubmit()
+    public function transferShipmentSubmit1()
+    {
+
+        $sql = "UPDATE shipment
+        SET 
+        shipment_status = :shipment_status
+        WHERE shipment_id = :shipment_id";
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":shipment_id", $paramShipmentId, PDO::PARAM_STR);
+            $stmt->bindParam(":shipment_status", $paramShipmentStatus, PDO::PARAM_STR);
+
+            $paramShipmentId = $this->shipmentId;
+            $paramShipmentStatus = "Cancelled";
+
+
+            if ($stmt->execute()) {
+                //echo "Successfully added a record!";
+            } else {
+
+                //echo "Something went wrong, shipment was not successfully added!";
+            }
+
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+
+    public function transferShipmentSubmit2()
+    {
+
+        $sql = "INSERT INTO 
+                shipmentprogress(
+                progress_description, 
+                shipment_id
+                ) 
+                VALUES( 
+                :progress_description, 
+                :shipment_id
+                )";
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":shipment_id", $paramShipmentId, PDO::PARAM_STR);
+            $stmt->bindParam(":progress_description", $paramCancelReason, PDO::PARAM_STR);
+
+
+            $paramShipmentId = $this->shipmentId;
+            $paramCancelReason = "Transferred";
+
+
+            if ($stmt->execute()) {
+                //echo "Successfully added a record!";
+            } else {
+
+                //echo "Something went wrong, shipment was not successfully added!";
+            }
+
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+    public function transferShipmentSubmit3()
     {
 
         $sql = "INSERT INTO 
@@ -97,19 +177,19 @@ class AddShipmentModel
             $stmt->bindParam(":area_id", $paramAreaIdAdd, PDO::PARAM_STR);
             $stmt->bindParam(":vehicle_id", $paramVehicleIdAdd, PDO::PARAM_STR);
 
-            $paramShipmentNumberAdd = $this->shipmentNumberAdd;
+            $paramShipmentNumberAdd = $this->shipmentNumber;
             $paramShipmentStatusAdd = "In-progress";
-            $paramShipmentDescriptionAdd = $this->shipmentDescriptionAdd;
-            $paramDestinationAdd = $this->destinationAdd;
-            $paramDateOfDeliveryAdd = $this->dateOfDeliveryAdd;
-            $paramAreaIdAdd = $this->areaRateAdd;
-            $paramVehicleIdAdd = $this->vehicleAdd;
+            $paramShipmentDescriptionAdd = $this->shipmentDescription;
+            $paramDestinationAdd = $this->destination;
+            $paramDateOfDeliveryAdd = $this->dateOfDelivery;
+            $paramAreaIdAdd = $this->areaId;
+            $paramVehicleIdAdd = $this->vehicleId;
 
             if ($stmt->execute()) {
-                echo "Successfully added a record!";
+                echo "Successfully transferred a record!";
             } else {
 
-                echo "Something went wrong, shipment was not successfully added!";
+                echo "Something went wrong, shipment was not successfully transferred!";
             }
 
 
@@ -169,8 +249,8 @@ class AddShipmentModel
             $stmt->bindParam(":shipment_number", $paramShipmentNumber, PDO::PARAM_STR);
             $stmt->bindParam(":vehicle_id", $paramVehicleId, PDO::PARAM_STR);
 
-            $paramShipmentNumber = $this->shipmentNumberAdd;
-            $paramVehicleId = $this->vehicleAdd;
+            $paramShipmentNumber = $this->shipmentNumber;
+            $paramVehicleId = $this->vehicleId;
 
             if ($stmt->execute()) {
                 $row = $stmt->fetchAll();
@@ -206,7 +286,6 @@ class AddShipmentModel
         }
         return $result;
     }
-
     private function lengthValidator()
     {
         if (

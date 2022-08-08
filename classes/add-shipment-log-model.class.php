@@ -4,34 +4,28 @@ if (!isset($_SESSION)) {
 }
 require_once "../config.php";
 
-class AddShipmentModel
+class AddShipmentLogModel
 {
-    private $shipmentNumberAdd;
-    private $shipmentDescriptionAdd;
-    private $destinationAdd;
-    private $dateOfDeliveryAdd;
-    private $areaRateAdd;
-    private $vehicleAdd;
+    private $logDescription;
+    private $shipmentDescription;
+    private $userDescription;
+    private $companyId;
 
 
     public function __construct(
-        $shipmentNumberAdd,
-        $shipmentDescriptionAdd,
-        $destinationAdd,
-        $dateOfDeliveryAdd,
-        $areaRateAdd,
-        $vehicleAdd
+        $logDescription,
+        $shipmentDescription,
+        $userDescription,
+        $companyId
     ) {
 
-        $this->shipmentNumberAdd = $shipmentNumberAdd;
-        $this->shipmentDescriptionAdd = $shipmentDescriptionAdd;
-        $this->destinationAdd = $destinationAdd;
-        $this->dateOfDeliveryAdd = $dateOfDeliveryAdd;
-        $this->areaRateAdd = $areaRateAdd;
-        $this->vehicleAdd = $vehicleAdd;
+        $this->logDescription = $logDescription;
+        $this->shipmentDescription = $shipmentDescription;
+        $this->userDescription = $userDescription;
+        $this->companyId = $companyId;
     }
 
-    public function addShipmentRecord()
+    public function addShipmentLogRecord()
     {
         /*
         if($this->emptyValidator() == false || $this->lengthValidator() == false || $this->patternValidator() == false ){
@@ -55,32 +49,25 @@ class AddShipmentModel
             exit();
         }
 */
-        $this->addShipmentSubmit();
-        $this->addShipmentProgressSubmit();
+        $this->addShipmentLogSubmit();
         
     }
 
-    public function addShipmentSubmit()
+    public function addShipmentLogSubmit()
     {
 
         $sql = "INSERT INTO 
-                shipment(
-                shipment_number, 
-                shipment_status, 
+                shipmentlog(
+                log_description, 
+                user_description, 
                 shipment_description,
-                destination,
-                date_of_delivery,
-                area_id,
-                vehicle_id
+                company_id
                 ) 
                 VALUES( 
-                :shipment_number, 
-                :shipment_status, 
+                :log_description, 
+                :user_description, 
                 :shipment_description,
-                :destination,
-                :date_of_delivery,
-                :area_id,
-                :vehicle_id
+                :company_id
                 )";
 
         $configObj = new Config();
@@ -89,27 +76,21 @@ class AddShipmentModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":shipment_number", $paramShipmentNumberAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":shipment_status", $paramShipmentStatusAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":shipment_description", $paramShipmentDescriptionAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":destination", $paramDestinationAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":date_of_delivery", $paramDateOfDeliveryAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":area_id", $paramAreaIdAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":vehicle_id", $paramVehicleIdAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":log_description", $paramLogDescription, PDO::PARAM_STR);
+            $stmt->bindParam(":user_description", $paramUserDescription, PDO::PARAM_STR);
+            $stmt->bindParam(":shipment_description", $paramShipmentDescription, PDO::PARAM_STR);
+            $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
 
-            $paramShipmentNumberAdd = $this->shipmentNumberAdd;
-            $paramShipmentStatusAdd = "In-progress";
-            $paramShipmentDescriptionAdd = $this->shipmentDescriptionAdd;
-            $paramDestinationAdd = $this->destinationAdd;
-            $paramDateOfDeliveryAdd = $this->dateOfDeliveryAdd;
-            $paramAreaIdAdd = $this->areaRateAdd;
-            $paramVehicleIdAdd = $this->vehicleAdd;
+            $paramLogDescription = $this->logDescription;
+            $paramUserDescription = $this->userDescription;
+            $paramShipmentDescription = $this->shipmentDescription;
+            $paramCompanyId = $this->companyId;
 
             if ($stmt->execute()) {
-                echo "Successfully added a record!";
+                //echo "Successfully added a record!";
             } else {
 
-                echo "Something went wrong, shipment was not successfully added!";
+                //echo "Something went wrong, shipment was not successfully added!";
             }
 
 

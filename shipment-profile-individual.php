@@ -9,7 +9,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION[
   exit;
 }*/
 
-include_once 'navbar.php';
+include_once 'navbar-subcontractor.php';
 
 ?>
 
@@ -253,8 +253,7 @@ include_once 'navbar.php';
     <div class="main" style="margin-bottom: 20%;">
         <div class="container firstContainer" style="margin-bottom: 5%;">
             <button class="button is-rounded mb-5 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
-            <button class="button is-rounded mb-5 is-light" id="transferBtn"><i class="fa-solid fa-cart-flatbed mr-3"></i>Transfer</button>
-            <button class="button is-rounded mb-5 is-light" id="cancelBtn"><i class="fa-solid fa-ban mr-3"></i>Cancel</button>
+            <button class="button is-rounded mb-5 is-light" id="updateBtn"><i class="fa-solid fa-pen-to-square mr-3"></i>Update Status</button>
             <p class="title is-4" id="shipmentTitle">Shipment <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["shipmentNumber"] ?></p>
             <p class="title is-4 is-hidden" id="shipmentNumberHidden"><?php echo $_SESSION["shipmentNumber"] ?></p>
             <p class="title is-4 is-hidden" id="shipmentTitleHidden"><?php echo $_SESSION["shipmentId"] ?></p>
@@ -262,6 +261,9 @@ include_once 'navbar.php';
             <p class="title is-4 is-hidden" id="vehicleIdHidden"><?php echo $_SESSION["vehicleId"] ?></p>
             <p class="title is-4 is-hidden" id="shipmentStatusHidden"><?php echo $_SESSION["shipmentStatus"] ?></p>
             <p class="title is-4 is-hidden" id="indicatorHidden">result here</p>
+            <p class="title is-4 is-hidden" id="isOwnerHidden"><?php echo $_SESSION["isOwner"] ?></p>
+            <p class="title is-4 is-hidden" id="isDriverHidden"><?php echo $_SESSION["isDriver"] ?></p>
+            <p class="title is-4 is-hidden" id="isHelperHidden"><?php echo $_SESSION["isHelper"] ?></p>
         </div>
         <!-- DESCRIPTION -->
         <div class="container" style="padding: 50px;">
@@ -351,107 +353,68 @@ include_once 'navbar.php';
         </div>
         <!-- DETAILS ******************************* USE TILES WITH THREE COLUMNS ****************************** -->
 
-        <!-- CANCEL MODAL START-->
-        <div class="modal" id="cancelModal">
-            <div class="modal-background" id="cancelModalBg"></div>
+        <!-- UPDATE MODAL START-->
+        <div class="modal" id="updateModal">
+            <div class="modal-background" id="updateModalBg"></div>
             <div class="modal-card">
 
                 <header class="modal-card-head has-background-info">
-                    <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-group mr-3"></i>Cancel Shipment</p>
-                    <button class="delete" aria-label="close" onclick="closeCancel()"></button>
+                    <p class="modal-card-title has-text-white"><i class="fa-solid fa-pen-to-square mr-3"></i>Update Status</p>
+                    <button class="delete" aria-label="close" onclick="closeUpdate()"></button>
                 </header>
 
                 <section class="modal-card-body">
+                    <p class="title is-4 has-text-centered mt-6" id="stepDescription"></p>
+                    <p class="subtitle is-5 has-text-centered" id="stepNumber"></p>
 
-
-                    <div class="field">
-                        <label for="" class="label">Reason for Cancellation</label>
+                    <div class="field is-hidden" id="shipmentRemarksField">
+                        <label for="" class="label">Remarks</label>
                         <div class="control">
-                            <label class="radio">
-                                <input type="radio" name="cancellationReason" value="Failed Delivery">
-                                Failed Delivery
-                            </label>
-                            <br>
-                            <label class="radio">
-                                <input type="radio" name="cancellationReason" value="Incorrect Shipment">
-                                Incorrect Shipment
-                            </label>
-                            <br>
-                            <label class="radio">
-                                <input type="radio" name="cancellationReason" value="Others">
-                                Others, specify:
-                            </label>
+                            <textarea class="textarea" placeholder="Enter remarks here" name="shipmentRemarks" id="shipmentRemarks" style="resize: none;"></textarea>
                         </div>
-                        <p class="help" id="cancellationReasonHelp"></p>
-                    </div>
-
-
-                    <div class="field">
-                        <label for="" class="label"></label>
-                        <div class="control">
-                            <textarea class="textarea" placeholder="Enter reason here" name="othersCancellationReason" id="othersCancellationReason" style="resize: none;"></textarea>
-                        </div>
-                        <p class="help" id="othersCancellationReasonHelp"></p>
+                        <p class="help" id="shipmentRemarksHelp"></p>
                     </div>
 
                     <div class="field has-text-centered mt-6">
-                        <button class="button is-info has-text-white is-rounded" name="submitCancelForm" id="submitCancelForm">
-                            <i class="fas fa-paper-plane mr-3"></i>Submit
+                        <button class="button is-info has-text-white is-rounded" name="submitUpdateForm" id="submitUpdateForm">
+                            <i class="fa-solid fa-check mr-3"></i>Mark this step as completed
                         </button>
-                        <p class="help" id="submitCancelFormHelp" style="text-align: center;"></p>
+                        <p class="help" id="submitUpdateFormHelp" style="text-align: center;"></p>
                     </div>
 
                 </section>
             </div>
         </div>
-        <!-- CANCEL MODAL END-->
+        <!-- UPDATE MODAL END-->
 
-        <!-- TRANSFER MODAL START-->
-        <div class="modal" id="transferModal">
-            <div class="modal-background" id="transferModalBg"></div>
-            <div class="modal-card">
-
-                <header class="modal-card-head has-background-info">
-                    <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-group mr-3"></i>Transfer Shipment</p>
-                    <button class="delete" aria-label="close" onclick="closeTransfer()"></button>
-                </header>
-
-                <section class="modal-card-body">
-
-
-                    <div class="field">
-                        <label for="" class="label">Transfer to</label>
-                        <div class="control">
-                            <div class="select is-rounded" id="vehicleTransferDiv">
-                                <select id="vehicleTransfer" name="vehicleTransfer">
-                                </select>
-                            </div>
-                        </div>
-                        <p class="help" id="vehicleTransferHelp"></p>
-                    </div>
-
-                    <div class="field has-text-centered mt-6">
-                        <button class="button is-info has-text-white is-rounded" name="submitTransferForm" id="submitTransferForm">
-                            <i class="fas fa-paper-plane mr-3"></i>Submit
-                        </button>
-                        <p class="help" id="submitTransferFormHelp" style="text-align: center;"></p>
-                    </div>
-
-                </section>
-            </div>
-        </div>
-        <!-- TRANSFER MODAL END-->
     </div>
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->
-<script src="js/shipment-profile.js"></script>
+<script src="js/shipment-profile-individual.js"></script>
 
 
 <!--INTERNAL JAVASCRIPT-->
 <script>
+    let isOwnerHidden = document.getElementById('isOwnerHidden')
+    let isDriverHidden = document.getElementById('isDriverHidden')
+    let isHelperHidden = document.getElementById('isHelperHidden')
+
     logoutBtn.classList.remove("is-hidden");
-    shipmentBtn.classList.add("is-active");
+    shipmentIndividualBtn.classList.add("is-active");
+
+    if (isOwnerHidden.innerHTML == "Yes") {
+        shipmentGroupBtn.classList.remove("is-hidden");
+        payslipBtn.classList.remove("is-hidden");
+        vehicleBtn.classList.remove("is-hidden");
+    };
+
+    if (isDriverHidden.innerHTML == "Yes" || isHelperHidden.innerHTML == "Yes") {
+        shipmentIndividualBtn.classList.remove("is-hidden");
+    };
+    if (shipmentStatusHidden.innerHTML == "Completed") {
+        updateBtn.classList.add("is-hidden");
+    };
 </script>
 
 </html>

@@ -4,34 +4,22 @@ if (!isset($_SESSION)) {
 }
 require_once "../config.php";
 
-class AddShipmentModel
+class AddShipmentProgressModel
 {
-    private $shipmentNumberAdd;
-    private $shipmentDescriptionAdd;
-    private $destinationAdd;
-    private $dateOfDeliveryAdd;
-    private $areaRateAdd;
-    private $vehicleAdd;
+    private $shipmentId;
+    private $shipmentDescription;
 
 
     public function __construct(
-        $shipmentNumberAdd,
-        $shipmentDescriptionAdd,
-        $destinationAdd,
-        $dateOfDeliveryAdd,
-        $areaRateAdd,
-        $vehicleAdd
+        $shipmentId,
+        $shipmentDescription
     ) {
 
-        $this->shipmentNumberAdd = $shipmentNumberAdd;
-        $this->shipmentDescriptionAdd = $shipmentDescriptionAdd;
-        $this->destinationAdd = $destinationAdd;
-        $this->dateOfDeliveryAdd = $dateOfDeliveryAdd;
-        $this->areaRateAdd = $areaRateAdd;
-        $this->vehicleAdd = $vehicleAdd;
+        $this->shipmentId = $shipmentId;
+        $this->shipmentDescription = $shipmentDescription;
     }
 
-    public function addShipmentRecord()
+    public function addShipmentProgressRecord()
     {
         /*
         if($this->emptyValidator() == false || $this->lengthValidator() == false || $this->patternValidator() == false ){
@@ -55,33 +43,20 @@ class AddShipmentModel
             exit();
         }
 */
-        $this->addShipmentSubmit();
+
         $this->addShipmentProgressSubmit();
-        
+        if ($this->shipmentDescription == "Delivery Completed") {
+            $this->updateShipmentSubmit();
+        }
     }
 
-    public function addShipmentSubmit()
+    public function updateShipmentSubmit()
     {
 
-        $sql = "INSERT INTO 
-                shipment(
-                shipment_number, 
-                shipment_status, 
-                shipment_description,
-                destination,
-                date_of_delivery,
-                area_id,
-                vehicle_id
-                ) 
-                VALUES( 
-                :shipment_number, 
-                :shipment_status, 
-                :shipment_description,
-                :destination,
-                :date_of_delivery,
-                :area_id,
-                :vehicle_id
-                )";
+        $sql = "UPDATE shipment
+        SET 
+        shipment_status = :shipment_status
+        WHERE shipment_id = :shipment_id";
 
         $configObj = new Config();
 
@@ -89,27 +64,18 @@ class AddShipmentModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":shipment_number", $paramShipmentNumberAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":shipment_status", $paramShipmentStatusAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":shipment_description", $paramShipmentDescriptionAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":destination", $paramDestinationAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":date_of_delivery", $paramDateOfDeliveryAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":area_id", $paramAreaIdAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":vehicle_id", $paramVehicleIdAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":shipment_id", $paramShipmentId, PDO::PARAM_STR);
+            $stmt->bindParam(":shipment_status", $paramShipmentStatus, PDO::PARAM_STR);
 
-            $paramShipmentNumberAdd = $this->shipmentNumberAdd;
-            $paramShipmentStatusAdd = "In-progress";
-            $paramShipmentDescriptionAdd = $this->shipmentDescriptionAdd;
-            $paramDestinationAdd = $this->destinationAdd;
-            $paramDateOfDeliveryAdd = $this->dateOfDeliveryAdd;
-            $paramAreaIdAdd = $this->areaRateAdd;
-            $paramVehicleIdAdd = $this->vehicleAdd;
+            $paramShipmentId = $this->shipmentId;
+            $paramShipmentStatus = "Completed";
+
 
             if ($stmt->execute()) {
-                echo "Successfully added a record!";
+                //echo "Successfully added a record!";
             } else {
 
-                echo "Something went wrong, shipment was not successfully added!";
+                //echo "Something went wrong, shipment was not successfully added!";
             }
 
 
@@ -140,14 +106,14 @@ class AddShipmentModel
             $stmt->bindParam(":progress_description", $paramProgressDescription, PDO::PARAM_STR);
             $stmt->bindParam(":shipment_id", $paramShipmentId, PDO::PARAM_STR);
 
-            $paramProgressDescription = "Shipment Placed";
-            $paramShipmentId = $this->getShipmentId();
+            $paramProgressDescription = $this->shipmentDescription;
+            $paramShipmentId = $this->shipmentId;
 
             if ($stmt->execute()) {
-                echo "Successfully added a record!";
+                echo "Successfully updated a record!";
             } else {
 
-                echo "Something went wrong, shipment was not successfully added!";
+                echo "Something went wrong, shipment progress was not successfully updated!";
             }
 
 

@@ -4,34 +4,23 @@ if (!isset($_SESSION)) {
 }
 require_once "../config.php";
 
-class AddShipmentModel
+class CancelShipmentModel
 {
-    private $shipmentNumberAdd;
-    private $shipmentDescriptionAdd;
-    private $destinationAdd;
-    private $dateOfDeliveryAdd;
-    private $areaRateAdd;
-    private $vehicleAdd;
+    private $shipmentId;
+    private $cancelReason;
+
 
 
     public function __construct(
-        $shipmentNumberAdd,
-        $shipmentDescriptionAdd,
-        $destinationAdd,
-        $dateOfDeliveryAdd,
-        $areaRateAdd,
-        $vehicleAdd
+        $shipmentId,
+        $cancelReason
     ) {
 
-        $this->shipmentNumberAdd = $shipmentNumberAdd;
-        $this->shipmentDescriptionAdd = $shipmentDescriptionAdd;
-        $this->destinationAdd = $destinationAdd;
-        $this->dateOfDeliveryAdd = $dateOfDeliveryAdd;
-        $this->areaRateAdd = $areaRateAdd;
-        $this->vehicleAdd = $vehicleAdd;
+        $this->shipmentId = $shipmentId;
+        $this->cancelReason = $cancelReason;
     }
 
-    public function addShipmentRecord()
+    public function cancelShipmentRecord()
     {
         /*
         if($this->emptyValidator() == false || $this->lengthValidator() == false || $this->patternValidator() == false ){
@@ -55,33 +44,17 @@ class AddShipmentModel
             exit();
         }
 */
-        $this->addShipmentSubmit();
-        $this->addShipmentProgressSubmit();
-        
+        $this->cancelShipmentSubmit1();
+        $this->cancelShipmentSubmit2();
     }
 
-    public function addShipmentSubmit()
+    public function cancelShipmentSubmit1()
     {
 
-        $sql = "INSERT INTO 
-                shipment(
-                shipment_number, 
-                shipment_status, 
-                shipment_description,
-                destination,
-                date_of_delivery,
-                area_id,
-                vehicle_id
-                ) 
-                VALUES( 
-                :shipment_number, 
-                :shipment_status, 
-                :shipment_description,
-                :destination,
-                :date_of_delivery,
-                :area_id,
-                :vehicle_id
-                )";
+        $sql = "UPDATE shipment
+        SET 
+        shipment_status = :shipment_status
+        WHERE shipment_id = :shipment_id";
 
         $configObj = new Config();
 
@@ -89,27 +62,18 @@ class AddShipmentModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":shipment_number", $paramShipmentNumberAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":shipment_status", $paramShipmentStatusAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":shipment_description", $paramShipmentDescriptionAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":destination", $paramDestinationAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":date_of_delivery", $paramDateOfDeliveryAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":area_id", $paramAreaIdAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":vehicle_id", $paramVehicleIdAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":shipment_id", $paramShipmentId, PDO::PARAM_STR);
+            $stmt->bindParam(":shipment_status", $paramShipmentStatus, PDO::PARAM_STR);
 
-            $paramShipmentNumberAdd = $this->shipmentNumberAdd;
-            $paramShipmentStatusAdd = "In-progress";
-            $paramShipmentDescriptionAdd = $this->shipmentDescriptionAdd;
-            $paramDestinationAdd = $this->destinationAdd;
-            $paramDateOfDeliveryAdd = $this->dateOfDeliveryAdd;
-            $paramAreaIdAdd = $this->areaRateAdd;
-            $paramVehicleIdAdd = $this->vehicleAdd;
+            $paramShipmentId = $this->shipmentId;
+            $paramShipmentStatus = "Cancelled";
+
 
             if ($stmt->execute()) {
-                echo "Successfully added a record!";
+                //echo "Successfully added a record!";
             } else {
 
-                echo "Something went wrong, shipment was not successfully added!";
+                //echo "Something went wrong, shipment was not successfully added!";
             }
 
 
@@ -118,16 +82,17 @@ class AddShipmentModel
         unset($pdoVessel);
     }
 
-    public function addShipmentProgressSubmit()
+
+    public function cancelShipmentSubmit2()
     {
 
         $sql = "INSERT INTO 
                 shipmentprogress(
-                progress_description,
+                progress_description, 
                 shipment_id
                 ) 
                 VALUES( 
-                :progress_description,
+                :progress_description, 
                 :shipment_id
                 )";
 
@@ -137,54 +102,23 @@ class AddShipmentModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":progress_description", $paramProgressDescription, PDO::PARAM_STR);
             $stmt->bindParam(":shipment_id", $paramShipmentId, PDO::PARAM_STR);
+            $stmt->bindParam(":progress_description", $paramCancelReason, PDO::PARAM_STR);
 
-            $paramProgressDescription = "Shipment Placed";
-            $paramShipmentId = $this->getShipmentId();
+
+            $paramShipmentId = $this->shipmentId;
+            $paramCancelReason = $this->cancelReason;
+
 
             if ($stmt->execute()) {
-                echo "Successfully added a record!";
+                //echo "Successfully added a record!";
             } else {
 
-                echo "Something went wrong, shipment was not successfully added!";
+                //echo "Something went wrong, shipment was not successfully added!";
             }
 
 
             unset($stmt);
-        }
-        unset($pdoVessel);
-    }
-
-    public function getShipmentId()
-    {
-        $configObj = new Config();
-
-        $pdoVessel = $configObj->pdoConnect();
-
-        $sql = "SELECT shipment_id FROM shipment WHERE shipment_number = :shipment_number AND vehicle_id = :vehicle_id";
-
-        if ($stmt = $pdoVessel->prepare($sql)) {
-
-            $stmt->bindParam(":shipment_number", $paramShipmentNumber, PDO::PARAM_STR);
-            $stmt->bindParam(":vehicle_id", $paramVehicleId, PDO::PARAM_STR);
-
-            $paramShipmentNumber = $this->shipmentNumberAdd;
-            $paramVehicleId = $this->vehicleAdd;
-
-            if ($stmt->execute()) {
-                $row = $stmt->fetchAll();
-                $returnValue = $row[0][0];
-            } else {
-                session_start();
-                $_SESSION["prompt"] = "Something went wrong!";
-                header('location: ../prompt.php');
-                exit();
-            }
-
-            unset($stmt);
-
-            return $returnValue;
         }
         unset($pdoVessel);
     }
@@ -206,7 +140,6 @@ class AddShipmentModel
         }
         return $result;
     }
-
     private function lengthValidator()
     {
         if (

@@ -65,6 +65,7 @@ include_once 'navbar.php';
       <p class="title is-hidden" id="indicator">Live Search Indicator</p>
       <p class="title is-hidden" id="tabValueHidden">All</p>
       <button class="button is-rounded mr-4 is-info" onclick="openAdd()"> <i class="fa-solid fa-plus mr-3"></i> Add Shipment</button>
+      <button class="button is-rounded mr-4 is-info" onclick="openLog()"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
 
       <div class="field" id="searchBarForm">
         <p class="control has-icons-right">
@@ -94,9 +95,9 @@ include_once 'navbar.php';
       </div>
 
       <div class="tile is-ancestor is-vertical" id="ancestorTile">
-        
+
       </div>
-        
+
     </div>
 
   </div>
@@ -196,6 +197,26 @@ include_once 'navbar.php';
     </div>
   </div>
   <!-- ADD MODAL END-->
+  <!-- LOG MODAL START-->
+  <div class="modal" id="logModal">
+    <div class="modal-background" id="logModalBg"></div>
+    <div class="modal-card">
+
+      <header class="modal-card-head has-background-info">
+        <p class="modal-card-title has-text-white"><i class="fa-solid fa-clipboard-list mr-3"></i>Log</p>
+        <button class="delete" aria-label="close" onclick="closeLog()"></button>
+      </header>
+
+      <section class="modal-card-body">
+        <div class="content">
+          <ul id="logList">
+          
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <!-- LOG MODAL END-->
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->
@@ -206,7 +227,6 @@ include_once 'navbar.php';
 <script>
   logoutBtn.classList.remove("is-hidden");
   shipmentBtn.classList.add("is-active");
-  
 </script>
 
 </html>

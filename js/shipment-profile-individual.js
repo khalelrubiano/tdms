@@ -32,39 +32,27 @@ let shipmentDescriptionSubtitle = document.getElementById('shipmentDescriptionSu
 let destinationSubtitle = document.getElementById('destinationSubtitle');
 let dateOfDeliverySubtitle = document.getElementById('dateOfDeliverySubtitle');
 
+let stepDescription = document.getElementById('stepDescription');
+let stepNumber = document.getElementById('stepNumber');
+let submitUpdateForm = document.getElementById('submitUpdateForm'); //save changes button
+let shipmentRemarks = document.getElementById('shipmentRemarks');
+let shipmentRemarksField = document.getElementById('shipmentRemarksField');
+let shipmentRemarksHelp = document.getElementById('shipmentRemarksHelp');
 //MODALS
-function openCancel() {
-    cancelModal.classList.add('is-active');
+function openUpdate() {
+    updateModal.classList.add('is-active');
     //populateSelect1();
     //populateUsernameAdd();
 }
 
-function closeCancel() {
+function closeUpdate() {
     /*clearAddFormHelp();
     clearAddFormInput();
 
     submitAddFormHelp.className = "help"
     submitAddFormHelp.innerText = ""*/
-    othersCancellationReason.value = "";
-    cancelModal.classList.remove('is-active');
-
-    //removeSelectAdd(document.getElementById('usernameAdd'));
-}
-
-function openTransfer() {
-
-    transferModal.classList.add('is-active');
-    //populateSelect1();
-    //populateUsernameAdd();
-}
-
-function closeTransfer() {
-    /*clearAddFormHelp();
-    clearAddFormInput();
-
-    submitAddFormHelp.className = "help"
-    submitAddFormHelp.innerText = ""*/
-    transferModal.classList.remove('is-active');
+    //othersCancellationReason.value = "";
+    updateModal.classList.remove('is-active');
 
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
@@ -430,86 +418,6 @@ function generateProgressBarDetails() {
 
     });
 }
-var cancellationReason = document.getElementsByName('cancellationReason');
-var othersCancellationReason = document.getElementById('othersCancellationReason');
-
-function cancelShipment1() {
-
-    for (var i = 0, length = cancellationReason.length; i < length; i++) {
-        if (cancellationReason[i].checked) {
-            // do whatever you want with the checked radio
-            if (cancellationReason[i].value == "Others") {
-                //alert(othersCancellationReason.value);
-                cancelShipment2(othersCancellationReason.value)
-            } else {
-                //alert(cancellationReason[i].value);
-                cancelShipment2(cancellationReason[i].value)
-            }
-
-
-            // only one radio can be logically checked, don't check the rest
-            break;
-        }
-    }
-
-};
-
-function cancelShipment2(cancelReasonVar) {
-    $.post("./classes/cancel-shipment-controller.class.php", {
-        shipmentId: shipmentTitleHidden.innerHTML,
-        cancelReason: cancelReasonVar
-    }, function (data) {
-        //indicatorHidden.innerHTML = "Call Success";
-        //var jsonArray = JSON.parse(data);
-
-        //var finalLength = Math.ceil(jsonArray.length / 4)
-        //arrayLengthHidden.innerHTML = finalLength;
-        //alert(data);
-        addShipmentLog("Cancelled", "Shipment #" + shipmentNumberHidden.innerHTML);
-        //indicatorHidden.innerHTML = jsonArray[0][0] + " " + jsonArray[0][1] + " " + jsonArray[0][2] + " " + jsonArray[0][3] + " " + jsonArray[0][4] + " " + jsonArray[0][5];
-    });
-}
-
-function populateSelect3() {
-    $.post("./classes/load-vehicle-select.class.php", {
-
-    }, function (data) {
-        //alert("call success");
-        var jsonArray = JSON.parse(data);
-        //alert(jsonArray[i][0]);
-        for (var i = 0; i < jsonArray.length; i++) {
-            //alert(jsonArray[i][0]);
-            var newOption = document.createElement("option");
-            newOption.value = jsonArray[i][0];
-            newOption.innerHTML = "Plate Number: " + jsonArray[i][1] + " Driver: " + jsonArray[i][4];
-            vehicleTransfer.options.add(newOption);
-            //helperAdd.options.add(newOption);
-        }
-
-        //closeSelect();
-    });
-}
-
-function transferShipment() {
-    $.post("./classes/transfer-shipment-controller.class.php", {
-        shipmentId: shipmentTitleHidden.innerHTML,
-        shipmentNumber: shipmentNumberHidden.innerHTML,
-        shipmentDescription: shipmentDescriptionSubtitle.innerHTML,
-        destination: destinationSubtitle.innerHTML,
-        dateOfDelivery: dateOfDeliverySubtitle.innerHTML,
-        areaId: areaIdHidden.innerHTML,
-        vehicleId: vehicleTransfer.value
-    }, function (data) {
-        $("#submitTransferFormHelp").html(data);
-        //$("#submitAddFormHelp").attr('class', 'help is-success');
-        //clearAddFormHelp();
-        //clearAddFormInput();
-        //refreshTable();
-        addShipmentLog("Transferred", "Shipment #" + shipmentNumberHidden.innerHTML);
-    });
-    //refreshTable();
-
-}
 
 function addShipmentLog(logDescriptionVar, shipmentDescriptionVar) {
     $.post("./classes/add-shipment-log-controller.class.php", {
@@ -520,52 +428,89 @@ function addShipmentLog(logDescriptionVar, shipmentDescriptionVar) {
     });
 }
 
-submitCancelForm.addEventListener('click', (e) => {
-    cancelShipment1();
-});
+function setProgressStep() {
+    $.post("./classes/load-progress-step.class.php", {
+        shipmentId: shipmentTitleHidden.innerHTML
+    }, function (data) {
+        //alert(data);
+        var jsonArray = JSON.parse(data);
+
+        switch (jsonArray[0][1]) {
+            case "Shipment Placed":
+                stepDescription.innerHTML = "Warehouse Arrival";
+                stepNumber.innerHTML = "Step 1 out of 6";
+
+                break;
+            case "Warehouse Arrival":
+                stepDescription.innerHTML = "Start Loading";
+                stepNumber.innerHTML = "Step 2 out of 6";
+
+                break;
+            case "Start Loading":
+                stepDescription.innerHTML = "Depart Warehouse";
+                stepNumber.innerHTML = "Step 3 out of 6";
+
+                break;
+            case "Depart Warehouse":
+                stepDescription.innerHTML = "Store Arrival";
+                stepNumber.innerHTML = "Step 4 out of 6";
+
+                break;
+            case "Store Arrival":
+                stepDescription.innerHTML = "Start Unloading";
+                stepNumber.innerHTML = "Step 5 out of 6";
+
+                break;
+            case "Start Unloading":
+                stepDescription.innerHTML = "Store Out";
+                stepNumber.innerHTML = "Step 6 out of 6";
+
+                break;
+            case "Store Out":
+                //stepDescription.innerHTML = "Delivery";
+                //stepNumber.innerHTML = "Step 6 out of 6";
+                shipmentRemarksField.classList.remove("is-hidden");
+                submitUpdateForm.innerHTML = "<i class='fa-solid fa-check mr-3'></i>Mark delivery as completed"
+                break;
+        }
+
+        //stepDescription.innerHTML = "SAMPLE";
+    });
+}
+
+function updateShipmentProgress(shipmentIdVar, shipmentDescriptionVar) {
+    $.post("./classes/add-shipment-progress-controller.class.php", {
+        shipmentId: shipmentIdVar,
+        shipmentDescription: shipmentDescriptionVar
+    }, function (data) {
+        alert(data);
+    });
+}
 
 returnBtn.addEventListener('click', () => {
-    window.location.href = "shipment.php";
+    window.location.href = "shipment-individual.php";
 });
 
-cancelBtn.addEventListener('click', () => {
-    openCancel();
+updateBtn.addEventListener('click', () => {
+    openUpdate();
 });
 
-cancellationReason[0].addEventListener('change', () => {
-    //alert("0");
-    othersCancellationReason.value = "";
-    othersCancellationReason.setAttribute("readonly", "true");
-});
+submitUpdateForm.addEventListener('click', () => {
+    if (stepDescription.innerHTML != "") {
+        updateShipmentProgress(shipmentTitleHidden.innerHTML, stepDescription.innerHTML);
+    }
 
-cancellationReason[1].addEventListener('change', () => {
-    //alert("1");
-    othersCancellationReason.value = "";
-    othersCancellationReason.setAttribute("readonly", "true");
-});
+    if (stepDescription.innerHTML == "" && shipmentRemarks.value != "") {
+        updateShipmentProgress(shipmentTitleHidden.innerHTML, "Remarks: " + shipmentRemarks.value);
+        updateShipmentProgress(shipmentTitleHidden.innerHTML, "Delivery Completed");
+        updateBtn.classList.add("is-hidden");
+    }
 
-cancellationReason[2].addEventListener('change', () => {
-    //alert("1");
-    othersCancellationReason.value = "";
-    othersCancellationReason.removeAttribute("readonly");
 });
-
-transferBtn.addEventListener('click', () => {
-    openTransfer();
-});
-
-submitTransferForm.addEventListener('click', (e) => {
-    transferShipment();
-});
-
-if (shipmentStatusHidden.innerHTML != "In-progress") {
-    transferBtn.classList.add('is-hidden');
-    cancelBtn.classList.add('is-hidden');
-};
 
 generateVehicleDetails();
 generateProgressBarDetails();
-populateSelect3();
+setProgressStep();
 /*
 
 shipmentlog table

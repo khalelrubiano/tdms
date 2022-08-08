@@ -24,7 +24,6 @@ class LoginModel
 
         $this->loginEmployeeSubmit();
         $this->loginSubcontractorSubmit();
-
     }
 
     private function loginEmployeeSubmit()
@@ -115,7 +114,8 @@ class LoginModel
         password,
         first_name,
         middle_name,
-        last_name 
+        last_name,
+        company_id 
         FROM subcontractor WHERE username = :username";
 
         if ($stmt = $pdoVessel->prepare($sql)) {
@@ -135,6 +135,7 @@ class LoginModel
                         $middleName = $row["middle_name"];
                         $lastName = $row["last_name"];
                         $hashedPassword = $row["password"];
+                        $companyId = $row["company_id"];
 
                         if (password_verify($this->password, $hashedPassword)) {
 
@@ -146,8 +147,12 @@ class LoginModel
                             $_SESSION["firstName"] = $firstName;
                             $_SESSION["middleName"] = $middleName;
                             $_SESSION["lastName"] = $lastName;
+                            $_SESSION["companyId"] = $companyId;
+                            
+                            $this->getSubcontractorRole1($subcontractorId);
+                            $this->getSubcontractorRole2($subcontractorId);
 
-                            header("location: ../dashboard-default.php");
+                            header("location: ../dashboard-subcontractor.php");
                         } else {
 
                             //$_SESSION["prompt"] = "Invalid username or password!";
@@ -208,7 +213,6 @@ class LoginModel
                         $_SESSION["billingAccess"] = $billingAccess;
                         $_SESSION["payrollAccess"] = $payrollAccess;
                         $_SESSION["companyId"] = $companyId;
-
                     }
                 }
             } else {
@@ -222,6 +226,87 @@ class LoginModel
         unset($pdoVessel);
     }
 
+    private function getSubcontractorRole1($idVar)
+    {
+
+        $configObj = new Config();
+        $pdoVessel = $configObj->pdoConnect();
+
+        $sql = "SELECT 
+        driver_id,
+        helper_id
+        FROM vehicle";
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            //$stmt->bindParam(":permission_id", $paramPermissionId, PDO::PARAM_STR);
+
+            //$paramPermissionId = $_SESSION["permissionId"];
+
+            if ($stmt->execute()) {
+                $row = $stmt->fetchAll();
+
+                for ($i = 0; $i < count($row); $i++) {
+                    /*
+                    if ($idVar == $row[$i][0]) {
+                        //$returnValue = $row[$i][2] . " " . $row[$i][3] . " " . $row[$i][4];
+                        $_SESSION["isOwner"] = "Yes";
+                    }
+                    if ($idVar == $row[$i][1]) {
+                        //$returnValue = $row[$i][2] . " " . $row[$i][3] . " " . $row[$i][4];
+                        $_SESSION["isDriver"] = "Yes";
+                    }
+                    */
+                    switch ($idVar) {
+                        case $row[$i][0]:
+                            $_SESSION["isDriver"] = "Yes";
+                            break;
+                        case $row[$i][1]:
+                            $_SESSION["isHelper"] = "Yes";
+                            break;
+                    }
+                }
+            } else {
+            }
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+    private function getSubcontractorRole2($idVar)
+    {
+
+        $configObj = new Config();
+        $pdoVessel = $configObj->pdoConnect();
+
+        $sql = "SELECT 
+        owner_id
+        FROM ownergroup";
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            //$stmt->bindParam(":permission_id", $paramPermissionId, PDO::PARAM_STR);
+
+            //$paramPermissionId = $_SESSION["permissionId"];
+
+            if ($stmt->execute()) {
+                $row = $stmt->fetchAll();
+
+                for ($i = 0; $i < count($row); $i++) {
+
+                    if ($idVar == $row[$i][0]) {
+                        //$returnValue = $row[$i][2] . " " . $row[$i][3] . " " . $row[$i][4];
+                        $_SESSION["isOwner"] = "Yes";
+                    }
+                }
+            } else {
+            }
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
 
     private function emptyValidator()
     {
