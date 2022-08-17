@@ -60,10 +60,10 @@ include_once 'navbar.php';
 <body>
   <div class="main" style="margin-bottom: 20%;">
     <div class="container" style="margin-bottom: 2%;">
-      <p class="title is-hidden" id="arrayLengthHidden">sample</p>
+      <p class="title" id="arrayLengthHidden">sample</p>
       <p class="title is-hidden" id="test_indicator">Test</p>
-      <p class="title is-hidden" id="indicator">Live Search Indicator</p>
-      <p class="title is-hidden" id="tabValueHidden">All</p>
+      <p class="title" id="indicator">Live Search Indicator</p>
+      <p class="title" id="tabValueHidden">All</p>
       <button class="button is-rounded mr-4 is-info" onclick="openAdd()"> <i class="fa-solid fa-plus mr-3"></i> Create Billing Invoice</button>
       <button class="button is-rounded mr-4 is-info" onclick="openLog()"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
 
@@ -78,8 +78,8 @@ include_once 'navbar.php';
 
       <div class="select is-rounded mr-3" id="selectSortDiv">
         <select id="selectSort">
-          <option value="shipment.shipment_number" selected>Sort By Billing Id</option>
-          <option value="shipment.created_at">Sort By Date</option>
+          <option value="billing.invoice_number" selected>Sort By Invoice Number</option>
+          <option value="billing.invoice_date">Sort By Invoice Date</option>
         </select>
       </div>
 

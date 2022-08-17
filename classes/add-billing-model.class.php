@@ -1,12 +1,13 @@
 <?php
-if ( !isset($_SESSION) ) {
+if (!isset($_SESSION)) {
     session_start();
 }
 require_once "../config.php";
 
 // loop through the shipmentNumberArray and create one billedShipment entry on each pass (Do this on model, just pass the shipmentNumberArray onto model)
 
-class GenerateInvoiceModel{
+class GenerateInvoiceModel
+{
     private $invoiceNumberAdd;
     private $invoiceDateAdd;
     private $clientAdd;
@@ -19,17 +20,17 @@ class GenerateInvoiceModel{
     private $endDateAdd;
 
     public function __construct(
-        $invoiceNumberAdd, 
-        $invoiceDateAdd, 
-        $clientAdd, 
-        $dropFeeAdd, 
+        $invoiceNumberAdd,
+        $invoiceDateAdd,
+        $clientAdd,
+        $dropFeeAdd,
         $parkingFeeAdd,
         $demurrageAdd,
         $otherChargesAdd,
         $penaltyAdd,
         $startDateAdd,
         $endDateAdd
-        ){
+    ) {
 
         $this->invoiceNumberAdd = $invoiceNumberAdd;
         $this->invoiceDateAdd = $invoiceDateAdd;
@@ -43,10 +44,13 @@ class GenerateInvoiceModel{
         $this->endDateAdd = $endDateAdd;
     }
 
-    public function generateInvoiceRecord(){
+    public function generateInvoiceRecord()
+    {
 
         $this->generateInvoiceSubmit();
-/*
+        $this->getClientShipment();
+
+        /*
         for($i = 0; $i < count($this->shipmentNumberArray); $i++){
             
             $this->billedShipmentSubmit($this->shipmentNumberArray[$i]);
@@ -55,7 +59,8 @@ class GenerateInvoiceModel{
         */
     }
 
-    public function generateInvoiceSubmit(){
+    public function generateInvoiceSubmit()
+    {
 
         $sql = "INSERT INTO 
                 billing(
@@ -86,10 +91,10 @@ class GenerateInvoiceModel{
                 )";
 
         $configObj = new Config();
-    
+
         $pdoVessel = $configObj->pdoConnect();
 
-        if($stmt = $pdoVessel->prepare($sql)){
+        if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":invoice_number", $param1, PDO::PARAM_STR);
             $stmt->bindParam(":invoice_date", $param2, PDO::PARAM_STR);
@@ -102,7 +107,7 @@ class GenerateInvoiceModel{
             $stmt->bindParam(":less_penalties", $param9, PDO::PARAM_STR);
             $stmt->bindParam(":start_date", $param10, PDO::PARAM_STR);
             $stmt->bindParam(":end_date", $param11, PDO::PARAM_STR);
-            
+
             $param1 = $this->invoiceNumberAdd;
             $param2 = $this->invoiceDateAdd;
             $param3 = "Unsettled";
@@ -115,11 +120,12 @@ class GenerateInvoiceModel{
             $param10 = $this->startDateAdd;
             $param11 = $this->endDateAdd;
 
-            if($stmt->execute()){
+            if ($stmt->execute()) {
+                echo $this->getBillingId();
                 //echo "Successfully added a record!";
-            } else{
-               
-                $_SESSION ["prompt"] = "Something went wrong!";
+            } else {
+
+                $_SESSION["prompt"] = "Something went wrong!";
                 header('location: ../modal-prompt.php');
                 exit();
             }
@@ -130,79 +136,166 @@ class GenerateInvoiceModel{
         unset($pdoVessel);
     }
 
-    public function getBillingId(){
+    public function getBillingId()
+    {
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
 
         $sql = "SELECT 
         billing_id 
         FROM billing 
-        WHERE invoice_number = :invoice_number AND invoice_date";
+        WHERE invoice_number = :invoice_number AND invoice_date = :invoice_date";
 
-        $configObj = new Config();
-    
-        $pdoVessel = $configObj->pdoConnect();
+        if ($stmt = $pdoVessel->prepare($sql)) {
 
-        if($stmt = $pdoVessel->prepare($sql)){
+            $stmt->bindParam(":invoice_number", $param1, PDO::PARAM_STR);
+            $stmt->bindParam(":invoice_date", $param2, PDO::PARAM_STR);
 
-            $stmt->bindParam(":billingInvoiceNumber", $paramBillingInvoiceNumberGenerate, PDO::PARAM_STR);
-            $stmt->bindParam(":shipmentNumber", $paramShipmentNumber, PDO::PARAM_STR);
-            $stmt->bindParam(":companyName", $paramCompanyName, PDO::PARAM_STR);
-            
-            $paramBillingInvoiceNumberGenerate = $this->billingInvoiceNumberGenerate;
-            $paramShipmentNumber = $shipmentNumberVar;
-            $paramCompanyName = $this->companyName;
 
-            if($stmt->execute()){
-                //echo "Successfully added a record!";
-            } else{
-               
-                $_SESSION ["prompt"] = "Something went wrong!";
-                header('location: ../modal-prompt.php');
+            $param1 = $this->invoiceNumberAdd;
+            $param2 = $this->invoiceDateAdd;
+
+            if ($stmt->execute()) {
+                $row = $stmt->fetchAll();
+                $returnValue = $row[0][0];
+            } else {
+                session_start();
+                $_SESSION["prompt"] = "Something went wrong!";
+                header('location: ../prompt.php');
                 exit();
-                
             }
 
             unset($stmt);
+
+            return $returnValue;
         }
         unset($pdoVessel);
     }
 
-    public function billedShipmentSubmit($shipmentNumberVar){
+    public function getClientShipment()
+    {
+
+        $sql = "SELECT shipment.shipment_id 
+        FROM shipment
+        INNER JOIN clientarea
+        ON shipment.area_id = clientarea.area_id
+        INNER JOIN client
+        ON clientarea.client_id = client.client_id
+        INNER JOIN billing
+        ON client.client_id = billing.client_id
+        WHERE billing.client_id = :client_id";
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":client_id", $param1, PDO::PARAM_STR);
+
+            $param1 = $this->clientAdd;
+
+            if ($stmt->execute()) {
+                $row = $stmt->fetchAll();
+
+                for ($i = 0; $i < count($row); $i++) {
+
+                    if ($this->clientShipmentValidator($row[$i][0]) == true) {
+                        $this->billedShipmentSubmit($row[$i][0]);
+                    }
+                }
+            } else {
+            }
+
+            unset($stmt);
+
+            //return $returnValue;
+        }
+        unset($pdoVessel);
+    }
+
+    public function clientShipmentValidator($shipmentIdVar)
+    {
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        $sql = "SELECT *
+        FROM shipment
+        INNER JOIN shipmentprogress
+        ON shipment.shipment_id = shipmentprogress.shipment_id
+        WHERE shipmentprogress.progress_description = 'Delivery Completed' 
+        AND shipmentprogress.shipment_id = :shipment_id 
+        AND shipmentprogress.created_at BETWEEN :start_date  AND :end_date";
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":shipment_id", $param1, PDO::PARAM_STR);
+            $stmt->bindParam(":start_date", $param2, PDO::PARAM_STR);
+            $stmt->bindParam(":end_date", $param3, PDO::PARAM_STR);
+
+
+            $param1 = $shipmentIdVar;
+            $param2 = $this->startDateAdd;
+            $param3 = $this->endDateAdd;
+
+
+            if ($stmt->execute()) {
+                if ($stmt->rowCount() == 1) {
+                    $result = true;
+                } else {
+                    $result = false;
+                }
+            } else {
+                /*
+                $_SESSION["prompt"] = "Something went wrong!";
+                header('location: ../prompt.php');
+                exit();*/
+            }
+
+            unset($stmt);
+
+            return $result;
+        }
+        unset($pdoVessel);
+    }
+
+    public function billedShipmentSubmit($shipmentIdVar)
+    {
 
         $sql = "INSERT INTO 
                 billedshipment(
-                shipmentNumber,
-                billingInvoiceNumber,
-                companyName
+                billing_id,
+                shipment_id 
                 ) 
                 VALUES(
-                :shipmentNumber,
-                :billingInvoiceNumber,
-                :companyName
+                :billing_id,
+                :shipment_id 
                 )";
 
         $configObj = new Config();
-    
+
         $pdoVessel = $configObj->pdoConnect();
 
-        if($stmt = $pdoVessel->prepare($sql)){
+        if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":billingInvoiceNumber", $paramBillingInvoiceNumberGenerate, PDO::PARAM_STR);
-            $stmt->bindParam(":shipmentNumber", $paramShipmentNumber, PDO::PARAM_STR);
-            $stmt->bindParam(":companyName", $paramCompanyName, PDO::PARAM_STR);
-            
-            $paramBillingInvoiceNumberGenerate = $this->billingInvoiceNumberGenerate;
-            $paramShipmentNumber = $shipmentNumberVar;
-            $paramCompanyName = $this->companyName;
+            $stmt->bindParam(":billing_id", $param1, PDO::PARAM_STR);
+            $stmt->bindParam(":shipment_id", $param2, PDO::PARAM_STR);
 
-            if($stmt->execute()){
+            $param1 = $this->getBillingId();
+            $param2 = $shipmentIdVar;
+
+            if ($stmt->execute()) {
+                //echo $this->getBillingId();
                 //echo "Successfully added a record!";
-            } else{
-               
-                $_SESSION ["prompt"] = "Something went wrong!";
+            } else {
+
+                $_SESSION["prompt"] = "Something went wrong!";
                 header('location: ../modal-prompt.php');
                 exit();
-                
             }
+
 
             unset($stmt);
         }

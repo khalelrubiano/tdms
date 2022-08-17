@@ -306,7 +306,220 @@ submitAddForm.addEventListener('click', (e) => {
     //refreshTable();
 })
 
+function generateBillingList1() {
+    $.post("./classes/load-billing.class.php", {}, function (data) {
+        var jsonArray = JSON.parse(data);
+        var finalLength = Math.ceil(jsonArray.length / 4)
+        arrayLengthHidden.innerHTML = finalLength;
+    });
+}
+
+function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar) {
+    $.post("./classes/load-billing-all.class.php", {
+        tabValue: tabValueVar,
+        currentPageNumber: currentPageNumberVar,
+        orderBy: orderByVar
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+        indicator.innerHTML = "call success";
+        
+        if (currentPageNumber <= arrayLengthHidden.innerHTML) {
+
+
+            var newParentTile = document.createElement("div");
+            newParentTile.classList.add('tile');
+            newParentTile.classList.add('is-parent');
+            newParentTile.classList.add('is-vertical');
+            newParentTile.setAttribute("style", "align-items: center;");
+            ancestorTile.appendChild(newParentTile);
+
+            indicator.innerHTML = jsonArray.length;
+
+            for (var i = 0; i < jsonArray.length; i++) {
+
+                var newChildTile = document.createElement("div");
+                newChildTile.classList.add('tile');
+                newChildTile.classList.add('is-child');
+                newChildTile.classList.add('p-2');
+                newChildTile.classList.add('is-6');
+
+                //CARD
+                var newCard = document.createElement("div");
+                newCard.classList.add('card');
+                newChildTile.appendChild(newCard);
+
+                //CARD HEADER
+
+                var newCardHeader = document.createElement("header");
+                newCardHeader.classList.add('card-header');
+                newCard.appendChild(newCardHeader);
+
+                //CARD HEADER PARAGRAPH
+                var newCardHeaderParagraph = document.createElement("p");
+                newCardHeaderParagraph.classList.add('card-header-title');
+
+                var newCardHeaderParagraphIcon = document.createElement("i");
+                newCardHeaderParagraphIcon.classList.add('fa-solid');
+                newCardHeaderParagraphIcon.classList.add('fa-circle');
+                newCardHeaderParagraphIcon.classList.add('mr-3');
+
+                //newCardHeaderParagraph.appendChild(newCardHeaderParagraphIcon);
+
+                switch (jsonArray[i][2]) {
+                    case "In-progress":
+                        newCardHeaderParagraph.classList.add('has-text-warning');
+                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-warning'></i>" + jsonArray[i][2];
+                        newCardHeader.appendChild(newCardHeaderParagraph);
+                        break;
+                    case "Completed":
+                        newCardHeaderParagraph.classList.add('has-text-primary');
+                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-primary'></i>" + jsonArray[i][2];
+                        newCardHeader.appendChild(newCardHeaderParagraph);
+                        break;
+                    case "Cancelled":
+                        newCardHeaderParagraph.classList.add('has-text-grey');
+                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-grey'></i>" + jsonArray[i][2];
+                        newCardHeader.appendChild(newCardHeaderParagraph);
+                        break;
+
+                }
+
+                //CARD HEADER BUTTON
+
+                var newCardHeaderButton = document.createElement("button");
+                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "')");
+                newCardHeaderButton.classList.add('card-header-icon');
+                newCardHeader.appendChild(newCardHeaderButton);
+
+                var newCardHeaderButtonSpan = document.createElement("span");
+                newCardHeaderButtonSpan.classList.add('icon');
+                newCardHeaderButtonSpan.classList.add('is-right');
+                newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
+
+                var newCardHeaderButtonSpanI = document.createElement("i");
+                newCardHeaderButtonSpanI.classList.add('fa-solid');
+                newCardHeaderButtonSpanI.classList.add('fa-xmark');
+                newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
+
+                //newCardHeaderButton.innerHTML = jsonArray[i][4];
+                //newCardHeader.appendChild(newCardHeaderParagraph);
+
+                //CARD CONTENT
+                var newCardContent = document.createElement("div");
+                newCardContent.classList.add('card-content');
+                newCard.appendChild(newCardContent);
+
+                //CARD CONTENT MEDIA
+                var newContent = document.createElement("div");
+                newContent.classList.add('content');
+                newCardContent.appendChild(newContent);
+
+                //CONTENT PARAGRAPH
+                var newContentParagraph = document.createElement("p");
+                newContentParagraph.classList.add('title');
+                newContentParagraph.classList.add('is-5');
+                newContentParagraph.classList.add('mb-5');
+                newContentParagraph.classList.add('has-text-centered');
+                newContentParagraph.innerHTML = "<i class='fa-solid fa-hashtag mr-1'></i>" + jsonArray[i][1];
+                newContent.appendChild(newContentParagraph);
+
+                //CONTENT PARAGRAPH ICON
+                /*
+                var newContentParagraphIcon = document.createElement("i");
+                newContentParagraphIcon.classList.add('fa-solid');
+                newContentParagraphIcon.classList.add('fa-hashtag');
+                newContentParagraphIcon.classList.add('fa-2x');
+                newContentParagraph.appendChild(newContentParagraphIcon);*/
+
+                //CONTENT TABLE
+                var newContentTable = document.createElement("table");
+                newContentTable.classList.add('table');
+                newContentTable.classList.add('is-bordered');
+                newContent.appendChild(newContentTable);
+
+                //CONTENT TABLE TBODY
+                var newContentTableTbody = document.createElement("tbody");
+                newContentTable.appendChild(newContentTableTbody);
+
+                /*CONTENT TABLE TBODY TR 1
+                var newContentTableTbodyTr1 = document.createElement("tr");
+                newContentTableTbody.appendChild(newContentTableTbodyTr1);
+
+                var newContentTableTbodyTr1Td1 = document.createElement("td");
+                newContentTableTbodyTr1Td1.innerHTML = "Starting Point:";
+                newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td1);
+
+                var newContentTableTbodyTr1Td2 = document.createElement("td");
+                newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][3];
+                newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);*/
+
+                //CONTENT TABLE TBODY TR 2
+                var newContentTableTbodyTr2 = document.createElement("tr");
+                newContentTableTbody.appendChild(newContentTableTbodyTr2);
+
+                var newContentTableTbodyTr2Td1 = document.createElement("td");
+                newContentTableTbodyTr2Td1.innerHTML = "Destination:";
+                newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
+
+                var newContentTableTbodyTr2Td2 = document.createElement("td");
+                newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][4];
+                newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td2);
+
+                //CONTENT TABLE TBODY TR 3
+                var newContentTableTbodyTr3 = document.createElement("tr");
+                newContentTableTbody.appendChild(newContentTableTbodyTr3);
+
+                var newContentTableTbodyTr3Td1 = document.createElement("td");
+                newContentTableTbodyTr3Td1.innerHTML = "Expected Date of Delivery:";
+                newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
+
+                var newContentTableTbodyTr3Td2 = document.createElement("td");
+                newContentTableTbodyTr3Td2.innerHTML = jsonArray[i][5];
+                newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td2);
+
+                //CONTENT TABLE TBODY TR 4
+                var newContentTableTbodyTr4 = document.createElement("tr");
+                newContentTableTbody.appendChild(newContentTableTbodyTr4);
+
+                var newContentTableTbodyTr4Td1 = document.createElement("td");
+                newContentTableTbodyTr4Td1.innerHTML = "Vehicle Plate Number:";
+                newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
+
+                var newContentTableTbodyTr4Td2 = document.createElement("td");
+                newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][7];
+                newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td2);
+
+                //CARD CONTENT MEDIA-CONTENT SUBTITLE
+                var newCardFooter = document.createElement("footer");
+                newCardFooter.classList.add('card-footer');
+                newCard.appendChild(newCardFooter);
+
+                //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
+                var newCardFooterLink = document.createElement("a");
+                newCardFooterLink.setAttribute("onclick", "redirectToShipmentProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][6] + "','" + jsonArray[i][7] + "','" + jsonArray[i][8] + "','" + jsonArray[i][9] + "')");
+                newCardFooterLink.classList.add('card-footer-item');
+                newCardFooterLink.innerHTML = "View Details";
+                newCardFooter.appendChild(newCardFooterLink);
+
+                var newCardFooterLink2 = document.createElement("a");
+                newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
+                newCardFooterLink2.classList.add('card-footer-item');
+                newCardFooterLink2.innerHTML = "Edit Details";
+                newCardFooter.appendChild(newCardFooterLink2);
+
+                //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
+                newParentTile.appendChild(newChildTile);
+
+            }
+        }
+
+    });
+}
+
 populateSelect1();
+generateBillingList1();
+generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
 allTabLink.addEventListener('click', () => {
     settledTabLi.classList.remove('is-active');
@@ -317,7 +530,7 @@ allTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "All";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
 settledTabLink.addEventListener('click', () => {
@@ -329,7 +542,7 @@ settledTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "Settled";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
 unsettledTabLink.addEventListener('click', () => {
@@ -341,5 +554,5 @@ unsettledTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "Unsettled";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
