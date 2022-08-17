@@ -1,12 +1,12 @@
 let allTabLink = document.getElementById('allTabLink');
-let inProgressTabLink = document.getElementById('inProgressTabLink');
-let completedTabLink = document.getElementById('completedTabLink');
-let cancelledTabLink = document.getElementById('cancelledTabLink');
+let availableTabLink = document.getElementById('availableTabLink');
+let onDeliveryTabLink = document.getElementById('onDeliveryTabLink');
+let unavailableTabLink = document.getElementById('unavailableTabLink');
 
 let allTabLi = document.getElementById('allTabLi');
-let inProgressTabLi = document.getElementById('inProgressTabLi');
-let completedTabLi = document.getElementById('completedTabLi');
-let cancelledTabLi = document.getElementById('cancelledTabLi');
+let availableTabLi = document.getElementById('availableTabLi');
+let onDeliveryTabLi = document.getElementById('onDeliveryTabLi');
+let unavailableTabLi = document.getElementById('unavailableTabLi');
 
 const arrayLengthHidden = document.getElementById('arrayLengthHidden');
 const ancestorTile = document.getElementById('ancestorTile');
@@ -18,40 +18,44 @@ let currentPageNumber = 1;
 
 let tabValueHidden = document.getElementById('tabValueHidden')
 
+/*
 
+POST A THIRD VARIABLE TO THE LOAD SHIPMENT ALL FILE THAT DETERMINES WHETHER THE SQL QUERY RETURNS ALL / IN-PROGRESS / COMPLETED/ CANCELLED, USE CUSTOM FUNCTIONS FOR EACH TAB CATEGORY
 
-//SHIPMENT LIST
-function generateShipmentList1() {
-    $.post("./classes/load-shipment-individual.class.php", {}, function (data) {
+Vehicle1 arrived at pick-up location
+Vehicle1 started loading the goods
+Vehicle1 departed from the pick-up location
+
+etc...
+*/
+
+//VEHICLE LIST
+function generateVehicleList1(tabValueVar) {
+    $.post("./classes/load-vehicle-availability-all.class.php", {
+        tabValue: tabValueVar
+    }, function (data) {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
     });
 }
 
-function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
-    $.post("./classes/load-shipment-all-individual.class.php", {
+function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar) {
+    $.post("./classes/load-vehicle-availability.class.php", {
         tabValue: tabValueVar,
         currentPageNumber: currentPageNumberVar,
         orderBy: orderByVar
     }, function (data) {
 
         var jsonArray = JSON.parse(data);
-        indicator.innerHTML = jsonArray[0][1];
-        indicator.innerHTML = currentPageNumber;
-        indicator.innerHTML = arrayLengthHidden.innerHTML;
-
+        indicator.innerHTML = "call success";
         if (currentPageNumber <= arrayLengthHidden.innerHTML) {
+            indicator.innerHTML = "condition success";
 
-            //alert("success");
             var newParentTile = document.createElement("div");
             newParentTile.classList.add('tile');
             newParentTile.classList.add('is-parent');
-            newParentTile.classList.add('is-vertical');
-            newParentTile.setAttribute("style", "align-items: center;");
             ancestorTile.appendChild(newParentTile);
-
-            indicator.innerHTML = jsonArray.length;
 
             for (var i = 0; i < jsonArray.length; i++) {
 
@@ -59,7 +63,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newChildTile.classList.add('tile');
                 newChildTile.classList.add('is-child');
                 newChildTile.classList.add('p-2');
-                newChildTile.classList.add('is-6');
+                newChildTile.classList.add('is-3');
 
                 //CARD
                 var newCard = document.createElement("div");
@@ -81,31 +85,57 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newCardHeaderParagraphIcon.classList.add('fa-circle');
                 newCardHeaderParagraphIcon.classList.add('mr-3');
 
-                //newCardHeaderParagraph.appendChild(newCardHeaderParagraphIcon);
 
-                switch (jsonArray[i][2]) {
-                    case "In-progress":
-                        newCardHeaderParagraph.classList.add('has-text-warning');
-                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-warning'></i>" + jsonArray[i][2];
-                        newCardHeader.appendChild(newCardHeaderParagraph);
-                        break;
-                    case "Completed":
+                //newCardHeaderParagraph.appendChild(newCardHeaderParagraphIcon);
+                switch (jsonArray[i][3]) {
+                    case "Available":
                         newCardHeaderParagraph.classList.add('has-text-primary');
-                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-primary'></i>" + jsonArray[i][2];
+                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3'></i>" + jsonArray[i][3];
                         newCardHeader.appendChild(newCardHeaderParagraph);
                         break;
-                    case "Cancelled":
-                        newCardHeaderParagraph.classList.add('has-text-grey');
-                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-grey'></i>" + jsonArray[i][2];
+                    case "Unavailable":
+                        newCardHeaderParagraph.classList.add('has-text-danger');
+                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-danger'></i>" + jsonArray[i][3];
+                        newCardHeader.appendChild(newCardHeaderParagraph);
+                        break;
+                    case "On-Delivery":
+                        newCardHeaderParagraph.classList.add('has-text-warning');
+                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-warning'></i>" + jsonArray[i][3];
                         newCardHeader.appendChild(newCardHeaderParagraph);
                         break;
 
                 }
+/*
+                var newCardHeaderLabel = document.createElement("label");
+                newCardHeaderLabel.classList.add('card-header-icon');
+                newCardHeaderLabel.classList.add('switch');
+                newCardHeader.appendChild(newCardHeaderLabel);
 
-                //CARD HEADER BUTTON
-                /*
+                var newCardHeaderLabelInput = document.createElement("input");
+                newCardHeaderLabelInput.setAttribute("type", "checkbox");
+                newCardHeaderLabelInput.setAttribute("onchange", "vehicleStatusUpdate1('" + jsonArray[i][0] + "','" + jsonArray[i][3] + "')");
+
+                switch (jsonArray[i][3]) {
+                    case "Available":
+                        newCardHeaderLabelInput.setAttribute("checked", "true");
+                        break;
+                    case "Unavailable":
+                        //newCardHeaderLabelInput.setAttribute("checked", "true");
+                        break;
+
+                }
+
+                //newCardHeaderLabelInput.setAttribute("checked", "true");
+                newCardHeaderLabel.appendChild(newCardHeaderLabelInput);
+
+                var newCardHeaderLabelInputSpan = document.createElement("span");
+                newCardHeaderLabelInputSpan.classList.add('slider');
+                newCardHeaderLabelInputSpan.classList.add('round');
+                newCardHeaderLabel.appendChild(newCardHeaderLabelInputSpan);
+                
+                                //CARD HEADER BUTTON
                                 var newCardHeaderButton = document.createElement("button");
-                                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "')");
+                                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
                                 newCardHeaderButton.classList.add('card-header-icon');
                                 newCardHeader.appendChild(newCardHeaderButton);
                 
@@ -138,16 +168,14 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newContentParagraph.classList.add('is-5');
                 newContentParagraph.classList.add('mb-5');
                 newContentParagraph.classList.add('has-text-centered');
-                newContentParagraph.innerHTML = "<i class='fa-solid fa-hashtag mr-1'></i>" + jsonArray[i][1];
                 newContent.appendChild(newContentParagraph);
 
                 //CONTENT PARAGRAPH ICON
-                /*
                 var newContentParagraphIcon = document.createElement("i");
                 newContentParagraphIcon.classList.add('fa-solid');
-                newContentParagraphIcon.classList.add('fa-hashtag');
+                newContentParagraphIcon.classList.add('fa-truck');
                 newContentParagraphIcon.classList.add('fa-2x');
-                newContentParagraph.appendChild(newContentParagraphIcon);*/
+                newContentParagraph.appendChild(newContentParagraphIcon);
 
                 //CONTENT TABLE
                 var newContentTable = document.createElement("table");
@@ -159,28 +187,28 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 var newContentTableTbody = document.createElement("tbody");
                 newContentTable.appendChild(newContentTableTbody);
 
-                /*CONTENT TABLE TBODY TR 1
+                //CONTENT TABLE TBODY TR 1
                 var newContentTableTbodyTr1 = document.createElement("tr");
                 newContentTableTbody.appendChild(newContentTableTbodyTr1);
 
                 var newContentTableTbodyTr1Td1 = document.createElement("td");
-                newContentTableTbodyTr1Td1.innerHTML = "Starting Point:";
+                newContentTableTbodyTr1Td1.innerHTML = "Plate Number:";
                 newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td1);
 
                 var newContentTableTbodyTr1Td2 = document.createElement("td");
-                newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][3];
-                newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);*/
+                newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][1];
+                newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);
 
                 //CONTENT TABLE TBODY TR 2
                 var newContentTableTbodyTr2 = document.createElement("tr");
                 newContentTableTbody.appendChild(newContentTableTbodyTr2);
 
                 var newContentTableTbodyTr2Td1 = document.createElement("td");
-                newContentTableTbodyTr2Td1.innerHTML = "Destination:";
+                newContentTableTbodyTr2Td1.innerHTML = "Commission Rate:";
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
 
                 var newContentTableTbodyTr2Td2 = document.createElement("td");
-                newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][4];
+                newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][2] + "%";
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td2);
 
                 //CONTENT TABLE TBODY TR 3
@@ -188,11 +216,11 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr3);
 
                 var newContentTableTbodyTr3Td1 = document.createElement("td");
-                newContentTableTbodyTr3Td1.innerHTML = "Expected Date of Delivery:";
+                newContentTableTbodyTr3Td1.innerHTML = "Driver:";
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
 
                 var newContentTableTbodyTr3Td2 = document.createElement("td");
-                newContentTableTbodyTr3Td2.innerHTML = jsonArray[i][5];
+                newContentTableTbodyTr3Td2.innerHTML = jsonArray[i][4];
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td2);
 
                 //CONTENT TABLE TBODY TR 4
@@ -200,13 +228,14 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr4);
 
                 var newContentTableTbodyTr4Td1 = document.createElement("td");
-                newContentTableTbodyTr4Td1.innerHTML = "Vehicle Plate Number:";
+                newContentTableTbodyTr4Td1.innerHTML = "Helper:";
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
                 var newContentTableTbodyTr4Td2 = document.createElement("td");
-                newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][7];
+                newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][5];
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td2);
 
+                /*
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE
                 var newCardFooter = document.createElement("footer");
                 newCardFooter.classList.add('card-footer');
@@ -214,17 +243,17 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                 var newCardFooterLink = document.createElement("a");
-                newCardFooterLink.setAttribute("onclick", "redirectToShipmentProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][6] + "','" + jsonArray[i][7] + "','" + jsonArray[i][8] + "','" + jsonArray[i][9] + "')");
+                newCardFooterLink.setAttribute("onclick", "openEdit('" + jsonArray[i][0] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
-                newCardFooterLink.innerHTML = "View Details";
+                newCardFooterLink.innerHTML = "Edit Details";
                 newCardFooter.appendChild(newCardFooterLink);
-                /*
-                                var newCardFooterLink2 = document.createElement("a");
-                                newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
-                                newCardFooterLink2.classList.add('card-footer-item');
-                                newCardFooterLink2.innerHTML = "Edit Details";
-                                newCardFooter.appendChild(newCardFooterLink2);
-                */
+
+                var newCardFooterLink2 = document.createElement("a");
+                //newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
+                newCardFooterLink2.classList.add('card-footer-item');
+                newCardFooterLink2.innerHTML = "Manage Tracker";
+                newCardFooter.appendChild(newCardFooterLink2);
+*/
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
                 newParentTile.appendChild(newChildTile);
 
@@ -235,7 +264,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
 }
 
 function generateShipmentList3(searchTerm) {
-    $.post("./classes/load-shipment-individual.class.php", {}, function (data) {
+    $.post("./classes/load-shipment.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         //indicator.innerHTML = "live:" + jsonArray.length;
 
@@ -446,98 +475,71 @@ function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusV
     newParentTile.appendChild(newChildTile);
 }
 
-//shipmentId, shipmentNumber, shipmentStatus, shipmentDescription, destination, dateOfDelivery, plateNumber, shipmentDescription, 
-function redirectToShipmentProfile(shipmentIdVar, shipmentNumberVar, shipmentStatusVar, shipmentDescriptionVar, destinationVar, dateOfDeliveryVar, clientNameVar, plateNumberVar, vehicleIdVar, areaIdVar) {
-    $.post("./classes/set-shipment-session-variable.class.php", {
-        shipmentId: shipmentIdVar,
-        shipmentNumber: shipmentNumberVar,
-        shipmentStatus: shipmentStatusVar,
-        shipmentDescription: shipmentDescriptionVar,
-        destination: destinationVar,
-        dateOfDelivery: dateOfDeliveryVar,
-        clientName: clientNameVar,
-        plateNumber: plateNumberVar,
-        vehicleId: vehicleIdVar,
-        areaId: areaIdVar
-    }, function (data) {
-        //var jsonArray = JSON.parse(data);
-        //alert("success call");
-        window.location.href = "shipment-profile-individual.php";
-    });
-}
+generateVehicleList1(tabValueHidden.innerHTML);
+generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
-function returntosender() {
-    $.post("./test/test1.php", {
-
-    }, function (data) {
-        //var jsonArray = JSON.parse(data);
-        alert(data);
-    });
-}
-
-generateShipmentList1();
-generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
-
-//returntosender();
 allTabLink.addEventListener('click', () => {
-    inProgressTabLi.classList.remove('is-active');
-    completedTabLi.classList.remove('is-active');
-    cancelledTabLi.classList.remove('is-active');
+    availableTabLi.classList.remove('is-active');
+    onDeliveryTabLi.classList.remove('is-active');
+    unavailableTabLi.classList.remove('is-active');
 
     allTabLi.classList.add('is-active');
 
     tabValueHidden.innerHTML = "All";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateVehicleList1(tabValueHidden.innerHTML);
+    generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
-inProgressTabLink.addEventListener('click', () => {
+availableTabLink.addEventListener('click', () => {
     allTabLi.classList.remove('is-active');
-    completedTabLi.classList.remove('is-active');
-    cancelledTabLi.classList.remove('is-active');
+    onDeliveryTabLi.classList.remove('is-active');
+    unavailableTabLi.classList.remove('is-active');
 
-    inProgressTabLi.classList.add('is-active');
+    availableTabLi.classList.add('is-active');
 
-    tabValueHidden.innerHTML = "In-progress";
+    tabValueHidden.innerHTML = "Available";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateVehicleList1(tabValueHidden.innerHTML);
+    generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
-completedTabLink.addEventListener('click', () => {
-    inProgressTabLi.classList.remove('is-active');
+onDeliveryTabLink.addEventListener('click', () => {
+    availableTabLi.classList.remove('is-active');
     allTabLi.classList.remove('is-active');
-    cancelledTabLi.classList.remove('is-active');
+    unavailableTabLi.classList.remove('is-active');
 
-    completedTabLi.classList.add('is-active');
+    onDeliveryTabLi.classList.add('is-active');
 
-    tabValueHidden.innerHTML = "Completed";
+    tabValueHidden.innerHTML = "On-Delivery";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateVehicleList1(tabValueHidden.innerHTML);
+    generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
-cancelledTabLink.addEventListener('click', () => {
+unavailableTabLink.addEventListener('click', () => {
     allTabLi.classList.remove('is-active');
-    completedTabLi.classList.remove('is-active');
-    inProgressTabLi.classList.remove('is-active');
+    availableTabLi.classList.remove('is-active');
+    onDeliveryTabLi.classList.remove('is-active');
 
-    cancelledTabLi.classList.add('is-active');
+    unavailableTabLi.classList.add('is-active');
 
-    tabValueHidden.innerHTML = "Cancelled";
+    tabValueHidden.innerHTML = "Unavailable";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateVehicleList1(tabValueHidden.innerHTML);
+    generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
-
 
 selectSort.addEventListener('change', () => {
 
     indicator.innerHTML = selectSort.value;
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
 });
 
@@ -546,7 +548,12 @@ searchBarInput.addEventListener('input', () => {
     if (searchBarInput.value == "") {
         ancestorTile.innerHTML = "";
         currentPageNumber = 1;
-        generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+        generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
     }
 });
+/*
+
+POST A THIRD VARIABLE TO THE LOAD SHIPMENT ALL FILE THAT DETERMINES WHETHER THE SQL QUERY RETURNS ALL / IN-PROGRESS / COMPLETED/ CANCELLED, USE CUSTOM FUNCTIONS FOR EACH TAB CATEGORY
+
+*/

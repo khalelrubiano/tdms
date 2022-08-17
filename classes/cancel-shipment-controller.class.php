@@ -9,10 +9,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $shipmentId = $_POST['shipmentId'];
     $cancelReason = $_POST['cancelReason'];
+    $vehicleId = $_SESSION['vehicleId'];
 
     $cancelObj = new CancelShipmentModel(
         $shipmentId,
-        $cancelReason
+        $cancelReason,
+        $vehicleId
     );
 
     $cancelObj->cancelShipmentRecord();

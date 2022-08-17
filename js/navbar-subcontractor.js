@@ -47,11 +47,11 @@ payslipBtn.addEventListener('click', () => {
 shipmentIndividualBtn.addEventListener('click', () => {
     window.location.href = "shipment-individual.php";
 });
-/*
-vehicleBtn.addEventListener('click', () => {
-    window.location.href = "subcontractor-view-list.php";
-});
 
+vehicleBtn.addEventListener('click', () => {
+    window.location.href = "vehicle-list-subcontractor.php";
+});
+/*
 accountBtn.addEventListener('click', () => {
     window.location.href = "subcontractor-group.php";
 });*/

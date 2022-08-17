@@ -89,6 +89,8 @@ if (!isset($_SESSION)) {
             </p>
             <ul class="menu-list">
                 <li><a id="shipmentBtn">Shipment</a></li>
+                <li><a id="billingBtn">Billing</a></li>
+                <li><a id="payrollBtn">Payroll</a></li>
             </ul>
 
             <p class="menu-label">
@@ -107,7 +109,9 @@ if (!isset($_SESSION)) {
                     <a class="">Subcontractor</a>
                     <ul>
                         <li><a id="subcontractorViewListBtn">View List</a></li>
+                        <li><a id="subcontractorVehicleBtn">Vehicle</a></li>
                         <li><a id="subcontractorGroupBtn">Group</a></li>
+                        
                     </ul>
                 </li>
 

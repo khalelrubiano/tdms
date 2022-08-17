@@ -14,6 +14,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $dateOfDelivery = $_POST['dateOfDelivery'];
     $areaId = $_POST['areaId'];
     $vehicleId = $_POST['vehicleId'];
+    $vehicleIdOld = $_POST['vehicleIdOld'];
 
     $transferObj = new TransferShipmentModel(
         $shipmentId,
@@ -22,7 +23,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $destination,
         $dateOfDelivery,
         $areaId,
-        $vehicleId
+        $vehicleId,
+        $vehicleIdOld
     );
 
     $transferObj->transferShipmentRecord();

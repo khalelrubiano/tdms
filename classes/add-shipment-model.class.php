@@ -57,7 +57,7 @@ class AddShipmentModel
 */
         $this->addShipmentSubmit();
         $this->addShipmentProgressSubmit();
-        
+        $this->editVehicleSubmit();
     }
 
     public function addShipmentSubmit()
@@ -269,6 +269,49 @@ class AddShipmentModel
             unset($stmt);
 
             return $result;
+        }
+        unset($pdoVessel);
+    }
+
+    private function editVehicleSubmit()
+    {
+        $sql = "UPDATE
+        vehicle 
+        SET
+        vehicle_status = :vehicle_status
+        WHERE
+        vehicle_id = :vehicle_id";
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":vehicle_status", $paramVehicleStatusEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":vehicle_id", $paramVehicleIdEdit, PDO::PARAM_STR);
+
+            $paramVehicleStatusEdit = "On-Delivery";
+            $paramVehicleIdEdit = $this->vehicleAdd;
+
+            if ($stmt->execute()) {
+                /*
+                session_start();
+                $_SESSION["prompt"] = "Sign-up was successful!";
+                header('location: ../prompt.php');
+                exit();
+                */
+                //echo "Successfully edited a record!";
+            } else {
+/*
+                $_SESSION["prompt"] = "Something went wrong!";
+                header('location: ../prompt.php');
+                exit();*/
+                //echo "Something went wrong, edit was not successful!";
+            }
+
+
+            unset($stmt);
         }
         unset($pdoVessel);
     }

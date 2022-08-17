@@ -498,7 +498,8 @@ function transferShipment() {
         destination: destinationSubtitle.innerHTML,
         dateOfDelivery: dateOfDeliverySubtitle.innerHTML,
         areaId: areaIdHidden.innerHTML,
-        vehicleId: vehicleTransfer.value
+        vehicleId: vehicleTransfer.value,
+        vehicleIdOld: vehicleIdHidden.innerHTML
     }, function (data) {
         $("#submitTransferFormHelp").html(data);
         //$("#submitAddFormHelp").attr('class', 'help is-success');

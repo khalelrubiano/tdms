@@ -78,6 +78,7 @@ include_once 'navbar-subcontractor.php';
 
   if(isOwnerHidden.innerHTML == "Yes"){
     shipmentGroupBtn.classList.remove("is-hidden");
+    shipmentIndividualBtn.classList.remove("is-hidden");
     payslipBtn.classList.remove("is-hidden");
     vehicleBtn.classList.remove("is-hidden");
   };

@@ -8,15 +8,17 @@ class AddShipmentProgressModel
 {
     private $shipmentId;
     private $shipmentDescription;
-
+    private $vehicleId;
 
     public function __construct(
         $shipmentId,
-        $shipmentDescription
+        $shipmentDescription,
+        $vehicleId
     ) {
 
         $this->shipmentId = $shipmentId;
         $this->shipmentDescription = $shipmentDescription;
+        $this->vehicleId = $vehicleId;
     }
 
     public function addShipmentProgressRecord()
@@ -47,6 +49,7 @@ class AddShipmentProgressModel
         $this->addShipmentProgressSubmit();
         if ($this->shipmentDescription == "Delivery Completed") {
             $this->updateShipmentSubmit();
+            $this->editVehicleSubmit();
         }
     }
 
@@ -151,6 +154,49 @@ class AddShipmentProgressModel
             unset($stmt);
 
             return $returnValue;
+        }
+        unset($pdoVessel);
+    }
+
+    private function editVehicleSubmit()
+    {
+        $sql = "UPDATE
+        vehicle 
+        SET
+        vehicle_status = :vehicle_status
+        WHERE
+        vehicle_id = :vehicle_id";
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":vehicle_status", $paramVehicleStatusEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":vehicle_id", $paramVehicleIdEdit, PDO::PARAM_STR);
+
+            $paramVehicleStatusEdit = "Available";
+            $paramVehicleIdEdit = $this->vehicleId;
+
+            if ($stmt->execute()) {
+                /*
+                session_start();
+                $_SESSION["prompt"] = "Sign-up was successful!";
+                header('location: ../prompt.php');
+                exit();
+                */
+                //echo "Successfully edited a record!";
+            } else {
+/*
+                $_SESSION["prompt"] = "Something went wrong!";
+                header('location: ../prompt.php');
+                exit();*/
+                //echo "Something went wrong, edit was not successful!";
+            }
+
+
+            unset($stmt);
         }
         unset($pdoVessel);
     }

@@ -9,10 +9,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $shipmentId = $_POST['shipmentId'];
     $shipmentDescription = $_POST['shipmentDescription'];
+    $vehicleId = $_SESSION['vehicleId'];
 
     $addObj = new AddShipmentProgressModel(
         $shipmentId, 
-        $shipmentDescription
+        $shipmentDescription,
+        $vehicleId
     );
 
     $addObj->addShipmentProgressRecord();

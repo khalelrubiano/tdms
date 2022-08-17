@@ -8,16 +8,19 @@ class CancelShipmentModel
 {
     private $shipmentId;
     private $cancelReason;
-
+    private $vehicleId;
+    
 
 
     public function __construct(
         $shipmentId,
-        $cancelReason
+        $cancelReason,
+        $vehicleId
     ) {
 
         $this->shipmentId = $shipmentId;
         $this->cancelReason = $cancelReason;
+        $this->vehicleId = $vehicleId;
     }
 
     public function cancelShipmentRecord()
@@ -46,6 +49,7 @@ class CancelShipmentModel
 */
         $this->cancelShipmentSubmit1();
         $this->cancelShipmentSubmit2();
+        $this->editVehicleSubmit();
     }
 
     public function cancelShipmentSubmit1()
@@ -115,6 +119,49 @@ class CancelShipmentModel
             } else {
 
                 //echo "Something went wrong, shipment was not successfully added!";
+            }
+
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+    private function editVehicleSubmit()
+    {
+        $sql = "UPDATE
+        vehicle 
+        SET
+        vehicle_status = :vehicle_status
+        WHERE
+        vehicle_id = :vehicle_id";
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":vehicle_status", $paramVehicleStatusEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":vehicle_id", $paramVehicleIdEdit, PDO::PARAM_STR);
+
+            $paramVehicleStatusEdit = "Available";
+            $paramVehicleIdEdit = $this->vehicleId;
+
+            if ($stmt->execute()) {
+                /*
+                session_start();
+                $_SESSION["prompt"] = "Sign-up was successful!";
+                header('location: ../prompt.php');
+                exit();
+                */
+                echo "Successfully edited a record!";
+            } else {
+/*
+                $_SESSION["prompt"] = "Something went wrong!";
+                header('location: ../prompt.php');
+                exit();*/
+                echo "Something went wrong, edit was not successful!";
             }
 
 

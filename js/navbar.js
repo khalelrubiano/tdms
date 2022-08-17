@@ -11,9 +11,12 @@ let logoutBtn = document.getElementById("logoutBtn")
 
 let dashboardBtn = document.getElementById("dashboardBtn")
 let shipmentBtn = document.getElementById("shipmentBtn")
+let billingBtn = document.getElementById("billingBtn")
+let payrollBtn = document.getElementById("payrollBtn")
 let employeeViewListBtn = document.getElementById("employeeViewListBtn")
 let employeePermissionBtn = document.getElementById("employeePermissionBtn")
 let subcontractorViewListBtn = document.getElementById("subcontractorViewListBtn")
+let subcontractorVehicleBtn = document.getElementById("subcontractorVehicleBtn")
 let subcontractorGroupBtn = document.getElementById("subcontractorGroupBtn")
 let clientViewListBtn = document.getElementById("clientViewListBtn")
 
@@ -51,6 +54,14 @@ shipmentBtn.addEventListener('click', () => {
     window.location.href = "shipment.php";
 });
 
+billingBtn.addEventListener('click', () => {
+    window.location.href = "billing.php";
+});
+
+payrollBtn.addEventListener('click', () => {
+    window.location.href = "payroll.php";
+});
+
 employeeViewListBtn.addEventListener('click', () => {
     window.location.href = "employee-view-list.php";
 });
@@ -61,6 +72,10 @@ employeePermissionBtn.addEventListener('click', () => {
 
 subcontractorViewListBtn.addEventListener('click', () => {
     window.location.href = "subcontractor-view-list.php";
+});
+
+subcontractorVehicleBtn.addEventListener('click', () => {
+    window.location.href = "subcontractor-vehicle.php";
 });
 
 subcontractorGroupBtn.addEventListener('click', () => {

@@ -259,9 +259,13 @@ class LoginModel
                     */
                     switch ($idVar) {
                         case $row[$i][0]:
+                            $_SESSION["isOwner"] = "No";
                             $_SESSION["isDriver"] = "Yes";
+                            $_SESSION["isHelper"] = "No";
                             break;
                         case $row[$i][1]:
+                            $_SESSION["isOwner"] = "No";
+                            $_SESSION["isDriver"] = "No";
                             $_SESSION["isHelper"] = "Yes";
                             break;
                     }
@@ -298,7 +302,9 @@ class LoginModel
                     if ($idVar == $row[$i][0]) {
                         //$returnValue = $row[$i][2] . " " . $row[$i][3] . " " . $row[$i][4];
                         $_SESSION["isOwner"] = "Yes";
-                    }
+                        $_SESSION["isDriver"] = "No";
+                        $_SESSION["isHelper"] = "No";
+                    } 
                 }
             } else {
             }

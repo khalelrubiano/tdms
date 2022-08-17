@@ -405,6 +405,7 @@ include_once 'navbar-subcontractor.php';
 
     if (isOwnerHidden.innerHTML == "Yes") {
         shipmentGroupBtn.classList.remove("is-hidden");
+        shipmentIndividualBtn.classList.remove("is-hidden");
         payslipBtn.classList.remove("is-hidden");
         vehicleBtn.classList.remove("is-hidden");
     };
@@ -412,7 +413,7 @@ include_once 'navbar-subcontractor.php';
     if (isDriverHidden.innerHTML == "Yes" || isHelperHidden.innerHTML == "Yes") {
         shipmentIndividualBtn.classList.remove("is-hidden");
     };
-    if (shipmentStatusHidden.innerHTML == "Completed") {
+    if (shipmentStatusHidden.innerHTML == "Completed" || isOwnerHidden.innerHTML == "Yes") {
         updateBtn.classList.add("is-hidden");
     };
 </script>
