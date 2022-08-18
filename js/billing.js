@@ -40,7 +40,7 @@ const addModal = document.getElementById('addModal');
 
 let submitAddForm = document.getElementById('submitAddForm'); //save changes button
 
-//let logList = document.getElementById('logList')
+let logList = document.getElementById('logList')
 
 //MODALS
 function openAdd() {
@@ -60,6 +60,67 @@ function closeAdd() {
 
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
+
+function openLog() {
+    logModal.classList.add('is-active');
+    //populateSelect1();
+    //populateUsernameAdd();
+}
+
+function closeLog() {
+    /*clearAddFormHelp();
+    clearAddFormInput();
+
+    submitAddFormHelp.className = "help"
+    submitAddFormHelp.innerText = ""*/
+
+    logModal.classList.remove('is-active');
+
+    //removeSelectAdd(document.getElementById('usernameAdd'));
+}
+
+//DELETE AJAX CALL
+function deleteAjax(deleteVar, deleteVar2) {
+    if (confirm("Are you sure?")) {
+        $.post("./classes/delete-billing-controller.class.php", {
+            billingId: deleteVar
+        }, function (data) {
+            //$("#submitAddFormHelp").html(data);
+            //$("#submitAddFormHelp").attr('class', 'help is-success');
+            //clearAddFormHelp();
+            //clearAddFormInput();
+            //addModal.classList.remove('is-active');
+            alert(data);
+            //refreshList();
+            addBillingLog("Deleted", "Invoice #" + deleteVar2);
+        });
+    }
+}
+
+function addBillingLog(logDescriptionVar, billingDescriptionVar) {
+    $.post("./classes/add-billing-log-controller.class.php", {
+        logDescription: logDescriptionVar,
+        billingDescription: billingDescriptionVar
+    }, function (data) {
+        //alert(data);
+    });
+}
+
+function generateBillingLog() {
+    $.post("./classes/load-billing-log.class.php", {
+    }, function (data) {
+        var jsonArray = JSON.parse(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            var newLi = document.createElement("li");
+            newLi.innerHTML = jsonArray[i][3] + " - " + jsonArray[i][1] + " " + jsonArray[i][0] + " " + jsonArray[i][2];
+            logList.appendChild(newLi);
+        }
+
+    });
+}
+
+generateBillingLog();
 
 function populateSelect1() {
     $.post("./classes/load-client-all.class.php", {
@@ -103,7 +164,7 @@ function addAjax() {
         //clearAddFormHelp();
         //clearAddFormInput();
         //refreshTable();
-        //addShipmentLog("Added", "Shipment #" + shipmentNumberAdd.value);
+        addBillingLog("Added", "Invoice #" + invoiceNumberAdd.value);
     });
     //refreshTable();
 
@@ -366,20 +427,15 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar) {
 
                 //newCardHeaderParagraph.appendChild(newCardHeaderParagraphIcon);
 
-                switch (jsonArray[i][2]) {
-                    case "In-progress":
-                        newCardHeaderParagraph.classList.add('has-text-warning');
-                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-warning'></i>" + jsonArray[i][2];
-                        newCardHeader.appendChild(newCardHeaderParagraph);
-                        break;
-                    case "Completed":
+                switch (jsonArray[i][3]) {
+                    case "Settled":
                         newCardHeaderParagraph.classList.add('has-text-primary');
-                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-primary'></i>" + jsonArray[i][2];
+                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-check mr-3 has-text-primary'></i>" + jsonArray[i][3];
                         newCardHeader.appendChild(newCardHeaderParagraph);
                         break;
-                    case "Cancelled":
-                        newCardHeaderParagraph.classList.add('has-text-grey');
-                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-grey'></i>" + jsonArray[i][2];
+                    case "Unsettled":
+                        newCardHeaderParagraph.classList.add('has-text-warning');
+                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-exclamation mr-3 has-text-warning'></i>" + jsonArray[i][3];
                         newCardHeader.appendChild(newCardHeaderParagraph);
                         break;
 
@@ -442,28 +498,28 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 var newContentTableTbody = document.createElement("tbody");
                 newContentTable.appendChild(newContentTableTbody);
 
-                /*CONTENT TABLE TBODY TR 1
+                //CONTENT TABLE TBODY TR 1
                 var newContentTableTbodyTr1 = document.createElement("tr");
                 newContentTableTbody.appendChild(newContentTableTbodyTr1);
 
                 var newContentTableTbodyTr1Td1 = document.createElement("td");
-                newContentTableTbodyTr1Td1.innerHTML = "Starting Point:";
+                newContentTableTbodyTr1Td1.innerHTML = "Invoice Date:";
                 newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td1);
 
                 var newContentTableTbodyTr1Td2 = document.createElement("td");
-                newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][3];
-                newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);*/
+                newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][2];
+                newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);
 
                 //CONTENT TABLE TBODY TR 2
                 var newContentTableTbodyTr2 = document.createElement("tr");
                 newContentTableTbody.appendChild(newContentTableTbodyTr2);
 
                 var newContentTableTbodyTr2Td1 = document.createElement("td");
-                newContentTableTbodyTr2Td1.innerHTML = "Destination:";
+                newContentTableTbodyTr2Td1.innerHTML = "Start Date:";
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
 
                 var newContentTableTbodyTr2Td2 = document.createElement("td");
-                newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][4];
+                newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][10];
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td2);
 
                 //CONTENT TABLE TBODY TR 3
@@ -471,11 +527,11 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr3);
 
                 var newContentTableTbodyTr3Td1 = document.createElement("td");
-                newContentTableTbodyTr3Td1.innerHTML = "Expected Date of Delivery:";
+                newContentTableTbodyTr3Td1.innerHTML = "End Date:";
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
 
                 var newContentTableTbodyTr3Td2 = document.createElement("td");
-                newContentTableTbodyTr3Td2.innerHTML = jsonArray[i][5];
+                newContentTableTbodyTr3Td2.innerHTML = jsonArray[i][11];
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td2);
 
                 //CONTENT TABLE TBODY TR 4
@@ -483,11 +539,11 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr4);
 
                 var newContentTableTbodyTr4Td1 = document.createElement("td");
-                newContentTableTbodyTr4Td1.innerHTML = "Vehicle Plate Number:";
+                newContentTableTbodyTr4Td1.innerHTML = "Client:";
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
                 var newContentTableTbodyTr4Td2 = document.createElement("td");
-                newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][7];
+                newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][4];
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td2);
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE
@@ -497,23 +553,46 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar) {
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                 var newCardFooterLink = document.createElement("a");
-                newCardFooterLink.setAttribute("onclick", "redirectToShipmentProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][6] + "','" + jsonArray[i][7] + "','" + jsonArray[i][8] + "','" + jsonArray[i][9] + "')");
+                newCardFooterLink.setAttribute("onclick", "redirectToBillingProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][6] + "','" + jsonArray[i][7] + "','" + jsonArray[i][8] + "','" + jsonArray[i][9] + "','" + jsonArray[i][10] + "','" + jsonArray[i][11] + "','" + jsonArray[i][12] + "','" + jsonArray[i][13] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
                 newCardFooterLink.innerHTML = "View Details";
                 newCardFooter.appendChild(newCardFooterLink);
-
+/*
                 var newCardFooterLink2 = document.createElement("a");
                 newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
                 newCardFooterLink2.classList.add('card-footer-item');
                 newCardFooterLink2.innerHTML = "Edit Details";
                 newCardFooter.appendChild(newCardFooterLink2);
-
+*/
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
                 newParentTile.appendChild(newChildTile);
 
             }
         }
 
+    });
+}
+
+function redirectToBillingProfile(billingIdVar, invoiceNumberVar, invoiceDateVar, billingStatusVar, clientNameVar, dropFeeVar, parkingFeeVar, demurrageVar, otherChargesVar, penaltyVar, startDateVar, endDateVar, dueDateVar, clientAddressVar) {
+    $.post("./classes/set-billing-session-variable.class.php", {
+        billingId: billingIdVar,
+        invoiceNumber: invoiceNumberVar,
+        invoiceDate: invoiceDateVar,
+        billingStatus: billingStatusVar,
+        clientName: clientNameVar,
+        dropFee: dropFeeVar,
+        parkingFee: parkingFeeVar,
+        demurrage: demurrageVar,
+        otherCharges: otherChargesVar,
+        penalty: penaltyVar,
+        startDate: startDateVar,
+        endDate: endDateVar,
+        dueDate: dueDateVar,
+        clientAddress: clientAddressVar
+    }, function (data) {
+        //var jsonArray = JSON.parse(data);
+        //alert("success call");
+        window.location.href = "billing-profile.php";
     });
 }
 
@@ -556,3 +635,13 @@ unsettledTabLink.addEventListener('click', () => {
     currentPageNumber = 1;
     generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
+
+selectSort.addEventListener('change', () => {
+
+    indicator.innerHTML = selectSort.value;
+    ancestorTile.innerHTML = "";
+    currentPageNumber = 1;
+    generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
+
+});
+

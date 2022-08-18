@@ -22,4 +22,9 @@ if (true) {
 
 }*/
 
-echo $_SESSION["isOwner"] . "<br>" . $_SESSION["isDriver"] . "<br>" . $_SESSION["isHelper"];
+
+$date= date_create("2022-08-18");
+date_add($date,date_interval_create_from_date_string("30 days"));
+echo date_format($date,"Y-m-d") . "<br>";
+
+echo $date;

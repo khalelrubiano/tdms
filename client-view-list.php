@@ -109,6 +109,14 @@ include_once 'navbar.php';
                     <p class="help" id="clientNameAddHelp"></p>
                 </div>
 
+                <div class="field">
+                    <label for="" class="label">Client Address</label>
+                    <div class="control">
+                        <textarea class="textarea" placeholder="Enter location here" name="clientAddressAdd" id="clientAddressAdd" style="resize: none;"></textarea>
+                    </div>
+                    <p class="help" id="clientAddressAddHelp"></p>
+                </div>
+
                 <div class="field has-text-centered mt-6">
                     <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
                         <i class="fas fa-paper-plane mr-3"></i>Submit

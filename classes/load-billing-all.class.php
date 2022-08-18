@@ -23,12 +23,20 @@ try {
     switch ($tabValue) {
         case "All":
             $sql = "SELECT 
+            billing.billing_id,
             billing.invoice_number,
             billing.invoice_date,
             billing.billing_status,
+            client.client_name,
+            billing.drop_fee,
+            billing.parking_fee,
+            billing.demurrage,
+            billing.other_charges,
+            billing.less_penalties,
             billing.start_date,
             billing.end_date,
-            client.client_name
+            billing.due_date,
+            client.client_address
             FROM billing
             INNER JOIN client
             ON billing.client_id = client.client_id
@@ -37,12 +45,20 @@ try {
             break;
         case "Settled":
             $sql = "SELECT 
+            billing.billing_id,
             billing.invoice_number,
             billing.invoice_date,
             billing.billing_status,
+            client.client_name,
+            billing.drop_fee,
+            billing.parking_fee,
+            billing.demurrage,
+            billing.other_charges,
+            billing.less_penalties,
             billing.start_date,
             billing.end_date,
-            client.client_name
+            billing.due_date,
+            client.client_address
             FROM billing
             INNER JOIN client
             ON billing.client_id = client.client_id
@@ -52,12 +68,20 @@ try {
             break;
         case "Unsettled":
             $sql = "SELECT 
+            billing.billing_id,
             billing.invoice_number,
             billing.invoice_date,
             billing.billing_status,
+            client.client_name,
+            billing.drop_fee,
+            billing.parking_fee,
+            billing.demurrage,
+            billing.other_charges,
+            billing.less_penalties,
             billing.start_date,
             billing.end_date,
-            client.client_name
+            billing.due_date,
+            client.client_address
             FROM billing
             INNER JOIN client
             ON billing.client_id = client.client_id

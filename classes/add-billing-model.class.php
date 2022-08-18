@@ -66,6 +66,7 @@ class GenerateInvoiceModel
                 billing(
                 invoice_number, 
                 invoice_date, 
+                due_date,
                 billing_status, 
                 client_id,
                 drop_fee,
@@ -79,6 +80,7 @@ class GenerateInvoiceModel
                 VALUES(
                 :invoice_number, 
                 :invoice_date, 
+                :due_date,
                 :billing_status, 
                 :client_id,
                 :drop_fee,
@@ -98,6 +100,7 @@ class GenerateInvoiceModel
 
             $stmt->bindParam(":invoice_number", $param1, PDO::PARAM_STR);
             $stmt->bindParam(":invoice_date", $param2, PDO::PARAM_STR);
+            $stmt->bindParam(":due_date", $param12, PDO::PARAM_STR);
             $stmt->bindParam(":billing_status", $param3, PDO::PARAM_STR);
             $stmt->bindParam(":client_id", $param4, PDO::PARAM_STR);
             $stmt->bindParam(":drop_fee", $param5, PDO::PARAM_STR);
@@ -119,6 +122,13 @@ class GenerateInvoiceModel
             $param9 = $this->penaltyAdd;
             $param10 = $this->startDateAdd;
             $param11 = $this->endDateAdd;
+
+            $date = date_create($this->invoiceDateAdd);
+            
+            date_add($date, date_interval_create_from_date_string("30 days"));
+            //echo date_format($date, "Y-m-d") . "<br>";
+
+            $param12 = date_format($date, "Y-m-d");
 
             if ($stmt->execute()) {
                 echo $this->getBillingId();

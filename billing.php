@@ -60,10 +60,10 @@ include_once 'navbar.php';
 <body>
   <div class="main" style="margin-bottom: 20%;">
     <div class="container" style="margin-bottom: 2%;">
-      <p class="title" id="arrayLengthHidden">sample</p>
+      <p class="title is-hidden" id="arrayLengthHidden">sample</p>
       <p class="title is-hidden" id="test_indicator">Test</p>
-      <p class="title" id="indicator">Live Search Indicator</p>
-      <p class="title" id="tabValueHidden">All</p>
+      <p class="title is-hidden" id="indicator">Live Search Indicator</p>
+      <p class="title is-hidden" id="tabValueHidden">All</p>
       <button class="button is-rounded mr-4 is-info" onclick="openAdd()"> <i class="fa-solid fa-plus mr-3"></i> Create Billing Invoice</button>
       <button class="button is-rounded mr-4 is-info" onclick="openLog()"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
 
@@ -233,7 +233,7 @@ include_once 'navbar.php';
     </div>
   </div>
   <!-- ADD MODAL END-->
-  <!-- LOG MODAL START
+  <!-- LOG MODAL START-->
   <div class="modal" id="logModal">
     <div class="modal-background" id="logModalBg"></div>
     <div class="modal-card">
@@ -251,7 +251,7 @@ include_once 'navbar.php';
         </div>
       </section>
     </div>
-  </div>-->
+  </div>
   <!-- LOG MODAL END-->
 </body>
 

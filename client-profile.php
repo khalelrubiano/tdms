@@ -147,13 +147,15 @@ include_once 'navbar.php';
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
             <button class="button is-rounded mb-5 is-info" id="registerBtn" onclick="openAdd()"><i class="fa-solid fa-plus mr-3"></i>Register Area & Rate</button>
             <button class="button is-rounded mb-5 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
-            <p class="title has-text-centered is-3"><?php echo $_SESSION["clientName"] ?></p>
+            
             <p class="title is-hidden" id="clientIdHidden"><?php echo $_SESSION["clientId"] ?></p>
             <p class="title is-hidden" id="areaIdHidden"></p>
 
         </div>
 
         <div class="container">
+        <p class="title has-text-centered is-3 mb-6"><?php echo $_SESSION["clientName"] ?></p>
+        <p class="subtitle has-text-centered is-5 mb-6"><?php echo $_SESSION["clientAddress"] ?></p>
             <div id="card" class="mb-4 has-text-centered">
                 <table>
                     <thead>

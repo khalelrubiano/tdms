@@ -22,7 +22,7 @@ echo $_SESSION["billingAccess"] . "<br>";
 echo $_SESSION["payrollAccess"] . "<br>";
 echo $_SESSION["companyId"] . "<br>";
 */
-
+/*
 echo $_SESSION["ownerSubcontractorId"];
 echo $_SESSION["ownerUsername"];
 echo $_SESSION["ownerFirstName"];
@@ -31,5 +31,18 @@ echo $_SESSION["ownerLastName"];
 echo $_SESSION["groupId"];
 echo $_SESSION["groupName"];
 echo $_SESSION["companyId"];
+*/
+echo $_SESSION["billingId"];
+echo $_SESSION["invoiceNumber"];
+echo $_SESSION["invoiceDate"];
+echo $_SESSION["billingStatus"];
+echo $_SESSION["clientName"];
+echo $_SESSION["dropFee"];
+echo $_SESSION["parkingFee"];
+echo $_SESSION["demurrage"];
+echo $_SESSION["otherCharges"];
+echo $_SESSION["penalty"];
+echo $_SESSION["startDate"];
+echo $_SESSION["endDate"];
 
 //session_destroy();

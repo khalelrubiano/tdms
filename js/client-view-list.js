@@ -54,13 +54,15 @@ let submitAddForm = document.getElementById('submitAddForm'); //save changes but
 let submitAddFormHelp = document.getElementById('submitAddFormHelp'); //save changes button
 
 let clientNameAdd = document.getElementById('clientNameAdd');
+let clientAddressAdd = document.getElementById('clientAddressAdd');
 
 let clientNameAddHelp = document.getElementById('clientNameAddHelp');
-
+let clientAddressAddHelp = document.getElementById('clientAddressAddHelp');
 
 function addAjax() {
     $.post("./classes/add-client-controller.class.php", {
-        clientNameAdd: clientNameAdd.value
+        clientNameAdd: clientNameAdd.value,
+        clientAddressAdd: clientAddressAdd.value
 
     }, function (data) {
         $("#submitAddFormHelp").html(data);
@@ -82,11 +84,12 @@ submitAddForm.addEventListener('click', (e) => {
     //clearAddFormInput();
 
     let clientNameAddMessages = []
+    let clientAddressAddMessages = []
 
 
     //Username Validation
 
-    if (pattern1.test(clientNameAdd.value) == false) {
+    if (pattern2.test(clientNameAdd.value) == false) {
         clientNameAdd.className = "input is-danger is-rounded"
         clientNameAddHelp.className = "help is-danger"
         clientNameAddMessages.push('Client name should only consist of numbers, letters!')
@@ -104,14 +107,38 @@ submitAddForm.addEventListener('click', (e) => {
         clientNameAddMessages.push('Client name must be less than 255 characters!')
     }
 
+    //Address Validation
+
+    if (pattern2.test(clientAddressAdd.value) == false) {
+        clientAddressAdd.className = "input is-danger is-rounded"
+        clientAddressAddHelp.className = "help is-danger"
+        clientAddressAddMessages.push('Client address should only consist of numbers, letters!')
+    }
+
+    if (clientAddressAdd.value === "" || clientAddressAdd.value == null) {
+        clientAddressAdd.className = "input is-danger is-rounded"
+        clientAddressAddHelp.className = "help is-danger"
+        clientAddressAddMessages.push('Client address is required!')
+    }
+
+    if (clientAddressAdd.value.length >= 255) {
+        clientAddressAdd.className = "input is-danger is-rounded"
+        clientAddressAddHelp.className = "help is-danger"
+        clientAddressAddMessages.push('Client address must be less than 255 characters!')
+    }
+
     //Messages
     if (clientNameAddMessages.length > 0) {
         e.preventDefault()
         clientNameAddHelp.innerText = clientNameAddMessages.join(', ');
     }
-
+    if (clientAddressAddMessages.length > 0) {
+        e.preventDefault()
+        clientAddressAddHelp.innerText = clientAddressAddMessages.join(', ');
+    }
     if (
-        clientNameAddMessages.length <= 0
+        clientNameAddMessages.length <= 0,
+        clientAddressAddMessages.length <= 0
     ) {
         addAjax();
     }
@@ -268,7 +295,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                 var newCardFooterLink = document.createElement("a");
-                newCardFooterLink.setAttribute("onclick", "redirectToClientProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "')");
+                newCardFooterLink.setAttribute("onclick", "redirectToClientProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
                 newCardFooterLink.innerHTML = "Manage";
                 newCardFooter.appendChild(newCardFooterLink);
@@ -419,10 +446,11 @@ function refreshList() {
     generateUserList2(1, selectSort.value);
 }
 
-function redirectToClientProfile(clientIdVar, clientNameVar) {
+function redirectToClientProfile(clientIdVar, clientNameVar, clientAddressVar) {
     $.post("./classes/set-client-session-variable.class.php", {
         clientId: clientIdVar,
-        clientName: clientNameVar
+        clientName: clientNameVar,
+        clientAddress: clientAddressVar
     }, function (data) {
         //var jsonArray = JSON.parse(data);
         //alert("success call");
