@@ -2,29 +2,46 @@
 if (!isset($_SESSION)) {
   session_start();
 }
+require_once "../config.php";
 
-/*$isOwner = $_SESSION["isOwner"];
-$isDriver = $_SESSION["isDriver"];
-$isHelper = $_SESSION["isHelper"];
+function getBilledShipment()
+{
+    $configObj = new Config();
 
-if (true) {
-  //echo "Success";
-  $switchValue = "Yes";
+    $pdoVessel = $configObj->pdoConnect();
 
-  switch ($switchValue) {
-    case "Yes":
-      $sample = "Yes";
-      break;
-    case "No":
-      $sample = "No";
-      break;
-  }
+    $sql = "SELECT shipment.shipment_id 
+    FROM billing 
+    INNER JOIN billedshipment
+    ON billing.billing_id = billedshipment.billing_id
+    INNER JOIN shipment
+    ON billedshipment.shipment_id = shipment.shipment_id
+    WHERE billing.billing_id = :billing_id";
 
-}*/
+    if ($stmt = $pdoVessel->prepare($sql)) {
+
+        $stmt->bindParam(":billing_id", $param1, PDO::PARAM_STR);
+
+        $param1 = 10;
+
+        if ($stmt->execute()) {
+            $row = $stmt->fetchAll();
+
+            for ($i = 0; $i < count($row); $i++) {
+                echo "ID: " . $row[$i][0] . "<br>";
+            }
 
 
-$date= date_create("2022-08-18");
-date_add($date,date_interval_create_from_date_string("30 days"));
-echo date_format($date,"Y-m-d") . "<br>";
 
-echo $date;
+        } else {
+            session_start();
+            $_SESSION["prompt"] = "Something went wrong!";
+            header('location: ../prompt.php');
+            exit();
+        }
+
+        unset($stmt);
+    }
+    unset($pdoVessel);
+}
+getBilledShipment();

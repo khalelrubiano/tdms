@@ -24,6 +24,7 @@ class EditBillingModel
         }
 */
         $this->editSubmit();
+        
     }
 
     private function editSubmit()
@@ -46,6 +47,8 @@ class EditBillingModel
             $param1 = $this->billingId;
 
             if ($stmt->execute()) {
+                $this->getBilledShipment();
+                $this->editDateSubmit();
                 /*
                 session_start();
                 $_SESSION["prompt"] = "Sign-up was successful!";
@@ -67,16 +70,14 @@ class EditBillingModel
         unset($pdoVessel);
     }
 
-    private function editSubcontractorGroupSubmit()
+    private function editDateSubmit()
     {
 
         $sql = "INSERT INTO 
-        ownergroup 
-        (group_name, 
-        owner_id) 
+        billingdate 
+        (billing_id) 
         VALUES 
-        (:group_name, 
-        :owner_id) ";
+        (:billing_id)";
 
         $configObj = new Config();
 
@@ -84,16 +85,47 @@ class EditBillingModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":group_name", $paramGroupNameEdit, PDO::PARAM_STR);
-            $stmt->bindParam(":owner_id", $paramGroupOwnerEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":billing_id", $param1, PDO::PARAM_STR);
 
-            $paramGroupNameEdit = $this->groupNameEdit;
-            $paramGroupOwnerEdit = $this->groupOwnerEdit;
+            $param1 = $this->billingId;
 
             if ($stmt->execute()) {
-                echo "Successfully created a group!";
+                //echo "Successfully created a group!";
             } else {
-                echo "Something went wrong, group creation was not successful!";
+                //echo "Something went wrong, group creation was not successful!";
+            }
+
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+    private function editPayrollSubmit($shipmentIdVar)
+    {
+
+        $sql = "INSERT INTO 
+        payroll 
+        (payroll_status, 
+        shipment_id) 
+        VALUES 
+        ('Unsettled', 
+        :shipment_id)";
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":shipment_id", $param1, PDO::PARAM_STR);
+
+            $param1 = $shipmentIdVar;
+
+            if ($stmt->execute()) {
+                //echo "Successfully created a group!";
+            } else {
+                //echo "Something went wrong, group creation was not successful!";
             }
 
 
@@ -103,26 +135,33 @@ class EditBillingModel
     }
 
    
-    public function getSubcontractorId()
+    public function getBilledShipment()
     {
         $configObj = new Config();
 
         $pdoVessel = $configObj->pdoConnect();
 
-        $sql = "SELECT * FROM subcontractor WHERE username = :username AND company_id = :company_id";
+        $sql = "SELECT shipment.shipment_id 
+        FROM billing 
+        INNER JOIN billedshipment
+        ON billing.billing_id = billedshipment.billing_id
+        INNER JOIN shipment
+        ON billedshipment.shipment_id = shipment.shipment_id
+        WHERE billing.billing_id = :billing_id";
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":username", $paramUsernameEdit, PDO::PARAM_STR);
-            $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
-            
+            $stmt->bindParam(":billing_id", $param1, PDO::PARAM_STR);
 
-            $paramUsernameEdit = $this->usernameEdit;
-            $paramCompanyId = $this->companyId;
+            $param1 = $this->billingId;
 
             if ($stmt->execute()) {
                 $row = $stmt->fetchAll();
-                $returnValue = $row[0][0];
+
+                for ($i = 0; $i < count($row); $i++) {
+                    $this->editPayrollSubmit($row[$i][0]);
+                }
+
             } else {
                 session_start();
                 $_SESSION["prompt"] = "Something went wrong!";
@@ -131,8 +170,6 @@ class EditBillingModel
             }
 
             unset($stmt);
-
-            return $returnValue;
         }
         unset($pdoVessel);
     }

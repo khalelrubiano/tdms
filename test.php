@@ -37,94 +37,24 @@ include_once 'navbar.php';
 
     <!--INTERNAL CSS-->
     <style>
-        .container {
-            padding: 20px 40px;
-            font-size: 14px;
-        }
 
-        .container ul {
-            position: relative;
-            list-style: none;
-            padding: 0;
-        }
-
-        .container ul:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: #ddd;
-            width: 3px;
-            height: 100%;
-        }
-
-        .container ul li {
-            padding: 30px 30px;
-            position: relative;
-        }
-
-        .selected div {
-            color: tomato;
-        }
-
-        .container li span {
-            position: absolute;
-            left: -45px;
-            font-size: 12px;
-            background-color: #fff;
-            padding: 10px 0;
-            top: 20px;
-            color: #aaa;
-        }
-
-        .container li div {
-            margin-left: 50px;
-        }
     </style>
 </head>
 
 <body>
     <div class="main">
-        <div class="container">
-            <ul>
-                <li>
-                    <span>2022-07-20 03:35</span>
-                    <div>This is the latest news</div>
-                </li>
-                <li>
-                    <span>2022-07-20 03:35</span>
-                    <div>This is the second latest news</div>
-                </li>
-                <li>
-                    <span>2022-07-20 03:35</span>
-                    <div>This is the third latest news</div>
-                </li>
-                <li class="selected">
-                    <span>2022-07-20 03:35</span>
-                    <div>This is the third latest news</div>
-                </li>
-            </ul>
+        <div class="container" id="sampleContainer">
+            
         </div>
-        <textarea class="textarea" style="resize: none;" id="testarea"></textarea>
-        <button class="button is-rounded mr-4 is-info" id="testBtn"> <i class="fa-solid fa-plus mr-3"></i>test</button>
     </div>
 </body>
 
-<!--EXTERNAL JAVASCRIPT
-<script src="js/login.js"></script>
--->
+<!--EXTERNAL JAVASCRIPT-->
+<script src="js/test.js"></script>
+
 <!--INTERNAL JAVASCRIPT-->
 <script>
     logoutBtn.classList.remove("is-hidden");
-
-    let testarea = document.getElementById("testarea");
-    let testBtn = document.getElementById("testBtn");
-
-
-
-    testBtn.addEventListener('click', () => {
-        alert(testarea.value);
-    });
 </script>
 
 </html>
