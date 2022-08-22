@@ -36,10 +36,13 @@ try {
             billing.start_date,
             billing.end_date,
             billing.due_date,
-            client.client_address
+            client.client_address,
+            billingdate.created_at
             FROM billing
             INNER JOIN client
             ON billing.client_id = client.client_id
+            INNER JOIN billingdate
+            ON billing.billing_id = billingdate.billing_id
             WHERE client.company_id = :company_id
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
@@ -58,10 +61,13 @@ try {
             billing.start_date,
             billing.end_date,
             billing.due_date,
-            client.client_address
+            client.client_address,
+            billingdate.created_at
             FROM billing
             INNER JOIN client
             ON billing.client_id = client.client_id
+            INNER JOIN billingdate
+            ON billing.billing_id = billingdate.billing_id
             WHERE client.company_id = :company_id
             AND billing.billing_status = 'Settled'
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';

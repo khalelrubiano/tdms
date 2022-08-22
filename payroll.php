@@ -38,7 +38,9 @@ include_once 'navbar.php';
     <!--INTERNAL CSS-->
     <style>
         @media (min-width: 1000px) {
-            #searchBarForm {
+
+            #searchBarForm,
+            #selectSortDiv {
                 float: right;
             }
         }
@@ -49,43 +51,77 @@ include_once 'navbar.php';
                 padding-top: 10px;
                 padding-bottom: 10px;
             }
+
+            #selectSortDiv {
+                margin-bottom: 5%;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="main" style="margin-bottom: 20%;">
-        <div class="container" style="margin-bottom: 2%;">
-            <p class="title is-hidden" id="arrayLengthHidden">sample</p>
-            <p class="title is-hidden" id="indicator">Live Search Indicator</p>
-            <button class="button is-rounded mr-4 is-info" onclick="openLog()"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
+  <div class="main" style="margin-bottom: 20%;">
+    <div class="container" style="margin-bottom: 2%;">
+      <p class="title is-hidden" id="arrayLengthHidden">sample</p>
+      <p class="title is-hidden" id="test_indicator">Test</p>
+      <p class="title is-hidden" id="indicator">Live Search Indicator</p>
+      <p class="title is-hidden" id="tabValueHidden">All</p>
+      <button class="button is-rounded mr-4 is-info" onclick="openLog()"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
 
-            <div class="select is-rounded" id="selectSortDiv">
-                <select id="selectSort">
-                    <option value="billing.billing_id" selected>Sort By Batch Number</option>
-                    <option value="subcontractor.username">Sort By Owner</option>
-                </select>
-            </div>
+      <div class="field" id="searchBarForm">
+        <p class="control has-icons-right">
+          <input class="input is-rounded" type="text" placeholder="Search" id="searchBarInput">
+          <span class="icon is-small is-right">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+        </p>
+      </div>
 
-            <div class="field" id="searchBarForm">
-                <p class="control has-icons-right">
-                    <input class="input is-rounded" type="text" placeholder="Search" id="searchBarInput">
-                    <span class="icon is-small is-right">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </span>
-                </p>
-            </div>
-
-        </div>
-
-        <div class="container">
-            <div class="tile is-ancestor is-vertical" id="ancestorTile">
-
-            </div>
-        </div>
+      <div class="select is-rounded mr-3" id="selectSortDiv">
+        <select id="selectSort">
+          <option value="billing.billing_id" selected>Sort By Batch Number</option>
+          <option value="subcontractor.username">Sort By Vehicle Owner</option>
+        </select>
+      </div>
 
     </div>
-    
+    <div class="container">
+      <div class="tabs is-centered is-toggle">
+        <ul>
+          <li class="is-active" id="allTabLi"><a id="allTabLink">All</a></li>
+          <li id="settledTabLi"><a id="settledTabLink">Settled</a></li>
+          <li id="unsettledTabLi"><a id="unsettledTabLink">Unsettled</a></li>
+        </ul>
+      </div>
+
+      <div class="tile is-ancestor is-vertical" id="ancestorTile">
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- LOG MODAL START-->
+  <div class="modal" id="logModal">
+    <div class="modal-background" id="logModalBg"></div>
+    <div class="modal-card">
+
+      <header class="modal-card-head has-background-info">
+        <p class="modal-card-title has-text-white"><i class="fa-solid fa-clipboard-list mr-3"></i>Log</p>
+        <button class="delete" aria-label="close" onclick="closeLog()"></button>
+      </header>
+
+      <section class="modal-card-body">
+        <div class="content">
+          <ul id="logList">
+          
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <!-- LOG MODAL END-->
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->

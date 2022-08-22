@@ -430,7 +430,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 switch (jsonArray[i][3]) {
                     case "Settled":
                         newCardHeaderParagraph.classList.add('has-text-primary');
-                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-check mr-3 has-text-primary'></i>" + jsonArray[i][3];
+                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-check mr-3 has-text-primary'></i>" + jsonArray[i][3] + " - " + jsonArray[i][14];
                         newCardHeader.appendChild(newCardHeaderParagraph);
                         break;
                     case "Unsettled":

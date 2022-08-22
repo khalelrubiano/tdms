@@ -1,15 +1,51 @@
 
 const editHeader = document.getElementById('editHeader');
 const editHeader2 = document.getElementById('editHeader2');
-const ancestorTile = document.getElementById('ancestorTile');
-const arrayLengthHidden = document.getElementById('arrayLengthHidden');
-const selectSort = document.getElementById('selectSort');
-let indicator = document.getElementById('indicator');
-let currentPageNumber = 1;
-let searchBarInput = document.getElementById('searchBarInput')
 
-function generatePayslipList1() {
+let allTabLink = document.getElementById('allTabLink');
+let settledTabLink = document.getElementById('settledTabLink');
+let unsettledTabLink = document.getElementById('unsettledTabLink');
+
+
+let allTabLi = document.getElementById('allTabLi');
+let settledTabLi = document.getElementById('settledTabLi');
+let unsettledTabLi = document.getElementById('unsettledTabLi');
+
+
+const arrayLengthHidden = document.getElementById('arrayLengthHidden');
+const ancestorTile = document.getElementById('ancestorTile');
+const selectSort = document.getElementById('selectSort');
+const test_indicator = document.getElementById('test_indicator');
+let indicator = document.getElementById('indicator')
+let searchBarInput = document.getElementById('searchBarInput')
+let currentPageNumber = 1;
+
+let tabValueHidden = document.getElementById('tabValueHidden')
+
+let logList = document.getElementById('logList')
+
+function openLog() {
+    logModal.classList.add('is-active');
+    //populateSelect1();
+    //populateUsernameAdd();
+}
+
+function closeLog() {
+    /*clearAddFormHelp();
+    clearAddFormInput();
+
+    submitAddFormHelp.className = "help"
+    submitAddFormHelp.innerText = ""*/
+
+    logModal.classList.remove('is-active');
+
+    //removeSelectAdd(document.getElementById('usernameAdd'));
+}
+
+function generatePayslipList1(tabValueVar, orderByVar) {
     $.post("./classes/load-payslip.class.php", {
+        tabValue: tabValueVar,
+        orderBy: orderByVar
     }, function (data) {
 
         var jsonArray = JSON.parse(data);
@@ -92,7 +128,7 @@ function generatePayslipList1() {
                         switch (jsonArray[i5][13]) {
                             case "Settled":
                                 newCardHeaderParagraph.classList.add('has-text-primary');
-                                newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-check mr-3 has-text-primary'></i>" + jsonArray[i5][13];
+                                newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-check mr-3 has-text-primary'></i>" + jsonArray[i5][13] + " - " + jsonArray[i5][17];
                                 newCardHeader.appendChild(newCardHeaderParagraph);
                                 break;
                             case "Unsettled":
@@ -104,7 +140,7 @@ function generatePayslipList1() {
                         }
 
                         //CARD HEADER BUTTON
-
+/*
                         var newCardHeaderButton = document.createElement("button");
                         //newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i5][0] + "','" + jsonArray[i5][1] + "')");
                         newCardHeaderButton.classList.add('card-header-icon');
@@ -122,7 +158,7 @@ function generatePayslipList1() {
 
                         //newCardHeaderButton.innerHTML = jsonArray[i][4];
                         //newCardHeader.appendChild(newCardHeaderParagraph);
-
+*/
                         //CARD CONTENT
                         var newCardContent = document.createElement("div");
                         newCardContent.classList.add('card-content');
@@ -232,7 +268,7 @@ function generatePayslipList1() {
 
                         //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                         var newCardFooterLink = document.createElement("a");
-                        //newCardFooterLink.setAttribute("onclick", "redirectToBillingProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][6] + "','" + jsonArray[i][7] + "','" + jsonArray[i][8] + "','" + jsonArray[i][9] + "','" + jsonArray[i][10] + "','" + jsonArray[i][11] + "','" + jsonArray[i][12] + "','" + jsonArray[i][13] + "')");
+                        newCardFooterLink.setAttribute("onclick", "redirectToPayslipProfile('" + jsonArray[i5][0] + "','" + jsonArray[i5][16] + "','" + jsonArray[i5][13] + "')");
                         newCardFooterLink.classList.add('card-footer-item');
                         newCardFooterLink.innerHTML = "View Details";
                         newCardFooter.appendChild(newCardFooterLink);
@@ -264,37 +300,77 @@ function generatePayslipList1() {
     });
 }
 
-generatePayslipList1();
-
-/*
-
-function refreshList() {
-    //generateUserList1();
-    ancestorTile.innerHTML = "";
-    currentPageNumber = 1;
-    //generateUserList2(1, selectSort.value);
+function redirectToPayslipProfile(billingIdVar, ownerIdVar, payrollStatusVar) {
+    $.post("./classes/set-payslip-session-variable.class.php", {
+        billingId: billingIdVar,
+        ownerId: ownerIdVar,
+        payrollStatus: payrollStatusVar
+    }, function (data) {
+        //var jsonArray = JSON.parse(data);
+        //alert("success call");
+        window.location.href = "payslip-profile.php";
+    });
 }
 
+function generatePayrollLog() {
+    $.post("./classes/load-payroll-log.class.php", {
+    }, function (data) {
+        var jsonArray = JSON.parse(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            var newLi = document.createElement("li");
+            newLi.innerHTML = jsonArray[i][3] + " - " + jsonArray[i][1] + " " + jsonArray[i][0] + " " + jsonArray[i][2];
+            logList.appendChild(newLi);
+        }
+
+    });
+}
+
+generatePayrollLog();
+
+generatePayslipList1(tabValueHidden.innerHTML, selectSort.value);
+
+allTabLink.addEventListener('click', () => {
+    settledTabLi.classList.remove('is-active');
+    unsettledTabLi.classList.remove('is-active');
+
+    allTabLi.classList.add('is-active');
+
+    tabValueHidden.innerHTML = "All";
+    ancestorTile.innerHTML = "";
+    currentPageNumber = 1;
+    generatePayslipList1(tabValueHidden.innerHTML, selectSort.value);
+});
+
+settledTabLink.addEventListener('click', () => {
+    allTabLi.classList.remove('is-active');
+    unsettledTabLi.classList.remove('is-active');
+
+    settledTabLi.classList.add('is-active');
+
+    tabValueHidden.innerHTML = "Settled";
+    ancestorTile.innerHTML = "";
+    currentPageNumber = 1;
+    generatePayslipList1(tabValueHidden.innerHTML, selectSort.value);
+});
+
+unsettledTabLink.addEventListener('click', () => {
+    allTabLi.classList.remove('is-active');
+    settledTabLi.classList.remove('is-active');
+
+    unsettledTabLi.classList.add('is-active');
+
+    tabValueHidden.innerHTML = "Unsettled";
+    ancestorTile.innerHTML = "";
+    currentPageNumber = 1;
+    generatePayslipList1(tabValueHidden.innerHTML, selectSort.value);
+});
 
 selectSort.addEventListener('change', () => {
 
     indicator.innerHTML = selectSort.value;
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    //generateUserList2(1, selectSort.value);
-
+    generatePayslipList1(tabValueHidden.innerHTML, selectSort.value);
 
 });
-
-searchBarInput.addEventListener('input', () => {
-    //generateUserList3(searchBarInput.value);
-    if (searchBarInput.value == "") {
-        ancestorTile.innerHTML = "";
-        currentPageNumber = 1;
-        //generateUserList2(1, selectSort.value);
-
-    }
-});
-*/
-//generateUserList1();
-//generateUserList2(1, selectSort.value);
