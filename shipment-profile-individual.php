@@ -32,7 +32,8 @@ include_once 'navbar-subcontractor.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <!--NAVBAR CSS-->
     <link rel="stylesheet" href="navbar.css">
-
+    <script src="https://cdn.maptiler.com/maplibre-gl-js/v2.1.1/maplibre-gl.js"></script>
+    <link href="https://cdn.maptiler.com/maplibre-gl-js/v2.1.1/maplibre-gl.css" rel="stylesheet" />
     <!--INTERNAL CSS-->
     <style>
         .progressbar {
@@ -185,6 +186,9 @@ include_once 'navbar-subcontractor.php';
             .firstContainer {
                 border-bottom: 1px solid gray;
             }
+            #mapContainer {
+                height: 500px;
+            }
         }
 
         @media (max-width: 1000px) {
@@ -194,6 +198,9 @@ include_once 'navbar-subcontractor.php';
 
             .verticalContainer {
                 margin-top: 150px;
+            }
+            #mapContainer {
+                height: 250px;
             }
         }
 
@@ -246,6 +253,26 @@ include_once 'navbar-subcontractor.php';
         .verticalContainer li div {
             margin-left: 50px;
         }
+
+        #map {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .marker {
+            display: block;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .mapboxgl-popup {
+            max-width: 400px;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
     </style>
 </head>
 
@@ -265,6 +292,15 @@ include_once 'navbar-subcontractor.php';
             <p class="title is-4 is-hidden" id="isDriverHidden"><?php echo $_SESSION["isDriver"] ?></p>
             <p class="title is-4 is-hidden" id="isHelperHidden"><?php echo $_SESSION["isHelper"] ?></p>
         </div>
+
+
+
+        <div class="container" id="mapContainer">
+            <div id="map" class="">
+
+            </div>
+        </div>
+
         <!-- DESCRIPTION -->
         <div class="container" style="padding: 50px;">
             <p class="title is-5 mb-6" id="shipmentDescriptionTitle">Shipment Description:</p>
@@ -404,7 +440,7 @@ include_once 'navbar-subcontractor.php';
     shipmentIndividualBtn.classList.add("is-active");
 
     if (isOwnerHidden.innerHTML == "Yes") {
-        shipmentGroupBtn.classList.remove("is-hidden");
+        //shipmentGroupBtn.classList.remove("is-hidden");
         shipmentIndividualBtn.classList.remove("is-hidden");
         payslipBtn.classList.remove("is-hidden");
         vehicleBtn.classList.remove("is-hidden");
@@ -416,6 +452,77 @@ include_once 'navbar-subcontractor.php';
     if (shipmentStatusHidden.innerHTML == "Completed" || isOwnerHidden.innerHTML == "Yes") {
         updateBtn.classList.add("is-hidden");
     };
+
+    var el = document.createElement('div');
+    el.classList.add('marker');
+    //el.innerHTML = "<h1 class='title is-6'><i class='fa-solid fa-truck fa-2xl'></i></h1>";
+    el.setAttribute("style", "background: url(green_marker.png) no-repeat center center fixed; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;");
+    //el.setAttribute("style", "background-color: #cccccc; height: 50px; background-position: center; background-repeat: no-repeat; background-size: cover;");
+    el.style.width = '60px';
+    el.style.height = '60px';
+
+
+
+    // You can remove the following line if you don't need support for RTL (right-to-left) labels:
+    //maplibregl.setRTLTextPlugin('https://cdn.maptiler.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js');
+    var map = new maplibregl.Map({
+        container: 'map',
+        style: 'https://api.maptiler.com/maps/streets/style.json?key=MROowlWHhkfBGNBrkA3C',
+        center: [121.261588, 14.295503],
+        zoom: 7
+    });
+
+    //var laguna = new maplibregl.Marker(el).setLngLat([121.261588, 14.295503]).addTo(map);
+    /*
+        var laguna_popup = new maplibregl.Popup({
+            closeButton: false
+        }).setLngLat([121.261588, 14.295503]).setHTML("<h1 class='title is-6'><i class='fa-solid fa-truck fa-2x'></i></h1>").addTo(map);
+    */
+    //laguna_popup.togglePopup();
+
+    /*
+        el.addEventListener('click', function() {
+            new maplibregl.Popup({
+                closeButton: false
+            }).setLngLat([121.261588, 14.295503]).setHTML("<h1 class='title is-6'><i class='fa-solid fa-truck fa-2x'></i></h1>").addTo(map);
+        });
+    */
+    // add marker to map
+    //new maplibregl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+
+    var popup = new maplibregl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
+    let lat, long, update_time;
+
+    mapContainer.addEventListener('mouseover', function() {
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = 'pointer';
+        /*
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                var description = e.features[0].properties.description;
+
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+        */
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        popup.setLngLat([long, lat]).setHTML("<h1 class='title is-6 p-1'><i class='fa-solid fa-clock mr-3'></i>"+ "Last Update: </h1> <h1 class='subtitle is-6 p-1'>" + update_time + "</h1>").addTo(map);
+        //alert("mouse on");
+    });
+
+    mapContainer.addEventListener('mouseout', function() {
+        map.getCanvas().style.cursor = '';
+        popup.remove();
+        //alert("mouse off");
+    });
+
 </script>
 
 </html>

@@ -506,12 +506,13 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newCardFooterLink.innerHTML = "Edit Details";
                 newCardFooter.appendChild(newCardFooterLink);
 
+                /*
                 var newCardFooterLink2 = document.createElement("a");
                 //newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
                 newCardFooterLink2.classList.add('card-footer-item');
                 newCardFooterLink2.innerHTML = "Manage Tracker";
                 newCardFooter.appendChild(newCardFooterLink2);
-
+*/
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
                 newParentTile.appendChild(newChildTile);
 
@@ -727,12 +728,13 @@ function generateUserList4(vehicleIdVar, plateNumberVar, commissionRateVar, vehi
     newCardFooterLink.innerHTML = "Edit Details";
     newCardFooter.appendChild(newCardFooterLink);
 
+    /*
     var newCardFooterLink2 = document.createElement("a");
     //newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
     newCardFooterLink2.classList.add('card-footer-item');
     newCardFooterLink2.innerHTML = "Manage Tracker";
     newCardFooter.appendChild(newCardFooterLink2);
-
+*/
     //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
 
     newParentTile.appendChild(newChildTile);

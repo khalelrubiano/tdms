@@ -3,11 +3,13 @@
 if (!isset($_SESSION)) {
   session_start();
 }
+
 /*
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION["shipmentAccess"] === 'No') {
-  header("location: dashboard-default.php");
-  exit;
-}*/
+    header("location: dashboard-default.php");
+    exit;
+}
+*/
 
 include_once 'navbar-subcontractor.php';
 
@@ -20,7 +22,7 @@ include_once 'navbar-subcontractor.php';
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shipment (Individual)</title>
+  <title>Payroll</title>
 
   <!--JQUERY CDN-->
   <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
@@ -64,7 +66,7 @@ include_once 'navbar-subcontractor.php';
   <div class="main" style="margin-bottom: 20%;">
     <div class="container" style="margin-bottom: 2%;">
       <p class="title is-hidden" id="arrayLengthHidden">sample</p>
-      <p class="title is-hidden" id="test_indicator"><?php echo $_SESSION["companyId"] ?></p>
+      <p class="title is-hidden" id="test_indicator">Test</p>
       <p class="title is-hidden" id="indicator">Live Search Indicator</p>
       <p class="title is-hidden" id="tabValueHidden">All</p>
       <p class="title is-4 is-hidden" id="isOwnerHidden"><?php echo $_SESSION["isOwner"] ?></p>
@@ -82,8 +84,8 @@ include_once 'navbar-subcontractor.php';
 
       <div class="select is-rounded mr-3" id="selectSortDiv">
         <select id="selectSort">
-          <option value="shipment.shipment_number" selected>Sort By Shipment Number</option>
-          <option value="shipment.created_at">Sort By Date</option>
+          <option value="billing.billing_id" selected>Sort By Batch Number</option>
+          <option value="subcontractor.username">Sort By Vehicle Owner</option>
         </select>
       </div>
 
@@ -92,9 +94,8 @@ include_once 'navbar-subcontractor.php';
       <div class="tabs is-centered is-toggle">
         <ul>
           <li class="is-active" id="allTabLi"><a id="allTabLink">All</a></li>
-          <li id="inProgressTabLi"><a id="inProgressTabLink">In-progress</a></li>
-          <li id="completedTabLi"><a id="completedTabLink">Completed</a></li>
-          <li id="cancelledTabLi"><a id="cancelledTabLink">Cancelled</a></li>
+          <li id="settledTabLi"><a id="settledTabLink">Settled</a></li>
+          <li id="unsettledTabLi"><a id="unsettledTabLink">Unsettled</a></li>
         </ul>
       </div>
 
@@ -105,12 +106,11 @@ include_once 'navbar-subcontractor.php';
     </div>
 
   </div>
-  
+
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->
-<script src="js/shipment-individual.js"></script>
-
+<script src="js/payroll-individual.js"></script>
 
 <!--INTERNAL JAVASCRIPT-->
 <script>
@@ -119,16 +119,16 @@ include_once 'navbar-subcontractor.php';
   let isHelperHidden = document.getElementById('isHelperHidden')
 
   logoutBtn.classList.remove("is-hidden");
-  shipmentIndividualBtn.classList.add("is-active");
+  payslipBtn.classList.add("is-active");
 
-  if(isOwnerHidden.innerHTML == "Yes"){
+  if (isOwnerHidden.innerHTML == "Yes") {
     //shipmentGroupBtn.classList.remove("is-hidden");
     shipmentIndividualBtn.classList.remove("is-hidden");
     payslipBtn.classList.remove("is-hidden");
     vehicleBtn.classList.remove("is-hidden");
   };
 
-  if(isDriverHidden.innerHTML == "Yes" || isHelperHidden.innerHTML == "Yes"){
+  if (isDriverHidden.innerHTML == "Yes" || isHelperHidden.innerHTML == "Yes") {
     shipmentIndividualBtn.classList.remove("is-hidden");
   };
 </script>

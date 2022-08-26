@@ -69,6 +69,31 @@ function closeTransfer() {
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
 
+function generateLatestMarker() {
+    $.post("./classes/load-tracker.class.php", {
+        vehicleId: vehicleIdHidden.innerHTML
+    }, function (data) {
+        //indicatorHidden.innerHTML = "Call Success";
+        var jsonArray = JSON.parse(data);
+        //alert(jsonArray[0][0]);
+
+        var laguna = new maplibregl.Marker(el).setLngLat([jsonArray[0][0], jsonArray[0][1]]).addTo(map);
+
+        lat = jsonArray[0][1];
+        long = jsonArray[0][0];
+        update_time = jsonArray[0][2];
+        //var finalLength = Math.ceil(jsonArray.length / 4)
+        //arrayLengthHidden.innerHTML = finalLength;
+
+        //indicatorHidden.innerHTML = jsonArray[0][0] + " " + jsonArray[0][1] + " " + jsonArray[0][2] + " " + jsonArray[0][3] + " " + jsonArray[0][4] + " " + jsonArray[0][5];
+        //driverSubtitle.innerHTML = "Driver: " + jsonArray[0][4];
+        //helperSubtitle.innerHTML = "Helper: " + jsonArray[0][5];
+        //plateNumberSubtitle.innerHTML = "Vehicle Plate Number: " + jsonArray[0][1];
+    });
+}
+
+generateLatestMarker();
+
 function generateVehicleDetails() {
     $.post("./classes/load-vehicle-details.class.php", {
         vehicleId: vehicleIdHidden.innerHTML
@@ -520,6 +545,7 @@ function addShipmentLog(logDescriptionVar, shipmentDescriptionVar) {
         //alert(data);
     });
 }
+
 
 submitCancelForm.addEventListener('click', (e) => {
     cancelShipment1();

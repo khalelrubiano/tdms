@@ -137,9 +137,9 @@ include_once 'navbar-subcontractor.php';
 <body>
     <div class="main">
         <div class="container">
-            <p class="title " id="arrayLengthHidden">sample</p>
-            <p class="title " id="test_indicator">Test</p>
-            <p class="title " id="indicator">Live Search Indicator</p>
+            <p class="title is-hidden" id="arrayLengthHidden">sample</p>
+            <p class="title is-hidden" id="test_indicator">Test</p>
+            <p class="title is-hidden" id="indicator">Live Search Indicator</p>
             <p class="title is-4 is-hidden" id="isOwnerHidden"><?php echo $_SESSION["isOwner"] ?></p>
             <p class="title is-4 is-hidden" id="isDriverHidden"><?php echo $_SESSION["isDriver"] ?></p>
             <p class="title is-4 is-hidden" id="isHelperHidden"><?php echo $_SESSION["isHelper"] ?></p>
@@ -188,7 +188,7 @@ include_once 'navbar-subcontractor.php';
     vehicleBtn.classList.add("is-active");
 
     if (isOwnerHidden.innerHTML == "Yes") {
-        shipmentGroupBtn.classList.remove("is-hidden");
+        //shipmentGroupBtn.classList.remove("is-hidden");
         shipmentIndividualBtn.classList.remove("is-hidden");
         payslipBtn.classList.remove("is-hidden");
         vehicleBtn.classList.remove("is-hidden");

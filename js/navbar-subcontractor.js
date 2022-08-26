@@ -38,11 +38,12 @@ dashboardBtn.addEventListener('click', () => {
 shipmentGroupBtn.addEventListener('click', () => {
     window.location.href = "shipment.php";
 });
+*/
 
 payslipBtn.addEventListener('click', () => {
-    window.location.href = "employee-view-list.php";
+    window.location.href = "payroll-individual.php";
 });
-*/
+
 
 shipmentIndividualBtn.addEventListener('click', () => {
     window.location.href = "shipment-individual.php";

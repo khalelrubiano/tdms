@@ -21,7 +21,7 @@ include_once 'navbar.php';
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <title>TEST</title>
 
     <!--JQUERY CDN-->
@@ -35,18 +35,41 @@ include_once 'navbar.php';
     <!--NAVBAR CSS-->
     <link rel="stylesheet" href="navbar.css">
 
+    <script src="https://cdn.maptiler.com/maplibre-gl-js/v2.1.1/maplibre-gl.js"></script>
+    <link href="https://cdn.maptiler.com/maplibre-gl-js/v2.1.1/maplibre-gl.css" rel="stylesheet" />
+
     <!--INTERNAL CSS-->
     <style>
-
+        #map {
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            bottom: 10%;
+            left: 10%;
+        }
     </style>
 </head>
 
 <body>
     <div class="main">
-        <div class="container" id="sampleContainer">
-            
+
+        <div id="map" class="">
+
         </div>
+
     </div>
+
+
+    <script>
+        // You can remove the following line if you don't need support for RTL (right-to-left) labels:
+        maplibregl.setRTLTextPlugin('https://cdn.maptiler.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js');
+        var map = new maplibregl.Map({
+            container: 'map',
+            style: 'https://api.maptiler.com/maps/streets/style.json?key=MROowlWHhkfBGNBrkA3C',
+            center: [121.261588, 14.295503],
+            zoom: 7
+        });
+    </script>
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->
