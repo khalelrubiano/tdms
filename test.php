@@ -4,14 +4,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-/*
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION["shipmentAccess"] === 'No') {
-    header("location: dashboard-default.php");
-    exit;
-}
-*/
 
-include_once 'navbar.php';
 
 ?>
 
@@ -24,60 +17,229 @@ include_once 'navbar.php';
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <title>TEST</title>
 
-    <!--JQUERY CDN-->
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-    <!--AJAX CDN-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!--BULMA CDN-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <!--FONTAWESOME CDN-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <!--NAVBAR CSS-->
-    <link rel="stylesheet" href="navbar.css">
+    <link href='fullcalendar/lib/main.css' rel='stylesheet' />
+  <script src='fullcalendar/lib/main.js'></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
 
-    <script src="https://cdn.maptiler.com/maplibre-gl-js/v2.1.1/maplibre-gl.js"></script>
-    <link href="https://cdn.maptiler.com/maplibre-gl-js/v2.1.1/maplibre-gl.css" rel="stylesheet" />
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                initialDate: '2022-08-12',
 
+                eventDidMount: function(info) {
+                    var tooltip = new Tooltip(info.el, {
+                        title: info.event.extendedProps.description,
+                        placement: 'top',
+                        trigger: 'hover',
+                        container: 'body'
+                    });
+                },
+
+                events: [{
+                        title: 'All Day Event',
+                        description: 'description for All Day Event',
+                        start: '2022-08-01'
+                    },
+                    {
+                        title: 'Long Event',
+                        description: 'description for Long Event',
+                        start: '2022-08-07',
+                        end: '2022-08-10'
+                    },
+                    {
+                        groupId: '999',
+                        title: 'Repeating Event',
+                        description: 'description for Repeating Event',
+                        start: '2022-08-09T16:00:00'
+                    },
+                    {
+                        groupId: '999',
+                        title: 'Repeating Event',
+                        description: 'description for Repeating Event',
+                        start: '2022-08-16T16:00:00'
+                    },
+                    {
+                        title: 'Conference',
+                        description: 'description for Conference',
+                        start: '2022-08-11',
+                        end: '2022-08-13'
+                    },
+                    {
+                        title: 'Meeting',
+                        description: 'description for Meeting',
+                        start: '2022-08-12T10:30:00',
+                        end: '2022-08-12T12:30:00'
+                    },
+                    {
+                        title: 'Lunch',
+                        description: 'description for Lunch',
+                        start: '2022-08-12T12:00:00'
+                    },
+                    {
+                        title: 'Meeting',
+                        description: 'description for Meeting',
+                        start: '2022-08-12T14:30:00'
+                    },
+                    {
+                        title: 'Birthday Party',
+                        description: 'description for Birthday Party',
+                        start: '2022-08-13T07:00:00'
+                    },
+                    {
+                        title: 'Click for Google',
+                        description: 'description for Click for Google',
+                        url: 'http://google.com/',
+                        start: '2022-08-28'
+                    }
+                ]
+            });
+
+            calendar.render();
+        });
+    </script>
     <!--INTERNAL CSS-->
     <style>
-        #map {
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        #calendar {
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        /*
+i wish this required CSS was better documented :(
+https://github.com/FezVrasta/popper.js/issues/674
+derived from this CSS on this page: https://popper.js.org/tooltip-examples.html
+*/
+
+        .popper,
+        .tooltip {
             position: absolute;
-            top: 10%;
-            right: 10%;
-            bottom: 10%;
-            left: 10%;
+            z-index: 9999;
+            background: #FFC107;
+            color: black;
+            width: 150px;
+            border-radius: 3px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .style5 .tooltip {
+            background: #1E252B;
+            color: #FFFFFF;
+            max-width: 200px;
+            width: auto;
+            font-size: .8rem;
+            padding: .5em 1em;
+        }
+
+        .popper .popper__arrow,
+        .tooltip .tooltip-arrow {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            position: absolute;
+            margin: 5px;
+        }
+
+        .tooltip .tooltip-arrow,
+        .popper .popper__arrow {
+            border-color: #FFC107;
+        }
+
+        .style5 .tooltip .tooltip-arrow {
+            border-color: #1E252B;
+        }
+
+        .popper[x-placement^="top"],
+        .tooltip[x-placement^="top"] {
+            margin-bottom: 5px;
+        }
+
+        .popper[x-placement^="top"] .popper__arrow,
+        .tooltip[x-placement^="top"] .tooltip-arrow {
+            border-width: 5px 5px 0 5px;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            bottom: -5px;
+            left: calc(50% - 5px);
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .popper[x-placement^="bottom"],
+        .tooltip[x-placement^="bottom"] {
+            margin-top: 5px;
+        }
+
+        .tooltip[x-placement^="bottom"] .tooltip-arrow,
+        .popper[x-placement^="bottom"] .popper__arrow {
+            border-width: 0 5px 5px 5px;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-top-color: transparent;
+            top: -5px;
+            left: calc(50% - 5px);
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .tooltip[x-placement^="right"],
+        .popper[x-placement^="right"] {
+            margin-left: 5px;
+        }
+
+        .popper[x-placement^="right"] .popper__arrow,
+        .tooltip[x-placement^="right"] .tooltip-arrow {
+            border-width: 5px 5px 5px 0;
+            border-left-color: transparent;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            left: -5px;
+            top: calc(50% - 5px);
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .popper[x-placement^="left"],
+        .tooltip[x-placement^="left"] {
+            margin-right: 5px;
+        }
+
+        .popper[x-placement^="left"] .popper__arrow,
+        .tooltip[x-placement^="left"] .tooltip-arrow {
+            border-width: 5px 0 5px 5px;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            right: -5px;
+            top: calc(50% - 5px);
+            margin-left: 0;
+            margin-right: 0;
         }
     </style>
 </head>
 
 <body>
-    <div class="main">
-
-        <div id="map" class="">
-
-        </div>
-
-    </div>
-
-
-    <script>
-        // You can remove the following line if you don't need support for RTL (right-to-left) labels:
-        maplibregl.setRTLTextPlugin('https://cdn.maptiler.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js');
-        var map = new maplibregl.Map({
-            container: 'map',
-            style: 'https://api.maptiler.com/maps/streets/style.json?key=MROowlWHhkfBGNBrkA3C',
-            center: [121.261588, 14.295503],
-            zoom: 7
-        });
-    </script>
+    <div id='calendar'></div>
 </body>
 
-<!--EXTERNAL JAVASCRIPT-->
-<script src="js/test.js"></script>
+<!--EXTERNAL JAVASCRIPT
+<script src="js/test.js"></script>-->
 
 <!--INTERNAL JAVASCRIPT-->
 <script>
-    logoutBtn.classList.remove("is-hidden");
+
 </script>
 
 </html>

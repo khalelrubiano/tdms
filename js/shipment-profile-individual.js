@@ -60,7 +60,8 @@ function closeUpdate() {
 
 function generateLatestMarker() {
     $.post("./classes/load-tracker.class.php", {
-        vehicleId: vehicleIdHidden.innerHTML
+        vehicleId: vehicleIdHidden.innerHTML,
+        shipmentId: shipmentTitleHidden.innerHTML
     }, function (data) {
         //indicatorHidden.innerHTML = "Call Success";
         var jsonArray = JSON.parse(data);

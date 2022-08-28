@@ -35,32 +35,139 @@ include_once 'navbar.php';
   <!--NAVBAR CSS-->
   <link rel="stylesheet" href="navbar.css">
 
+
+  <!--FULLCALENDAR
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.2/main.min.js"></script>-->
+  <link href='fullcalendar/lib/main.css' rel='stylesheet' />
+  <script src='fullcalendar/lib/main.js'></script>
+
+
   <!--INTERNAL CSS-->
   <style>
+    @media (min-width: 1000px) {
 
+      #calendarTile,
+      #listTile {
+        padding: 5%;
+        height: 75%;
+      }
+
+      #eventContainer {
+        height: 90%;
+        overflow-y: auto !important
+      }
+
+      /* width */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
+    }
+
+    
+    @media (max-width: 1000px) {
+
+      #calendarTile {
+        margin-bottom: 10% !important
+      }
+    }
+    
   </style>
 </head>
 
 <body>
   <div class="main">
-    <section class="hero is-link is-fullheight">
-      <div class="hero-body">
-        <div class="">
-          <p class="title">
-            Fullheight Dashboard
-          </p>
-          <p class="subtitle">
-            Fullheight subtitle
-          </p>
+    <h1 class="title" id="jsonHidden">sample</h1>
+    <div class="container">
+      <div class="tile is-ancestor">
+        <div class="tile is-parent">
+          <div class="tile is-child" id="calendarTile">
+            <div class="container">
+              <div id='calendar'>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-child box" id="listTile">
+            <h1 class="title has-text-centered">Events</h1>
+            <div class="container" id="eventContainer">
+              <ul id="eventList">
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+                <li>sample</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+
+    </div>
   </div>
+
+  <!--EVENT MODAL-->
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Modal title</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <!-- Content ... -->
+      </section>
+    </div>
+  </div>
+  <!--EVENT MODAL-->
+
 </body>
 
-<!--EXTERNAL JAVASCRIPT
-<script src="js/index.js"></script>
--->
+<!--EXTERNAL JAVASCRIPT-->
+<script src="js/dashboard.js"></script>
+
 
 <!--INTERNAL JAVASCRIPT-->
 <script>

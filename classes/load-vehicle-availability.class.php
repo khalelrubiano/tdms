@@ -63,67 +63,79 @@ try {
     switch ($tabValue) {
         case "All":
             $sql = "SELECT
-            vehicle_id,
-            plate_number,
-            commission_rate, 
-            driver_id, 
-            helper_id,
-            vehicle_status 
+            vehicle.vehicle_id,
+            vehicle.plate_number,
+            vehicle.commission_rate, 
+            vehicle.driver_id, 
+            vehicle.helper_id,
+            vehicle.vehicle_status,
+            tracking.tracking_id
             FROM vehicle
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
             INNER JOIN subcontractor
-            on subcontractor.subcontractor_id = ownergroup.owner_id
+            ON subcontractor.subcontractor_id = ownergroup.owner_id
+            LEFT JOIN tracking
+            ON vehicle.vehicle_id = tracking.vehicle_id
             WHERE subcontractor.company_id = :company_id
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
         case "Available":
             $sql = "SELECT
-            vehicle_id,
-            plate_number,
-            commission_rate, 
-            driver_id, 
-            helper_id,
-            vehicle_status 
+            vehicle.vehicle_id,
+            vehicle.plate_number,
+            vehicle.commission_rate, 
+            vehicle.driver_id, 
+            vehicle.helper_id,
+            vehicle.vehicle_status,
+            tracking.tracking_id
             FROM vehicle
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
             INNER JOIN subcontractor
-            on subcontractor.subcontractor_id = ownergroup.owner_id
+            ON subcontractor.subcontractor_id = ownergroup.owner_id
+            LEFT JOIN tracking
+            ON vehicle.vehicle_id = tracking.vehicle_id
             WHERE subcontractor.company_id = :company_id
             AND vehicle.vehicle_status = 'Available'
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
         case "On-Delivery":
             $sql = "SELECT
-            vehicle_id,
-            plate_number,
-            commission_rate, 
-            driver_id, 
-            helper_id,
-            vehicle_status 
+            vehicle.vehicle_id,
+            vehicle.plate_number,
+            vehicle.commission_rate, 
+            vehicle.driver_id, 
+            vehicle.helper_id,
+            vehicle.vehicle_status,
+            tracking.tracking_id
             FROM vehicle
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
             INNER JOIN subcontractor
-            on subcontractor.subcontractor_id = ownergroup.owner_id
+            ON subcontractor.subcontractor_id = ownergroup.owner_id
+            LEFT JOIN tracking
+            ON vehicle.vehicle_id = tracking.vehicle_id
             WHERE subcontractor.company_id = :company_id
             AND vehicle.vehicle_status = 'On-Delivery'
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
         case "Unavailable":
             $sql = "SELECT
-            vehicle_id,
-            plate_number,
-            commission_rate, 
-            driver_id, 
-            helper_id,
-            vehicle_status 
+            vehicle.vehicle_id,
+            vehicle.plate_number,
+            vehicle.commission_rate, 
+            vehicle.driver_id, 
+            vehicle.helper_id,
+            vehicle.vehicle_status,
+            tracking.tracking_id
             FROM vehicle
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
             INNER JOIN subcontractor
-            on subcontractor.subcontractor_id = ownergroup.owner_id
+            ON subcontractor.subcontractor_id = ownergroup.owner_id
+            LEFT JOIN tracking
+            ON vehicle.vehicle_id = tracking.vehicle_id
             WHERE subcontractor.company_id = :company_id
             AND vehicle.vehicle_status = 'Unavailable'
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
@@ -158,7 +170,7 @@ try {
     for ($i = 0; $i < count($row); $i++) {
         //echo $row[$i][1] . "<br>";
 
-        $childArray = array($row[$i][0], $row[$i][1], $row[$i][2], $row[$i][5], getSubcontractorDetails($row[$i][3]), getSubcontractorDetails($row[$i][4]));
+        $childArray = array($row[$i][0], $row[$i][1], $row[$i][2], $row[$i][5], getSubcontractorDetails($row[$i][3]), getSubcontractorDetails($row[$i][4]), $row[$i][6]);
 
         array_push($parentArray, $childArray);
     }

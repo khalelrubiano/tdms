@@ -17,7 +17,7 @@ let searchBarInput = document.getElementById('searchBarInput')
 let currentPageNumber = 1;
 
 let tabValueHidden = document.getElementById('tabValueHidden')
-
+let vehicleIdHidden = document.getElementById('vehicleIdHidden')
 /*
 
 POST A THIRD VARIABLE TO THE LOAD SHIPMENT ALL FILE THAT DETERMINES WHETHER THE SQL QUERY RETURNS ALL / IN-PROGRESS / COMPLETED/ CANCELLED, USE CUSTOM FUNCTIONS FOR EACH TAB CATEGORY
@@ -28,6 +28,120 @@ Vehicle1 departed from the pick-up location
 
 etc...
 */
+//MODALS
+function openAdd(vehicleIdVar) {
+    addModal.classList.add('is-active');
+    vehicleIdHidden.innerHTML = vehicleIdVar;
+    //populateUsernameAdd();
+}
+
+function closeAdd() {
+    //clearAddFormHelp();
+    //clearAddFormInput();
+
+    //submitAddFormHelp.className = "help"
+    //submitAddFormHelp.innerText = ""
+
+    addModal.classList.remove('is-active');
+    
+    //removeSelectAdd(document.getElementById('usernameAdd'));
+}
+
+//DELETE AJAX CALL
+function deleteAjax(deleteVar) {
+    if (confirm("Are you sure?")) {
+        $.post("./classes/delete-tracker-controller.class.php", {
+            trackerIdDelete: deleteVar
+        }, function (data) {
+            //$("#submitAddFormHelp").html(data);
+            //$("#submitAddFormHelp").attr('class', 'help is-success');
+            //clearAddFormHelp();
+            //clearAddFormInput();
+            //addModal.classList.remove('is-active');
+            alert(data);
+            //refreshList();
+        });
+    }
+}
+
+//ADD AJAX CALLS WITH VALIDATION
+let submitAddForm = document.getElementById('submitAddForm'); //save changes button
+let submitAddFormHelp = document.getElementById('submitAddFormHelp'); //save changes button
+
+let trackerIdAdd = document.getElementById('trackerIdAdd');
+let trackerIdAddHelp = document.getElementById('trackerIdAddHelp');
+
+function addAjax() {
+    $.post("./classes/add-tracker-controller.class.php", {
+        trackerId: trackerIdAdd.value,
+        vehicleId: vehicleIdHidden.innerHTML
+
+    }, function (data) {
+        $("#submitAddFormHelp").html(data);
+        //$("#submitAddFormHelp").attr('class', 'help is-success');
+        //clearAddFormHelp();
+        //clearAddFormInput();
+        //addModal.classList.remove('is-active');
+        //refreshList();
+    });
+}
+
+var pattern1 = /^[a-zA-Z0-9_]+$/
+var pattern2 = /^[a-zA-Z0-9\s]+$/
+var pattern3 = /^[a-zA-Z\s]+$/
+var pattern4 = /^[0-9]+$/
+
+submitAddForm.addEventListener('click', (e) => {
+    //clearAddFormHelp();
+    //clearAddFormInput();
+
+    let trackerIdAddMessages = []
+
+    //Username Validation
+
+    if (pattern1.test(trackerIdAdd.value) == false) {
+        trackerIdAdd.className = "input is-danger is-rounded"
+        trackerIdAddHelp.className = "help is-danger"
+        trackerIdAddMessages.push('Tracker ID should only consist of numbers, letters!')
+    }
+
+    if (trackerIdAdd.value === "" || trackerIdAdd.value == null) {
+        trackerIdAdd.className = "input is-danger is-rounded"
+        trackerIdAddHelp.className = "help is-danger"
+        trackerIdAddMessages.push('Tracker ID is required!')
+    }
+
+    if (trackerIdAdd.value.length >= 255) {
+        trackerIdAdd.className = "input is-danger is-rounded"
+        trackerIdAddHelp.className = "help is-danger"
+        trackerIdAddMessages.push('Tracker ID must be less than 255 characters!')
+    }
+
+    //Messages
+    if (trackerIdAddMessages.length > 0) {
+        e.preventDefault()
+        trackerIdAddHelp.innerText = trackerIdAddMessages.join(', ');
+    }
+
+    if (
+        trackerIdAddMessages.length <= 0
+    ) {
+        addAjax();
+    }
+
+})
+/*
+function clearAddFormHelp() {
+    //RESETTING FORM ELEMENTS
+    clientNameAdd.className = "input is-rounded"
+    clientNameAddHelp.className = "help"
+    clientNameAddHelp.innerText = ""
+}
+
+function clearAddFormInput() {
+    clientNameAdd.value = null;
+
+}*/
 
 //VEHICLE LIST
 function generateVehicleList1(tabValueVar) {
@@ -235,7 +349,7 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][5];
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td2);
 
-                /*
+                
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE
                 var newCardFooter = document.createElement("footer");
                 newCardFooter.classList.add('card-footer');
@@ -243,15 +357,31 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar) {
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                 var newCardFooterLink = document.createElement("a");
-                newCardFooterLink.setAttribute("onclick", "openEdit('" + jsonArray[i][0] + "')");
-                newCardFooterLink.classList.add('card-footer-item');
-                newCardFooterLink.innerHTML = "Edit Details";
-                newCardFooter.appendChild(newCardFooterLink);
+                //newCardFooterLink.setAttribute("onclick", "openEdit('" + jsonArray[i][0] + "')");
 
+
+                switch (jsonArray[i][6] == null) {
+                    case true:
+                        newCardFooterLink.setAttribute("onclick", "openAdd('" + jsonArray[i][0] + "')");
+                        newCardFooterLink.classList.add('card-footer-item');
+                        newCardFooterLink.innerHTML = "Add Tracker";
+                        newCardFooter.appendChild(newCardFooterLink);
+                        break;
+
+                    case false:
+                        newCardFooterLink.setAttribute("onclick", "deleteAjax('" + jsonArray[i][6] + "')");
+                        newCardFooterLink.classList.add('card-footer-item');
+                        newCardFooterLink.innerHTML = "Remove Tracker " + jsonArray[i][6];
+                        newCardFooter.appendChild(newCardFooterLink);
+                        break;
+
+                }
+
+                /*
                 var newCardFooterLink2 = document.createElement("a");
                 //newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
                 newCardFooterLink2.classList.add('card-footer-item');
-                newCardFooterLink2.innerHTML = "Manage Tracker";
+                newCardFooterLink2.innerHTML = "Remove Tracker";
                 newCardFooter.appendChild(newCardFooterLink2);
 */
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];

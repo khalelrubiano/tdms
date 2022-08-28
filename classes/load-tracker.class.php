@@ -13,13 +13,16 @@ try {
     FROM trackingdata
     INNER JOIN tracking
     ON trackingdata.tracking_id = tracking.tracking_id 
-    WHERE vehicle_id = :vehicle_id ORDER BY created_at ASC";
+    WHERE tracking.vehicle_id = :vehicle_id AND trackingdata.shipment_id = :shipment_id ORDER BY created_at ASC";
 
     $stmt = $pdoVessel->prepare($sql);
 
     $stmt->bindParam(":vehicle_id", $param1, PDO::PARAM_STR);
+    $stmt->bindParam(":shipment_id", $param2, PDO::PARAM_STR);
+
     $param1 = $_POST["vehicleId"];
-    
+    $param2 = $_POST["shipmentId"];
+
     $stmt->execute();
     $row = $stmt->fetchAll();
     $json = json_encode($row);

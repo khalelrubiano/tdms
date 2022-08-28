@@ -103,7 +103,39 @@ include_once 'navbar.php';
     </div>
 
   </div>
- 
+     <!-- ADD MODAL -->
+     <div class="modal" id="addModal">
+        <div class="modal-background" id="addModalBg"></div>
+        <div class="modal-card">
+
+            <header class="modal-card-head has-background-info">
+                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-plus mr-3"></i>Add Tracker</p>
+                <button class="delete" aria-label="close" onclick="closeAdd()"></button>
+            </header>
+
+            <section class="modal-card-body">
+            <p class="title " id="vehicleIdHidden"></p>
+                <div class="field">
+                    <label for="" class="label">Tracker ID</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter tracker ID here" class="input is-rounded" name="trackerIdAdd" id="trackerIdAdd">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="trackerIdAddHelp"></p>
+                </div>
+
+                <div class="field has-text-centered mt-6">
+                    <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
+                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                    </button>
+                    <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
+                </div>
+
+            </section>
+        </div>
+    </div>
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->
