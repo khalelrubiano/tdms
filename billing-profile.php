@@ -263,6 +263,8 @@ include_once 'navbar.php';
 <!--INTERNAL JAVASCRIPT-->
 <script>
     logoutBtn.classList.remove("is-hidden");
+    userBtn.innerHTML = "<?php echo $_SESSION['username'] ?>";
+    userBtn.classList.remove("is-hidden");
     billingBtn.classList.add("is-active");
 
     if (billingStatusHidden.innerHTML == "Settled") {

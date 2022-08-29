@@ -119,6 +119,8 @@ include_once 'navbar-subcontractor.php';
   let isHelperHidden = document.getElementById('isHelperHidden')
 
   logoutBtn.classList.remove("is-hidden");
+  userBtn.innerHTML = "<?php echo $_SESSION['username'] ?>";
+  userBtn.classList.remove("is-hidden");
   shipmentIndividualBtn.classList.add("is-active");
 
   if(isOwnerHidden.innerHTML == "Yes"){

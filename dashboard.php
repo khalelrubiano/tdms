@@ -92,11 +92,10 @@ include_once 'navbar.php';
 
 <body>
   <div class="main">
-    <h1 class="title" id="jsonHidden">sample</h1>
     <div class="container">
       <div class="tile is-ancestor">
         <div class="tile is-parent">
-          <div class="tile is-child" id="calendarTile">
+          <div class="tile is-child is-8" id="calendarTile">
             <div class="container">
               <div id='calendar'>
 
@@ -104,8 +103,8 @@ include_once 'navbar.php';
             </div>
           </div>
 
-          <div class="tile is-child box" id="listTile">
-            <h1 class="title has-text-centered">Events</h1>
+          <div class="tile is-child box is-4" id="listTile">
+            <h1 class="title has-text-centered">Description</h1>
             <div class="container" id="eventContainer">
               <ul id="eventList">
                 <li>sample</li>
@@ -172,6 +171,8 @@ include_once 'navbar.php';
 <!--INTERNAL JAVASCRIPT-->
 <script>
   logoutBtn.classList.remove("is-hidden");
+  userBtn.innerHTML = "<?php echo $_SESSION['username'] ?>";
+  userBtn.classList.remove("is-hidden");
   dashboardBtn.classList.add("is-active");
 </script>
 

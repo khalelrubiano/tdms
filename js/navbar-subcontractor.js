@@ -56,3 +56,7 @@ vehicleBtn.addEventListener('click', () => {
 accountBtn.addEventListener('click', () => {
     window.location.href = "subcontractor-group.php";
 });*/
+
+userBtn.addEventListener('click', () => {
+    window.location.href = "user-profile-subcontractor.php";
+});

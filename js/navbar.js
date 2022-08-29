@@ -19,7 +19,7 @@ let subcontractorViewListBtn = document.getElementById("subcontractorViewListBtn
 let subcontractorVehicleBtn = document.getElementById("subcontractorVehicleBtn")
 let subcontractorGroupBtn = document.getElementById("subcontractorGroupBtn")
 let clientViewListBtn = document.getElementById("clientViewListBtn")
-
+let userBtn = document.getElementById("userBtn")
 let sideNavbarClass = document.querySelector(".sideNavbarClass")
 
 
@@ -84,4 +84,8 @@ subcontractorGroupBtn.addEventListener('click', () => {
 
 clientViewListBtn.addEventListener('click', () => {
     window.location.href = "client-view-list.php";
+});
+
+userBtn.addEventListener('click', () => {
+    window.location.href = "user-profile-employee.php";
 });

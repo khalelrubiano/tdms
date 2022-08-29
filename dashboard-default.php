@@ -73,6 +73,8 @@ include_once 'navbar.php';
 <!--INTERNAL JAVASCRIPT-->
 <script>
   logoutBtn.classList.remove("is-hidden");
+  userBtn.innerHTML = "<?php echo $_SESSION['username'] ?>";
+  userBtn.classList.remove("is-hidden");
   sideNavbarClass.style.display = "none";
   sideNavbarBurger.classList.add("is-hidden");
 </script>
