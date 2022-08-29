@@ -4,9 +4,9 @@ const selectSort = document.getElementById('selectSort');
 const test_indicator = document.getElementById('test_indicator');
 let indicator = document.getElementById('indicator')
 let searchBarInput = document.getElementById('searchBarInput')
-
+let editVarHidden = document.getElementById('editVarHidden')
 const addModal = document.getElementById('addModal');
-
+const editModal = document.getElementById('editModal');
 let currentPageNumber = 1;
 
 //MODALS
@@ -25,6 +25,24 @@ function closeAdd() {
     addModal.classList.remove('is-active');
     
     //removeSelectAdd(document.getElementById('usernameAdd'));
+}
+
+function openEdit(userIdVar) {
+    editModal.classList.add('is-active');
+    editVarHidden.innerHTML = userIdVar;
+    //populateUsernameEdit();
+}
+
+function closeEdit() {
+    clearEditFormHelp();
+    clearEditFormInput();
+
+    submitEditFormHelp.className = "help"
+    submitEditFormHelp.innerText = ""
+
+    editModal.classList.remove('is-active');
+    
+    //removeSelectEdit(document.getElementById('usernameEdit'));
 }
 
 //DELETE AJAX CALL
@@ -288,6 +306,214 @@ function clearAddFormInput() {
     lastNameAdd.value = null;
 }
 
+//EDIT AJAX CALLS WITH VALIDATION
+let submitEditForm = document.getElementById('submitEditForm'); //save changes button
+let submitEditFormHelp = document.getElementById('submitEditFormHelp'); //save changes button
+
+
+let passwordEdit = document.getElementById('passwordEdit')
+let confirmPasswordEdit = document.getElementById('confirmPasswordEdit')
+let firstNameEdit = document.getElementById('firstNameEdit')
+let middleNameEdit = document.getElementById('middleNameEdit')
+let lastNameEdit = document.getElementById('lastNameEdit')
+let roleNameEdit = document.getElementById('roleNameEdit')
+
+
+let passwordEditHelp = document.getElementById('passwordEditHelp')
+let confirmPasswordEditHelp = document.getElementById('confirmPasswordEditHelp')
+let firstNameEditHelp = document.getElementById('firstNameEditHelp')
+let middleNameEditHelp = document.getElementById('middleNameEditHelp')
+let lastNameEditHelp = document.getElementById('lastNameEditHelp')
+
+function editAjax() {
+    $.post("./classes/edit-employee-controller.class.php", {
+        usernameEdit: editVarHidden.innerHTML,
+        passwordEdit: passwordEdit.value,
+        firstNameEdit: firstNameEdit.value,
+        middleNameEdit: middleNameEdit.value,
+        lastNameEdit: lastNameEdit.value,
+        roleNameEdit: roleNameEdit.value
+    }, function (data) {
+        $("#submitEditFormHelp").html(data);
+        //$("#submitEditFormHelp").attr('class', 'help is-success');
+        clearEditFormHelp();
+        clearEditFormInput();
+        //editModal.classList.remove('is-active');
+        refreshList();
+    });
+}
+
+var pattern1 = /^[a-zA-Z0-9_]+$/
+var pattern2 = /^[a-zA-Z0-9\s]+$/
+var pattern3 = /^[a-zA-Z\s]+$/
+var pattern4 = /^[0-9]+$/
+
+submitEditForm.addEventListener('click', (e) => {
+    clearEditFormHelp();
+    //clearEditFormInput();
+
+    let passwordEditMessages = []
+    let confirmPasswordEditMessages = []
+
+    let firstNameEditMessages = []
+    let middleNameEditMessages = []
+    let lastNameEditMessages = []
+
+    //Password Validation
+    if (passwordEdit.value === "" || passwordEdit.value == null) {
+        passwordEdit.className = "input is-danger is-rounded"
+        passwordEditHelp.className = "help is-danger"
+        passwordEditMessages.push('Password is required!')
+    }
+    if (passwordEdit.value.length <= 6) {
+        passwordEdit.className = "input is-danger is-rounded"
+        passwordEditHelp.className = "help is-danger"
+        passwordEditMessages.push('Password must be longer than 6 characters!')
+    }
+
+    if (passwordEdit.value.length >= 20) {
+        passwordEdit.className = "input is-danger is-rounded"
+        passwordEditHelp.className = "help is-danger"
+        passwordEditMessages.push('Password must be less than 20 characters!')
+    }
+
+    //Confirm Password Validation
+    if (confirmPasswordEdit.value != passwordEdit.value) {
+        confirmPasswordEdit.className = "input is-danger is-rounded"
+        confirmPasswordEditHelp.className = "help is-danger"
+        confirmPasswordEditMessages.push('Password does not match!')
+    }
+
+    //First Name Validation
+    if (pattern3.test(firstNameEdit.value) == false) {
+        firstNameEdit.className = "input is-danger is-rounded"
+        firstNameEditHelp.className = "help is-danger"
+        firstNameEditMessages.push('First name should only consist of letters!')
+    }
+
+    if (firstNameEdit.value === "" || firstNameEdit.value == null) {
+        firstNameEdit.className = "input is-danger is-rounded"
+        firstNameEditHelp.className = "help is-danger"
+        firstNameEditMessages.push('First name is required!')
+    }
+
+    if (firstNameEdit.value.length >= 255) {
+        firstNameEdit.className = "input is-danger is-rounded"
+        firstNameEditHelp.className = "help is-danger"
+        firstNameEditMessages.push('First name must be less than 255 characters!')
+    }
+
+    //Middle Name Validation
+    if (pattern3.test(middleNameEdit.value) == false) {
+        middleNameEdit.className = "input is-danger is-rounded"
+        middleNameEditHelp.className = "help is-danger"
+        middleNameEditMessages.push('Middle name should only consist of letters!')
+    }
+
+    if (middleNameEdit.value === "" || middleNameEdit.value == null) {
+        middleNameEdit.className = "input is-danger is-rounded"
+        middleNameEditHelp.className = "help is-danger"
+        middleNameEditMessages.push('Middle name is required!')
+    }
+
+    if (middleNameEdit.value.length >= 20) {
+        middleNameEdit.className = "input is-danger is-rounded"
+        middleNameEditHelp.className = "help is-danger"
+        middleNameEditMessages.push('Middle name must be less than 255 characters!')
+    }
+
+    //Last Name Validation
+    if (pattern3.test(lastNameEdit.value) == false) {
+        lastNameEdit.className = "input is-danger is-rounded"
+        lastNameEditHelp.className = "help is-danger"
+        lastNameEditMessages.push('Last name should only consist of letters!')
+    }
+
+    if (lastNameEdit.value === "" || lastNameEdit.value == null) {
+        lastNameEdit.className = "input is-danger is-rounded"
+        lastNameEditHelp.className = "help is-danger"
+        lastNameEditMessages.push('Last name is required!')
+    }
+
+    if (lastNameEdit.value.length >= 20) {
+        lastNameEdit.className = "input is-danger is-rounded"
+        lastNameEditHelp.className = "help is-danger"
+        lastNameEditMessages.push('Last name must be less than 255 characters!')
+    }
+
+    //Messages
+
+
+    if (passwordEditMessages.length > 0) {
+        e.preventDefault()
+        passwordEditHelp.innerText = passwordEditMessages.join(', ')
+    }
+
+    if (confirmPasswordEditMessages.length > 0) {
+        e.preventDefault()
+        confirmPasswordEditHelp.innerText = confirmPasswordEditMessages.join(', ')
+    }
+
+    if (firstNameEditMessages.length > 0) {
+        e.preventDefault()
+        firstNameEditHelp.innerText = firstNameEditMessages.join(', ')
+    }
+    if (middleNameEditMessages.length > 0) {
+        e.preventDefault()
+        middleNameEditHelp.innerText = middleNameEditMessages.join(', ')
+    }
+    if (lastNameEditMessages.length > 0) {
+        e.preventDefault()
+        lastNameEditHelp.innerText = lastNameEditMessages.join(', ')
+    }
+
+    if (
+
+        passwordEditMessages.length <= 0 &&
+        confirmPasswordEditMessages.length <= 0 &&
+        firstNameEditMessages.length <= 0 &&
+        middleNameEditMessages.length <= 0 &&
+        lastNameEditMessages.length <= 0
+    ) {
+        editAjax();
+    }
+
+})
+
+function clearEditFormHelp() {
+    //RESETTING FORM ELEMENTS
+
+    passwordEdit.className = "input is-rounded"
+    passwordEditHelp.className = "help"
+    passwordEditHelp.innerText = ""
+
+    confirmPasswordEdit.className = "input is-rounded"
+    confirmPasswordEditHelp.className = "help"
+    confirmPasswordEditHelp.innerText = ""
+
+    firstNameEdit.className = "input is-rounded"
+    firstNameEditHelp.className = "help"
+    firstNameEditHelp.innerText = ""
+
+    middleNameEdit.className = "input is-rounded"
+    middleNameEditHelp.className = "help"
+    middleNameEditHelp.innerText = ""
+
+    lastNameEdit.className = "input is-rounded"
+    lastNameEditHelp.className = "help"
+    lastNameEditHelp.innerText = ""
+}
+
+function clearEditFormInput() {
+
+    passwordEdit.value = null;
+    confirmPasswordEdit.value = null;
+    firstNameEdit.value = null;
+    middleNameEdit.value = null;
+    lastNameEdit.value = null;
+}
+
+
 function populateSelect() {
     $.post("./classes/load-company-role-select.class.php", {
     }, function (data) {
@@ -299,6 +525,7 @@ function populateSelect() {
             newOption.value = jsonArray[i][0];
             newOption.innerHTML = jsonArray[i][1];
             roleNameAdd.options.add(newOption);
+            roleNameEdit.options.add(newOption);
         }
 
         //closeSelect();
@@ -392,6 +619,15 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newCardContentMedia.appendChild(newCardContentMediaContent);
 
                 //CARD CONTENT MEDIA-CONTENT FIGURE
+                //<i class="fa-solid fa-user-large fa-5x mb-4"></i>
+
+                var newCardHeaderButtonSpanI2 = document.createElement("i");
+                newCardHeaderButtonSpanI2.classList.add('fa-solid');
+                newCardHeaderButtonSpanI2.classList.add('fa-user-large');
+                newCardHeaderButtonSpanI2.classList.add('fa-3x');
+                newCardHeaderButtonSpanI2.classList.add('mb-4');
+                newCardContentMediaContent.appendChild(newCardHeaderButtonSpanI2);
+/*
                 var newCardContentMediaContentFigure = document.createElement("figure");
                 newCardContentMediaContentFigure.classList.add('image');
                 newCardContentMediaContentFigure.classList.add('is-96x96');
@@ -403,7 +639,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newCardContentMediaContentFigureImage.classList.add('is-rounded');
                 newCardContentMediaContentFigureImage.setAttribute("src", "https://bulma.io/images/placeholders/96x96.png");
                 newCardContentMediaContentFigure.appendChild(newCardContentMediaContentFigureImage);
-
+*/
                 //CARD CONTENT MEDIA-CONTENT TITLE
                 var newCardContentMediaContentTitle = document.createElement("p");
                 newCardContentMediaContentTitle.classList.add('title');
@@ -425,8 +661,9 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                 var newCardFooterLink = document.createElement("a");
+                newCardFooterLink.setAttribute("onclick", "openEdit('" + jsonArray[i][0] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
-                newCardFooterLink.innerHTML = "View Profile";
+                newCardFooterLink.innerHTML = "Edit Details";
                 newCardFooter.appendChild(newCardFooterLink);
 
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
@@ -539,6 +776,13 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     newCardContentMediaContent.classList.add('has-text-centered');
     newCardContentMedia.appendChild(newCardContentMediaContent);
 
+    var newCardHeaderButtonSpanI2 = document.createElement("i");
+    newCardHeaderButtonSpanI2.classList.add('fa-solid');
+    newCardHeaderButtonSpanI2.classList.add('fa-user-large');
+    newCardHeaderButtonSpanI2.classList.add('fa-3x');
+    newCardHeaderButtonSpanI2.classList.add('mb-4');
+    newCardContentMediaContent.appendChild(newCardHeaderButtonSpanI2);
+    /*
     //CARD CONTENT MEDIA-CONTENT FIGURE
     var newCardContentMediaContentFigure = document.createElement("figure");
     newCardContentMediaContentFigure.classList.add('image');
@@ -551,7 +795,7 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     newCardContentMediaContentFigureImage.classList.add('is-rounded');
     newCardContentMediaContentFigureImage.setAttribute("src", "https://bulma.io/images/placeholders/96x96.png");
     newCardContentMediaContentFigure.appendChild(newCardContentMediaContentFigureImage);
-
+*/
     //CARD CONTENT MEDIA-CONTENT TITLE
     var newCardContentMediaContentTitle = document.createElement("p");
     newCardContentMediaContentTitle.classList.add('title');
@@ -573,8 +817,9 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
 
     //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
     var newCardFooterLink = document.createElement("a");
+    newCardFooterLink.setAttribute("onclick", "openEdit('" + usernameVar + "')");
     newCardFooterLink.classList.add('card-footer-item');
-    newCardFooterLink.innerHTML = "View Profile";
+    newCardFooterLink.innerHTML = "Edit Details";
     newCardFooter.appendChild(newCardFooterLink);
 
     //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];

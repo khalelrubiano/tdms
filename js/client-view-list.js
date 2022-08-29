@@ -261,6 +261,14 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newCardContentMediaContent.classList.add('has-text-centered');
                 newCardContentMedia.appendChild(newCardContentMediaContent);
 
+                var newCardHeaderButtonSpanI2 = document.createElement("i");
+                newCardHeaderButtonSpanI2.classList.add('fa-solid');
+                newCardHeaderButtonSpanI2.classList.add('fa-cubes');
+                newCardHeaderButtonSpanI2.classList.add('fa-3x');
+                newCardHeaderButtonSpanI2.classList.add('mb-4');
+                newCardContentMediaContent.appendChild(newCardHeaderButtonSpanI2);
+
+                /*
                 //CARD CONTENT MEDIA-CONTENT FIGURE
                 var newCardContentMediaContentFigure = document.createElement("figure");
                 newCardContentMediaContentFigure.classList.add('image');
@@ -273,7 +281,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newCardContentMediaContentFigureImage.classList.add('is-rounded');
                 newCardContentMediaContentFigureImage.setAttribute("src", "https://bulma.io/images/placeholders/96x96.png");
                 newCardContentMediaContentFigure.appendChild(newCardContentMediaContentFigureImage);
-
+*/
                 //CARD CONTENT MEDIA-CONTENT TITLE
                 var newCardContentMediaContentTitle = document.createElement("p");
                 newCardContentMediaContentTitle.classList.add('title');
@@ -396,6 +404,14 @@ function generateUserList4(idVar, nameVar) {
     newCardContentMediaContent.classList.add('has-text-centered');
     newCardContentMedia.appendChild(newCardContentMediaContent);
 
+    var newCardHeaderButtonSpanI2 = document.createElement("i");
+    newCardHeaderButtonSpanI2.classList.add('fa-solid');
+    newCardHeaderButtonSpanI2.classList.add('fa-cubes');
+    newCardHeaderButtonSpanI2.classList.add('fa-3x');
+    newCardHeaderButtonSpanI2.classList.add('mb-4');
+    newCardContentMediaContent.appendChild(newCardHeaderButtonSpanI2);
+    
+    /*
     //CARD CONTENT MEDIA-CONTENT FIGURE
     var newCardContentMediaContentFigure = document.createElement("figure");
     newCardContentMediaContentFigure.classList.add('image');
@@ -408,7 +424,7 @@ function generateUserList4(idVar, nameVar) {
     newCardContentMediaContentFigureImage.classList.add('is-rounded');
     newCardContentMediaContentFigureImage.setAttribute("src", "https://bulma.io/images/placeholders/96x96.png");
     newCardContentMediaContentFigure.appendChild(newCardContentMediaContentFigureImage);
-
+*/
     //CARD CONTENT MEDIA-CONTENT TITLE
     var newCardContentMediaContentTitle = document.createElement("p");
     newCardContentMediaContentTitle.classList.add('title');

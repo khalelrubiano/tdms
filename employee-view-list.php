@@ -58,6 +58,7 @@ include_once 'navbar.php';
             <p class="title is-hidden" id="arrayLengthHidden">sample</p>
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
+            <p class="title is-hidden" id="editVarHidden"></p>
             <button class="button is-rounded mr-4 is-info" onclick="openAdd()"> <i class="fa-solid fa-user-plus mr-3"></i>Create Account</button>
 
             <div class="select is-rounded" id="selectSortDiv">
@@ -181,6 +182,95 @@ include_once 'navbar.php';
                         <i class="fas fa-paper-plane mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div class="modal" id="editModal">
+        <div class="modal-background" id="editModalBg"></div>
+        <div class="modal-card">
+
+            <header class="modal-card-head has-background-info">
+                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-plus mr-3"></i>Edit Account</p>
+                <button class="delete" aria-label="close" onclick="closeEdit()"></button>
+            </header>
+
+            <section class="modal-card-body">
+
+                <div class="field">
+                    <label for="" class="label">Password</label>
+                    <div class="control has-icons-left">
+                        <input type="password" placeholder="Enter password here" class="input is-rounded" name="passwordEdit" id="passwordEdit">
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="passwordEditHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Confirm Password</label>
+                    <div class="control has-icons-left">
+                        <input type="password" placeholder="Confirm password here" class="input is-rounded" name="confirmPasswordEdit" id="confirmPasswordEdit">
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="confirmPasswordEditHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">First Name</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter first name here" class="input is-rounded" name="firstNameEdit" id="firstNameEdit">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="firstNameEditHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Middle Name</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter middle name here" class="input is-rounded" name="middleNameEdit" id="middleNameEdit">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="middleNameEditHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Last Name</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter last name here" class="input is-rounded" name="lastNameEdit" id="lastNameEdit">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="lastNameEditHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Role</label>
+                    <div class="control">
+                        <div class="select is-rounded" id="roleNameEditDiv">
+                            <select id="roleNameEdit" name="roleNameEdit">
+                            </select>
+                        </div>
+                    </div>
+                    <p class="help" id="roleNameEditHelp"></p>
+                </div>
+
+                <div class="field has-text-centered mt-6">
+                    <button class="button is-info has-text-white is-rounded" name="submitEditForm" id="submitEditForm">
+                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                    </button>
+                    <p class="help" id="submitEditFormHelp" style="text-align: center;"></p>
                 </div>
 
             </section>
