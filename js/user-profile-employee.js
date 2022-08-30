@@ -101,3 +101,9 @@ function clearEditFormInput(){
   passwordEdit.value = null;
   confirmPasswordEdit.value = null;
 }
+
+function generateCompanyInfo() {
+  $.post("./classes/load-company-info.class.php", {}, function (data) {
+      var jsonArray = JSON.parse(data);
+  });
+}
