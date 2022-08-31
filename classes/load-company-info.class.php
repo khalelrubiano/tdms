@@ -13,7 +13,7 @@ try {
 
     $sql = "SELECT *
     FROM company 
-    WHERE permission.company_id = :company_id";
+    WHERE company_id = :company_id";
 
     $stmt = $pdoVessel->prepare($sql);
 

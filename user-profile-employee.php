@@ -53,7 +53,7 @@ include_once 'navbar.php';
     @media (max-width: 1000px) {
 
     }
-    */
+  
 
     table {
       width: 100% !important;
@@ -66,7 +66,7 @@ include_once 'navbar.php';
       overflow-y: auto !important;
       text-align: center !important;
     }
-
+  */
     /* width */
     ::-webkit-scrollbar {
       width: 10px !important;
@@ -109,10 +109,10 @@ include_once 'navbar.php';
         <div class="tile is-parent box m-4">
           <div class="tile is-child has-text-centered p-6">
             <i class="fa-solid fa-user fa-10x mb-4"></i>
-            <h1 class="title is-4">Admin</h1>
+            <h1 class="title is-4"><?php echo $_SESSION['roleName'] ?></h1>
 
-            <p class="title is-3">Justine Khalel Rubiano</p>
-            <p class="subtitle is-4 mb-6">@username</p>
+            <p class="title is-3"><?php echo $_SESSION['firstName'] . " " . $_SESSION['middleName'] . " " . $_SESSION['lastName']?></p>
+            <p class="subtitle is-4 mb-6">@<?php echo $_SESSION['username'] ?></p>
 
             <button class="button is-rounded is-info" id="changePassword" onclick="openEdit()"> <i class="fa-solid fa-pen-to-square mr-3"></i>Change Password</button>
           </div>
@@ -121,10 +121,10 @@ include_once 'navbar.php';
         <div class="tile is-parent m-4">
           <div class="tile is-child p-6">
             <p class="title is-3 has-text-white box has-background-grey-dark mb-6">Company Info</p>
-            <h1 class="title is-4">company1</h1>
-            <h1 class="subtitle is-5 mb-6">company@gmail.com | 09452078831</h1>
+            <h1 class="title is-4" id="nameHeader"></h1>
+            <h1 class="subtitle is-5 mb-6" id="contactHeader"></h1>
 
-            <h1 class="title is-6" id="addressHeader">Company Address, MADATAG, KABUGAO (Capital), APAYAO, CORDILLERA ADMINISTRATIVE REGION (CAR)</h1>
+            <h1 class="title is-6" id="addressHeader"></h1>
           </div>
         </div>
 
@@ -133,13 +133,6 @@ include_once 'navbar.php';
     </div>
 
   </div>
-
-
-
-
-
-  <button class="button is-rounded is-info is-hidden" id="changePassword" onclick="openEdit()"> <i class="fa-solid fa-pen-to-square mr-3"></i>Change Password</button>
-
 
   <!-- EDIT MODAL -->
   <div class="modal" id="editModal">

@@ -3,8 +3,13 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-
-
+/*
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION["shipmentAccess"] === 'No') {
+    header("location: dashboard-default.php");
+    exit;
+}
+*/
+include_once 'navbar.php';
 
 ?>
 
@@ -14,232 +19,125 @@ if (!isset($_SESSION)) {
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>TEST</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
 
-    <link href='fullcalendar/lib/main.css' rel='stylesheet' />
-  <script src='fullcalendar/lib/main.js'></script>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
+    <!--JQUERY CDN-->
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <!--AJAX CDN-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!--BULMA CDN-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!--FONTAWESOME CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <!--NAVBAR CSS-->
+    <link rel="stylesheet" href="navbar.css">
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                initialDate: '2022-08-12',
-
-                eventDidMount: function(info) {
-                    var tooltip = new Tooltip(info.el, {
-                        title: info.event.extendedProps.description,
-                        placement: 'top',
-                        trigger: 'hover',
-                        container: 'body'
-                    });
-                },
-
-                events: [{
-                        title: 'All Day Event',
-                        description: 'description for All Day Event',
-                        start: '2022-08-01'
-                    },
-                    {
-                        title: 'Long Event',
-                        description: 'description for Long Event',
-                        start: '2022-08-07',
-                        end: '2022-08-10'
-                    },
-                    {
-                        groupId: '999',
-                        title: 'Repeating Event',
-                        description: 'description for Repeating Event',
-                        start: '2022-08-09T16:00:00'
-                    },
-                    {
-                        groupId: '999',
-                        title: 'Repeating Event',
-                        description: 'description for Repeating Event',
-                        start: '2022-08-16T16:00:00'
-                    },
-                    {
-                        title: 'Conference',
-                        description: 'description for Conference',
-                        start: '2022-08-11',
-                        end: '2022-08-13'
-                    },
-                    {
-                        title: 'Meeting',
-                        description: 'description for Meeting',
-                        start: '2022-08-12T10:30:00',
-                        end: '2022-08-12T12:30:00'
-                    },
-                    {
-                        title: 'Lunch',
-                        description: 'description for Lunch',
-                        start: '2022-08-12T12:00:00'
-                    },
-                    {
-                        title: 'Meeting',
-                        description: 'description for Meeting',
-                        start: '2022-08-12T14:30:00'
-                    },
-                    {
-                        title: 'Birthday Party',
-                        description: 'description for Birthday Party',
-                        start: '2022-08-13T07:00:00'
-                    },
-                    {
-                        title: 'Click for Google',
-                        description: 'description for Click for Google',
-                        url: 'http://google.com/',
-                        start: '2022-08-28'
-                    }
-                ]
-            });
-
-            calendar.render();
-        });
-    </script>
     <!--INTERNAL CSS-->
     <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-            font-size: 14px;
+        @media (min-width: 1000px) {
+
+            #searchBarForm {
+                float: right;
+            }
         }
 
-        #calendar {
-            max-width: 1100px;
-            margin: 40px auto;
-        }
+        @media (max-width: 1000px) {
 
-        /*
-i wish this required CSS was better documented :(
-https://github.com/FezVrasta/popper.js/issues/674
-derived from this CSS on this page: https://popper.js.org/tooltip-examples.html
-*/
-
-        .popper,
-        .tooltip {
-            position: absolute;
-            z-index: 9999;
-            background: #FFC107;
-            color: black;
-            width: 150px;
-            border-radius: 3px;
-            box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            text-align: center;
-        }
-
-        .style5 .tooltip {
-            background: #1E252B;
-            color: #FFFFFF;
-            max-width: 200px;
-            width: auto;
-            font-size: .8rem;
-            padding: .5em 1em;
-        }
-
-        .popper .popper__arrow,
-        .tooltip .tooltip-arrow {
-            width: 0;
-            height: 0;
-            border-style: solid;
-            position: absolute;
-            margin: 5px;
-        }
-
-        .tooltip .tooltip-arrow,
-        .popper .popper__arrow {
-            border-color: #FFC107;
-        }
-
-        .style5 .tooltip .tooltip-arrow {
-            border-color: #1E252B;
-        }
-
-        .popper[x-placement^="top"],
-        .tooltip[x-placement^="top"] {
-            margin-bottom: 5px;
-        }
-
-        .popper[x-placement^="top"] .popper__arrow,
-        .tooltip[x-placement^="top"] .tooltip-arrow {
-            border-width: 5px 5px 0 5px;
-            border-left-color: transparent;
-            border-right-color: transparent;
-            border-bottom-color: transparent;
-            bottom: -5px;
-            left: calc(50% - 5px);
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-
-        .popper[x-placement^="bottom"],
-        .tooltip[x-placement^="bottom"] {
-            margin-top: 5px;
-        }
-
-        .tooltip[x-placement^="bottom"] .tooltip-arrow,
-        .popper[x-placement^="bottom"] .popper__arrow {
-            border-width: 0 5px 5px 5px;
-            border-left-color: transparent;
-            border-right-color: transparent;
-            border-top-color: transparent;
-            top: -5px;
-            left: calc(50% - 5px);
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-
-        .tooltip[x-placement^="right"],
-        .popper[x-placement^="right"] {
-            margin-left: 5px;
-        }
-
-        .popper[x-placement^="right"] .popper__arrow,
-        .tooltip[x-placement^="right"] .tooltip-arrow {
-            border-width: 5px 5px 5px 0;
-            border-left-color: transparent;
-            border-top-color: transparent;
-            border-bottom-color: transparent;
-            left: -5px;
-            top: calc(50% - 5px);
-            margin-left: 0;
-            margin-right: 0;
-        }
-
-        .popper[x-placement^="left"],
-        .tooltip[x-placement^="left"] {
-            margin-right: 5px;
-        }
-
-        .popper[x-placement^="left"] .popper__arrow,
-        .tooltip[x-placement^="left"] .tooltip-arrow {
-            border-width: 5px 0 5px 5px;
-            border-top-color: transparent;
-            border-right-color: transparent;
-            border-bottom-color: transparent;
-            right: -5px;
-            top: calc(50% - 5px);
-            margin-left: 0;
-            margin-right: 0;
+            #searchBarForm {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div id='calendar'></div>
+    <div class="main" style="margin-bottom: 20%;">
+        <div class="container" style="margin-bottom: 2%;">
+            <p class="title is-hidden" id="arrayLengthHidden">sample</p>
+            <p class="title is-hidden" id="test_indicator">Test</p>
+            <p class="title is-hidden" id="indicator">Live Search Indicator</p>
+            <button class="button is-rounded mr-4 is-info" onclick="openAdd()"> <i class="fa-solid fa-user-plus mr-3"></i>Register Client</button>
+
+            <div class="select is-rounded is-hidden" id="selectSortDiv">
+                <select id="selectSort">
+                    <option value="client.client_name" selected>Sort By Client Name</option>
+                </select>
+            </div>
+
+            <div class="field" id="searchBarForm">
+                <p class="control has-icons-right">
+                    <input class="input is-rounded" type="text" placeholder="Search" id="searchBarInput">
+                    <span class="icon is-small is-right">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                </p>
+            </div>
+
+        </div>
+
+        <div class="container">
+
+            <div class="tile is-ancestor is-vertical" id="ancestorTile">
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ADD MODAL -->
+    <div class="modal" id="addModal">
+        <div class="modal-background" id="addModalBg"></div>
+        <div class="modal-card">
+
+            <header class="modal-card-head has-background-info">
+                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-plus mr-3"></i>Register Client</p>
+                <button class="delete" aria-label="close" onclick="closeAdd()"></button>
+            </header>
+
+            <section class="modal-card-body">
+
+                <div class="field">
+                    <label for="" class="label">Client Name</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter client name here" class="input is-rounded" name="clientNameAdd" id="clientNameAdd">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="clientNameAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Client Address</label>
+                    <div class="control">
+                        <textarea class="textarea" placeholder="Enter location here" name="clientAddressAdd" id="clientAddressAdd" style="resize: none;"></textarea>
+                    </div>
+                    <p class="help" id="clientAddressAddHelp"></p>
+                </div>
+
+                <div class="field has-text-centered mt-6">
+                    <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
+                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                    </button>
+                    <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
+                </div>
+
+            </section>
+        </div>
+    </div>
 </body>
 
-<!--EXTERNAL JAVASCRIPT
-<script src="js/test.js"></script>-->
+<!--EXTERNAL JAVASCRIPT-->
+<script src="js/test.js"></script>
 
 <!--INTERNAL JAVASCRIPT-->
 <script>
-
+    logoutBtn.classList.remove("is-hidden");
+    userBtn.innerHTML = "<?php echo $_SESSION['username'] ?>";
+    userBtn.classList.remove("is-hidden");
+    clientViewListBtn.classList.add("is-active");
 </script>
 
 </html>

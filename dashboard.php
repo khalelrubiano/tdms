@@ -48,13 +48,9 @@ include_once 'navbar.php';
 
       #calendarTile,
       #listTile {
-        padding: 5%;
-        height: 75%;
-      }
-
-      #eventContainer {
-        height: 90%;
-        overflow-y: auto !important
+        padding-left: 5%;
+        padding-right: 5%;
+        
       }
 
       /* width */
@@ -79,19 +75,34 @@ include_once 'navbar.php';
 
     }
 
-    
+
     @media (max-width: 1000px) {
 
       #calendarTile {
         margin-bottom: 10% !important
       }
+
+      .fc {
+        font-size: 1.5vh;
+      }
     }
-    
+
+    #eventHeader {
+      line-height: 2;
+    }
+
+    #listTile {
+      height: 50%;
+    }
+
   </style>
 </head>
 
 <body>
   <div class="main">
+
+    
+
     <div class="container">
       <div class="tile is-ancestor">
         <div class="tile is-parent">
@@ -104,41 +115,9 @@ include_once 'navbar.php';
           </div>
 
           <div class="tile is-child box is-4" id="listTile">
-            <h1 class="title has-text-centered">Description</h1>
+            <h1 class="title has-text-centered is-4 mb-6">Event Description</h1>
             <div class="container" id="eventContainer">
-              <ul id="eventList">
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-                <li>sample</li>
-              </ul>
+              <p class="subtitle is-5" id="eventHeader"></p>
             </div>
           </div>
         </div>
@@ -152,7 +131,7 @@ include_once 'navbar.php';
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Modal title</p>
+        <p class="modal-card-title" id="modalHeader">Modal title</p>
         <button class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">

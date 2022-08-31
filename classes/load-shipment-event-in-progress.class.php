@@ -53,8 +53,9 @@ try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT shipment_number AS title, date_of_delivery AS start 
-    FROM shipment";
+    $sql = "SELECT shipment_number, date_of_delivery  
+    FROM shipment 
+    WHERE shipment_status = 'In-progress'";
 
     $stmt = $pdoVessel->prepare($sql);
 
@@ -66,7 +67,7 @@ try {
     for ($i = 0; $i < count($row); $i++) {
         //echo $row[$i][1] . "<br>";
 
-        $childArray = array('title' => '#' . $row[$i][0], 'start' => $row[$i][1]);
+        $childArray = array('title' => 'Shipment #' . $row[$i][0], 'description' => "Shipment #" . $row[$i][0] . " is expected to be delivered on " . $row[$i][1], 'start' => $row[$i][1], 'color' => '#ffff99', 'textColor' => '#000000');
 
         array_push($parentArray, $childArray);
     }

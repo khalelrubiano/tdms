@@ -87,44 +87,45 @@ include_once 'navbar-subcontractor.php';
     ::-webkit-scrollbar-thumb:hover {
       background: #555;
     }
+
+    #addressHeader {
+      text-transform: uppercase;
+    }
   </style>
 </head>
 
 <body>
   <div class="main">
-    <p class="title is-4 is-hidden" id="isOwnerHidden"><?php echo $_SESSION["isOwner"] ?></p>
-    <p class="title is-4 is-hidden" id="isDriverHidden"><?php echo $_SESSION["isDriver"] ?></p>
-    <p class="title is-4 is-hidden" id="isHelperHidden"><?php echo $_SESSION["isHelper"] ?></p>
     <div class="container" style="margin-bottom: 5%;">
+      <p class="title is-4 is-hidden" id="isOwnerHidden"><?php echo $_SESSION["isOwner"] ?></p>
+      <p class="title is-4 is-hidden" id="isDriverHidden"><?php echo $_SESSION["isDriver"] ?></p>
+      <p class="title is-4 is-hidden" id="isHelperHidden"><?php echo $_SESSION["isHelper"] ?></p>
       <div class="tile is-ancestor">
-        <div class="tile is-parent is-vertical" style="align-items: center;">
-          <div class="tile is-child is-8 box has-text-centered p-6">
-            <i class="fa-solid fa-user-large fa-5x mb-4"></i>
-            <h1 class="title is-4 mb-6" id="subcontractorRole"></h1>
-            <table class="table is-bordered mb-6">
-              <tbody>
-                <tr>
-                  <th>Username:</th>
-                  <td><?php echo $_SESSION["username"] ?></td>
-                </tr>
-                <tr>
-                  <th>First Name:</th>
-                  <td><?php echo $_SESSION["firstName"] ?></td>
-                </tr>
-                <tr>
-                  <th>Middle Name:</th>
-                  <td><?php echo $_SESSION["middleName"] ?></td>
-                </tr>
-                <tr>
-                  <th>Last Name:</th>
-                  <td><?php echo $_SESSION["lastName"] ?></td>
-                </tr>
-              </tbody>
-            </table>
+
+        <div class="tile is-parent box m-4">
+          <div class="tile is-child has-text-centered p-6">
+            <i class="fa-solid fa-user fa-10x mb-4"></i>
+            <h1 class="title is-4" id="subcontractorRole"></h1>
+
+            <p class="title is-3"><?php echo $_SESSION['firstName'] . " " . $_SESSION['middleName'] . " " . $_SESSION['lastName'] ?></p>
+            <p class="subtitle is-4 mb-6">@<?php echo $_SESSION['username'] ?></p>
+
             <button class="button is-rounded is-info" id="changePassword" onclick="openEdit()"> <i class="fa-solid fa-pen-to-square mr-3"></i>Change Password</button>
           </div>
         </div>
+
+        <div class="tile is-parent m-4">
+          <div class="tile is-child p-6">
+            <p class="title is-3 has-text-white box has-background-grey-dark mb-6">Company Info</p>
+            <h1 class="title is-4" id="nameHeader"></h1>
+            <h1 class="subtitle is-5 mb-6" id="contactHeader"></h1>
+
+            <h1 class="title is-6" id="addressHeader"></h1>
+          </div>
+        </div>
+
       </div>
+
     </div>
 
   </div>

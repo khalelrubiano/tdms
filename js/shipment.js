@@ -20,6 +20,7 @@ let tabValueHidden = document.getElementById('tabValueHidden')
 
 let logList = document.getElementById('logList')
 
+//console.log("js code was loaded");
 
 //MODALS
 function openAdd() {
@@ -128,7 +129,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
         currentPageNumber: currentPageNumberVar,
         orderBy: orderByVar
     }, function (data) {
-
+        console.log("js code was loaded");
         var jsonArray = JSON.parse(data);
         indicator.innerHTML = "call success";
         if (currentPageNumber <= arrayLengthHidden.innerHTML) {
@@ -775,10 +776,17 @@ submitAddForm.addEventListener('click', (e) => {
     //refreshTable();
 })
 
-populateSelect1();
-populateSelect3();
-generateShipmentList1();
-generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    populateSelect1();
+    populateSelect3();
+    generateShipmentList1();
+    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    location.reload(true);
+});
+
+
 
 allTabLink.addEventListener('click', () => {
     inProgressTabLi.classList.remove('is-active');

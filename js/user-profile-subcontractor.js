@@ -1,5 +1,8 @@
 //MANIPULATING MODALS
 const editModal = document.getElementById('editModal');
+const nameHeader = document.getElementById('nameHeader');
+const contactHeader = document.getElementById('contactHeader');
+const addressHeader = document.getElementById('addressHeader');
 
 function openEdit(){
     //document.getElementById('vehiclePlateNumberEdit').setAttribute('value', editVal);
@@ -101,3 +104,14 @@ function clearEditFormInput(){
   passwordEdit.value = null;
   confirmPasswordEdit.value = null;
 }
+
+function generateCompanyInfo() {
+  $.post("./classes/load-company-info.class.php", {}, function (data) {
+    var jsonArray = JSON.parse(data);
+    nameHeader.innerHTML = jsonArray[0][1];
+    contactHeader.innerHTML = jsonArray[0][2] + " | " + jsonArray[0][3];
+    addressHeader.innerHTML = jsonArray[0][4] + ", " + jsonArray[0][8] + ", " + jsonArray[0][7] + ", " + jsonArray[0][6];
+  });
+}
+
+generateCompanyInfo();
