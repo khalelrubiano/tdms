@@ -17,6 +17,9 @@
     /* Disable horizontal scroll */
     /*padding-top: 50px;*/
     padding-bottom: 200px;
+
+    z-index: 5;
+
 }
 
 

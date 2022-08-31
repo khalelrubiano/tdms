@@ -44,13 +44,17 @@ include_once 'navbar.php';
 
   <!--INTERNAL CSS-->
   <style>
+    html {
+      background-color: #f4faff;
+    }
+
     @media (min-width: 1000px) {
 
       #calendarTile,
       #listTile {
         padding-left: 5%;
         padding-right: 5%;
-        
+
       }
 
       /* width */
@@ -94,20 +98,19 @@ include_once 'navbar.php';
     #listTile {
       height: 50%;
     }
-
   </style>
 </head>
 
 <body>
   <div class="main">
 
-    
+
 
     <div class="container">
       <div class="tile is-ancestor">
         <div class="tile is-parent">
           <div class="tile is-child is-8" id="calendarTile">
-            <div class="container">
+            <div class="container box">
               <div id='calendar'>
 
               </div>

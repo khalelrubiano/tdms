@@ -67,10 +67,12 @@ function addAjax() {
     }, function (data) {
         $("#submitAddFormHelp").html(data);
         //$("#submitAddFormHelp").attr('class', 'help is-success');
-        clearAddFormHelp();
-        clearAddFormInput();
-        //addModal.classList.remove('is-active');
+        //clearAddFormHelp();
+        //clearAddFormInput();
         refreshList();
+        closeAdd();
+        //addModal.classList.remove('is-active');
+
     });
 }
 
@@ -183,10 +185,11 @@ function generateUserList1() {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
+        generateUserList2(currentPageNumber, selectSort.value, finalLength);
     });
 }
 
-function generateUserList2(currentPageNumberVar, orderByVar) {
+function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
     $.post("./classes/load-client.class.php", {
         currentPageNumber: currentPageNumberVar,
         orderBy: orderByVar
@@ -195,7 +198,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
         var jsonArray = JSON.parse(data);
 
 
-        if (currentPageNumber <= arrayLengthHidden.innerHTML) {
+        if (currentPageNumber <= finalLengthVar) {
             indicator.innerHTML = "success";
 
             var newParentTile = document.createElement("div");
@@ -214,37 +217,38 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 //CARD
                 var newCard = document.createElement("div");
                 newCard.classList.add('card');
+                newCard.setAttribute("style", "border-radius: 5%;");
                 newChildTile.appendChild(newCard);
-
-                //CARD HEADER
-                var newCardHeader = document.createElement("header");
-                newCardHeader.classList.add('card-header');
-                newCard.appendChild(newCardHeader);
-
-                //CARD HEADER PARAGRAPH
-                var newCardHeaderParagraph = document.createElement("p");
-                newCardHeaderParagraph.classList.add('card-header-title');
-                //newCardHeaderParagraph.innerHTML = jsonArray[i][4];
-                newCardHeader.appendChild(newCardHeaderParagraph);
-
-                //CARD HEADER BUTTON
-                var newCardHeaderButton = document.createElement("button");
-                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
-                newCardHeaderButton.classList.add('card-header-icon');
-                newCardHeader.appendChild(newCardHeaderButton);
-
-                var newCardHeaderButtonSpan = document.createElement("span");
-                newCardHeaderButtonSpan.classList.add('icon');
-                newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
-
-                var newCardHeaderButtonSpanI = document.createElement("i");
-                newCardHeaderButtonSpanI.classList.add('fa-solid');
-                newCardHeaderButtonSpanI.classList.add('fa-xmark');
-                newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
-
-                //newCardHeaderButton.innerHTML = jsonArray[i][4];
-                //newCardHeader.appendChild(newCardHeaderParagraph);
-
+                /*
+                                //CARD HEADER
+                                var newCardHeader = document.createElement("header");
+                                newCardHeader.classList.add('card-header');
+                                newCard.appendChild(newCardHeader);
+                
+                                //CARD HEADER PARAGRAPH
+                                var newCardHeaderParagraph = document.createElement("p");
+                                newCardHeaderParagraph.classList.add('card-header-title');
+                                //newCardHeaderParagraph.innerHTML = jsonArray[i][4];
+                                newCardHeader.appendChild(newCardHeaderParagraph);
+                
+                                //CARD HEADER BUTTON
+                                var newCardHeaderButton = document.createElement("button");
+                                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
+                                newCardHeaderButton.classList.add('card-header-icon');
+                                newCardHeader.appendChild(newCardHeaderButton);
+                
+                                var newCardHeaderButtonSpan = document.createElement("span");
+                                newCardHeaderButtonSpan.classList.add('icon');
+                                newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
+                
+                                var newCardHeaderButtonSpanI = document.createElement("i");
+                                newCardHeaderButtonSpanI.classList.add('fa-solid');
+                                newCardHeaderButtonSpanI.classList.add('fa-xmark');
+                                newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
+                
+                                //newCardHeaderButton.innerHTML = jsonArray[i][4];
+                                //newCardHeader.appendChild(newCardHeaderParagraph);
+                */
                 //CARD CONTENT
                 var newCardContent = document.createElement("div");
                 newCardContent.classList.add('card-content');
@@ -302,11 +306,19 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newCard.appendChild(newCardFooter);
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
-                var newCardFooterLink = document.createElement("a");
-                newCardFooterLink.setAttribute("onclick", "redirectToClientProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "')");
-                newCardFooterLink.classList.add('card-footer-item');
-                newCardFooterLink.innerHTML = "Manage";
-                newCardFooter.appendChild(newCardFooterLink);
+                var newCardFooterLink1 = document.createElement("a");
+                newCardFooterLink1.setAttribute("onclick", "redirectToClientProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "')");
+                newCardFooterLink1.classList.add('card-footer-item');
+                newCardFooterLink1.classList.add('has-text-info');
+                newCardFooterLink1.innerHTML = "View";
+                newCardFooter.appendChild(newCardFooterLink1);
+
+                var newCardFooterLink2 = document.createElement("a");
+                newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
+                newCardFooterLink2.classList.add('card-footer-item');
+                newCardFooterLink2.classList.add('has-text-danger');
+                newCardFooterLink2.innerHTML = "Remove";
+                newCardFooter.appendChild(newCardFooterLink2);
 
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
                 newParentTile.appendChild(newChildTile);
@@ -331,7 +343,7 @@ function generateUserList3(searchTerm) {
                     console.clear();
                     console.log("Client Name")
                     indicator.innerHTML = "Client Name";
-                    generateUserList4(jsonArray[i][0], jsonArray[i][1]);
+                    generateUserList4(jsonArray[i][0], jsonArray[i][1], jsonArray[i][2]);
                     break;
 
             }
@@ -342,7 +354,7 @@ function generateUserList3(searchTerm) {
 
 }
 
-function generateUserList4(idVar, nameVar) {
+function generateUserList4(idVar, nameVar, clientAddressVar) {
     ancestorTile.innerHTML = "";
     var newParentTile = document.createElement("div");
     newParentTile.classList.add('tile');
@@ -357,37 +369,38 @@ function generateUserList4(idVar, nameVar) {
     //CARD
     var newCard = document.createElement("div");
     newCard.classList.add('card');
+    newCard.setAttribute("style", "border-radius: 5%;");
     newChildTile.appendChild(newCard);
-
-    //CARD HEADER
-    var newCardHeader = document.createElement("header");
-    newCardHeader.classList.add('card-header');
-    newCard.appendChild(newCardHeader);
-
-    //CARD HEADER PARAGRAPH
-    var newCardHeaderParagraph = document.createElement("p");
-    newCardHeaderParagraph.classList.add('card-header-title');
-    //newCardHeaderParagraph.innerHTML = jsonArray[i][4];
-    newCardHeader.appendChild(newCardHeaderParagraph);
-
-    //CARD HEADER BUTTON
-    var newCardHeaderButton = document.createElement("button");
-    newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + idVar + "')");
-    newCardHeaderButton.classList.add('card-header-icon');
-    newCardHeader.appendChild(newCardHeaderButton);
-
-    var newCardHeaderButtonSpan = document.createElement("span");
-    newCardHeaderButtonSpan.classList.add('icon');
-    newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
-
-    var newCardHeaderButtonSpanI = document.createElement("i");
-    newCardHeaderButtonSpanI.classList.add('fa-solid');
-    newCardHeaderButtonSpanI.classList.add('fa-xmark');
-    newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
-
-    //newCardHeaderButton.innerHTML = jsonArray[i][4];
-    //newCardHeader.appendChild(newCardHeaderParagraph);
-
+    /*
+                    //CARD HEADER
+                    var newCardHeader = document.createElement("header");
+                    newCardHeader.classList.add('card-header');
+                    newCard.appendChild(newCardHeader);
+    
+                    //CARD HEADER PARAGRAPH
+                    var newCardHeaderParagraph = document.createElement("p");
+                    newCardHeaderParagraph.classList.add('card-header-title');
+                    //newCardHeaderParagraph.innerHTML = jsonArray[i][4];
+                    newCardHeader.appendChild(newCardHeaderParagraph);
+    
+                    //CARD HEADER BUTTON
+                    var newCardHeaderButton = document.createElement("button");
+                    newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
+                    newCardHeaderButton.classList.add('card-header-icon');
+                    newCardHeader.appendChild(newCardHeaderButton);
+    
+                    var newCardHeaderButtonSpan = document.createElement("span");
+                    newCardHeaderButtonSpan.classList.add('icon');
+                    newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
+    
+                    var newCardHeaderButtonSpanI = document.createElement("i");
+                    newCardHeaderButtonSpanI.classList.add('fa-solid');
+                    newCardHeaderButtonSpanI.classList.add('fa-xmark');
+                    newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
+    
+                    //newCardHeaderButton.innerHTML = jsonArray[i][4];
+                    //newCardHeader.appendChild(newCardHeaderParagraph);
+    */
     //CARD CONTENT
     var newCardContent = document.createElement("div");
     newCardContent.classList.add('card-content');
@@ -410,7 +423,7 @@ function generateUserList4(idVar, nameVar) {
     newCardHeaderButtonSpanI2.classList.add('fa-3x');
     newCardHeaderButtonSpanI2.classList.add('mb-4');
     newCardContentMediaContent.appendChild(newCardHeaderButtonSpanI2);
-    
+
     /*
     //CARD CONTENT MEDIA-CONTENT FIGURE
     var newCardContentMediaContentFigure = document.createElement("figure");
@@ -445,21 +458,30 @@ function generateUserList4(idVar, nameVar) {
     newCard.appendChild(newCardFooter);
 
     //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
-    var newCardFooterLink = document.createElement("a");
-    newCardFooterLink.setAttribute("onclick", "redirectToClientProfile('" + idVar + "','" + nameVar + "')");
-    newCardFooterLink.classList.add('card-footer-item');
-    newCardFooterLink.innerHTML = "Manage";
-    newCardFooter.appendChild(newCardFooterLink);
+    var newCardFooterLink1 = document.createElement("a");
+    newCardFooterLink1.setAttribute("onclick", "redirectToClientProfile('" + idVar + "','" + nameVar + "','" + clientAddressVar + "')");
+    newCardFooterLink1.classList.add('card-footer-item');
+    newCardFooterLink1.classList.add('has-text-info');
+    newCardFooterLink1.innerHTML = "View";
+    newCardFooter.appendChild(newCardFooterLink1);
+
+    var newCardFooterLink2 = document.createElement("a");
+    newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + idVar + "')");
+    newCardFooterLink2.classList.add('card-footer-item');
+    newCardFooterLink2.classList.add('has-text-danger');
+    newCardFooterLink2.innerHTML = "Remove";
+    newCardFooter.appendChild(newCardFooterLink2);
 
     //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
     newParentTile.appendChild(newChildTile);
 }
 
 function refreshList() {
-    generateUserList1();
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateUserList2(1, selectSort.value);
+    generateUserList1();
+
+    //generateUserList2(1, selectSort.value);
 }
 
 function redirectToClientProfile(clientIdVar, clientNameVar, clientAddressVar) {
@@ -481,7 +503,7 @@ window.addEventListener('scroll', () => {
 
     if (Math.ceil(scrolled) > scrollable2) {
         currentPageNumber = currentPageNumber + 1;
-        generateUserList2(currentPageNumber, selectSort.value);
+        generateUserList1();
     }
 
 });
@@ -502,11 +524,11 @@ searchBarInput.addEventListener('input', () => {
     if (searchBarInput.value == "") {
         ancestorTile.innerHTML = "";
         currentPageNumber = 1;
-        generateUserList2(1, selectSort.value);
+        refreshList();
 
     }
 });
 
-generateUserList1();
+refreshList();
 
-generateUserList2(1, selectSort.value);
+//generateUserList2(1, selectSort.value);

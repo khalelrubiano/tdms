@@ -111,6 +111,7 @@ function addAjax() {
         //clearAddFormHelp();
         //clearAddFormInput();
         //addModal.classList.remove('is-active');
+        closeAdd();
         refreshTable();
     });
 }
@@ -208,6 +209,7 @@ function editAjax(areaIdVar) {
         //clearEditFormHelp();
         //clearEditFormInput();
         //editModal.classList.remove('is-active');
+        closeEdit();
         refreshTable();
     });
 }

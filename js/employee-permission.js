@@ -264,6 +264,7 @@ function addAjax(roleNameAddVar, shipmentAccessAddVar, employeeAccessAddVar, sub
         clearAddFormInput();
         //addModal.classList.remove('is-active');
         //alert(data);
+        closeAdd();
         refreshTable();
     });
 }
@@ -327,6 +328,7 @@ function editAjax(roleNameEditVar, shipmentAccessEditVar, employeeAccessEditVar,
         //clearEditFormInput();
         //editModal.classList.remove('is-active');
         //alert(data);
+        closeEdit();
         refreshTable();
     });
 }

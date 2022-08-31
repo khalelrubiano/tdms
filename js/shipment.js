@@ -87,6 +87,7 @@ function deleteAjax(deleteVar, deleteVar2) {
             alert(data);
             //refreshList();
             addShipmentLog("Deleted", "Shipment #" + deleteVar2);
+            refreshList();
         });
     }
 }
@@ -114,16 +115,19 @@ function generateShipmentLog() {
     });
 }
 generateShipmentLog();
+
+
 //SHIPMENT LIST
 function generateShipmentList1() {
     $.post("./classes/load-shipment.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
+        generateShipmentList2(tabValueHidden.innerHTML, currentPageNumber, selectSort.value, finalLength);
     });
 }
 
-function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
+function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, finalLengthVar) {
     $.post("./classes/load-shipment-all.class.php", {
         tabValue: tabValueVar,
         currentPageNumber: currentPageNumberVar,
@@ -132,7 +136,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
         console.log("js code was loaded");
         var jsonArray = JSON.parse(data);
         indicator.innerHTML = "call success";
-        if (currentPageNumber <= arrayLengthHidden.innerHTML) {
+        if (currentPageNumber <= finalLengthVar) {
 
 
             var newParentTile = document.createElement("div");
@@ -614,6 +618,13 @@ function populateSelect3() {
     });
 }
 
+function refreshList() {
+    ancestorTile.innerHTML = "";
+    currentPageNumber = 1;
+    generateShipmentList1();
+
+    //generateUserList2(1, selectSort.value);
+}
 
 //ADD AJAX CALLS WITH VALIDATION
 const addModal = document.getElementById('addModal');
@@ -653,6 +664,7 @@ function addAjax() {
         //clearAddFormInput();
         //refreshTable();
         addShipmentLog("Added", "Shipment #" + shipmentNumberAdd.value);
+        refreshList();
     });
     //refreshTable();
 
@@ -781,9 +793,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     populateSelect1();
     populateSelect3();
-    generateShipmentList1();
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
-    location.reload(true);
+    refreshList();
+    //generateShipmentList1();
+    //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    //location.reload(true);
 });
 
 
@@ -798,7 +811,8 @@ allTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "All";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateShipmentList1();
+    //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
 inProgressTabLink.addEventListener('click', () => {
@@ -811,7 +825,8 @@ inProgressTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "In-progress";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateShipmentList1();
+    //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
 completedTabLink.addEventListener('click', () => {
@@ -824,7 +839,8 @@ completedTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "Completed";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateShipmentList1();
+    //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
 cancelledTabLink.addEventListener('click', () => {
@@ -837,7 +853,8 @@ cancelledTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "Cancelled";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateShipmentList1();
+    //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
 clientAdd.addEventListener('change', () => {
@@ -850,7 +867,8 @@ selectSort.addEventListener('change', () => {
     indicator.innerHTML = selectSort.value;
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateShipmentList1();
+    //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
 });
 
@@ -859,7 +877,8 @@ searchBarInput.addEventListener('input', () => {
     if (searchBarInput.value == "") {
         ancestorTile.innerHTML = "";
         currentPageNumber = 1;
-        generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+        generateShipmentList1();
+        //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
     }
 });

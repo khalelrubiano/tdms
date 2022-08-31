@@ -37,11 +37,16 @@ include_once 'navbar.php';
 
     <!--INTERNAL CSS-->
     <style>
+        html {
+            background-color: #f4faff;
+        }
+
         .container {
             margin-bottom: 5%;
 
         }
 
+        /*
         @media (min-width: 1000px) {
             #registerBtn {
                 float: left;
@@ -52,17 +57,23 @@ include_once 'navbar.php';
             }
 
         }
-
+*/
         @media (max-width: 1000px) {
 
             #returnBtn {
                 padding-top: 10px;
                 padding-bottom: 10px;
+                width: 45%;
             }
 
             #registerBtn {
                 padding-top: 10px;
                 padding-bottom: 10px;
+                width: 45%;
+            }
+
+            #firstContainer {
+                text-align: center !important;
             }
         }
 
@@ -73,6 +84,7 @@ include_once 'navbar.php';
             padding: 0;
             border-collapse: collapse;
             border-spacing: 0;
+            table-layout: fixed;
         }
 
         table tr {
@@ -141,27 +153,29 @@ include_once 'navbar.php';
 
 <body>
     <div class="main">
-        <div class="container">
+        <div class="container" style="margin-bottom: 2%;" id="firstContainer">
             <p class="title is-hidden" id="arrayLengthHidden">sample</p>
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
-            <button class="button is-rounded mb-5 is-info" id="registerBtn" onclick="openAdd()"><i class="fa-solid fa-plus mr-3"></i>Register Area & Rate</button>
-            <button class="button is-rounded mb-5 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
-            
+            <button class="button is-rounded mb-5 has-background-grey has-text-white" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
+            <button class="button is-rounded mb-5 is-info" id="registerBtn" onclick="openAdd()"><i class="fa-solid fa-plus mr-3"></i> Area</button>
+
             <p class="title is-hidden" id="clientIdHidden"><?php echo $_SESSION["clientId"] ?></p>
             <p class="title is-hidden" id="areaIdHidden"></p>
 
         </div>
 
-        <div class="container">
-        <p class="title has-text-centered is-3 mb-6"><?php echo $_SESSION["clientName"] ?></p>
-        <p class="subtitle has-text-centered is-5 mb-6"><?php echo $_SESSION["clientAddress"] ?></p>
+        <div class="container box">
+
+            <p class="title has-text-centered is-3 has-text-black mt-6"><?php echo $_SESSION["clientName"] ?></p>
+            <p class="subtitle has-text-centered is-5 has-text-black mb-6"><?php echo $_SESSION["clientAddress"] ?></p>
+
             <div id="card" class="mb-4 has-text-centered">
                 <table>
                     <thead>
                         <tr>
-                            <th style="text-align: center;">Area Name</th>
-                            <th>Area Rate</th>
+                            <th style="text-align: center;">Area</th>
+                            <th>Rate</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -182,7 +196,7 @@ include_once 'navbar.php';
             <nav class="pagination mt-6">
                 <ul class="pagination-list">
                     <li>
-                        <a class="pagination-link is-current" id="paginationIndicatorBtn">1</a>
+                        <a class="pagination-link is-current is-hidden" id="paginationIndicatorBtn">1</a>
                         <a class="pagination-link is-hidden" id="arrayLengthHidden"></a>
                     </li>
                 </ul>
@@ -195,31 +209,31 @@ include_once 'navbar.php';
     <!-- ADD MODAL START-->
     <div class="modal" id="addModal">
         <div class="modal-background" id="addModalBg"></div>
-        <div class="modal-card">
+        <div class="modal-card p-4">
 
             <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-group mr-3"></i>Register Area & Rate</p>
+                <p class="modal-card-title has-text-white"><i class="fa-solid fa-plus mr-3"></i>Register Area</p>
                 <button class="delete" aria-label="close" onclick="closeAdd()"></button>
             </header>
 
             <section class="modal-card-body">
                 <div class="field">
-                    <label for="" class="label">Area Name</label>
+                    <label for="" class="label">Area</label>
                     <div class="control has-icons-left">
                         <input type="text" placeholder="Enter area name here" class="input is-rounded" name="areaNameAdd" id="areaNameAdd">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-thumbtack"></i>
                         </span>
                     </div>
                     <p class="help" id="areaNameAddHelp"></p>
                 </div>
 
                 <div class="field">
-                    <label for="" class="label">Area Rate</label>
+                    <label for="" class="label">Rate</label>
                     <div class="control has-icons-left">
-                        <input type=number min=0 max=999999 placeholder="0 - 999999" class="input is-rounded" name="areaRateAdd" id="areaRateAdd">
+                        <input type=number min=0 max=999999 placeholder="0" class="input is-rounded" name="areaRateAdd" id="areaRateAdd">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-peso-sign"></i>
                         </span>
                     </div>
                     <p class="help" id="areaRateAddHelp"></p>
@@ -227,7 +241,7 @@ include_once 'navbar.php';
 
                 <div class="field has-text-centered mt-6">
                     <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
-                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                        <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
                 </div>
@@ -236,32 +250,33 @@ include_once 'navbar.php';
         </div>
     </div>
     <!-- ADD MODAL END-->
+
     <!-- EDIT MODAL START-->
     <div class="modal" id="editModal">
         <div class="modal-background" id="editModalBg"></div>
-        <div class="modal-card">
+        <div class="modal-card p-4">
 
-            <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-group mr-3"></i>Edit Area & Rate</p>
+            <header class="modal-card-head has-background-light">
+                <p class="modal-card-title has-text-black"><i class="fa-solid fa-pen-to-square mr-3"></i>Edit Area Details</p>
                 <button class="delete" aria-label="close" onclick="closeEdit()"></button>
             </header>
 
             <section class="modal-card-body">
 
                 <div class="field">
-                    <label for="" class="label">Area Rate</label>
+                    <label for="" class="label">Rate</label>
                     <div class="control has-icons-left">
-                        <input type=number min=0 max=999999 placeholder="0 - 999999" class="input is-rounded" name="areaRateEdit" id="areaRateEdit">
+                        <input type=number min=0 max=999999 placeholder="0" class="input is-rounded" name="areaRateEdit" id="areaRateEdit">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-peso-sign"></i>
                         </span>
                     </div>
                     <p class="help" id="areaRateEditHelp"></p>
                 </div>
 
                 <div class="field has-text-centered mt-6">
-                    <button class="button is-info has-text-white is-rounded" name="submitEditForm" id="submitEditForm">
-                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                    <button class="button is-dark has-text-white is-rounded" name="submitEditForm" id="submitEditForm">
+                        <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitEditFormHelp" style="text-align: center;"></p>
                 </div>

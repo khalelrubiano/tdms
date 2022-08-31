@@ -93,6 +93,7 @@ function deleteAjax(deleteVar, deleteVar2) {
             alert(data);
             //refreshList();
             addBillingLog("Deleted", "Invoice #" + deleteVar2);
+            refreshList();
         });
     }
 }
@@ -165,6 +166,7 @@ function addAjax() {
         //clearAddFormInput();
         //refreshTable();
         addBillingLog("Added", "Invoice #" + invoiceNumberAdd.value);
+        refreshList();
     });
     //refreshTable();
 
@@ -372,10 +374,11 @@ function generateBillingList1() {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
+        generateBillingList2(tabValueHidden.innerHTML, currentPageNumber, selectSort.value, finalLength);
     });
 }
 
-function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar) {
+function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, finalLengthVar) {
     $.post("./classes/load-billing-all.class.php", {
         tabValue: tabValueVar,
         currentPageNumber: currentPageNumberVar,
@@ -385,7 +388,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar) {
         var jsonArray = JSON.parse(data);
         indicator.innerHTML = "call success";
         
-        if (currentPageNumber <= arrayLengthHidden.innerHTML) {
+        if (currentPageNumber <= finalLengthVar) {
 
 
             var newParentTile = document.createElement("div");
@@ -596,9 +599,24 @@ function redirectToBillingProfile(billingIdVar, invoiceNumberVar, invoiceDateVar
     });
 }
 
-populateSelect1();
-generateBillingList1();
-generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
+function refreshList() {
+    ancestorTile.innerHTML = "";
+    currentPageNumber = 1;
+    generateBillingList1();
+
+    //generateUserList2(1, selectSort.value);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    populateSelect1();
+    refreshList();
+
+});
+
+//populateSelect1();
+//generateBillingList1();
+//generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
 allTabLink.addEventListener('click', () => {
     settledTabLi.classList.remove('is-active');
@@ -609,7 +627,8 @@ allTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "All";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateBillingList1();
+    //generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
 settledTabLink.addEventListener('click', () => {
@@ -621,7 +640,8 @@ settledTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "Settled";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateBillingList1();
+    //generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
 unsettledTabLink.addEventListener('click', () => {
@@ -633,7 +653,8 @@ unsettledTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "Unsettled";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateBillingList1();
+    //generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
 selectSort.addEventListener('change', () => {
@@ -641,7 +662,8 @@ selectSort.addEventListener('change', () => {
     indicator.innerHTML = selectSort.value;
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    generateBillingList1();
+    //generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
 });
 

@@ -13,7 +13,8 @@ try {
 
     $sql = "SELECT
     client_id, 
-    client_name
+    client_name,
+    client_address
     FROM client 
     WHERE company_id = :company_id";
 

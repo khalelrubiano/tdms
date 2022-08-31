@@ -4,7 +4,6 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-
 if (isset($_SESSION["loggedin"])) {
   header("location: dashboard.php");
   exit;
@@ -36,6 +35,23 @@ include_once 'navbar.php';
 
   <!--INTERNAL CSS-->
   <style>
+    @media (min-width: 1000px) {
+
+      .hero-body {
+        background-image: url("assets/home.jpg");
+        background-color: #cccccc;
+        background-size: cover !important;
+      }
+    }
+
+    @media (max-width: 1000px) {
+
+      .hero-body {
+        background-image: url("assets/home-mobile.jpg");
+        background-color: #cccccc;
+        background-size: cover !important;
+      }
+    }
 
   </style>
 </head>
@@ -45,21 +61,20 @@ include_once 'navbar.php';
     <section class="hero is-link is-fullheight">
       <div class="hero-body">
         <div class="">
+          <!--
           <p class="title">
             Fullheight Homepage
           </p>
           <p class="subtitle">
             Fullheight subtitle
-          </p>
+          </p>-->
         </div>
       </div>
     </section>
     <footer class="footer">
       <div class="content has-text-centered">
         <p>
-          <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed
-          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-          is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+          <strong>2021IT01</strong>
         </p>
       </div>
     </footer>

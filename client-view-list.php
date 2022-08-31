@@ -35,6 +35,10 @@ include_once 'navbar.php';
 
     <!--INTERNAL CSS-->
     <style>
+        html {
+            background-color: #f4faff;
+        }
+
         @media (min-width: 1000px) {
 
             #searchBarForm {
@@ -47,18 +51,31 @@ include_once 'navbar.php';
             #searchBarForm {
                 padding-top: 10px;
                 padding-bottom: 10px;
+                width: 100%;
             }
+
+            #registerBtn {
+                padding-top: 10px;
+                padding-bottom: 10px;
+                width: 100%;
+                margin-bottom: 10%;
+            }
+
+            #firstContainer {
+                text-align: center !important;
+            }
+
         }
     </style>
 </head>
 
 <body>
     <div class="main" style="margin-bottom: 20%;">
-        <div class="container" style="margin-bottom: 2%;">
+        <div class="container" style="margin-bottom: 2%;" id="firstContainer">
             <p class="title is-hidden" id="arrayLengthHidden">sample</p>
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
-            <button class="button is-rounded mr-4 is-info" onclick="openAdd()"> <i class="fa-solid fa-user-plus mr-3"></i>Register Client</button>
+
 
             <div class="select is-rounded is-hidden" id="selectSortDiv">
                 <select id="selectSort">
@@ -74,7 +91,7 @@ include_once 'navbar.php';
                     </span>
                 </p>
             </div>
-
+            <button class="button is-rounded mr-4 is-info" onclick="openAdd()" id="registerBtn"> <i class="fa-solid fa-plus mr-3"></i>Register Client</button>
         </div>
 
         <div class="container">
@@ -89,10 +106,10 @@ include_once 'navbar.php';
     <!-- ADD MODAL -->
     <div class="modal" id="addModal">
         <div class="modal-background" id="addModalBg"></div>
-        <div class="modal-card">
+        <div class="modal-card p-4">
 
             <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-plus mr-3"></i>Register Client</p>
+                <p class="modal-card-title has-text-white"><i class="fa-solid fa-plus mr-3"></i>Register Client</p>
                 <button class="delete" aria-label="close" onclick="closeAdd()"></button>
             </header>
 
@@ -103,7 +120,7 @@ include_once 'navbar.php';
                     <div class="control has-icons-left">
                         <input type="text" placeholder="Enter client name here" class="input is-rounded" name="clientNameAdd" id="clientNameAdd">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-warehouse"></i>
                         </span>
                     </div>
                     <p class="help" id="clientNameAddHelp"></p>
@@ -119,7 +136,7 @@ include_once 'navbar.php';
 
                 <div class="field has-text-centered mt-6">
                     <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
-                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                        <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
                 </div>

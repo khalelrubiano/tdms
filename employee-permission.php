@@ -40,6 +40,10 @@ include_once 'navbar.php';
 
     <!--INTERNAL CSS-->
     <style>
+        html {
+            background-color: #f4faff;
+        }
+
         table {
             border: 1px solid #ccc;
             width: 100%;
@@ -109,15 +113,28 @@ include_once 'navbar.php';
                 line-height: 0 !important;
             }
 
+            #firstContainer {
+                text-align: center !important;
+            }
+
+            #createBtn {
+                padding-top: 10px;
+                padding-bottom: 10px;
+                width: 100%;
+                margin-bottom: 5%;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="main">
-        <div class="container">
-            <button class="button is-rounded mb-6 is-info" onclick="openAdd()"> <i class="fa-solid fa-plus mr-3"></i>Add New Role</button>
-            <div id="card" class="mb-4 has-text-centered">
+        <div class="container" id="firstContainer">
+        <button class="button is-rounded mb-6 is-info" onclick="openAdd()" id="createBtn"> <i class="fa-solid fa-plus mr-3"></i>Add New Role</button>
+        </div>
+        <div class="container box">
+       
+            <div id="card" class="mb-4 has-text-centered pt-4">
                 <table>
                     <thead>
                         <tr>
@@ -148,7 +165,7 @@ include_once 'navbar.php';
             <nav class="pagination mt-6">
                 <ul class="pagination-list">
                     <li>
-                        <a class="pagination-link is-current" id="paginationIndicatorBtn">1</a>
+                        <a class="pagination-link is-current is-hidden" id="paginationIndicatorBtn">1</a>
                         <a class="pagination-link is-hidden" id="arrayLengthHidden"></a>
                     </li>
                 </ul>
@@ -161,7 +178,7 @@ include_once 'navbar.php';
     <!-- ADD MODAL -->
     <div class="modal" id="addModal">
         <div class="modal-background" id="addModalBg"></div>
-        <div class="modal-card">
+        <div class="modal-card p-4">
 
             <header class="modal-card-head has-background-info">
                 <p class="modal-card-title has-text-white"><i class="fa-solid fa-plus mr-3"></i>Add New Role</p>
@@ -225,7 +242,7 @@ include_once 'navbar.php';
 
                 <div class="field has-text-centered mt-6">
                     <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
-                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                    <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
                 </div>
@@ -237,10 +254,10 @@ include_once 'navbar.php';
     <!-- EDIT MODAL -->
     <div class="modal" id="editModal">
         <div class="modal-background" id="editModalBg"></div>
-        <div class="modal-card">
+        <div class="modal-card p-4">
 
-            <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white" id="editModalTitle"></p>
+            <header class="modal-card-head has-background-light">
+                <p class="modal-card-title has-text-black" id="editModalTitle"></p>
                 <button class="delete" aria-label="close" onclick="closeEdit()"></button>
             </header>
 
@@ -300,8 +317,8 @@ include_once 'navbar.php';
                 </div>
 
                 <div class="field has-text-centered mt-6">
-                    <button class="button is-info has-text-white is-rounded" name="submitEditForm" id="submitEditForm">
-                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                    <button class="button is-dark has-text-white is-rounded" name="submitEditForm" id="submitEditForm">
+                    <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitEditFormHelp" style="text-align: center;"></p>
                 </div>

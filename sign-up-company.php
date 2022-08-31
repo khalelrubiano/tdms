@@ -37,7 +37,9 @@ include_once 'navbar.php';
 
   <!--INTERNAL CSS-->
   <style>
-
+        html {
+            background-color: #f4faff;
+        }
   </style>
 </head>
 
@@ -53,161 +55,164 @@ include_once 'navbar.php';
 </script>
 
 <body>
-  <div class="mainAlt">
-    <div class="section">
-      <div class="container">
-        <form id="signUpCompanyForm" action="classes/sign-up-company-controller.class.php" class="box has-background-white-ter" method="POST">
+    <div class="mainAlt">
+        <div class="section">
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-6 is-offset-3">
+                        <form id="signUpCompanyForm" action="classes/sign-up-company-controller.class.php" class="box has-background-white-ter p-6" method="POST">
 
-          <h3 class="title is-3"> <i class="fas fa-user-cog mr-3"></i> Company Admin Account</h3>
+                            <h3 class="title is-4 has-text-centered"> <i class="fas fa-user-cog mr-3"></i> Company Admin Account</h3>
 
-          <div class="field">
-            <label for="" class="label">Username</label>
-            <div class="control has-icons-left">
-              <input type="text" placeholder="Enter username here" class="input is-rounded" name="username" id="username">
-              <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-              </span>
+                            <div class="field">
+                                <label for="" class="label">Username</label>
+                                <div class="control has-icons-left">
+                                    <input type="text" placeholder="Enter username here" class="input is-rounded" name="username" id="username">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
+                                <p class="help" id="usernameHelp"></p>
+                            </div>
+
+                            <div class="field">
+                                <label for="" class="label">Password</label>
+                                <div class="control has-icons-left">
+                                    <input type="password" placeholder="Enter password here" class="input is-rounded" name="password" id="password">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
+                                <p class="help" id="passwordHelp"></p>
+                            </div>
+
+                            <div class="field" style="margin-bottom: 10%;">
+                                <label for="" class="label">Confirm Password</label>
+                                <div class="control has-icons-left">
+                                    <input type="password" placeholder="Enter password again here" class="input is-rounded" name="confirmPassword" id="confirmPassword">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
+                                <p class="help" id="confirmPasswordHelp"></p>
+                            </div>
+
+                            <h3 class="title is-4 mt-6 has-text-centered"> <i class="fas fa-building mr-3"></i>Company Information</h3>
+
+                            <div class="field">
+                                <label for="" class="label">Company Name</label>
+                                <div class="control has-icons-left">
+                                    <input type="text" placeholder="Enter company name here" class="input is-rounded" name="companyName" id="companyName">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-id-badge"></i>
+                                    </span>
+                                </div>
+                                <p class="help" id="companyNameHelp"></p>
+                            </div>
+
+                            <div class="field">
+                                <label for="" class="label">Company Email</label>
+                                <div class="control has-icons-left">
+                                    <input type="text" placeholder="Enter company email here" class="input is-rounded" name="companyEmail" id="companyEmail">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                </div>
+                                <p class="help" id="companyEmailHelp"></p>
+                            </div>
+
+                            <div class="field">
+                                <label for="" class="label">Company Contact Number</label>
+                                <div class="control has-icons-left">
+                                    <input type="text" placeholder="Enter company telephone here" class="input is-rounded" name="companyNumber" id="companyNumber">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-phone"></i>
+                                    </span>
+                                </div>
+                                <p class="help" id="companyNumberHelp"></p>
+                            </div>
+
+                            <div class="field">
+                                <label for="" class="label">Company Address (Unit/Floor + House/Building Name + Street Number + Street Name)</label>
+                                <div class="control has-icons-left">
+                                    <input type="text" placeholder="Enter company address here" class="input is-rounded" name="companyAddress" id="companyAddress">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </span>
+                                </div>
+                                <p class="help" id="companyAddressHelp"></p>
+                            </div>
+
+                            <div class="field">
+                                <label for="" class="label">Region</label>
+                                <div class="control">
+                                    <div class="select is-rounded" id="regionDiv">
+                                        <select id="region" name="region">
+                                        </select>
+                                    </div>
+                                </div>
+                                <p class="help" id="regionHelp"></p>
+                            </div>
+
+                            <div class="field">
+                                <label for="" class="label"> Province</label>
+                                <div class="control">
+                                    <div class="select is-rounded" id="provinceDiv">
+
+                                        <select id="province" name="province">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <p class="help" id="provinceHelp"></p>
+                            </div>
+
+                            <div class="field">
+                                <label for="" class="label">City</label>
+                                <div class="control">
+                                    <div class="select is-rounded" id="cityDiv">
+
+                                        <select id="city" name="city">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <p class="help" id="cityHelp"></p>
+                            </div>
+
+                            <div class="field" style="margin-bottom: 10%;">
+                                <label for="" class="label">Barangay</label>
+                                <div class="control">
+                                    <div class="select is-rounded" id="barangayDiv">
+                                        <select id="barangay" name="barangay">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <p class="help" id="barangayHelp"></p>
+                            </div>
+
+                            <div class="field mt-5 has-text-centered">
+                                <button class="button has-background-link has-text-white is-rounded" type="submit" name="submit" id="submitForm">
+                                    <i class="fa-solid fa-check mr-3"></i>Submit
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
             </div>
-            <p class="help" id="usernameHelp"></p>
-          </div>
+        </div>
 
-          <div class="field">
-            <label for="" class="label">Password</label>
-            <div class="control has-icons-left">
-              <input type="password" placeholder="Enter password here" class="input is-rounded" name="password" id="password">
-              <span class="icon is-small is-left">
-                <i class="fa fa-lock"></i>
-              </span>
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>2021IT01</strong>
+                </p>
             </div>
-            <p class="help" id="passwordHelp"></p>
-          </div>
-
-          <div class="field">
-            <label for="" class="label">Confirm Password</label>
-            <div class="control has-icons-left">
-              <input type="password" placeholder="Enter password again here" class="input is-rounded" name="confirmPassword" id="confirmPassword">
-              <span class="icon is-small is-left">
-                <i class="fa fa-lock"></i>
-              </span>
-            </div>
-            <p class="help" id="confirmPasswordHelp"></p>
-          </div>
-
-          <h3 class="title is-3 mt-6"> <i class="fas fa-building mr-3"></i>Company Information</h3>
-
-          <div class="field">
-            <label for="" class="label">Company Name</label>
-            <div class="control has-icons-left">
-              <input type="text" placeholder="Enter company name here" class="input is-rounded" name="companyName" id="companyName">
-              <span class="icon is-small is-left">
-                <i class="fas fa-id-badge"></i>
-              </span>
-            </div>
-            <p class="help" id="companyNameHelp"></p>
-          </div>
-
-          <div class="field">
-            <label for="" class="label">Company Email</label>
-            <div class="control has-icons-left">
-              <input type="text" placeholder="Enter company email here" class="input is-rounded" name="companyEmail" id="companyEmail">
-              <span class="icon is-small is-left">
-                <i class="fas fa-envelope"></i>
-              </span>
-            </div>
-            <p class="help" id="companyEmailHelp"></p>
-          </div>
-
-          <div class="field">
-            <label for="" class="label">Company Contact Number</label>
-            <div class="control has-icons-left">
-              <input type="text" placeholder="Enter company telephone here" class="input is-rounded" name="companyNumber" id="companyNumber">
-              <span class="icon is-small is-left">
-                <i class="fas fa-phone"></i>
-              </span>
-            </div>
-            <p class="help" id="companyNumberHelp"></p>
-          </div>
-
-          <div class="field">
-            <label for="" class="label">Company Address (Unit/Floor + House/Building Name + Street Number + Street Name)</label>
-            <div class="control has-icons-left">
-              <input type="text" placeholder="Enter company address here" class="input is-rounded" name="companyAddress" id="companyAddress">
-              <span class="icon is-small is-left">
-                <i class="fas fa-map-marker-alt"></i>
-              </span>
-            </div>
-            <p class="help" id="companyAddressHelp"></p>
-          </div>
-
-          <div class="field">
-            <label for="" class="label">Region</label>
-            <div class="control">
-              <div class="select is-rounded" id="regionDiv">
-                <select id="region" name="region">
-                </select>
-              </div>
-            </div>
-            <p class="help" id="regionHelp"></p>
-          </div>
-
-          <div class="field">
-            <label for="" class="label"> Province</label>
-            <div class="control">
-              <div class="select is-rounded" id="provinceDiv">
-
-                <select id="province" name="province">
-
-                </select>
-              </div>
-            </div>
-            <p class="help" id="provinceHelp"></p>
-          </div>
-
-          <div class="field">
-            <label for="" class="label">City</label>
-            <div class="control">
-              <div class="select is-rounded" id="cityDiv">
-
-                <select id="city" name="city">
-
-                </select>
-              </div>
-            </div>
-            <p class="help" id="cityHelp"></p>
-          </div>
-
-          <div class="field">
-            <label for="" class="label">Barangay</label>
-            <div class="control">
-              <div class="select is-rounded" id="barangayDiv">
-                <select id="barangay" name="barangay">
-
-                </select>
-              </div>
-            </div>
-            <p class="help" id="barangayHelp"></p>
-          </div>
-
-          <div class="field mt-5 has-text-centered">
-            <button class="button has-background-link has-text-white is-rounded" type="submit" name="submit" id="submitForm">
-              <i class="fas fa-paper-plane mr-3"></i>Submit
-            </button>
-          </div>
-
-        </form>
-      </div>
+        </footer>
     </div>
-
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p>
-          <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed
-          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-          is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-        </p>
-      </div>
-    </footer>
-  </div>
 </body>
 
 <!--DO NOT AUTO FORMAT THIS CODE

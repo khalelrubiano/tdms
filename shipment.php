@@ -79,7 +79,7 @@ include_once 'navbar.php';
       <div class="select is-rounded mr-3" id="selectSortDiv">
         <select id="selectSort">
           <option value="shipment.shipment_number" selected>Sort By Shipment Number</option>
-          <option value="shipment.created_at">Sort By Date</option>
+          <option value="shipment.date_of_delivery">Sort By Date</option>
         </select>
       </div>
 

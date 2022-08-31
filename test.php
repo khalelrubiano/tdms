@@ -55,9 +55,9 @@ include_once 'navbar.php';
 <body>
     <div class="main" style="margin-bottom: 20%;">
         <div class="container" style="margin-bottom: 2%;">
-            <p class="title is-hidden" id="arrayLengthHidden">sample</p>
-            <p class="title is-hidden" id="test_indicator">Test</p>
-            <p class="title is-hidden" id="indicator">Live Search Indicator</p>
+            <p class="title" id="arrayLengthHidden">sample</p>
+            <p class="title" id="test_indicator">Test</p>
+            <p class="title" id="indicator">Live Search Indicator</p>
             <button class="button is-rounded mr-4 is-info" onclick="openAdd()"> <i class="fa-solid fa-user-plus mr-3"></i>Register Client</button>
 
             <div class="select is-rounded is-hidden" id="selectSortDiv">
@@ -77,11 +77,9 @@ include_once 'navbar.php';
 
         </div>
 
-        <div class="container">
+        <div class="container" id="ancestorTile">
 
-            <div class="tile is-ancestor is-vertical" id="ancestorTile">
 
-            </div>
         </div>
 
     </div>
@@ -91,7 +89,7 @@ include_once 'navbar.php';
         <div class="modal-background" id="addModalBg"></div>
         <div class="modal-card">
 
-            <header class="modal-card-head has-background-info">
+            <header class="modal-card-head has-background-primary">
                 <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-plus mr-3"></i>Register Client</p>
                 <button class="delete" aria-label="close" onclick="closeAdd()"></button>
             </header>
