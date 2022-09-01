@@ -37,6 +37,10 @@ include_once 'navbar.php';
 
     <!--INTERNAL CSS-->
     <style>
+        html {
+            background-color: #f4faff;
+        }
+
         @media (min-width: 1000px) {
             #searchBarForm {
                 float: right;
@@ -49,23 +53,30 @@ include_once 'navbar.php';
                 padding-top: 10px;
                 padding-bottom: 10px;
             }
+
+            #createBtn {
+                padding-top: 10px;
+                padding-bottom: 10px;
+                width: 100%;
+                margin-bottom: 5%;
+            }
+
+            #selectSortDiv {
+                margin-bottom: 10%;
+            }
+
+            #firstContainer {
+                text-align: center !important;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="main" style="margin-bottom: 20%;">
-        <div class="container" style="margin-bottom: 2%;">
+        <div class="container" style="margin-bottom: 2%;" id="firstContainer">
             <p class="title is-hidden" id="arrayLengthHidden">sample</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
-            <button class="button is-rounded mr-4 is-info" onclick="openAdd()"> <i class="fa-solid fa-user-group mr-3"></i>Create Group</button>
-
-            <div class="select is-rounded" id="selectSortDiv">
-                <select id="selectSort">
-                    <option value="ownergroup.group_name" selected>Sort By Group Name</option>
-                    <option value="subcontractor.first_name">Sort By Owner Name</option>
-                </select>
-            </div>
 
             <div class="field" id="searchBarForm">
                 <p class="control has-icons-right">
@@ -75,6 +86,17 @@ include_once 'navbar.php';
                     </span>
                 </p>
             </div>
+            
+            <button class="button is-rounded mr-4 is-info" onclick="openAdd()" id="createBtn"> <i class="fa-solid fa-plus mr-3"></i>Create Group</button>
+
+            <div class="select is-rounded" id="selectSortDiv">
+                <select id="selectSort">
+                    <option value="ownergroup.group_name" selected>Sort By Group Name</option>
+                    <option value="subcontractor.first_name">Sort By Owner Name</option>
+                </select>
+            </div>
+
+
 
         </div>
 
@@ -92,7 +114,7 @@ include_once 'navbar.php';
         <div class="modal-card">
 
             <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-group mr-3"></i>Create Group</p>
+                <p class="modal-card-title has-text-white"><i class="fa-solid fa-plus mr-3"></i>Create Group</p>
                 <button class="delete" aria-label="close" onclick="closeAdd()"></button>
             </header>
 
@@ -102,7 +124,7 @@ include_once 'navbar.php';
                     <div class="control has-icons-left">
                         <input type="text" placeholder="Enter group name here" class="input is-rounded" name="groupNameAdd" id="groupNameAdd">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-user-group"></i>
                         </span>
                     </div>
                     <p class="help" id="groupNameAddHelp"></p>
@@ -121,7 +143,7 @@ include_once 'navbar.php';
 
                 <div class="field has-text-centered mt-6">
                     <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
-                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                        <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
                 </div>
@@ -135,8 +157,8 @@ include_once 'navbar.php';
         <div class="modal-background" id="editModalBg"></div>
         <div class="modal-card">
 
-            <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white" id="editHeader"><i class="fa-solid fa-user-group mr-3"></i></p>
+            <header class="modal-card-head has-background-light">
+                <p class="modal-card-title has-text-black" id="editHeader"><i class="fa-solid fa-user-group mr-3"></i></p>
                 <p class="modal-card-title has-text-white is-hidden" id="editHeader2"></p>
                 <button class="delete" aria-label="close" onclick="closeEdit()"></button>
             </header>
@@ -147,7 +169,7 @@ include_once 'navbar.php';
                     <div class="control has-icons-left">
                         <input type="text" placeholder="Enter group name here" class="input is-rounded" name="groupNameEdit" id="groupNameEdit">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-user-group"></i>
                         </span>
                     </div>
                     <p class="help" id="groupNameEditHelp"></p>
@@ -165,8 +187,8 @@ include_once 'navbar.php';
                 </div>
 
                 <div class="field has-text-centered mt-6">
-                    <button class="button is-info has-text-white is-rounded" name="submitEditForm" id="submitEditForm">
-                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                    <button class="button is-dark has-text-white is-rounded" name="submitEditForm" id="submitEditForm">
+                        <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitEditFormHelp" style="text-align: center;"></p>
                 </div>
@@ -174,7 +196,7 @@ include_once 'navbar.php';
             </section>
         </div>
     </div>
-    
+
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->

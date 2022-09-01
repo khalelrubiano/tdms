@@ -36,14 +36,14 @@ function openAdd(vehicleIdVar) {
 }
 
 function closeAdd() {
-    //clearAddFormHelp();
-    //clearAddFormInput();
+    clearAddFormHelp();
+    clearAddFormInput();
 
-    //submitAddFormHelp.className = "help"
-    //submitAddFormHelp.innerText = ""
+    submitAddFormHelp.className = "help"
+    submitAddFormHelp.innerText = ""
 
     addModal.classList.remove('is-active');
-    
+
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
 
@@ -59,7 +59,7 @@ function deleteAjax(deleteVar) {
             //clearAddFormInput();
             //addModal.classList.remove('is-active');
             alert(data);
-            //refreshList();
+            refreshList();
         });
     }
 }
@@ -82,7 +82,8 @@ function addAjax() {
         //clearAddFormHelp();
         //clearAddFormInput();
         //addModal.classList.remove('is-active');
-        //refreshList();
+        closeAdd();
+        refreshList();
     });
 }
 
@@ -130,18 +131,18 @@ submitAddForm.addEventListener('click', (e) => {
     }
 
 })
-/*
+
 function clearAddFormHelp() {
     //RESETTING FORM ELEMENTS
-    clientNameAdd.className = "input is-rounded"
-    clientNameAddHelp.className = "help"
-    clientNameAddHelp.innerText = ""
+    trackerIdAdd.className = "input is-rounded"
+    trackerIdAddHelp.className = "help"
+    trackerIdAddHelp.innerText = ""
 }
 
 function clearAddFormInput() {
-    clientNameAdd.value = null;
+    trackerIdAdd.value = null;
 
-}*/
+}
 
 //VEHICLE LIST
 function generateVehicleList1(tabValueVar) {
@@ -151,10 +152,17 @@ function generateVehicleList1(tabValueVar) {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
+
+        let i = 1;
+        while (i <= finalLength) {
+            generateVehicleList2(tabValueVar, i, selectSort.value, finalLength);
+            i++;
+        }
+
     });
 }
 
-function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar) {
+function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, finalLengthVar) {
     $.post("./classes/load-vehicle-availability.class.php", {
         tabValue: tabValueVar,
         currentPageNumber: currentPageNumberVar,
@@ -163,7 +171,7 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar) {
 
         var jsonArray = JSON.parse(data);
         indicator.innerHTML = "call success";
-        if (currentPageNumber <= arrayLengthHidden.innerHTML) {
+        if (currentPageNumber <= finalLengthVar) {
             indicator.innerHTML = "condition success";
 
             var newParentTile = document.createElement("div");
@@ -182,6 +190,7 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 //CARD
                 var newCard = document.createElement("div");
                 newCard.classList.add('card');
+                newCard.setAttribute("style", "border-radius: 5%;");
                 newChildTile.appendChild(newCard);
 
                 //CARD HEADER
@@ -219,53 +228,53 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar) {
                         break;
 
                 }
-/*
-                var newCardHeaderLabel = document.createElement("label");
-                newCardHeaderLabel.classList.add('card-header-icon');
-                newCardHeaderLabel.classList.add('switch');
-                newCardHeader.appendChild(newCardHeaderLabel);
-
-                var newCardHeaderLabelInput = document.createElement("input");
-                newCardHeaderLabelInput.setAttribute("type", "checkbox");
-                newCardHeaderLabelInput.setAttribute("onchange", "vehicleStatusUpdate1('" + jsonArray[i][0] + "','" + jsonArray[i][3] + "')");
-
-                switch (jsonArray[i][3]) {
-                    case "Available":
-                        newCardHeaderLabelInput.setAttribute("checked", "true");
-                        break;
-                    case "Unavailable":
-                        //newCardHeaderLabelInput.setAttribute("checked", "true");
-                        break;
-
-                }
-
-                //newCardHeaderLabelInput.setAttribute("checked", "true");
-                newCardHeaderLabel.appendChild(newCardHeaderLabelInput);
-
-                var newCardHeaderLabelInputSpan = document.createElement("span");
-                newCardHeaderLabelInputSpan.classList.add('slider');
-                newCardHeaderLabelInputSpan.classList.add('round');
-                newCardHeaderLabel.appendChild(newCardHeaderLabelInputSpan);
+                /*
+                                var newCardHeaderLabel = document.createElement("label");
+                                newCardHeaderLabel.classList.add('card-header-icon');
+                                newCardHeaderLabel.classList.add('switch');
+                                newCardHeader.appendChild(newCardHeaderLabel);
                 
-                                //CARD HEADER BUTTON
-                                var newCardHeaderButton = document.createElement("button");
-                                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
-                                newCardHeaderButton.classList.add('card-header-icon');
-                                newCardHeader.appendChild(newCardHeaderButton);
+                                var newCardHeaderLabelInput = document.createElement("input");
+                                newCardHeaderLabelInput.setAttribute("type", "checkbox");
+                                newCardHeaderLabelInput.setAttribute("onchange", "vehicleStatusUpdate1('" + jsonArray[i][0] + "','" + jsonArray[i][3] + "')");
                 
-                                var newCardHeaderButtonSpan = document.createElement("span");
-                                newCardHeaderButtonSpan.classList.add('icon');
-                                newCardHeaderButtonSpan.classList.add('is-right');
-                                newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
+                                switch (jsonArray[i][3]) {
+                                    case "Available":
+                                        newCardHeaderLabelInput.setAttribute("checked", "true");
+                                        break;
+                                    case "Unavailable":
+                                        //newCardHeaderLabelInput.setAttribute("checked", "true");
+                                        break;
                 
-                                var newCardHeaderButtonSpanI = document.createElement("i");
-                                newCardHeaderButtonSpanI.classList.add('fa-solid');
-                                newCardHeaderButtonSpanI.classList.add('fa-xmark');
-                                newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
+                                }
                 
-                                //newCardHeaderButton.innerHTML = jsonArray[i][4];
-                                //newCardHeader.appendChild(newCardHeaderParagraph);
-                */
+                                //newCardHeaderLabelInput.setAttribute("checked", "true");
+                                newCardHeaderLabel.appendChild(newCardHeaderLabelInput);
+                
+                                var newCardHeaderLabelInputSpan = document.createElement("span");
+                                newCardHeaderLabelInputSpan.classList.add('slider');
+                                newCardHeaderLabelInputSpan.classList.add('round');
+                                newCardHeaderLabel.appendChild(newCardHeaderLabelInputSpan);
+                                
+                                                //CARD HEADER BUTTON
+                                                var newCardHeaderButton = document.createElement("button");
+                                                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
+                                                newCardHeaderButton.classList.add('card-header-icon');
+                                                newCardHeader.appendChild(newCardHeaderButton);
+                                
+                                                var newCardHeaderButtonSpan = document.createElement("span");
+                                                newCardHeaderButtonSpan.classList.add('icon');
+                                                newCardHeaderButtonSpan.classList.add('is-right');
+                                                newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
+                                
+                                                var newCardHeaderButtonSpanI = document.createElement("i");
+                                                newCardHeaderButtonSpanI.classList.add('fa-solid');
+                                                newCardHeaderButtonSpanI.classList.add('fa-xmark');
+                                                newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
+                                
+                                                //newCardHeaderButton.innerHTML = jsonArray[i][4];
+                                                //newCardHeader.appendChild(newCardHeaderParagraph);
+                                */
                 //CARD CONTENT
                 var newCardContent = document.createElement("div");
                 newCardContent.classList.add('card-content');
@@ -312,7 +321,7 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 var newContentTableTbodyTr1Td2 = document.createElement("td");
                 newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][1];
                 newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);
-
+/*
                 //CONTENT TABLE TBODY TR 2
                 var newContentTableTbodyTr2 = document.createElement("tr");
                 newContentTableTbody.appendChild(newContentTableTbodyTr2);
@@ -324,7 +333,7 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 var newContentTableTbodyTr2Td2 = document.createElement("td");
                 newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][2] + "%";
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td2);
-
+*/
                 //CONTENT TABLE TBODY TR 3
                 var newContentTableTbodyTr3 = document.createElement("tr");
                 newContentTableTbody.appendChild(newContentTableTbodyTr3);
@@ -349,7 +358,7 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][5];
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td2);
 
-                
+
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE
                 var newCardFooter = document.createElement("footer");
                 newCardFooter.classList.add('card-footer');
@@ -365,13 +374,15 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar) {
                         newCardFooterLink.setAttribute("onclick", "openAdd('" + jsonArray[i][0] + "')");
                         newCardFooterLink.classList.add('card-footer-item');
                         newCardFooterLink.innerHTML = "Add Tracker";
+                        newCardFooterLink.classList.add('has-text-info');
                         newCardFooter.appendChild(newCardFooterLink);
                         break;
 
                     case false:
                         newCardFooterLink.setAttribute("onclick", "deleteAjax('" + jsonArray[i][6] + "')");
                         newCardFooterLink.classList.add('card-footer-item');
-                        newCardFooterLink.innerHTML = "Remove Tracker " + jsonArray[i][6];
+                        newCardFooterLink.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Remove Tracker #" + jsonArray[i][7];
+                        newCardFooterLink.classList.add('has-text-danger');
                         newCardFooter.appendChild(newCardFooterLink);
                         break;
 
@@ -392,8 +403,8 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar) {
 
     });
 }
-
-function generateShipmentList3(searchTerm) {
+/*
+function generateVehicleList3(searchTerm) {
     $.post("./classes/load-shipment.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         //indicator.innerHTML = "live:" + jsonArray.length;
@@ -423,7 +434,7 @@ function generateShipmentList3(searchTerm) {
 
 }
 
-function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusVar, shipmentDescriptionVar, destinationVar, dateOfDeliveryVar, clientNameVar, plateNumberVar, vehicleIdVar, areaIdVar) {
+function generateVehicleList4(shipmentIdVar, shipmentNumberVar, shipmentStatusVar, shipmentDescriptionVar, destinationVar, dateOfDeliveryVar, clientNameVar, plateNumberVar, vehicleIdVar, areaIdVar) {
     ancestorTile.innerHTML = "";
     var newParentTile = document.createElement("div");
     newParentTile.classList.add('tile');
@@ -494,7 +505,7 @@ function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusV
     newCardHeaderButtonSpanI.classList.add('fa-solid');
     newCardHeaderButtonSpanI.classList.add('fa-xmark');
     newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
-*/
+
     //newCardHeaderButton.innerHTML = jsonArray[i][4];
     //newCardHeader.appendChild(newCardHeaderParagraph);
 
@@ -518,12 +529,12 @@ function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusV
     newContent.appendChild(newContentParagraph);
 
     //CONTENT PARAGRAPH ICON
-    /*
+    
     var newContentParagraphIcon = document.createElement("i");
     newContentParagraphIcon.classList.add('fa-solid');
     newContentParagraphIcon.classList.add('fa-hashtag');
     newContentParagraphIcon.classList.add('fa-2x');
-    newContentParagraph.appendChild(newContentParagraphIcon);*/
+    newContentParagraph.appendChild(newContentParagraphIcon);
 
     //CONTENT TABLE
     var newContentTable = document.createElement("table");
@@ -535,7 +546,7 @@ function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusV
     var newContentTableTbody = document.createElement("tbody");
     newContentTable.appendChild(newContentTableTbody);
 
-    /*CONTENT TABLE TBODY TR 1
+    CONTENT TABLE TBODY TR 1
     var newContentTableTbodyTr1 = document.createElement("tr");
     newContentTableTbody.appendChild(newContentTableTbodyTr1);
 
@@ -545,7 +556,7 @@ function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusV
 
     var newContentTableTbodyTr1Td2 = document.createElement("td");
     newContentTableTbodyTr1Td2.innerHTML = shipmentDescriptionVar;
-    newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);*/
+    newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);
 
     //CONTENT TABLE TBODY TR 2
     var newContentTableTbodyTr2 = document.createElement("tr");
@@ -594,19 +605,27 @@ function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusV
     newCardFooterLink.classList.add('card-footer-item');
     newCardFooterLink.innerHTML = "View Details";
     newCardFooter.appendChild(newCardFooterLink);
-    /*
+    
                     var newCardFooterLink2 = document.createElement("a");
                     newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
                     newCardFooterLink2.classList.add('card-footer-item');
                     newCardFooterLink2.innerHTML = "Manage Tracker";
                     newCardFooter.appendChild(newCardFooterLink2);
-    */
+    
     //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
     newParentTile.appendChild(newChildTile);
 }
+*/
 
-generateVehicleList1(tabValueHidden.innerHTML);
-generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
+refreshList();
+//generateVehicleList1(tabValueHidden.innerHTML);
+//generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
+
+function refreshList() {
+    ancestorTile.innerHTML = "";
+    //currentPageNumber = 1;
+    generateVehicleList1(tabValueHidden.innerHTML);
+}
 
 allTabLink.addEventListener('click', () => {
     availableTabLi.classList.remove('is-active');
@@ -618,8 +637,8 @@ allTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "All";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateVehicleList1(tabValueHidden.innerHTML);
-    generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    refreshList();
+
 });
 
 availableTabLink.addEventListener('click', () => {
@@ -632,8 +651,7 @@ availableTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "Available";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateVehicleList1(tabValueHidden.innerHTML);
-    generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    refreshList();
 });
 
 onDeliveryTabLink.addEventListener('click', () => {
@@ -646,8 +664,7 @@ onDeliveryTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "On-Delivery";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateVehicleList1(tabValueHidden.innerHTML);
-    generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    refreshList();
 });
 
 unavailableTabLink.addEventListener('click', () => {
@@ -660,8 +677,7 @@ unavailableTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "Unavailable";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateVehicleList1(tabValueHidden.innerHTML);
-    generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    refreshList();
 });
 
 selectSort.addEventListener('change', () => {
@@ -669,20 +685,21 @@ selectSort.addEventListener('change', () => {
     indicator.innerHTML = selectSort.value;
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    refreshList();
 
 });
 
+/*
 searchBarInput.addEventListener('input', () => {
     generateShipmentList3(searchBarInput.value);
     if (searchBarInput.value == "") {
         ancestorTile.innerHTML = "";
         currentPageNumber = 1;
-        generateVehicleList2(tabValueHidden.innerHTML, 1, selectSort.value);
+        refreshList();
 
     }
 });
-/*
+
 
 POST A THIRD VARIABLE TO THE LOAD SHIPMENT ALL FILE THAT DETERMINES WHETHER THE SQL QUERY RETURNS ALL / IN-PROGRESS / COMPLETED/ CANCELLED, USE CUSTOM FUNCTIONS FOR EACH TAB CATEGORY
 

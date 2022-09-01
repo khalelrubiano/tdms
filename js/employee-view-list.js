@@ -561,7 +561,14 @@ function generateUserList1() {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
-        generateUserList2(currentPageNumber, selectSort.value, finalLength);
+        
+        let i = 1;
+        while(i <= finalLength){
+            generateUserList2(i, selectSort.value, finalLength);
+            i++;
+        }
+
+        //generateUserList2(currentPageNumber, selectSort.value, finalLength);
     });
 }
 
@@ -593,6 +600,7 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 //CARD
                 var newCard = document.createElement("div");
                 newCard.classList.add('card');
+                newCard.setAttribute("style", "border-radius: 5%;");
                 newChildTile.appendChild(newCard);
 
                 //CARD HEADER
@@ -605,7 +613,7 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 newCardHeaderParagraph.classList.add('card-header-title');
                 newCardHeaderParagraph.innerHTML = jsonArray[i][4];
                 newCardHeader.appendChild(newCardHeaderParagraph);
-
+/*
                 //CARD HEADER BUTTON
                 var newCardHeaderButton = document.createElement("button");
                 newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
@@ -621,7 +629,7 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 newCardHeaderButtonSpanI.classList.add('fa-trash-can');
                 newCardHeaderButtonSpanI.classList.add('has-text-danger');
                 newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
-
+*/
                 //newCardHeaderButton.innerHTML = jsonArray[i][4];
                 //newCardHeader.appendChild(newCardHeaderParagraph);
 
@@ -687,8 +695,15 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 newCardFooterLink.setAttribute("onclick", "openEdit('" + jsonArray[i][0] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
                 newCardFooterLink.classList.add('has-text-info');
-                newCardFooterLink.innerHTML = "<i class='fa-solid fa-pen-to-square p-1 mr-1'></i> EDIT";
+                newCardFooterLink.innerHTML = "<i class='fa-solid fa-pen-to-square p-1 mr-1'></i> Edit";
                 newCardFooter.appendChild(newCardFooterLink);
+
+                var newCardFooterLink2 = document.createElement("a");
+                newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
+                newCardFooterLink2.classList.add('card-footer-item');
+                newCardFooterLink2.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Delete";
+                newCardFooterLink2.classList.add('has-text-danger');
+                newCardFooter.appendChild(newCardFooterLink2);
 
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
                 newParentTile.appendChild(newChildTile);
@@ -771,6 +786,7 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     //CARD
     var newCard = document.createElement("div");
     newCard.classList.add('card');
+    newCard.setAttribute("style", "border-radius: 5%;");
     newChildTile.appendChild(newCard);
 
     //CARD HEADER
@@ -783,7 +799,7 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     newCardHeaderParagraph.classList.add('card-header-title');
     newCardHeaderParagraph.innerHTML = roleNameVar;
     newCardHeader.appendChild(newCardHeaderParagraph);
-
+/*
     //CARD HEADER BUTTON
     var newCardHeaderButton = document.createElement("button");
     newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + usernameVar + "')");
@@ -799,7 +815,7 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     newCardHeaderButtonSpanI.classList.add('fa-trash-can');
     newCardHeaderButtonSpanI.classList.add('has-text-danger');
     newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
-
+*/
     //CARD CONTENT
     var newCardContent = document.createElement("div");
     newCardContent.classList.add('card-content');
@@ -860,8 +876,15 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     newCardFooterLink.setAttribute("onclick", "openEdit('" + usernameVar + "')");
     newCardFooterLink.classList.add('card-footer-item');
     newCardFooterLink.classList.add('has-text-info');
-    newCardFooterLink.innerHTML = "<i class='fa-solid fa-pen-to-square p-1 mr-1'></i> EDIT";
+    newCardFooterLink.innerHTML = "<i class='fa-solid fa-pen-to-square p-1 mr-1'></i> Edit";
     newCardFooter.appendChild(newCardFooterLink);
+
+    var newCardFooterLink2 = document.createElement("a");
+    newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + usernameVar + "')");
+    newCardFooterLink2.classList.add('card-footer-item');
+    newCardFooterLink2.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Delete";
+    newCardFooterLink2.classList.add('has-text-danger');
+    newCardFooter.appendChild(newCardFooterLink2);
 
     //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
     newParentTile.appendChild(newChildTile);

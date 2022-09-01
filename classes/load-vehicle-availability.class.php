@@ -38,7 +38,7 @@ function getSubcontractorDetails($idVar)
             for ($i = 0; $i < count($row); $i++) {
                 
                 if($idVar == $row[$i][0]){
-                    $returnValue = $row[$i][2] . " " . $row[$i][3] . " " . $row[$i][4];
+                    $returnValue = $row[$i][2] . " " . $row[$i][4];
                 }
                 
             }
@@ -69,7 +69,8 @@ try {
             vehicle.driver_id, 
             vehicle.helper_id,
             vehicle.vehicle_status,
-            tracking.tracking_id
+            tracking.tracking_id,
+            tracking.tracking_number
             FROM vehicle
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
@@ -88,7 +89,8 @@ try {
             vehicle.driver_id, 
             vehicle.helper_id,
             vehicle.vehicle_status,
-            tracking.tracking_id
+            tracking.tracking_id,
+            tracking.tracking_number
             FROM vehicle
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
@@ -108,7 +110,8 @@ try {
             vehicle.driver_id, 
             vehicle.helper_id,
             vehicle.vehicle_status,
-            tracking.tracking_id
+            tracking.tracking_id,
+            tracking.tracking_number
             FROM vehicle
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
@@ -128,7 +131,8 @@ try {
             vehicle.driver_id, 
             vehicle.helper_id,
             vehicle.vehicle_status,
-            tracking.tracking_id
+            tracking.tracking_id,
+            tracking.tracking_number
             FROM vehicle
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
@@ -170,7 +174,7 @@ try {
     for ($i = 0; $i < count($row); $i++) {
         //echo $row[$i][1] . "<br>";
 
-        $childArray = array($row[$i][0], $row[$i][1], $row[$i][2], $row[$i][5], getSubcontractorDetails($row[$i][3]), getSubcontractorDetails($row[$i][4]), $row[$i][6]);
+        $childArray = array($row[$i][0], $row[$i][1], $row[$i][2], $row[$i][5], getSubcontractorDetails($row[$i][3]), getSubcontractorDetails($row[$i][4]), $row[$i][6], $row[$i][7]);
 
         array_push($parentArray, $childArray);
     }

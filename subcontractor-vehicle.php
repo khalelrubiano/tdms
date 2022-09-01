@@ -35,7 +35,15 @@ include_once 'navbar.php';
 
   <!--INTERNAL CSS-->
   <style>
-    
+    html {
+      background-color: #f4faff;
+    }
+
+    #tabUl li {
+
+      background-color: white !important;
+    }
+
     @media (min-width: 1000px) {
 
       #selectSortDiv {
@@ -57,6 +65,12 @@ include_once 'navbar.php';
       #selectSortDiv {
         margin-bottom: 5%;
       }
+
+      #tabUl li {
+        font-size: 85% !important;
+        background-color: white !important;
+      }
+
     }
   </style>
 </head>
@@ -87,8 +101,8 @@ include_once 'navbar.php';
 
     </div>
     <div class="container">
-      <div class="tabs is-centered is-toggle">
-        <ul>
+      <div class="tabs is-centered is-toggle" id="bulmaTab">
+        <ul id="tabUl">
           <li class="is-active" id="allTabLi"><a id="allTabLink">All</a></li>
           <li id="availableTabLi"><a id="availableTabLink">Available</a></li>
           <li id="onDeliveryTabLi"><a id="onDeliveryTabLink">On-Delivery</a></li>
@@ -103,39 +117,39 @@ include_once 'navbar.php';
     </div>
 
   </div>
-     <!-- ADD MODAL -->
-     <div class="modal" id="addModal">
-        <div class="modal-background" id="addModalBg"></div>
-        <div class="modal-card">
+  <!-- ADD MODAL -->
+  <div class="modal" id="addModal">
+    <div class="modal-background" id="addModalBg"></div>
+    <div class="modal-card p-4">
 
-            <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-plus mr-3"></i>Add Tracker</p>
-                <button class="delete" aria-label="close" onclick="closeAdd()"></button>
-            </header>
+      <header class="modal-card-head has-background-info">
+        <p class="modal-card-title has-text-white"><i class="fa-solid fa-plus mr-3"></i>Add Tracker</p>
+        <button class="delete" aria-label="close" onclick="closeAdd()"></button>
+      </header>
 
-            <section class="modal-card-body">
-            <p class="title " id="vehicleIdHidden"></p>
-                <div class="field">
-                    <label for="" class="label">Tracker ID</label>
-                    <div class="control has-icons-left">
-                        <input type="text" placeholder="Enter tracker ID here" class="input is-rounded" name="trackerIdAdd" id="trackerIdAdd">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-user"></i>
-                        </span>
-                    </div>
-                    <p class="help" id="trackerIdAddHelp"></p>
-                </div>
-
-                <div class="field has-text-centered mt-6">
-                    <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
-                        <i class="fas fa-paper-plane mr-3"></i>Submit
-                    </button>
-                    <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
-                </div>
-
-            </section>
+      <section class="modal-card-body">
+        <p class="title is-hidden" id="vehicleIdHidden"></p>
+        <div class="field">
+          <label for="" class="label">Tracker ID</label>
+          <div class="control has-icons-left">
+            <input type="text" placeholder="Enter tracker ID here" class="input is-rounded" name="trackerIdAdd" id="trackerIdAdd">
+            <span class="icon is-small is-left">
+              <i class="fa-solid fa-hashtag"></i>
+            </span>
+          </div>
+          <p class="help" id="trackerIdAddHelp"></p>
         </div>
+
+        <div class="field has-text-centered mt-6">
+          <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
+            <i class="fa-solid fa-check mr-3"></i>Submit
+          </button>
+          <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
+        </div>
+
+      </section>
     </div>
+  </div>
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->

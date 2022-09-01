@@ -185,7 +185,14 @@ function generateUserList1() {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
-        generateUserList2(currentPageNumber, selectSort.value, finalLength);
+
+        let i = 1;
+        while(i <= finalLength){
+            generateUserList2(i, selectSort.value, finalLength);
+            i++;
+        }
+
+        //generateUserList2(currentPageNumber, selectSort.value, finalLength);
     });
 }
 
@@ -317,7 +324,7 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
                 newCardFooterLink2.classList.add('card-footer-item');
                 newCardFooterLink2.classList.add('has-text-danger');
-                newCardFooterLink2.innerHTML = "Remove";
+                newCardFooterLink2.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Delete";
                 newCardFooter.appendChild(newCardFooterLink2);
 
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
@@ -462,14 +469,14 @@ function generateUserList4(idVar, nameVar, clientAddressVar) {
     newCardFooterLink1.setAttribute("onclick", "redirectToClientProfile('" + idVar + "','" + nameVar + "','" + clientAddressVar + "')");
     newCardFooterLink1.classList.add('card-footer-item');
     newCardFooterLink1.classList.add('has-text-info');
-    newCardFooterLink1.innerHTML = "View";
+    newCardFooterLink1.innerHTML = "<i class='fa-solid fa-circle-info'></i>";
     newCardFooter.appendChild(newCardFooterLink1);
 
     var newCardFooterLink2 = document.createElement("a");
     newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + idVar + "')");
     newCardFooterLink2.classList.add('card-footer-item');
     newCardFooterLink2.classList.add('has-text-danger');
-    newCardFooterLink2.innerHTML = "Remove";
+    newCardFooterLink2.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Delete";
     newCardFooter.appendChild(newCardFooterLink2);
 
     //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
@@ -496,6 +503,7 @@ function redirectToClientProfile(clientIdVar, clientNameVar, clientAddressVar) {
     });
 }
 
+/*
 window.addEventListener('scroll', () => {
     let scrollable = document.documentElement.scrollHeight - window.innerHeight;
     let scrollable2 = scrollable * 0.80;
@@ -507,7 +515,7 @@ window.addEventListener('scroll', () => {
     }
 
 });
-/*
+
 selectSort.addEventListener('change', () => {
 
     test_indicator.innerHTML = selectSort.value;

@@ -24,7 +24,7 @@ function closeAdd() {
     submitAddFormHelp.innerText = ""
 
     addModal.classList.remove('is-active');
-    
+
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
 
@@ -42,7 +42,7 @@ function closeEdit() {
     submitEditFormHelp.innerText = ""
 
     editModal.classList.remove('is-active');
-    
+
     //removeSelectEdit(document.getElementById('usernameEdit'));
 }
 
@@ -100,6 +100,7 @@ function addAjax() {
         clearAddFormHelp();
         clearAddFormInput();
         //addModal.classList.remove('is-active');
+        closeAdd();
         refreshList();
     });
 }
@@ -338,6 +339,7 @@ function editAjax() {
         clearEditFormHelp();
         clearEditFormInput();
         //editModal.classList.remove('is-active');
+        closeEdit();
         refreshList();
     });
 }
@@ -518,10 +520,17 @@ function generateUserList1() {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
+
+        let i = 1;
+        while(i <= finalLength){
+            generateUserList2(i, selectSort.value, finalLength);
+            i++;
+        }
+        //generateUserList2(currentPageNumber, selectSort.value, finalLength);
     });
 }
 
-function generateUserList2(currentPageNumberVar, orderByVar) {
+function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
     $.post("./classes/load-subcontractor.class.php", {
         currentPageNumber: currentPageNumberVar,
         orderBy: orderByVar
@@ -530,7 +539,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
         var jsonArray = JSON.parse(data);
 
 
-        if (currentPageNumber <= arrayLengthHidden.innerHTML) {
+        if (currentPageNumber <= finalLengthVar) {
             indicator.innerHTML = "success";
 
             var newParentTile = document.createElement("div");
@@ -549,8 +558,9 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 //CARD
                 var newCard = document.createElement("div");
                 newCard.classList.add('card');
+                newCard.setAttribute("style", "border-radius: 5%;");
                 newChildTile.appendChild(newCard);
-
+/*
                 //CARD HEADER
                 var newCardHeader = document.createElement("header");
                 newCardHeader.classList.add('card-header');
@@ -575,8 +585,10 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 var newCardHeaderButtonSpanI = document.createElement("i");
                 newCardHeaderButtonSpanI.classList.add('fa-solid');
                 newCardHeaderButtonSpanI.classList.add('fa-xmark');
+                newCardHeaderButtonSpanI.classList.add('fa-lg');
+                newCardHeaderButtonSpanI.classList.add('has-text-danger');
                 newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
-
+*/
                 //newCardHeaderButton.innerHTML = jsonArray[i][4];
                 //newCardHeader.appendChild(newCardHeaderParagraph);
 
@@ -640,8 +652,16 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 var newCardFooterLink = document.createElement("a");
                 newCardFooterLink.setAttribute("onclick", "openEdit('" + jsonArray[i][1] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
-                newCardFooterLink.innerHTML = "Edit Details";
+                newCardFooterLink.classList.add('has-text-info');
+                newCardFooterLink.innerHTML = "<i class='fa-solid fa-pen-to-square p-1 mr-1'></i> Edit";
                 newCardFooter.appendChild(newCardFooterLink);
+
+                var newCardFooterLink2 = document.createElement("a");
+                newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + jsonArray[i][1] + "')");
+                newCardFooterLink2.classList.add('card-footer-item');
+                newCardFooterLink2.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Delete";
+                newCardFooterLink2.classList.add('has-text-danger');
+                newCardFooter.appendChild(newCardFooterLink2);
 
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
                 newParentTile.appendChild(newChildTile);
@@ -656,7 +676,7 @@ function generateUserList3(searchTerm) {
     $.post("./classes/load-subcontractor-live-search.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         //indicator.innerHTML = "live:" + jsonArray.length;
-        
+
         for (var i = 0; i < jsonArray.length; i++) {
 
             switch (searchTerm) {
@@ -717,8 +737,9 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     //CARD
     var newCard = document.createElement("div");
     newCard.classList.add('card');
+    newCard.setAttribute("style", "border-radius: 5%;");
     newChildTile.appendChild(newCard);
-
+/*
     //CARD HEADER
     var newCardHeader = document.createElement("header");
     newCardHeader.classList.add('card-header');
@@ -727,8 +748,27 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     //CARD HEADER PARAGRAPH
     var newCardHeaderParagraph = document.createElement("p");
     newCardHeaderParagraph.classList.add('card-header-title');
-    //newCardHeaderParagraph.innerHTML = roleNameVar;
+    newCardHeaderParagraph.innerHTML = jsonArray[i][4];
     newCardHeader.appendChild(newCardHeaderParagraph);
+*/
+    //CARD HEADER BUTTON
+    var newCardHeaderButton = document.createElement("button");
+    newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + usernameVar + "')");
+    newCardHeaderButton.classList.add('card-header-icon');
+    newCardHeader.appendChild(newCardHeaderButton);
+
+    var newCardHeaderButtonSpan = document.createElement("span");
+    newCardHeaderButtonSpan.classList.add('icon');
+    newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
+
+    var newCardHeaderButtonSpanI = document.createElement("i");
+    newCardHeaderButtonSpanI.classList.add('fa-solid');
+    newCardHeaderButtonSpanI.classList.add('fa-trash-can');
+    newCardHeaderButtonSpanI.classList.add('has-text-danger');
+    newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
+
+    //newCardHeaderButton.innerHTML = jsonArray[i][4];
+    //newCardHeader.appendChild(newCardHeaderParagraph);
 
     //CARD CONTENT
     var newCardContent = document.createElement("div");
@@ -753,14 +793,14 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     newCardHeaderButtonSpanI2.classList.add('mb-4');
     newCardContentMediaContent.appendChild(newCardHeaderButtonSpanI2);
 
-/*
+    /*
     //CARD CONTENT MEDIA-CONTENT FIGURE
     var newCardContentMediaContentFigure = document.createElement("figure");
     newCardContentMediaContentFigure.classList.add('image');
     newCardContentMediaContentFigure.classList.add('is-96x96');
     newCardContentMediaContentFigure.classList.add('is-inline-block');
     newCardContentMediaContent.appendChild(newCardContentMediaContentFigure);
-
+ 
     //CARD CONTENT MEDIA-CONTENT FIGURE IMAGE
     var newCardContentMediaContentFigureImage = document.createElement("img");
     newCardContentMediaContentFigureImage.classList.add('is-rounded');
@@ -790,18 +830,27 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     var newCardFooterLink = document.createElement("a");
     newCardFooterLink.setAttribute("onclick", "openEdit('" + usernameVar + "')");
     newCardFooterLink.classList.add('card-footer-item');
-    newCardFooterLink.innerHTML = "Edit Details";
+    newCardFooterLink.classList.add('has-text-info');
+    newCardFooterLink.innerHTML = "<i class='fa-solid fa-pen-to-square p-1 mr-1'></i> Edit";
     newCardFooter.appendChild(newCardFooterLink);
+
+    var newCardFooterLink2 = document.createElement("a");
+    newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + usernameVar + "')");
+    newCardFooterLink2.classList.add('card-footer-item');
+    newCardFooterLink2.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Delete";
+    newCardFooterLink2.classList.add('has-text-danger');
+    newCardFooter.appendChild(newCardFooterLink2);
 
     //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
     newParentTile.appendChild(newChildTile);
+
 }
 
 function refreshList() {
-    generateUserList1();
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateUserList2(1, selectSort.value);
+    generateUserList1();
+    //generateUserList2(1, selectSort.value);
 }
 
 window.addEventListener('scroll', () => {
@@ -809,9 +858,10 @@ window.addEventListener('scroll', () => {
     let scrollable2 = scrollable * 0.80;
     let scrolled = window.scrollY;
 
-    if (Math.ceil(scrolled) > scrollable2) {
+    if (Math.ceil(scrolled) > scrollable) {
         currentPageNumber = currentPageNumber + 1;
-        generateUserList2(currentPageNumber, selectSort.value);
+        generateUserList1();
+        //generateUserList2(currentPageNumber, selectSort.value);
     }
 
 });
@@ -819,9 +869,8 @@ window.addEventListener('scroll', () => {
 selectSort.addEventListener('change', () => {
 
     test_indicator.innerHTML = selectSort.value;
-    ancestorTile.innerHTML = "";
-    currentPageNumber = 1;
-    generateUserList2(1, selectSort.value);
+    refreshList();
+    //generateUserList2(1, selectSort.value);
 
 
 });
@@ -829,13 +878,12 @@ selectSort.addEventListener('change', () => {
 searchBarInput.addEventListener('input', () => {
     generateUserList3(searchBarInput.value);
     if (searchBarInput.value == "") {
-        ancestorTile.innerHTML = "";
-        currentPageNumber = 1;
-        generateUserList2(1, selectSort.value);
+        refreshList();
+        //generateUserList2(1, selectSort.value);
 
     }
 });
+refreshList();
+//generateUserList1();
 
-generateUserList1();
-
-generateUserList2(1, selectSort.value);
+//generateUserList2(1, selectSort.value);
