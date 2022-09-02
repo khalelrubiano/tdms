@@ -65,7 +65,7 @@ if (!isset($_SESSION)) {
                     <div class="buttons">
                         <a class="button is-link is-rounded is-hidden" id="signUpBtn"> <i class="fas fa-user-plus mr-3"></i><strong>Sign Up</strong> </a>
                         <a class="button has-background-grey-lighter is-rounded is-hidden" id="loginBtn"><i class="fas fa-sign-in-alt mr-3"></i><strong> Login </strong></a>
-                        <a class="button is-primary is-inverted is-rounded is-hidden" id="userBtn">username</a>
+                        <a class="button is-link is-inverted is-rounded is-hidden" id="userBtn">username</a>
                         <a class="button has-background-dark is-rounded has-text-white is-hidden" id="logoutBtn"><i class="fas fa-sign-out-alt mr-3"></i><strong> Logout </strong></a>
                     </div>
                 </div>

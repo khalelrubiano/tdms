@@ -37,9 +37,23 @@ include_once 'navbar.php';
 
     <!--INTERNAL CSS-->
     <style>
+        html {
+            background-color: #f4faff;
+        }
+
         .container {
             margin-bottom: 5%;
 
+        }
+
+        table {
+            table-layout: fixed;
+        }
+
+        td {
+            text-align: center !important;
+            white-space: nowrap;
+            font-size: 80%;
         }
 
         @media (min-width: 1000px) {
@@ -60,23 +74,40 @@ include_once 'navbar.php';
 
             }
 
+            #firstContainer {
+                padding-bottom: 2%;
+                border-bottom: 1px solid gray;
+                text-align: center;
+            }
+
         }
 
         @media (max-width: 1000px) {
 
+            #firstContainer,
+            #secondContainer {
+                text-align: center;
+            }
+
             #returnBtn {
                 padding-top: 10px;
                 padding-bottom: 10px;
+                width: 45%;
             }
 
             #registerBtn {
                 padding-top: 10px;
                 padding-bottom: 10px;
+                width: 45%;
             }
 
             #searchBarForm {
                 padding-top: 10px;
                 padding-bottom: 10px;
+            }
+
+            #nameHeader {
+                margin-top: 10%;
             }
         }
     </style>
@@ -84,20 +115,20 @@ include_once 'navbar.php';
 
 <body>
     <div class="main">
-        <div class="container">
+        <div class="container" id="firstContainer" style="margin-bottom: 5%;">
             <p class="title is-hidden" id="arrayLengthHidden">sample</p>
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
             <button class="button is-rounded mb-5 is-info" id="registerBtn" onclick="openAdd()"><i class="fa-solid fa-plus mr-3"></i>Register Vehicle</button>
-            <button class="button is-rounded mb-5 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
-            <p class="title has-text-centered is-3"><?php echo $_SESSION["groupName"] ?></p>
+            <button class="button is-rounded mb-5 has-background-grey has-text-white" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
+            <p class="title has-text-centered is-3" id="nameHeader"><?php echo $_SESSION["groupName"] ?></p>
             <p class="title is-hidden" id="groupIdHidden"><?php echo $_SESSION["groupId"] ?></p>
             <p class="title is-hidden" id="vehicleIdHidden"></p>
-            <p class="subtitle has-text-centered mb-6 is-5"><a class=""><?php echo $_SESSION["ownerFirstName"] . " " . $_SESSION["ownerLastName"] ?></a></p>
+            <p class="subtitle has-text-centered is-5"><a class=""><?php echo $_SESSION["ownerFirstName"] . " " . $_SESSION["ownerLastName"] ?></a></p>
 
         </div>
 
-        <div class="container">
+        <div class="container" id="secondContainer">
             <div class="field" id="searchBarForm">
                 <p class="control has-icons-right">
                     <input class="input is-rounded" type="text" placeholder="Search" id="searchBarInput">
@@ -127,7 +158,7 @@ include_once 'navbar.php';
         <div class="modal-card">
 
             <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-group mr-3"></i>Register Vehicle</p>
+                <p class="modal-card-title has-text-white"><i class="fa-solid fa-plus mr-3"></i>Register Vehicle</p>
                 <button class="delete" aria-label="close" onclick="closeAdd()"></button>
             </header>
 
@@ -137,7 +168,7 @@ include_once 'navbar.php';
                     <div class="control has-icons-left">
                         <input type="text" placeholder="Enter vehicle plate number here" class="input is-rounded" name="plateNumberAdd" id="plateNumberAdd">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-hashtag"></i>
                         </span>
                     </div>
                     <p class="help" id="plateNumberAddHelp"></p>
@@ -148,7 +179,7 @@ include_once 'navbar.php';
                     <div class="control has-icons-left">
                         <input type=number min=0 max=100 placeholder="0 - 100" class="input is-rounded" name="commissionRateAdd" id="commissionRateAdd">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-percent"></i>
                         </span>
                     </div>
                     <p class="help" id="commissionRateAddHelp"></p>
@@ -178,7 +209,7 @@ include_once 'navbar.php';
 
                 <div class="field has-text-centered mt-6">
                     <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
-                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                        <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
                 </div>
@@ -192,8 +223,8 @@ include_once 'navbar.php';
         <div class="modal-background" id="editModalBg"></div>
         <div class="modal-card">
 
-            <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-group mr-3"></i>Edit</p>
+            <header class="modal-card-head has-background-light">
+                <p class="modal-card-title has-text-black"><i class='fa-solid fa-pen-to-square mr-3'></i>Edit Vehicle</p>
                 <button class="delete" aria-label="close" onclick="closeEdit()"></button>
             </header>
 
@@ -204,7 +235,7 @@ include_once 'navbar.php';
                     <div class="control has-icons-left">
                         <input type=number min=0 max=100 placeholder="0 - 100" class="input is-rounded" name="commissionRateEdit" id="commissionRateEdit">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-percent"></i>
                         </span>
                     </div>
                     <p class="help" id="commissionRateEditHelp"></p>
@@ -233,8 +264,8 @@ include_once 'navbar.php';
                 </div>
 
                 <div class="field has-text-centered mt-6">
-                    <button class="button is-info has-text-white is-rounded" name="submitEditForm" id="submitEditForm">
-                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                    <button class="button is-dark has-text-white is-rounded" name="submitEditForm" id="submitEditForm">
+                        <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitEditFormHelp" style="text-align: center;"></p>
                 </div>

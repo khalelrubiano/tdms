@@ -44,6 +44,18 @@ include_once 'navbar.php';
       background-color: white !important;
     }
 
+    table {
+      table-layout: fixed;
+    }
+
+    td {
+      text-align: center !important;
+      white-space: nowrap;
+      font-size: calc(8px + 0.390625vw);
+    }
+
+
+
     @media (min-width: 1000px) {
 
       #selectSortDiv {
@@ -67,7 +79,7 @@ include_once 'navbar.php';
       }
 
       #tabUl li {
-        font-size: 85% !important;
+        font-size: 1.5vh !important;
         background-color: white !important;
       }
 

@@ -35,7 +35,7 @@ function getSubcontractorDetails($idVar)
             for ($i = 0; $i < count($row); $i++) {
 
                 if ($idVar == $row[$i][0]) {
-                    $returnValue = $row[$i][2] . " " . $row[$i][3] . " " . $row[$i][4];
+                    $returnValue = $row[$i][2] . " " . $row[$i][4];
                 }
             }
         } else {

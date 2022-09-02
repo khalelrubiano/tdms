@@ -37,13 +37,13 @@ function openEdit(idVar) {
 }
 
 function closeEdit() {
-    /*
-        clearEditFormHelp();
-        clearEditFormInput();
-    
-        submitEditFormHelp.className = "help"
-        submitEditFormHelp.innerText = ""
-    */
+
+    clearEditFormHelp();
+    clearEditFormInput();
+
+    submitEditFormHelp.className = "help"
+    submitEditFormHelp.innerText = ""
+
     editModal.classList.remove('is-active');
 
     //removeSelectAdd(document.getElementById('usernameAdd'));
@@ -93,6 +93,7 @@ function addAjax() {
         //clearAddFormHelp();
         //clearAddFormInput();
         //addModal.classList.remove('is-active');
+        closeAdd();
         refreshList();
     });
 }
@@ -195,6 +196,7 @@ function editAjax() {
         //clearEditFormHelp();
         //clearEditFormInput();
         //editModal.classList.remove('is-active');
+        closeEdit();
         refreshList();
     });
 }
@@ -323,10 +325,16 @@ function generateUserList1() {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
+
+        let i = 1;
+        while (i <= finalLength) {
+            generateUserList2(i, selectSort.value, finalLength);
+            i++;
+        }
     });
 }
 
-function generateUserList2(currentPageNumberVar, orderByVar) {
+function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
     $.post("./classes/load-vehicle.class.php", {
         currentPageNumber: currentPageNumberVar,
         orderBy: orderByVar
@@ -335,7 +343,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
         var jsonArray = JSON.parse(data);
         indicator.innerHTML = "call success";
 
-        if (currentPageNumber <= arrayLengthHidden.innerHTML) {
+        if (currentPageNumber <= finalLengthVar) {
             indicator.innerHTML = "condition success";
 
             var newParentTile = document.createElement("div");
@@ -354,6 +362,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 //CARD
                 var newCard = document.createElement("div");
                 newCard.classList.add('card');
+                newCard.setAttribute("style", "border-radius: 5%;");
                 newChildTile.appendChild(newCard);
 
                 //CARD HEADER
@@ -391,26 +400,26 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                         break;
 
                 }
-
-                //CARD HEADER BUTTON
-                var newCardHeaderButton = document.createElement("button");
-                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
-                newCardHeaderButton.classList.add('card-header-icon');
-                newCardHeader.appendChild(newCardHeaderButton);
-
-                var newCardHeaderButtonSpan = document.createElement("span");
-                newCardHeaderButtonSpan.classList.add('icon');
-                newCardHeaderButtonSpan.classList.add('is-right');
-                newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
-
-                var newCardHeaderButtonSpanI = document.createElement("i");
-                newCardHeaderButtonSpanI.classList.add('fa-solid');
-                newCardHeaderButtonSpanI.classList.add('fa-xmark');
-                newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
-
-                //newCardHeaderButton.innerHTML = jsonArray[i][4];
-                //newCardHeader.appendChild(newCardHeaderParagraph);
-
+                /*
+                                //CARD HEADER BUTTON
+                                var newCardHeaderButton = document.createElement("button");
+                                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
+                                newCardHeaderButton.classList.add('card-header-icon');
+                                newCardHeader.appendChild(newCardHeaderButton);
+                
+                                var newCardHeaderButtonSpan = document.createElement("span");
+                                newCardHeaderButtonSpan.classList.add('icon');
+                                newCardHeaderButtonSpan.classList.add('is-right');
+                                newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
+                
+                                var newCardHeaderButtonSpanI = document.createElement("i");
+                                newCardHeaderButtonSpanI.classList.add('fa-solid');
+                                newCardHeaderButtonSpanI.classList.add('fa-xmark');
+                                newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
+                
+                                //newCardHeaderButton.innerHTML = jsonArray[i][4];
+                                //newCardHeader.appendChild(newCardHeaderParagraph);
+                */
                 //CARD CONTENT
                 var newCardContent = document.createElement("div");
                 newCardContent.classList.add('card-content');
@@ -451,6 +460,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr1);
 
                 var newContentTableTbodyTr1Td1 = document.createElement("td");
+                newContentTableTbodyTr1Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr1Td1.innerHTML = "Plate Number:";
                 newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td1);
 
@@ -463,6 +473,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr2);
 
                 var newContentTableTbodyTr2Td1 = document.createElement("td");
+                newContentTableTbodyTr2Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr2Td1.innerHTML = "Commission Rate:";
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
 
@@ -475,6 +486,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr3);
 
                 var newContentTableTbodyTr3Td1 = document.createElement("td");
+                newContentTableTbodyTr3Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr3Td1.innerHTML = "Driver:";
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
 
@@ -487,6 +499,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr4);
 
                 var newContentTableTbodyTr4Td1 = document.createElement("td");
+                newContentTableTbodyTr4Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr4Td1.innerHTML = "Helper:";
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
@@ -503,8 +516,16 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 var newCardFooterLink = document.createElement("a");
                 newCardFooterLink.setAttribute("onclick", "openEdit('" + jsonArray[i][0] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
-                newCardFooterLink.innerHTML = "Edit Details";
+                newCardFooterLink.classList.add('has-text-info');
+                newCardFooterLink.innerHTML = "<i class='fa-solid fa-pen-to-square p-1 mr-1'></i> Edit";
                 newCardFooter.appendChild(newCardFooterLink);
+
+                var newCardFooterLink2 = document.createElement("a");
+                newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
+                newCardFooterLink2.classList.add('card-footer-item');
+                newCardFooterLink2.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Delete";
+                newCardFooterLink2.classList.add('has-text-danger');
+                newCardFooter.appendChild(newCardFooterLink2);
 
                 /*
                 var newCardFooterLink2 = document.createElement("a");
@@ -574,6 +595,7 @@ function generateUserList4(vehicleIdVar, plateNumberVar, commissionRateVar, vehi
     //CARD
     var newCard = document.createElement("div");
     newCard.classList.add('card');
+    newCard.setAttribute("style", "border-radius: 5%;");
     newChildTile.appendChild(newCard);
 
     //CARD HEADER
@@ -741,10 +763,11 @@ function generateUserList4(vehicleIdVar, plateNumberVar, commissionRateVar, vehi
 }
 
 function refreshList() {
-    generateUserList1();
+
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateUserList2(1, selectSort.value);
+    generateUserList1();
+    //generateUserList2(1, selectSort.value);
 }
 
 returnBtn.addEventListener('click', () => {
@@ -754,9 +777,8 @@ returnBtn.addEventListener('click', () => {
 selectSort.addEventListener('change', () => {
 
     indicator.innerHTML = selectSort.value;
-    ancestorTile.innerHTML = "";
-    currentPageNumber = 1;
-    generateUserList2(1, selectSort.value);
+    refreshList();
+    //generateUserList2(1, selectSort.value);
 
 
 });
@@ -764,9 +786,8 @@ selectSort.addEventListener('change', () => {
 searchBarInput.addEventListener('input', () => {
     generateUserList3(searchBarInput.value);
     if (searchBarInput.value == "") {
-        ancestorTile.innerHTML = "";
-        currentPageNumber = 1;
-        generateUserList2(1, selectSort.value);
+        refreshList();
+        //generateUserList2(1, selectSort.value);
 
     }
 });
@@ -774,5 +795,6 @@ searchBarInput.addEventListener('input', () => {
 populateSelect1();
 populateSelect2();
 
-generateUserList1();
-generateUserList2(1, selectSort.value);
+refreshList();
+//generateUserList1();
+//generateUserList2(1, selectSort.value);

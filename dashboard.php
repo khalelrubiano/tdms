@@ -87,7 +87,7 @@ include_once 'navbar.php';
       }
 
       .fc {
-        font-size: 1.5vh;
+        font-size: 1.25vh;
       }
     }
 

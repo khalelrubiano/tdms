@@ -30,11 +30,11 @@ function openAdd() {
 }
 
 function closeAdd() {
-    /*clearAddFormHelp();
+    clearAddFormHelp();
     clearAddFormInput();
 
     submitAddFormHelp.className = "help"
-    submitAddFormHelp.innerText = ""*/
+    submitAddFormHelp.innerText = ""
 
     addModal.classList.remove('is-active');
 
@@ -118,12 +118,19 @@ generateShipmentLog();
 
 
 //SHIPMENT LIST
-function generateShipmentList1() {
+function generateShipmentList1(tabValueVar) {
     $.post("./classes/load-shipment.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
-        generateShipmentList2(tabValueHidden.innerHTML, currentPageNumber, selectSort.value, finalLength);
+        //generateShipmentList2(tabValueHidden.innerHTML, currentPageNumber, selectSort.value, finalLength);
+
+        let i = 1;
+        while (i <= finalLength) {
+            generateShipmentList2(tabValueVar, i, selectSort.value, finalLength);
+            i++;
+        }
+
     });
 }
 
@@ -159,6 +166,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
                 //CARD
                 var newCard = document.createElement("div");
                 newCard.classList.add('card');
+                newCard.setAttribute("style", "border-radius: 5%;");
                 newChildTile.appendChild(newCard);
 
                 //CARD HEADER
@@ -196,7 +204,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
                         break;
 
                 }
-
+/*
                 //CARD HEADER BUTTON
 
                 var newCardHeaderButton = document.createElement("button");
@@ -216,7 +224,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
 
                 //newCardHeaderButton.innerHTML = jsonArray[i][4];
                 //newCardHeader.appendChild(newCardHeaderParagraph);
-
+*/
                 //CARD CONTENT
                 var newCardContent = document.createElement("div");
                 newCardContent.classList.add('card-content');
@@ -271,6 +279,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
                 newContentTableTbody.appendChild(newContentTableTbodyTr2);
 
                 var newContentTableTbodyTr2Td1 = document.createElement("td");
+                newContentTableTbodyTr2Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr2Td1.innerHTML = "Destination:";
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
 
@@ -283,6 +292,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
                 newContentTableTbody.appendChild(newContentTableTbodyTr3);
 
                 var newContentTableTbodyTr3Td1 = document.createElement("td");
+                newContentTableTbodyTr3Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr3Td1.innerHTML = "Expected Date of Delivery:";
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
 
@@ -295,6 +305,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
                 newContentTableTbody.appendChild(newContentTableTbodyTr4);
 
                 var newContentTableTbodyTr4Td1 = document.createElement("td");
+                newContentTableTbodyTr4Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr4Td1.innerHTML = "Vehicle Plate Number:";
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
@@ -311,13 +322,15 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
                 var newCardFooterLink = document.createElement("a");
                 newCardFooterLink.setAttribute("onclick", "redirectToShipmentProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][6] + "','" + jsonArray[i][7] + "','" + jsonArray[i][8] + "','" + jsonArray[i][9] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
-                newCardFooterLink.innerHTML = "View Details";
+                newCardFooterLink.innerHTML = "View";
+                newCardFooterLink.classList.add('has-text-info');
                 newCardFooter.appendChild(newCardFooterLink);
 
                 var newCardFooterLink2 = document.createElement("a");
-                newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
+                newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "')");
                 newCardFooterLink2.classList.add('card-footer-item');
-                newCardFooterLink2.innerHTML = "Edit Details";
+                newCardFooterLink2.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Delete";
+                newCardFooterLink2.classList.add('has-text-danger');
                 newCardFooter.appendChild(newCardFooterLink2);
 
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
@@ -621,7 +634,7 @@ function populateSelect3() {
 function refreshList() {
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList1();
+    generateShipmentList1(tabValueHidden.innerHTML);
 
     //generateUserList2(1, selectSort.value);
 }
@@ -664,6 +677,7 @@ function addAjax() {
         //clearAddFormInput();
         //refreshTable();
         addShipmentLog("Added", "Shipment #" + shipmentNumberAdd.value);
+        closeAdd();
         refreshList();
     });
     //refreshTable();
@@ -788,6 +802,28 @@ submitAddForm.addEventListener('click', (e) => {
     //refreshTable();
 })
 
+function clearAddFormHelp() {
+    //RESETTING FORM ELEMENTS
+    shipmentNumberAdd.className = "input is-rounded"
+    shipmentNumberAddHelp.className = "help"
+    shipmentNumberAddHelp.innerText = ""
+
+    shipmentDescriptionAdd.className = "input is-rounded"
+    shipmentDescriptionAddHelp.className = "help"
+    shipmentDescriptionAddHelp.innerText = ""
+
+    destinationAdd.className = "input is-rounded"
+    destinationAddHelp.className = "help"
+    destinationAddHelp.innerText = ""
+
+}
+
+function clearAddFormInput() {
+    shipmentNumberAdd.value = null;
+    shipmentDescriptionAdd.value = null;
+    destinationAdd.value = null;
+
+}
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -811,7 +847,7 @@ allTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "All";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList1();
+    generateShipmentList1(tabValueHidden.innerHTML);
     //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
@@ -825,7 +861,7 @@ inProgressTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "In-progress";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList1();
+    generateShipmentList1(tabValueHidden.innerHTML);
     //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
@@ -839,7 +875,7 @@ completedTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "Completed";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList1();
+    generateShipmentList1(tabValueHidden.innerHTML);
     //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
@@ -853,7 +889,7 @@ cancelledTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "Cancelled";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList1();
+    generateShipmentList1(tabValueHidden.innerHTML);
     //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
@@ -867,7 +903,7 @@ selectSort.addEventListener('change', () => {
     indicator.innerHTML = selectSort.value;
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateShipmentList1();
+    generateShipmentList1(tabValueHidden.innerHTML);
     //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
 });
@@ -877,7 +913,7 @@ searchBarInput.addEventListener('input', () => {
     if (searchBarInput.value == "") {
         ancestorTile.innerHTML = "";
         currentPageNumber = 1;
-        generateShipmentList1();
+        generateShipmentList1(tabValueHidden.innerHTML);
         //generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
     }

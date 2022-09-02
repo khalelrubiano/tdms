@@ -302,12 +302,14 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
 
                 //CONTENT TABLE
                 var newContentTable = document.createElement("table");
+                //newContentTable.setAttribute("style", "height: 100%;");
                 newContentTable.classList.add('table');
                 newContentTable.classList.add('is-bordered');
                 newContent.appendChild(newContentTable);
 
                 //CONTENT TABLE TBODY
                 var newContentTableTbody = document.createElement("tbody");
+                //newContentTableTbody.setAttribute("style", "height: 100%;");
                 newContentTable.appendChild(newContentTableTbody);
 
                 //CONTENT TABLE TBODY TR 1
@@ -315,6 +317,8 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 newContentTableTbody.appendChild(newContentTableTbodyTr1);
 
                 var newContentTableTbodyTr1Td1 = document.createElement("td");
+                newContentTableTbodyTr1Td1.classList.add('has-text-weight-bold');
+                newContentTableTbodyTr1Td1.classList.add('leftTd');
                 newContentTableTbodyTr1Td1.innerHTML = "Plate Number:";
                 newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td1);
 
@@ -339,6 +343,8 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 newContentTableTbody.appendChild(newContentTableTbodyTr3);
 
                 var newContentTableTbodyTr3Td1 = document.createElement("td");
+                newContentTableTbodyTr3Td1.classList.add('has-text-weight-bold');
+                newContentTableTbodyTr3Td1.classList.add('leftTd');
                 newContentTableTbodyTr3Td1.innerHTML = "Driver:";
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
 
@@ -351,6 +357,8 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 newContentTableTbody.appendChild(newContentTableTbodyTr4);
 
                 var newContentTableTbodyTr4Td1 = document.createElement("td");
+                newContentTableTbodyTr4Td1.classList.add('has-text-weight-bold');
+                newContentTableTbodyTr4Td1.classList.add('leftTd');
                 newContentTableTbodyTr4Td1.innerHTML = "Helper:";
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
@@ -373,7 +381,7 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                     case true:
                         newCardFooterLink.setAttribute("onclick", "openAdd('" + jsonArray[i][0] + "')");
                         newCardFooterLink.classList.add('card-footer-item');
-                        newCardFooterLink.innerHTML = "Add Tracker";
+                        newCardFooterLink.innerHTML = "<i class='fa-solid fa-plus p-1 mr-1'></i> Add Tracker";
                         newCardFooterLink.classList.add('has-text-info');
                         newCardFooter.appendChild(newCardFooterLink);
                         break;
