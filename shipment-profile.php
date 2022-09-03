@@ -186,10 +186,11 @@ include_once 'navbar.php';
             .firstContainer {
                 border-bottom: 1px solid gray;
             }
-
+/*
             #mapContainer {
                 height: 500px;
             }
+            */
         }
 
         @media (max-width: 1000px) {
@@ -200,10 +201,11 @@ include_once 'navbar.php';
             .verticalContainer {
                 margin-top: 150px;
             }
-
+/*
             #mapContainer {
                 height: 250px;
             }
+            */
         }
 
         .left-td {
@@ -255,7 +257,7 @@ include_once 'navbar.php';
         .verticalContainer li div {
             margin-left: 50px;
         }
-
+/*
         #map {
             position: absolute;
             top: 0;
@@ -263,6 +265,8 @@ include_once 'navbar.php';
             bottom: 0;
             left: 0;
         }
+*/
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 
         .marker {
             display: block;
@@ -279,7 +283,12 @@ include_once 'navbar.php';
 </head>
 
 <body>
-    <div class="main" style="margin-bottom: 20%;">
+
+<div id="map">
+
+</div>
+
+    <div class="main is-hidden" style="margin-bottom: 20%;">
         <div class="container firstContainer" style="margin-bottom: 5%;">
             <button class="button is-rounded mb-5 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
             <button class="button is-rounded mb-5 is-light" id="transferBtn"><i class="fa-solid fa-cart-flatbed mr-3"></i>Transfer</button>
@@ -292,13 +301,14 @@ include_once 'navbar.php';
             <p class="title is-4 is-hidden" id="shipmentStatusHidden"><?php echo $_SESSION["shipmentStatus"] ?></p>
             <p class="title is-4 is-hidden" id="indicatorHidden">result here</p>
         </div>
-        <!-- DESCRIPTION -->
+
+        <!-- MAP -->
         <div class="container" id="mapContainer">
-            <div id="map" class="">
 
-            </div>
         </div>
+        <!-- MAP -->
 
+        <!-- DESCRIPTION -->
         <div class="container" style="padding: 50px;">
 
 
@@ -553,7 +563,7 @@ include_once 'navbar.php';
         */
         // Populate the popup and set its coordinates
         // based on the feature found.
-        popup.setLngLat([long, lat]).setHTML("<h1 class='title is-6 p-1'><i class='fa-solid fa-clock mr-3'></i>"+ "Last Update: </h1> <h1 class='subtitle is-6 p-1'>" + update_time + "</h1>").addTo(map);
+        popup.setLngLat([long, lat]).setHTML("<h1 class='title is-6 p-1'><i class='fa-solid fa-clock mr-3'></i>" + "Last Update: </h1> <h1 class='subtitle is-6 p-1'>" + update_time + "</h1>").addTo(map);
         //alert("mouse on");
     });
 
