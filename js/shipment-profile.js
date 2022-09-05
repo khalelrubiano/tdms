@@ -18,6 +18,8 @@ let completedDeliveryId = document.getElementById('completedDeliveryId');
 let progressbarId = document.getElementById('progressbarId');
 let cancelModal = document.getElementById('cancelModal');
 let cancelBtn = document.getElementById('cancelBtn');
+let dropdownBtn = document.getElementById('dropdownBtn');
+let dropdownElement = document.getElementById('dropdownElement');
 let submitCancelForm = document.getElementById('submitCancelForm'); //save changes button
 
 let shipmentStatusHidden = document.getElementById('shipmentStatusHidden');
@@ -31,6 +33,28 @@ let shipmentNumberHidden = document.getElementById('shipmentNumberHidden');
 let shipmentDescriptionSubtitle = document.getElementById('shipmentDescriptionSubtitle');
 let destinationSubtitle = document.getElementById('destinationSubtitle');
 let dateOfDeliverySubtitle = document.getElementById('dateOfDeliverySubtitle');
+
+function myFunction1() {
+    dropdownElement.classList.toggle("is-active");
+}
+
+dropdownBtn.addEventListener('click', myFunction1);
+
+function myFunction2(x) {
+    if (x.matches) { // If media query matches
+        transferBtn.innerHTML = "<i class='fa-solid fa-truck-arrow-right'></i>"
+        cancelBtn.innerHTML = "<i class='fa-solid fa-ban'></i>"
+        returnBtn.innerHTML = "<i class='fa-solid fa-arrow-left'></i>"
+    } else {
+        transferBtn.innerHTML = "<i class='fa-solid fa-truck-arrow-right mr-3'></i> Transfer"
+        cancelBtn.innerHTML = "<i class='fa-solid fa-ban mr-3'></i> Cancel"
+        returnBtn.innerHTML = "<i class='fa-solid fa-arrow-left mr-3'></i> Return"
+    }
+}
+
+var x = window.matchMedia("(max-width: 1000px)")
+myFunction2(x) // Call listener function at run time
+x.addEventListener('change', myFunction2);
 
 //MODALS
 function openCancel() {
@@ -345,6 +369,7 @@ function generateProgressBarDetails() {
             newLi12.appendChild(newLi12Paragraph);
 
             newLi9.classList.add('inProgressLiActive');
+
             var widthCounter = 2;
             for (var i = 0; i < jsonArray.length; i++) {
 
@@ -533,6 +558,7 @@ function transferShipment() {
         //clearAddFormInput();
         //refreshTable();
         addShipmentLog("Transferred", "Shipment #" + shipmentNumberHidden.innerHTML);
+        //closeTransfer();
     });
     //refreshTable();
 

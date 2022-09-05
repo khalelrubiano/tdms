@@ -42,7 +42,7 @@ include_once 'navbar.php';
 </head>
 
 <body>
-
+    
 </body>
 
 <!--EXTERNAL JAVASCRIPT

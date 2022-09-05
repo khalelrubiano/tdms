@@ -643,7 +643,7 @@ function refreshList() {
 const addModal = document.getElementById('addModal');
 
 let submitAddForm = document.getElementById('submitAddForm'); //save changes button
-
+let submitAddFormHelp = document.getElementById('submitAddFormHelp'); //save changes button
 let shipmentNumberAdd = document.getElementById('shipmentNumberAdd');
 let shipmentDescriptionAdd = document.getElementById('shipmentDescriptionAdd');
 let destinationAdd = document.getElementById('destinationAdd');

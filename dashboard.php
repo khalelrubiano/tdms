@@ -44,9 +44,6 @@ include_once 'navbar.php';
 
   <!--INTERNAL CSS-->
   <style>
-    html {
-      background-color: #f4faff;
-    }
 
     @media (min-width: 1000px) {
 
@@ -98,6 +95,11 @@ include_once 'navbar.php';
     #listTile {
       height: 50%;
     }
+
+    html {
+      background-color: #f4faff;
+    }
+    
   </style>
 </head>
 
