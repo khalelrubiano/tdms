@@ -44,3 +44,9 @@ loginForm.addEventListener('submit', (e) => {
     passwordHelp.innerText = passwordMessages.join(', ')
   }
 })
+
+
+
+
+
+var username_variable = username.value;

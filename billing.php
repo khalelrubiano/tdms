@@ -35,6 +35,26 @@ include_once 'navbar.php';
 
   <!--INTERNAL CSS-->
   <style>
+    html {
+      background-color: #f4faff;
+    }
+
+    #tabUl li {
+
+      background-color: white !important;
+    }
+
+    table {
+      table-layout: fixed;
+    }
+
+    td {
+      text-align: center !important;
+      white-space: nowrap;
+      font-size: calc(8px + 0.390625vw);
+    }
+
+
     @media (min-width: 1000px) {
 
       #searchBarForm,
@@ -53,19 +73,38 @@ include_once 'navbar.php';
       #selectSortDiv {
         margin-bottom: 5%;
       }
+
+      #tabUl li {
+        font-size: 1.5vh !important;
+        background-color: white !important;
+      }
+
+      #firstContainer {
+        text-align: center !important;
+      }
+
+      #logBtn {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 45%;
+      }
+
+      #addBtn {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 45%;
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="main" style="margin-bottom: 20%;">
-    <div class="container" style="margin-bottom: 2%;">
+    <div class="container" style="margin-bottom: 2%;" id="firstContainer">
       <p class="title is-hidden" id="arrayLengthHidden">sample</p>
       <p class="title is-hidden" id="test_indicator">Test</p>
       <p class="title is-hidden" id="indicator">Live Search Indicator</p>
       <p class="title is-hidden" id="tabValueHidden">All</p>
-      <button class="button is-rounded mr-4 is-info" onclick="openAdd()"> <i class="fa-solid fa-plus mr-3"></i> Create Billing Invoice</button>
-      <button class="button is-rounded mr-4 is-info" onclick="openLog()"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
 
       <div class="field" id="searchBarForm">
         <p class="control has-icons-right">
@@ -75,6 +114,9 @@ include_once 'navbar.php';
           </span>
         </p>
       </div>
+
+      <button class="button is-rounded is-info mb-6" onclick="openAdd()" id="addBtn"> <i class="fa-solid fa-plus mr-3"></i>Billing Invoice</button>
+      <button class="button is-rounded is-link mb-6" onclick="openLog()" id="logBtn"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
 
       <div class="select is-rounded mr-3" id="selectSortDiv">
         <select id="selectSort">
@@ -86,7 +128,7 @@ include_once 'navbar.php';
     </div>
     <div class="container">
       <div class="tabs is-centered is-toggle">
-        <ul>
+        <ul id="tabUl">
           <li class="is-active" id="allTabLi"><a id="allTabLink">All</a></li>
           <li id="settledTabLi"><a id="settledTabLink">Settled</a></li>
           <li id="unsettledTabLi"><a id="unsettledTabLink">Unsettled</a></li>
@@ -104,10 +146,10 @@ include_once 'navbar.php';
   <!-- ADD MODAL START-->
   <div class="modal" id="addModal">
     <div class="modal-background" id="addModalBg"></div>
-    <div class="modal-card">
+    <div class="modal-card p-4">
 
       <header class="modal-card-head has-background-info">
-        <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-group mr-3"></i>Create Billing Invoice</p>
+        <p class="modal-card-title has-text-white"><i class="fa-solid fa-plus mr-3"></i>Billing Invoice</p>
         <button class="delete" aria-label="close" onclick="closeAdd()"></button>
       </header>
 
@@ -117,7 +159,7 @@ include_once 'navbar.php';
           <div class="control has-icons-left">
             <input type="text" placeholder="Enter invoice number here" class="input is-rounded" name="invoiceNumberAdd" id="invoiceNumberAdd">
             <span class="icon is-small is-left">
-              <i class="fa-solid fa-user"></i>
+              <i class="fa-solid fa-hashtag"></i>
             </span>
           </div>
           <p class="help" id="invoiceNumberAddHelp"></p>
@@ -150,7 +192,7 @@ include_once 'navbar.php';
           <div class="control has-icons-left">
             <input type="text" placeholder="Enter drop fee here" class="input is-rounded" name="dropFeeAdd" id="dropFeeAdd">
             <span class="icon is-small is-left">
-              <i class="fa-solid fa-user"></i>
+              <i class="fa-solid fa-peso-sign"></i>
             </span>
           </div>
           <p class="help" id="dropFeeAddHelp"></p>
@@ -161,7 +203,7 @@ include_once 'navbar.php';
           <div class="control has-icons-left">
             <input type="text" placeholder="Enter parking fee here" class="input is-rounded" name="parkingFeeAdd" id="parkingFeeAdd">
             <span class="icon is-small is-left">
-              <i class="fa-solid fa-user"></i>
+              <i class="fa-solid fa-peso-sign"></i>
             </span>
           </div>
           <p class="help" id="parkingFeeAddHelp"></p>
@@ -172,7 +214,7 @@ include_once 'navbar.php';
           <div class="control has-icons-left">
             <input type="text" placeholder="Enter invoice number here" class="input is-rounded" name="demurrageAdd" id="demurrageAdd">
             <span class="icon is-small is-left">
-              <i class="fa-solid fa-user"></i>
+              <i class="fa-solid fa-peso-sign"></i>
             </span>
           </div>
           <p class="help" id="demurrageAddHelp"></p>
@@ -183,7 +225,7 @@ include_once 'navbar.php';
           <div class="control has-icons-left">
             <input type="text" placeholder="Enter invoice number here" class="input is-rounded" name="otherChargesAdd" id="otherChargesAdd">
             <span class="icon is-small is-left">
-              <i class="fa-solid fa-user"></i>
+              <i class="fa-solid fa-peso-sign"></i>
             </span>
           </div>
           <p class="help" id="otherChargesAddHelp"></p>
@@ -194,7 +236,7 @@ include_once 'navbar.php';
           <div class="control has-icons-left">
             <input type="text" placeholder="Enter invoice number here" class="input is-rounded" name="penaltyAdd" id="penaltyAdd">
             <span class="icon is-small is-left">
-              <i class="fa-solid fa-user"></i>
+              <i class="fa-solid fa-peso-sign"></i>
             </span>
           </div>
           <p class="help" id="penaltyAddHelp"></p>
@@ -224,7 +266,7 @@ include_once 'navbar.php';
 
         <div class="field has-text-centered mt-6">
           <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
-            <i class="fas fa-paper-plane mr-3"></i>Submit
+            <i class="fa-solid fa-check mr-3"></i>Submit
           </button>
           <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
         </div>
@@ -236,9 +278,9 @@ include_once 'navbar.php';
   <!-- LOG MODAL START-->
   <div class="modal" id="logModal">
     <div class="modal-background" id="logModalBg"></div>
-    <div class="modal-card">
+    <div class="modal-card p-4">
 
-      <header class="modal-card-head has-background-info">
+      <header class="modal-card-head has-background-link">
         <p class="modal-card-title has-text-white"><i class="fa-solid fa-clipboard-list mr-3"></i>Log</p>
         <button class="delete" aria-label="close" onclick="closeLog()"></button>
       </header>
@@ -246,7 +288,7 @@ include_once 'navbar.php';
       <section class="modal-card-body">
         <div class="content">
           <ul id="logList">
-          
+
           </ul>
         </div>
       </section>

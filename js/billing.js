@@ -369,12 +369,19 @@ submitAddForm.addEventListener('click', (e) => {
     //refreshTable();
 })
 
-function generateBillingList1() {
+function generateBillingList1(tabValueVar) {
     $.post("./classes/load-billing.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
-        generateBillingList2(tabValueHidden.innerHTML, currentPageNumber, selectSort.value, finalLength);
+        //generateBillingList2(tabValueHidden.innerHTML, currentPageNumber, selectSort.value, finalLength);
+
+        let i = 1;
+        while (i <= finalLength) {
+            generateBillingList2(tabValueVar, i, selectSort.value, finalLength);
+            i++;
+        }
+
     });
 }
 
@@ -411,6 +418,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 //CARD
                 var newCard = document.createElement("div");
                 newCard.classList.add('card');
+                newCard.setAttribute("style", "border-radius: 5%;");
                 newChildTile.appendChild(newCard);
 
                 //CARD HEADER
@@ -443,7 +451,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                         break;
 
                 }
-
+/*
                 //CARD HEADER BUTTON
 
                 var newCardHeaderButton = document.createElement("button");
@@ -463,7 +471,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
 
                 //newCardHeaderButton.innerHTML = jsonArray[i][4];
                 //newCardHeader.appendChild(newCardHeaderParagraph);
-
+*/
                 //CARD CONTENT
                 var newCardContent = document.createElement("div");
                 newCardContent.classList.add('card-content');
@@ -506,6 +514,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 newContentTableTbody.appendChild(newContentTableTbodyTr1);
 
                 var newContentTableTbodyTr1Td1 = document.createElement("td");
+                newContentTableTbodyTr1Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr1Td1.innerHTML = "Invoice Date:";
                 newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td1);
 
@@ -518,6 +527,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 newContentTableTbody.appendChild(newContentTableTbodyTr2);
 
                 var newContentTableTbodyTr2Td1 = document.createElement("td");
+                newContentTableTbodyTr2Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr2Td1.innerHTML = "Start Date:";
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
 
@@ -530,6 +540,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 newContentTableTbody.appendChild(newContentTableTbodyTr3);
 
                 var newContentTableTbodyTr3Td1 = document.createElement("td");
+                newContentTableTbodyTr3Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr3Td1.innerHTML = "End Date:";
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
 
@@ -542,6 +553,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 newContentTableTbody.appendChild(newContentTableTbodyTr4);
 
                 var newContentTableTbodyTr4Td1 = document.createElement("td");
+                newContentTableTbodyTr4Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr4Td1.innerHTML = "Client:";
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
@@ -558,8 +570,16 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 var newCardFooterLink = document.createElement("a");
                 newCardFooterLink.setAttribute("onclick", "redirectToBillingProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][6] + "','" + jsonArray[i][7] + "','" + jsonArray[i][8] + "','" + jsonArray[i][9] + "','" + jsonArray[i][10] + "','" + jsonArray[i][11] + "','" + jsonArray[i][12] + "','" + jsonArray[i][13] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
-                newCardFooterLink.innerHTML = "View Details";
+                newCardFooterLink.innerHTML = "View";
                 newCardFooter.appendChild(newCardFooterLink);
+
+                var newCardFooterLink2 = document.createElement("a");
+                newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "')");
+                newCardFooterLink2.classList.add('card-footer-item');
+                newCardFooterLink2.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Delete";
+                newCardFooterLink2.classList.add('has-text-danger');
+                newCardFooter.appendChild(newCardFooterLink2);
+
 /*
                 var newCardFooterLink2 = document.createElement("a");
                 newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
@@ -602,7 +622,7 @@ function redirectToBillingProfile(billingIdVar, invoiceNumberVar, invoiceDateVar
 function refreshList() {
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateBillingList1();
+    generateBillingList1(tabValueHidden.innerHTML);
 
     //generateUserList2(1, selectSort.value);
 }
@@ -627,7 +647,7 @@ allTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "All";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateBillingList1();
+    generateBillingList1(tabValueHidden.innerHTML);
     //generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
@@ -640,7 +660,7 @@ settledTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "Settled";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateBillingList1();
+    generateBillingList1(tabValueHidden.innerHTML);
     //generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
@@ -653,7 +673,7 @@ unsettledTabLink.addEventListener('click', () => {
     tabValueHidden.innerHTML = "Unsettled";
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateBillingList1();
+    generateBillingList1(tabValueHidden.innerHTML);
     //generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 });
 
@@ -662,7 +682,7 @@ selectSort.addEventListener('change', () => {
     indicator.innerHTML = selectSort.value;
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateBillingList1();
+    generateBillingList1(tabValueHidden.innerHTML);
     //generateBillingList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
 });

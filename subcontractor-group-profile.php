@@ -120,7 +120,7 @@ include_once 'navbar.php';
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
             <button class="button is-rounded mb-5 is-info" id="registerBtn" onclick="openAdd()"><i class="fa-solid fa-plus mr-3"></i>Register Vehicle</button>
-            <button class="button is-rounded mb-5 has-background-grey has-text-white" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
+            <button class="button is-rounded mb-5 has-background-light has-text-black" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
             <p class="title has-text-centered is-3" id="nameHeader"><?php echo $_SESSION["groupName"] ?></p>
             <p class="title is-hidden" id="groupIdHidden"><?php echo $_SESSION["groupId"] ?></p>
             <p class="title is-hidden" id="vehicleIdHidden"></p>

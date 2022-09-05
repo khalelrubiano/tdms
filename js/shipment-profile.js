@@ -517,6 +517,7 @@ function cancelShipment2(cancelReasonVar) {
         //arrayLengthHidden.innerHTML = finalLength;
         //alert(data);
         addShipmentLog("Cancelled", "Shipment #" + shipmentNumberHidden.innerHTML);
+        window.location.href = "shipment.php";
         //indicatorHidden.innerHTML = jsonArray[0][0] + " " + jsonArray[0][1] + " " + jsonArray[0][2] + " " + jsonArray[0][3] + " " + jsonArray[0][4] + " " + jsonArray[0][5];
     });
 }
@@ -558,6 +559,7 @@ function transferShipment() {
         //clearAddFormInput();
         //refreshTable();
         addShipmentLog("Transferred", "Shipment #" + shipmentNumberHidden.innerHTML);
+        window.location.href = "shipment.php";
         //closeTransfer();
     });
     //refreshTable();

@@ -66,12 +66,12 @@ function generateShipmentListTable1() {
     $.post("./classes/load-billed-shipment.class.php", {
         billingId: billingIdHidden.innerHTML
     }, function (data) {
-        
+
         var jsonArray = JSON.parse(data);
 
         //alert(jsonArray[0][0] + "success");
 
-        
+
         arrayLengthHidden.innerHTML = Math.ceil(jsonArray.length / 5); //1 is the number of results per page
 
         if (parseInt(arrayLengthHidden.innerHTML) == 1) {
@@ -99,16 +99,16 @@ function generateShipmentListTable2(currentPageNumberVar) {
             tableTbody.appendChild(newTableRow);
 
             var newTableData1 = document.createElement("td");
-            
+
             var newTableData2 = document.createElement("td");
-            
+
             var newTableData3 = document.createElement("td");
             var newTableData4 = document.createElement("td");
 
             newTableData1.setAttribute("data-label", "Shipment Number");
-            
+
             newTableData2.setAttribute("data-label", "Area Rate");
-            
+
             newTableData3.setAttribute("data-label", "Vehicle Plate Number");
             newTableData4.setAttribute("data-label", "Date Completed");
 
@@ -121,7 +121,7 @@ function generateShipmentListTable2(currentPageNumberVar) {
             newTableRow.appendChild(newTableData2);
             newTableRow.appendChild(newTableData3);
             newTableRow.appendChild(newTableData4);
-            
+
 
         }
     });
@@ -134,10 +134,16 @@ function populateTable() {
 
         var jsonArray = JSON.parse(data);
         //alert("Truck Rate: " + jsonArray[0][0]);
-        truckRateTD.innerHTML = jsonArray[0][0];
-        subtotalTD.innerHTML = parseFloat(truckRateTD.innerHTML) + parseFloat(dropFeeTD.innerHTML) + parseFloat(parkingFeeTD.innerHTML) + parseFloat(demurrageTD.innerHTML) + parseFloat(otherChargesTD.innerHTML);
-        taxTD.innerHTML = parseFloat(subtotalTD.innerHTML) * 0.12;
-        totalTD.innerHTML = parseFloat(subtotalTD.innerHTML) + parseFloat(taxTD.innerHTML) + parseFloat(penaltyTD.innerHTML);
+
+        let var1 = parseFloat(jsonArray[0][0]);
+        let var2 = parseFloat(truckRateTD.innerHTML) + parseFloat(dropFeeTD.innerHTML) + parseFloat(parkingFeeTD.innerHTML) + parseFloat(demurrageTD.innerHTML) + parseFloat(otherChargesTD.innerHTML);
+        let var3 = parseFloat(subtotalTD.innerHTML) * 0.12;
+        let var4 = parseFloat(subtotalTD.innerHTML) + parseFloat(taxTD.innerHTML) + parseFloat(penaltyTD.innerHTML);
+
+        truckRateTD.innerHTML = var1.toFixed(0);
+        subtotalTD.innerHTML = var2.toFixed(0);
+        taxTD.innerHTML = var3.toFixed(0);
+        totalTD.innerHTML = var4.toFixed(0);
         /*
                 for (var i = 0; i < jsonArray.length; i++) {
                     var newOption = document.createElement("option");
@@ -164,6 +170,7 @@ function updateBillingStatus() {
             alert(data);
             //refreshList();
             addBillingLog("Updated", "Invoice #" + invoiceNumberHidden.innerHTML);
+            window.location.href = "billing.php";
         });
     }
 }

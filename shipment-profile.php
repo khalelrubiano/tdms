@@ -207,6 +207,7 @@ include_once 'navbar.php';
         .verticalContainer ul li {
             padding: 30px 30px;
             position: relative;
+            font-size: calc(4px + 0.390625vw) !important;
         }
 
         .selected div {
@@ -216,7 +217,7 @@ include_once 'navbar.php';
         .verticalContainer li span {
             position: absolute;
             left: -40px;
-            font-size: 12px;
+            font-size: calc(4px + 0.390625vw) !important;
             background-color: #fff;
             padding: 10px 0;
             top: 20px;
@@ -353,6 +354,17 @@ include_once 'navbar.php';
                 font-size: calc(8px + 0.390625vw);
             }
 
+            #buttonDiv {
+                position: absolute;
+
+                z-index: 2;
+
+                top: 15vh;
+                left: 510px;
+
+            }
+
+            /*
             #returnBtn {
                 position: absolute;
 
@@ -369,7 +381,7 @@ include_once 'navbar.php';
                 z-index: 2;
 
                 top: 15vh;
-                left: 630px;
+                left: 625px;
 
             }
 
@@ -379,10 +391,10 @@ include_once 'navbar.php';
                 z-index: 2;
 
                 top: 15vh;
-                left: 765px;
+                left: 755px;
 
             }
-
+*/
             .dropdown-menu {
                 height: 80vh !important;
                 overflow-x: auto !important;
@@ -445,14 +457,14 @@ include_once 'navbar.php';
             .transferLi:before,
             .cancelLi:before {
 
-                line-height: 2.5;
+                line-height: 3;
 
             }
 
             .dropdown {
                 position: absolute !important;
 
-                top: 15vh !important;
+                top: 17vh !important;
                 left: 5vw !important;
                 /*
                 z-index: -4;
@@ -465,6 +477,17 @@ include_once 'navbar.php';
 
             }
 
+            #buttonDiv {
+                position: absolute !important;
+
+                bottom: 5vh !important;
+                right: 5vw !important;
+
+                z-index: 2;
+
+            }
+
+            /*
             #returnBtn {
                 position: absolute !important;
 
@@ -473,7 +496,7 @@ include_once 'navbar.php';
 
                 z-index: 2;
 
-                width: 80px !important;
+                width: 70px !important;
             }
 
             #transferBtn {
@@ -481,10 +504,10 @@ include_once 'navbar.php';
 
                 z-index: 2;
 
-                bottom: 10vh;
-                right: 5vw;
+                bottom: 5vh;
+                right: 30vw;
 
-                width: 80px !important;
+                width: 70px !important;
             }
 
             #cancelBtn {
@@ -492,12 +515,12 @@ include_once 'navbar.php';
 
                 z-index: 2;
 
-                bottom: 15vh;
-                right: 5vw;
+                bottom: 5vh;
+                right: 55vw;
 
-                width: 80px !important;
+                width: 70px !important;
             }
-
+*/
             #dateOfDeliveryTitle,
             #dateOfDeliverySubtitle,
             #destinationTitle,
@@ -525,7 +548,19 @@ include_once 'navbar.php';
                 overflow-x: auto !important;
             }
 
+            .progressbar li {
+                font-size: calc(6px + 0.390625vw) !important;
+            }
 
+            .verticalContainer ul li {
+                font-size: calc(6px + 0.390625vw) !important;
+            }
+
+            .verticalContainer li span {
+
+                font-size: calc(6px + 0.390625vw) !important;
+
+            }
         }
 
         /*
@@ -548,9 +583,17 @@ include_once 'navbar.php';
 <body>
 
     <div class="mainAlt">
-        <button class="button mb-5 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
-        <button class="button mb-5 is-light" id="transferBtn"><i class="fa-solid fa-truck-arrow-right mr-3"></i>Transfer</button>
-        <button class="button mb-5 is-light" id="cancelBtn"><i class="fa-solid fa-ban mr-3"></i>Cancel</button>
+        <div id="buttonDiv">
+            <div class="columns">
+                <div class="column">
+                    <button class="button mb-5 is-light" id="transferBtn"><i class="fa-solid fa-truck-arrow-right mr-3"></i>Transfer</button>
+                    <button class="button mb-5 is-light" id="cancelBtn"><i class="fa-solid fa-ban mr-3"></i>Cancel</button>
+                    <button class="button mb-5 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
+                </div>
+            </div>
+
+        </div>
+
 
         <div class="dropdown is-active" id="dropdownElement">
             <div class="dropdown-trigger">
@@ -626,10 +669,10 @@ include_once 'navbar.php';
     <!-- CANCEL MODAL START-->
     <div class="modal" id="cancelModal">
         <div class="modal-background" id="cancelModalBg"></div>
-        <div class="modal-card">
+        <div class="modal-card p-4">
 
-            <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-group mr-3"></i>Cancel Shipment</p>
+            <header class="modal-card-head has-background-light">
+                <p class="modal-card-title has-text-black"><i class="fa-solid fa-ban mr-3"></i>Cancel Shipment</p>
                 <button class="delete" aria-label="close" onclick="closeCancel()"></button>
             </header>
 
@@ -667,8 +710,8 @@ include_once 'navbar.php';
                 </div>
 
                 <div class="field has-text-centered mt-6">
-                    <button class="button is-info has-text-white is-rounded" name="submitCancelForm" id="submitCancelForm">
-                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                    <button class="button is-dark has-text-white is-rounded" name="submitCancelForm" id="submitCancelForm">
+                        <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitCancelFormHelp" style="text-align: center;"></p>
                 </div>
@@ -681,10 +724,10 @@ include_once 'navbar.php';
     <!-- TRANSFER MODAL START-->
     <div class="modal" id="transferModal">
         <div class="modal-background" id="transferModalBg"></div>
-        <div class="modal-card">
+        <div class="modal-card p-4">
 
-            <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white"><i class="fa-solid fa-user-group mr-3"></i>Transfer Shipment</p>
+            <header class="modal-card-head has-background-light">
+                <p class="modal-card-title has-text-black"><i class="fa-solid fa-truck-arrow-right mr-3"></i>Transfer Shipment</p>
                 <button class="delete" aria-label="close" onclick="closeTransfer()"></button>
             </header>
 
@@ -702,8 +745,8 @@ include_once 'navbar.php';
                 </div>
 
                 <div class="field has-text-centered mt-6">
-                    <button class="button is-info has-text-white is-rounded" name="submitTransferForm" id="submitTransferForm">
-                        <i class="fas fa-paper-plane mr-3"></i>Submit
+                    <button class="button is-dark has-text-white is-rounded" name="submitTransferForm" id="submitTransferForm">
+                        <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitTransferFormHelp" style="text-align: center;"></p>
                 </div>

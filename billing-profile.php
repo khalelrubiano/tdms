@@ -35,6 +35,20 @@ include_once 'navbar.php';
 
     <!--INTERNAL CSS-->
     <style>
+        html {
+            background-color: #f4faff;
+        }
+
+        .titleHeader {
+            font-size: calc(14px + 0.390625vw) !important;
+        }
+
+        .subtitleHeader {
+            font-size: calc(8px + 0.390625vw) !important;
+        }
+
+
+
         @media (min-width: 1000px) {
 
             #invoiceTitle {
@@ -55,6 +69,15 @@ include_once 'navbar.php';
 
             .verticalContainer {
                 margin-top: 150px;
+            }
+
+            td,
+            th {
+                font-size: calc(8px + 0.390625vw) !important;
+            }
+
+            #invoiceTitle, #shipmentSummaryTitle {
+                font-size: calc(18px + 0.390625vw) !important;
             }
         }
 
@@ -93,6 +116,7 @@ include_once 'navbar.php';
         }
 
 
+
         @media (max-width: 600px) {
 
             #card table {
@@ -114,7 +138,7 @@ include_once 'navbar.php';
             #card table td {
                 display: block;
                 text-align: right;
-                font-size: 13px;
+                font-size: calc(8px + 0.390625vw);
                 margin-top: 20px;
             }
 
@@ -135,14 +159,24 @@ include_once 'navbar.php';
             }
 
         }
+
+        .firstTable,
+        .firstTableTr,
+        .firstTableTd {
+            table-layout: fixed;
+            border: none !important;
+            text-align: left;
+        }
     </style>
 </head>
 
 <body>
     <div class="main" style="margin-bottom: 20%;">
-        <div class="container firstContainer" style="margin-bottom: 5%;">
-            <button class="button is-rounded mb-5 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
-            <button class="button is-rounded mb-5 is-light" id="updateBtn" onclick="updateBillingStatus()"><i class="fa-solid fa-check mr-3"></i>Mark as Settled</button>
+
+
+        <div class="container firstContainer" style="margin-bottom: 2.5%;">
+            <button class="button is-rounded mb-5 has-background-light has-text-black" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
+            <button class="button is-rounded mb-5 has-background-primary has-text-white" id="updateBtn" onclick="updateBillingStatus()"><i class="fa-solid fa-check mr-3"></i>Mark as Settled</button>
             <p class="title is-4 has-text-centered" id="invoiceTitle">Invoice <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["invoiceNumber"] ?></p>
             <p class="title is-4 is-hidden" id="billingIdHidden"><?php echo $_SESSION["billingId"] ?></p>
             <p class="title is-4 is-hidden" id="billingStatusHidden"><?php echo $_SESSION["billingStatus"] ?></p>
@@ -150,8 +184,48 @@ include_once 'navbar.php';
         </div>
 
 
+        <div class="container box" style="margin-bottom: 2.5%;">
+            <div class="columns">
+                <div class="column">
+                    <table class="table firstTable">
+                        <tbody>
+                            <tr class="firstTable">
+                                <td class="firstTableTd"><strong>Status:</strong></td>
+                                <td class="firstTableTd"><?php echo $_SESSION["billingStatus"] ?></td>
+                            </tr>
+                            <tr class="firstTable">
+                                <td class="firstTableTd"><strong>Invoice Date:</strong></td>
+                                <td class="firstTableTd"><?php echo $_SESSION["invoiceDate"] ?></td>
+                            </tr>
+                            <tr class="firstTable">
+                                <td class="firstTableTd"><strong>Due Date:</strong></td>
+                                <td class="firstTableTd"><?php echo $_SESSION["dueDate"] ?></td>
+                            </tr>
+                            <tr class="firstTable">
+                                <td class="firstTableTd"><strong>Covered Date:</strong></td>
+                                <td class="firstTableTd"><?php echo $_SESSION["startDate"] . " to " . $_SESSION["endDate"] ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="column">
+                    <table class="table firstTable">
+                        <tbody>
+                            <tr class="firstTable">
+                                <td class="firstTableTd"><strong>Client:</strong></td>
+                                <td class="firstTableTd"><?php echo $_SESSION["clientName"] ?></td>
+                            </tr>
+                            <tr class="firstTable">
+                                <td class="firstTableTd"><strong>Client Address:</strong></td>
+                                <td class="firstTableTd"><?php echo $_SESSION["clientAddress"] ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-        <div class="container" style="margin-bottom: 5%;">
+        <div class="container box is-hidden" style="margin-bottom: 5%;">
             <p class="title is-4 mb-6" id="statusHeader">Status: <?php echo "" . $_SESSION["billingStatus"] ?></p>
 
             <p class="subtitle is-5 mb-4">Invoice Date: <?php echo "" . $_SESSION["invoiceDate"] ?></p>
@@ -160,14 +234,14 @@ include_once 'navbar.php';
 
         </div>
 
-        <div class="container" style="margin-bottom: 5%;">
+        <div class="container box is-hidden" style="margin-bottom: 5%;">
 
             <p class="title is-4 mb-6">Client: <?php echo "" . $_SESSION["clientName"] ?></p>
             <p class="subtitle is-5 mb-6">Client Address: <?php echo "" . $_SESSION["clientAddress"] ?></p>
 
         </div>
 
-        <div class="container" style="margin-bottom: 5%;">
+        <div class="container box" style="margin-bottom: 5%;">
             <div class="columns is-centered">
                 <div class="column is-12">
                     <table class="table is-bordered is-fullwidth">
@@ -217,8 +291,8 @@ include_once 'navbar.php';
             </div>
 
         </div>
-        <div class="container">
-            <p class="title is-4 mb-6">Shipment Summary</p>
+        <div class="container box">
+            <p class="title is-4 mb-6" id="shipmentSummaryTitle">Shipment Summary</p>
             <div id="card" class="mb-4 has-text-centered">
                 <table>
                     <thead>
@@ -243,8 +317,8 @@ include_once 'navbar.php';
             <nav class="pagination mt-6">
                 <ul class="pagination-list">
                     <li>
-                        <a class="pagination-link is-current" id="paginationIndicatorBtn">1</a>
-                        <a class="pagination-link" id="arrayLengthHidden"></a>
+                        <a class="pagination-link is-current is-hidden" id="paginationIndicatorBtn">1</a>
+                        <a class="pagination-link is-hidden" id="arrayLengthHidden"></a>
                     </li>
                 </ul>
                 <a class="pagination-previous is-disabled" id="paginationPreviousBtn">Previous</a>

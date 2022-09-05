@@ -1,52 +1,69 @@
+<?php
+//SESSION START
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+/*
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION["shipmentAccess"] === 'No') {
+    header("location: dashboard-default.php");
+    exit;
+}
+*/
+
+
+
+?>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <title>Display a map</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <style>
-        .or {
-            border: 2px solid #8fc300;
-            border-radius: 5px;
-            color: #333;
-            font-size: 17px;
-            font-weight: 600;
-            height: 34px;
-            line-height: 26px;
-            text-align: center;
-            width: 34px;
-            margin-top: 64px;
-            margin-left: 20px;
-            margin-right: 20px;
-            /*For z-index - keep the green area on top*/
-            position: relative;
-        }
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template</title>
 
-        .or::after {
-            background: red;
-            content: "";
-            display: block;
-            height: 116px;
-            margin-left: 15px;
-            margin-top: -68px;
-            width: 4px;
-            /*For z-index - keep the green area on top*/
-            position: absolute;
-            z-index: -1;
-        }
+    <!--JQUERY CDN-->
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <!--AJAX CDN-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!--BULMA CDN-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!--FONTAWESOME CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <!--NAVBAR CSS-->
+    <link rel="stylesheet" href="navbar.css">
+
+    <!--INTERNAL CSS-->
+    <style>
+
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div>
-            <div class="or"></div>
-        </div>
-
-    </div>
+    <h1 class="title" id="titleId"><strong>SAMPLE</strong></h1>
 </body>
+
+<script>
+    let titleId = document.getElementById('titleId');
+
+    function myFunction() {
+        $.post("test_function.php", {
+            //companyId: "2"
+        }, function(data) {
+            var jsonArray = JSON.parse(data); //JSON ARRAY TO NORMAL JAVASCRIPT ARRAY
+
+            titleId.innerHTML = jsonArray[1][0];
+
+            for (let i = 0; i < jsonArray.length; i++) {
+                titleId.innerHTML = titleId.innerHTML + "<br>" + jsonArray[i][0] + jsonArray[i][2] + "<br>";
+            }
+
+        });
+    }
+
+    myFunction(); //AJAX
+</script>
 
 </html>

@@ -41,7 +41,7 @@ try {
             FROM billing
             INNER JOIN client
             ON billing.client_id = client.client_id
-            INNER JOIN billingdate
+            LEFT JOIN billingdate
             ON billing.billing_id = billingdate.billing_id
             WHERE client.company_id = :company_id
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
@@ -66,7 +66,7 @@ try {
             FROM billing
             INNER JOIN client
             ON billing.client_id = client.client_id
-            INNER JOIN billingdate
+            LEFT JOIN billingdate
             ON billing.billing_id = billingdate.billing_id
             WHERE client.company_id = :company_id
             AND billing.billing_status = 'Settled'
