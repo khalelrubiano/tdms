@@ -89,3 +89,7 @@ clientViewListBtn.addEventListener('click', () => {
 userBtn.addEventListener('click', () => {
     window.location.href = "user-profile-employee.php";
 });
+
+clientTrackingBtn.addEventListener('click', () => {
+    window.location.href = "client-tracking.php";
+});
