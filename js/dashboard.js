@@ -65,8 +65,18 @@ function generateEventList3() {
     });
 }
 
-function generateEventList3() {
+function generateEventList4() {
     $.post("./classes/load-billing-event-settled.class.php", {
+
+    }, function (data) {
+        var jsonArray = JSON.parse(data);
+        calendar.addEventSource(jsonArray);
+        //alert(data);
+    });
+}
+
+function generateEventList5() {
+    $.post("./classes/load-payroll-event-completed.class.php", {
 
     }, function (data) {
         var jsonArray = JSON.parse(data);
@@ -79,6 +89,7 @@ generateEventList1();
 generateEventList2();
 generateEventList3();
 generateEventList4();
+generateEventList5();
 //alert("data");
 //alert(jsonHidden.innerHTML);
 //c

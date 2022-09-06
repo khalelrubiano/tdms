@@ -51,7 +51,7 @@ try {
             ON shipment.area_id = clientarea.area_id
             INNER JOIN shipmentprogress
             ON shipment.shipment_id = shipmentprogress.shipment_id
-            INNER JOIN vehicle
+            LEFT JOIN vehicle
             ON shipment.vehicle_id = vehicle.vehicle_id
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
@@ -63,6 +63,7 @@ try {
             ON payroll.payroll_id = payrolldate.payroll_id
             WHERE shipmentprogress.progress_description = 'Delivery Completed'
             AND subcontractor.company_id = :company_id
+            GROUP BY vehicle.plate_number
             ORDER BY " . $orderBy;
             break;
         case "Settled":
@@ -109,6 +110,7 @@ try {
             WHERE shipmentprogress.progress_description = 'Delivery Completed'
             AND subcontractor.company_id = :company_id
             AND payroll.payroll_status = 'Settled'
+            GROUP BY vehicle.plate_number
             ORDER BY " . $orderBy;
             break;
         case "Unsettled":
@@ -152,6 +154,7 @@ try {
             WHERE shipmentprogress.progress_description = 'Delivery Completed'
             AND subcontractor.company_id = :company_id
             AND payroll.payroll_status = 'Unsettled'
+            GROUP BY vehicle.plate_number
             ORDER BY " . $orderBy;
             break;
     }

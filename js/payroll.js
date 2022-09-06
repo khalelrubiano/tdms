@@ -106,6 +106,7 @@ function generatePayslipList1(tabValueVar, orderByVar) {
                         //CARD
                         var newCard = document.createElement("div");
                         newCard.classList.add('card');
+                        newCard.setAttribute("style", "border-radius: 5%;");
                         newChildTile.appendChild(newCard);
 
                         //CARD HEADER

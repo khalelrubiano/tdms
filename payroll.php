@@ -111,7 +111,7 @@ include_once 'navbar.php';
           </span>
         </p>
       </div>
-      <button class="button is-rounded mr-4 is-info mb-6" onclick="openLog()" id="logBtn"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
+      <button class="button is-rounded mr-4 is-link mb-6" onclick="openLog()" id="logBtn"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
       <div class="select is-rounded mr-3" id="selectSortDiv">
         <select id="selectSort">
           <option value="billing.billing_id" selected>Sort By Batch Number</option>
@@ -142,7 +142,7 @@ include_once 'navbar.php';
     <div class="modal-background" id="logModalBg"></div>
     <div class="modal-card p-4">
 
-      <header class="modal-card-head has-background-info">
+      <header class="modal-card-head has-background-link">
         <p class="modal-card-title has-text-white"><i class="fa-solid fa-clipboard-list mr-3"></i>Log</p>
         <button class="delete" aria-label="close" onclick="closeLog()"></button>
       </header>

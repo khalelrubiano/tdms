@@ -70,9 +70,9 @@ function generatePayslip2(billingIdVar, ownerIdVar) {
 
         var jsonArray = JSON.parse(data);
 
-        plateNumberHeader.innerHTML = "Plate Number: " + jsonArray[0][8];
-        ownerHeader.innerHTML = "Vehicle Owner: " + jsonArray[0][9] + " " + jsonArray[0][10] + " " + jsonArray[0][11];
-        dateHeader.innerHTML = "Date: " + jsonArray[0][15];
+        plateNumberHeader.innerHTML = jsonArray[0][8];
+        ownerHeader.innerHTML = jsonArray[0][9] + " " + jsonArray[0][10] + " " + jsonArray[0][11];
+        dateHeader.innerHTML = jsonArray[0][15];
 
         let temp_array1 = [];
         let temp_array2 = [];

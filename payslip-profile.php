@@ -35,6 +35,18 @@ include_once 'navbar.php';
 
     <!--INTERNAL CSS-->
     <style>
+        html {
+            background-color: #f4faff;
+        }
+
+        .titleHeader {
+            font-size: calc(14px + 0.390625vw) !important;
+        }
+
+        .subtitleHeader {
+            font-size: calc(8px + 0.390625vw) !important;
+        }
+
         @media (min-width: 1000px) {
 
             #payrollTitle {
@@ -55,6 +67,10 @@ include_once 'navbar.php';
 
             .verticalContainer {
                 margin-top: 150px;
+            }
+
+            #firstContainer {
+                text-align: center !important;
             }
         }
 
@@ -135,14 +151,22 @@ include_once 'navbar.php';
             }
 
         }
+
+        .firstTable,
+        .firstTableTr,
+        .firstTableTd {
+            table-layout: fixed;
+            border: none !important;
+            text-align: left;
+        }
     </style>
 </head>
 
 <body>
     <div class="main" style="margin-bottom: 20%;">
-        <div class="container firstContainer" style="margin-bottom: 5%;">
-            <button class="button is-rounded mb-5 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
-            <button class="button is-rounded mb-5 is-light" id="updateBtn" onclick="updatePayslipStatus()"><i class="fa-solid fa-check mr-3"></i>Mark as Settled</button>
+        <div class="container firstContainer" style="margin-bottom: 5%;" id="firstContainer">
+            <button class="button is-rounded mb-6 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
+            <button class="button is-rounded mb-6 is-light" id="updateBtn" onclick="updatePayslipStatus()"><i class="fa-solid fa-check mr-3"></i>Mark as Settled</button>
             <p class="title is-4 has-text-centered" id="payrollTitle">Batch <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["billingId"] ?></p>
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
@@ -151,18 +175,39 @@ include_once 'navbar.php';
             <p class="title is-hidden" id="payrollStatusHidden"><?php echo $_SESSION["payrollStatus"] ?></p>
         </div>
 
+        <div class="container box" style="margin-bottom: 2.5%;">
+            <div class="columns">
+                <div class="column is-6">
+                    <table class="table firstTable">
+                        <tbody>
+                            <tr class="firstTable">
+                                <td class="firstTableTd"><strong>Status:</strong></td>
+                                <td class="firstTableTd"><?php echo $_SESSION["payrollStatus"] ?></td>
+                            </tr>
+                            <tr class="firstTable">
+                                <td class="firstTableTd"><strong>Plate Number:</strong></td>
+                                <td class="firstTableTd" id="plateNumberHeader"><?php echo $_SESSION["invoiceDate"] ?></td>
+                            </tr>
+                            <tr class="firstTable">
+                                <td class="firstTableTd"><strong>Vehicle Owner:</strong></td>
+                                <td class="firstTableTd" id="ownerHeader"><?php echo $_SESSION["dueDate"] ?></td>
+                            </tr>
+                            <tr class="firstTable">
+                                <td class="firstTableTd"><strong>Date:</strong></td>
+                                <td class="firstTableTd" id="dateHeader"><?php echo $_SESSION["startDate"] . " to " . $_SESSION["endDate"] ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-
-        <div class="container" style="margin-bottom: 5%;">
+        <div class="container is-hidden" style="margin-bottom: 5%;">
             <p class="title is-4 mb-6" id="statusHeader">Status: <?php echo $_SESSION["payrollStatus"] ?> </p>
-
-            <p class="subtitle is-5 mb-4" id="plateNumberHeader">Plate Number:</p>
-            <p class="subtitle is-5 mb-4" id="ownerHeader">Vehicle Owner:</p>
-            <p class="subtitle is-5 mb-4" id="dateHeader">Date:</p>
 
         </div>
 
-        <div class="container" style="margin-bottom: 5%;">
+        <div class="container box" style="margin-bottom: 5%;">
             <div class="columns is-centered">
                 <div class="column is-12">
                     <table class="table is-bordered is-fullwidth">
@@ -208,7 +253,7 @@ include_once 'navbar.php';
 
         </div>
 
-        <div class="container">
+        <div class="container box">
             <p class="title is-4 mb-6">Shipment Summary</p>
             <div id="card" class="mb-4 has-text-centered">
                 <table>
@@ -235,7 +280,7 @@ include_once 'navbar.php';
             <nav class="pagination mt-6">
                 <ul class="pagination-list">
                     <li>
-                        <a class="pagination-link is-current" id="paginationIndicatorBtn">1</a>
+                        <a class="pagination-link is-current is-hidden" id="paginationIndicatorBtn">1</a>
                         <a class="pagination-link is-hidden" id="arrayLengthHidden"></a>
                     </li>
                 </ul>

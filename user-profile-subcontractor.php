@@ -44,6 +44,10 @@ include_once 'navbar-subcontractor.php';
 
   <!--INTERNAL CSS-->
   <style>
+    html {
+      background-color: #f4faff;
+    }
+
     /*
     @media (min-width: 1000px) {
 

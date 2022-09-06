@@ -54,6 +54,17 @@ function generateEventList2() {
         //alert(data);
     });
 }
+
+function generateEventList3() {
+    $.post("./classes/load-payroll-event-completed-subcontractor.class.php", {
+
+    }, function (data) {
+        var jsonArray = JSON.parse(data);
+        calendar.addEventSource(jsonArray);
+        //alert(data);
+    });
+}
+
 /*
 function generateEventList3() {
     $.post("./classes/load-billing-event-unsettled.class.php", {
@@ -76,8 +87,8 @@ function generateEventList3() {
 }
 */
 generateEventList1();
-generateEventList2();/*
-generateEventList3();
+generateEventList2();
+generateEventList3();/*
 generateEventList4();
 //alert("data");
 //alert(jsonHidden.innerHTML);

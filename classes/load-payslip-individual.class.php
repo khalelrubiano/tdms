@@ -63,6 +63,7 @@ try {
             ON payroll.payroll_id = payrolldate.payroll_id
             WHERE shipmentprogress.progress_description = 'Delivery Completed'
             AND ownergroup.owner_id = :owner_id
+            GROUP BY vehicle.plate_number
             ORDER BY " . $orderBy;
             break;
         case "Settled":
@@ -109,6 +110,7 @@ try {
             WHERE shipmentprogress.progress_description = 'Delivery Completed'
             AND ownergroup.owner_id = :owner_id
             AND payroll.payroll_status = 'Settled'
+            GROUP BY vehicle.plate_number
             ORDER BY " . $orderBy;
             break;
         case "Unsettled":
@@ -152,6 +154,7 @@ try {
             WHERE shipmentprogress.progress_description = 'Delivery Completed'
             AND ownergroup.owner_id = :owner_id
             AND payroll.payroll_status = 'Unsettled'
+            GROUP BY vehicle.plate_number
             ORDER BY " . $orderBy;
             break;
     }
