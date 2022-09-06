@@ -218,6 +218,7 @@ function generatePayslipList1(tabValueVar, orderByVar) {
                         newContentTableTbody.appendChild(newContentTableTbodyTr1);
 
                         var newContentTableTbodyTr1Td1 = document.createElement("td");
+                        newContentTableTbodyTr1Td1.classList.add('has-text-weight-bold');
                         newContentTableTbodyTr1Td1.innerHTML = "Batch Number:";
                         newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td1);
 
@@ -230,6 +231,7 @@ function generatePayslipList1(tabValueVar, orderByVar) {
                         newContentTableTbody.appendChild(newContentTableTbodyTr2);
 
                         var newContentTableTbodyTr2Td1 = document.createElement("td");
+                        newContentTableTbodyTr2Td1.classList.add('has-text-weight-bold');
                         newContentTableTbodyTr2Td1.innerHTML = "Plate Number:";
                         newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
 
@@ -242,6 +244,7 @@ function generatePayslipList1(tabValueVar, orderByVar) {
                         newContentTableTbody.appendChild(newContentTableTbodyTr3);
 
                         var newContentTableTbodyTr3Td1 = document.createElement("td");
+                        newContentTableTbodyTr3Td1.classList.add('has-text-weight-bold');
                         newContentTableTbodyTr3Td1.innerHTML = "Owner:";
                         newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
 
@@ -254,6 +257,7 @@ function generatePayslipList1(tabValueVar, orderByVar) {
                         newContentTableTbody.appendChild(newContentTableTbodyTr4);
 
                         var newContentTableTbodyTr4Td1 = document.createElement("td");
+                        newContentTableTbodyTr4Td1.classList.add('has-text-weight-bold');
                         newContentTableTbodyTr4Td1.innerHTML = "Date:";
                         newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
@@ -270,7 +274,7 @@ function generatePayslipList1(tabValueVar, orderByVar) {
                         var newCardFooterLink = document.createElement("a");
                         newCardFooterLink.setAttribute("onclick", "redirectToPayslipProfile('" + jsonArray[i5][0] + "','" + jsonArray[i5][16] + "','" + jsonArray[i5][13] + "')");
                         newCardFooterLink.classList.add('card-footer-item');
-                        newCardFooterLink.innerHTML = "View Details";
+                        newCardFooterLink.innerHTML = "View";
                         newCardFooter.appendChild(newCardFooterLink);
                         /*
                          var newCardFooterLink2 = document.createElement("a");

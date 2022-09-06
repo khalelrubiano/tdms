@@ -21,15 +21,22 @@ let tabValueHidden = document.getElementById('tabValueHidden')
 
 
 //SHIPMENT LIST
-function generateShipmentList1() {
+function generateShipmentList1(tabValueVar) {
     $.post("./classes/load-shipment-individual.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
+
+        let i = 1;
+        while (i <= finalLength) {
+            generateShipmentList2(tabValueVar, i, selectSort.value, finalLength);
+            i++;
+        }
+
     });
 }
 
-function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
+function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, finalLengthVar) {
     $.post("./classes/load-shipment-all-individual.class.php", {
         tabValue: tabValueVar,
         currentPageNumber: currentPageNumberVar,
@@ -41,7 +48,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
         indicator.innerHTML = currentPageNumber;
         indicator.innerHTML = arrayLengthHidden.innerHTML;
 
-        if (currentPageNumber <= arrayLengthHidden.innerHTML) {
+        if (currentPageNumber <= finalLengthVar) {
 
             //alert("success");
             var newParentTile = document.createElement("div");
@@ -64,6 +71,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 //CARD
                 var newCard = document.createElement("div");
                 newCard.classList.add('card');
+                newCard.setAttribute("style", "border-radius: 5%;");
                 newChildTile.appendChild(newCard);
 
                 //CARD HEADER
@@ -176,6 +184,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr2);
 
                 var newContentTableTbodyTr2Td1 = document.createElement("td");
+                newContentTableTbodyTr2Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr2Td1.innerHTML = "Destination:";
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
 
@@ -188,6 +197,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr3);
 
                 var newContentTableTbodyTr3Td1 = document.createElement("td");
+                newContentTableTbodyTr3Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr3Td1.innerHTML = "Expected Date of Delivery:";
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
 
@@ -200,6 +210,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr4);
 
                 var newContentTableTbodyTr4Td1 = document.createElement("td");
+                newContentTableTbodyTr4Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr4Td1.innerHTML = "Vehicle Plate Number:";
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
@@ -466,6 +477,14 @@ function redirectToShipmentProfile(shipmentIdVar, shipmentNumberVar, shipmentSta
     });
 }
 
+function refreshList() {
+    ancestorTile.innerHTML = "";
+    currentPageNumber = 1;
+    generateShipmentList1(tabValueHidden.innerHTML);
+
+    //generateUserList2(1, selectSort.value);
+}
+
 function returntosender() {
     $.post("./test/test1.php", {
 
@@ -475,8 +494,8 @@ function returntosender() {
     });
 }
 
-generateShipmentList1();
-generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+refreshList();
+//generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
 
 //returntosender();
 allTabLink.addEventListener('click', () => {
@@ -487,9 +506,7 @@ allTabLink.addEventListener('click', () => {
     allTabLi.classList.add('is-active');
 
     tabValueHidden.innerHTML = "All";
-    ancestorTile.innerHTML = "";
-    currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    refreshList();
 });
 
 inProgressTabLink.addEventListener('click', () => {
@@ -500,9 +517,7 @@ inProgressTabLink.addEventListener('click', () => {
     inProgressTabLi.classList.add('is-active');
 
     tabValueHidden.innerHTML = "In-progress";
-    ancestorTile.innerHTML = "";
-    currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    refreshList();
 });
 
 completedTabLink.addEventListener('click', () => {
@@ -513,9 +528,7 @@ completedTabLink.addEventListener('click', () => {
     completedTabLi.classList.add('is-active');
 
     tabValueHidden.innerHTML = "Completed";
-    ancestorTile.innerHTML = "";
-    currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    refreshList();
 });
 
 cancelledTabLink.addEventListener('click', () => {
@@ -526,27 +539,21 @@ cancelledTabLink.addEventListener('click', () => {
     cancelledTabLi.classList.add('is-active');
 
     tabValueHidden.innerHTML = "Cancelled";
-    ancestorTile.innerHTML = "";
-    currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    refreshList();
 });
 
 
 selectSort.addEventListener('change', () => {
 
     indicator.innerHTML = selectSort.value;
-    ancestorTile.innerHTML = "";
-    currentPageNumber = 1;
-    generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+    refreshList();
 
 });
 
 searchBarInput.addEventListener('input', () => {
     generateShipmentList3(searchBarInput.value);
     if (searchBarInput.value == "") {
-        ancestorTile.innerHTML = "";
-        currentPageNumber = 1;
-        generateShipmentList2(tabValueHidden.innerHTML, 1, selectSort.value);
+        refreshList();
 
     }
 });

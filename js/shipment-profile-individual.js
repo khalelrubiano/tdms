@@ -21,7 +21,8 @@ let cancelBtn = document.getElementById('cancelBtn');
 let submitCancelForm = document.getElementById('submitCancelForm'); //save changes button
 
 let shipmentStatusHidden = document.getElementById('shipmentStatusHidden');
-
+let updateBtn = document.getElementById('updateBtn');
+let updateModal = document.getElementById('updateModal');
 let transferBtn = document.getElementById('transferBtn');
 let transferModal = document.getElementById('transferModal');
 let submitTransferForm = document.getElementById('submitTransferForm'); //save changes button
@@ -38,6 +39,29 @@ let submitUpdateForm = document.getElementById('submitUpdateForm'); //save chang
 let shipmentRemarks = document.getElementById('shipmentRemarks');
 let shipmentRemarksField = document.getElementById('shipmentRemarksField');
 let shipmentRemarksHelp = document.getElementById('shipmentRemarksHelp');
+let dropdownBtn = document.getElementById('dropdownBtn');
+let dropdownElement = document.getElementById('dropdownElement');
+
+function myFunction1() {
+    dropdownElement.classList.toggle("is-active");
+}
+
+dropdownBtn.addEventListener('click', myFunction1);
+
+function myFunction2(x) {
+    if (x.matches) { // If media query matches
+        updateBtn.innerHTML = "<i class='fa-solid fa-pen-to-square'></i>"
+        returnBtn.innerHTML = "<i class='fa-solid fa-arrow-left'></i>"
+    } else {
+        updateBtn.innerHTML = "<i class='fa-solid fa-pen-to-square mr-3'></i> Update Status"
+        returnBtn.innerHTML = "<i class='fa-solid fa-arrow-left mr-3'></i> Return"
+    }
+}
+
+var x = window.matchMedia("(max-width: 1000px)")
+myFunction2(x) // Call listener function at run time
+x.addEventListener('change', myFunction2);
+
 //MODALS
 function openUpdate() {
     updateModal.classList.add('is-active');
@@ -462,6 +486,8 @@ function setProgressStep() {
         //alert(data);
         var jsonArray = JSON.parse(data);
 
+        submitUpdateForm.innerHTML = "<i class='fa-solid fa-check mr-3'></i> Mark this step as completed"
+
         switch (jsonArray[0][1]) {
             case "Shipment Placed":
                 stepDescription.innerHTML = "Warehouse Arrival";
@@ -476,7 +502,7 @@ function setProgressStep() {
             case "Start Loading":
                 stepDescription.innerHTML = "Depart Warehouse";
                 stepNumber.innerHTML = "Step 3 out of 6";
-
+                submitUpdateForm.innerHTML = "<i class='fa-solid fa-check mr-3'></i>Complete Shipment Pick-up"
                 break;
             case "Depart Warehouse":
                 stepDescription.innerHTML = "Store Arrival";
@@ -491,11 +517,13 @@ function setProgressStep() {
             case "Start Unloading":
                 stepDescription.innerHTML = "Store Out";
                 stepNumber.innerHTML = "Step 6 out of 6";
-
+                submitUpdateForm.innerHTML = "<i class='fa-solid fa-check mr-3'></i>Complete Shipment Drop-off"
                 break;
             case "Store Out":
-                //stepDescription.innerHTML = "Delivery";
-                //stepNumber.innerHTML = "Step 6 out of 6";
+                stepDescription.innerHTML = "";
+                stepNumber.innerHTML = "";
+                stepDescription.classList.add("is-hidden");
+                stepNumber.classList.add("is-hidden");
                 shipmentRemarksField.classList.remove("is-hidden");
                 submitUpdateForm.innerHTML = "<i class='fa-solid fa-check mr-3'></i>Mark delivery as completed"
                 break;
@@ -510,7 +538,10 @@ function updateShipmentProgress(shipmentIdVar, shipmentDescriptionVar) {
         shipmentId: shipmentIdVar,
         shipmentDescription: shipmentDescriptionVar
     }, function (data) {
-        alert(data);
+        //alert(data);
+
+        closeUpdate();
+
     });
 }
 
@@ -525,19 +556,31 @@ updateBtn.addEventListener('click', () => {
 submitUpdateForm.addEventListener('click', () => {
     if (stepDescription.innerHTML != "") {
         updateShipmentProgress(shipmentTitleHidden.innerHTML, stepDescription.innerHTML);
+        //alert('success');
+        refreshList();
     }
 
     if (stepDescription.innerHTML == "" && shipmentRemarks.value != "") {
         updateShipmentProgress(shipmentTitleHidden.innerHTML, "Remarks: " + shipmentRemarks.value);
         updateShipmentProgress(shipmentTitleHidden.innerHTML, "Delivery Completed");
+        //alert('success');
         updateBtn.classList.add("is-hidden");
+        refreshList();
+
     }
 
 });
 
-generateVehicleDetails();
-generateProgressBarDetails();
-setProgressStep();
+function refreshList() {
+    progressbarId.innerHTML = "";
+    verticalContainerUl.innerHTML = "";
+    generateVehicleDetails();
+    generateProgressBarDetails();
+    setProgressStep();
+}
+
+refreshList();
+
 /*
 
 shipmentlog table

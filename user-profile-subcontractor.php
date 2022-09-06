@@ -201,6 +201,7 @@ include_once 'navbar-subcontractor.php';
 
   if (isDriverHidden.innerHTML == "Yes" || isHelperHidden.innerHTML == "Yes") {
     shipmentIndividualBtn.classList.remove("is-hidden");
+    manageLabel.classList.add("is-hidden");
   };
 
   if (isDriverHidden.innerHTML == "Yes") {

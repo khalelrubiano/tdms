@@ -89,7 +89,7 @@ if (!isset($_SESSION)) {
                 Modules
             </p>
             <ul class="menu-list">
-                <li><a id="shipmentGroupBtn" class="is-hidden">Shipment (Group)</a></li>
+                <li><a id="shipmentGroupBtn" class="is-hidden">Shipment</a></li>
             </ul>
 
             <ul class="menu-list">
@@ -97,16 +97,16 @@ if (!isset($_SESSION)) {
             </ul>
 
             <ul class="menu-list">
-                <li><a id="shipmentIndividualBtn" class="is-hidden">Shipment (Individual)</a></li>
+                <li><a id="shipmentIndividualBtn" class="is-hidden">Shipment</a></li>
             </ul>
 
-            <p class="menu-label">
+            <p class="menu-label" id="manageLabel">
                 Manage
             </p>
 
             <ul class="menu-list">
                 <li><a id="vehicleBtn" class="is-hidden">Vehicle</a></li>
-                <li><a id="accountBtn">Account</a></li>
+                <li><a id="accountBtn" class="is-hidden">Account</a></li>
             </ul>
 
         </aside>

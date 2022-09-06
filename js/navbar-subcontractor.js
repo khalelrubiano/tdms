@@ -11,7 +11,7 @@ let payslipBtn = document.getElementById("payslipBtn")
 let shipmentIndividualBtn = document.getElementById("shipmentIndividualBtn")
 let vehicleBtn = document.getElementById("vehicleBtn")
 let accountBtn = document.getElementById("accountBtn")
-
+let manageLabel = document.getElementById("manageLabel")
 
 let sideNavbarClass = document.querySelector(".sideNavbarClass")
 

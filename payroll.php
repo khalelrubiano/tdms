@@ -1,7 +1,7 @@
 <?php
 //SESSION START
 if (!isset($_SESSION)) {
-    session_start();
+  session_start();
 }
 
 /*
@@ -19,54 +19,89 @@ include_once 'navbar.php';
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Group</title>
 
-    <!--JQUERY CDN-->
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-    <!--AJAX CDN-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!--BULMA CDN-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <!--FONTAWESOME CDN-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <!--NAVBAR CSS-->
-    <link rel="stylesheet" href="navbar.css">
+  <!--JQUERY CDN-->
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+  <!--AJAX CDN-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!--BULMA CDN-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <!--FONTAWESOME CDN-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <!--NAVBAR CSS-->
+  <link rel="stylesheet" href="navbar.css">
 
-    <!--INTERNAL CSS-->
-    <style>
-        @media (min-width: 1000px) {
+  <!--INTERNAL CSS-->
+  <style>
+    html {
+      background-color: #f4faff;
+    }
 
-            #searchBarForm,
-            #selectSortDiv {
-                float: right;
-            }
-        }
+    #tabUl li {
 
-        @media (max-width: 1000px) {
+      background-color: white !important;
+    }
 
-            #searchBarForm {
-                padding-top: 10px;
-                padding-bottom: 10px;
-            }
+    table {
+      table-layout: fixed;
+    }
 
-            #selectSortDiv {
-                margin-bottom: 5%;
-            }
-        }
-    </style>
+    td {
+      text-align: center !important;
+      white-space: nowrap;
+      font-size: calc(8px + 0.390625vw);
+    }
+
+    @media (min-width: 1000px) {
+
+      #searchBarForm,
+      #selectSortDiv {
+        float: right;
+      }
+    }
+
+    @media (max-width: 1000px) {
+
+      #searchBarForm {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      #selectSortDiv {
+        margin-bottom: 5%;
+      }
+
+      #tabUl li {
+        font-size: 1.5vh !important;
+        background-color: white !important;
+      }
+
+      #firstContainer {
+        text-align: center !important;
+      }
+
+      #logBtn {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 100%;
+      }
+
+    }
+  </style>
 </head>
 
 <body>
   <div class="main" style="margin-bottom: 20%;">
-    <div class="container" style="margin-bottom: 2%;">
+    <div class="container" style="margin-bottom: 2%;" id="firstContainer">
       <p class="title is-hidden" id="arrayLengthHidden">sample</p>
       <p class="title is-hidden" id="test_indicator">Test</p>
       <p class="title is-hidden" id="indicator">Live Search Indicator</p>
       <p class="title is-hidden" id="tabValueHidden">All</p>
-      <button class="button is-rounded mr-4 is-info" onclick="openLog()"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
+
 
       <div class="field" id="searchBarForm">
         <p class="control has-icons-right">
@@ -76,7 +111,7 @@ include_once 'navbar.php';
           </span>
         </p>
       </div>
-
+      <button class="button is-rounded mr-4 is-info mb-6" onclick="openLog()" id="logBtn"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
       <div class="select is-rounded mr-3" id="selectSortDiv">
         <select id="selectSort">
           <option value="billing.billing_id" selected>Sort By Batch Number</option>
@@ -87,7 +122,7 @@ include_once 'navbar.php';
     </div>
     <div class="container">
       <div class="tabs is-centered is-toggle">
-        <ul>
+        <ul id="tabUl">
           <li class="is-active" id="allTabLi"><a id="allTabLink">All</a></li>
           <li id="settledTabLi"><a id="settledTabLink">Settled</a></li>
           <li id="unsettledTabLi"><a id="unsettledTabLink">Unsettled</a></li>
@@ -105,7 +140,7 @@ include_once 'navbar.php';
   <!-- LOG MODAL START-->
   <div class="modal" id="logModal">
     <div class="modal-background" id="logModalBg"></div>
-    <div class="modal-card">
+    <div class="modal-card p-4">
 
       <header class="modal-card-head has-background-info">
         <p class="modal-card-title has-text-white"><i class="fa-solid fa-clipboard-list mr-3"></i>Log</p>
@@ -115,7 +150,7 @@ include_once 'navbar.php';
       <section class="modal-card-body">
         <div class="content">
           <ul id="logList">
-          
+
           </ul>
         </div>
       </section>
@@ -129,10 +164,10 @@ include_once 'navbar.php';
 
 <!--INTERNAL JAVASCRIPT-->
 <script>
-    logoutBtn.classList.remove("is-hidden");
-    userBtn.innerHTML = "<?php echo $_SESSION['username'] ?>";
-    userBtn.classList.remove("is-hidden");
-    payrollBtn.classList.add("is-active");
+  logoutBtn.classList.remove("is-hidden");
+  userBtn.innerHTML = "<?php echo $_SESSION['username'] ?>";
+  userBtn.classList.remove("is-hidden");
+  payrollBtn.classList.add("is-active");
 </script>
 
 </html>

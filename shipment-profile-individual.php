@@ -32,8 +32,8 @@ include_once 'navbar-subcontractor.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <!--NAVBAR CSS-->
     <link rel="stylesheet" href="navbar.css">
-    <script src="https://cdn.maptiler.com/maplibre-gl-js/v2.1.1/maplibre-gl.js"></script>
-    <link href="https://cdn.maptiler.com/maplibre-gl-js/v2.1.1/maplibre-gl.css" rel="stylesheet" />
+    <script src='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js'></script>
+    <link href='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css' rel='stylesheet' />
     <!--INTERNAL CSS-->
     <style>
         .progressbar {
@@ -176,33 +176,6 @@ include_once 'navbar-subcontractor.php';
             background-color: red;
         }
 
-        @media (min-width: 1000px) {
-
-            #shipmentTitle {
-                float: right;
-                padding-right: 100px;
-            }
-
-            .firstContainer {
-                border-bottom: 1px solid gray;
-            }
-            #mapContainer {
-                height: 500px;
-            }
-        }
-
-        @media (max-width: 1000px) {
-            #shipmentTitle {
-                margin-bottom: 50px;
-            }
-
-            .verticalContainer {
-                margin-top: 150px;
-            }
-            #mapContainer {
-                height: 250px;
-            }
-        }
 
         .left-td {
             float: right;
@@ -234,6 +207,7 @@ include_once 'navbar-subcontractor.php';
         .verticalContainer ul li {
             padding: 30px 30px;
             position: relative;
+            font-size: calc(4px + 0.390625vw) !important;
         }
 
         .selected div {
@@ -242,8 +216,8 @@ include_once 'navbar-subcontractor.php';
 
         .verticalContainer li span {
             position: absolute;
-            left: -45px;
-            font-size: 12px;
+            left: -40px;
+            font-size: calc(4px + 0.390625vw) !important;
             background-color: #fff;
             padding: 10px 0;
             top: 20px;
@@ -254,12 +228,23 @@ include_once 'navbar-subcontractor.php';
             margin-left: 50px;
         }
 
+
         #map {
             position: absolute;
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            /*
+            width: 100%;
+            */
+            z-index: -2;
         }
 
         .marker {
@@ -273,14 +258,452 @@ include_once 'navbar-subcontractor.php';
             max-width: 400px;
             font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
         }
+
+
+
+        .dropdown {
+            position: absolute;
+
+            top: 15vh;
+            left: 350px;
+
+        }
+
+        .dropdown-item {
+            width: 25vw;
+        }
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+            /* make scrollbar transparent */
+        }
+
+        @media (min-width: 1000px) {
+
+            #shipmentTitle {
+                margin-bottom: 10px;
+                font-size: calc(20px + 0.390625vw) !important;
+            }
+
+            .progressbar li {
+                font-size: calc(3px + 0.390625vw) !important;
+            }
+
+            #progressBarDiv {
+                margin-bottom: 100px !important;
+            }
+
+            #progressLogDiv {
+                max-height: 200px !important;
+                overflow-x: auto !important;
+                margin-bottom: 5px !important;
+            }
+
+            #infoDiv {
+                padding-top: 30px !important;
+                max-height: 200px !important;
+                overflow-x: auto !important;
+                margin-bottom: 0px !important;
+
+            }
+
+            .verticalContainer {
+                margin-left: 10%;
+            }
+
+            #dateOfDeliveryTitle,
+            #dateOfDeliverySubtitle,
+            #destinationTitle,
+            #destinationSubtitle,
+            #clientNameTitle,
+            #clientNameSubtitle,
+            #personnelTitle,
+            #driverSubtitle,
+            #helperSubtitle,
+            #plateNumberSubtitle,
+            #titleSpan {
+                font-size: calc(6px + 0.390625vw);
+            }
+
+            #shipmentDescriptionTitle {
+                font-size: calc(10px + 0.390625vw);
+            }
+
+            #shipmentDescriptionSubtitle {
+                font-size: calc(8px + 0.390625vw);
+            }
+
+            #buttonDiv {
+                position: absolute;
+
+                z-index: 2;
+
+                top: 15vh;
+                left: 510px;
+
+            }
+
+            /*
+            #returnBtn {
+                position: absolute;
+
+                z-index: 2;
+
+                top: 15vh;
+                left: 510px;
+
+            }
+
+            #transferBtn {
+                position: absolute;
+
+                z-index: 2;
+
+                top: 15vh;
+                left: 625px;
+
+            }
+
+            #cancelBtn {
+                position: absolute;
+
+                z-index: 2;
+
+                top: 15vh;
+                left: 755px;
+
+            }
+*/
+            .dropdown-menu {
+                height: 80vh !important;
+                overflow-x: auto !important;
+            }
+
+        }
+
+        /*
+#shipmentTitle {
+    float: right;
+    padding-right: 100px;
+}
+*/
+        /*
+            .firstContainer {
+                border-bottom: 1px solid gray;
+            }
+
+
+            #mapContainer {
+                height: 500px;
+            }
+
+        }
+*/
+        @media (max-width: 1000px) {
+
+
+
+            #shipmentTitle {
+                margin-bottom: 10px;
+                font-size: calc(20px + 0.390625vw) !important;
+            }
+
+            .verticalContainer {
+                margin-left: 10%;
+            }
+
+            #progressBarDiv {
+                margin-bottom: 100px !important;
+            }
+
+            #progressLogDiv {
+                max-height: 200px !important;
+                overflow-x: auto !important;
+                margin-bottom: 0px !important;
+            }
+
+            #infoDiv {
+                max-height: 200px !important;
+                overflow-x: auto !important;
+                margin-bottom: 0px !important;
+            }
+
+            #mapContainer {
+                height: 250px;
+            }
+
+            .inProgressLi:before,
+            .transferLi:before,
+            .cancelLi:before {
+
+                line-height: 3;
+
+            }
+
+            .dropdown {
+                position: absolute !important;
+
+                top: 17vh !important;
+                left: 5vw !important;
+                /*
+                z-index: -4;
+                */
+
+            }
+
+            .dropdown-item {
+                width: 90vw;
+
+            }
+
+            #buttonDiv {
+                position: absolute !important;
+
+                bottom: 5vh !important;
+                right: 5vw !important;
+
+                z-index: 2;
+
+            }
+
+            /*
+            #returnBtn {
+                position: absolute !important;
+
+                bottom: 5vh !important;
+                right: 5vw !important;
+
+                z-index: 2;
+
+                width: 70px !important;
+            }
+
+            #transferBtn {
+                position: absolute;
+
+                z-index: 2;
+
+                bottom: 5vh;
+                right: 30vw;
+
+                width: 70px !important;
+            }
+
+            #cancelBtn {
+                position: absolute;
+
+                z-index: 2;
+
+                bottom: 5vh;
+                right: 55vw;
+
+                width: 70px !important;
+            }
+*/
+            #dateOfDeliveryTitle,
+            #dateOfDeliverySubtitle,
+            #destinationTitle,
+            #destinationSubtitle,
+            #clientNameTitle,
+            #clientNameSubtitle,
+            #personnelTitle,
+            #driverSubtitle,
+            #helperSubtitle,
+            #plateNumberSubtitle,
+            #titleSpan {
+                font-size: calc(12px + 0.390625vw);
+            }
+
+            #shipmentDescriptionTitle {
+                font-size: calc(12px + 0.390625vw);
+            }
+
+            #shipmentDescriptionSubtitle {
+                font-size: calc(12px + 0.390625vw);
+            }
+
+            .dropdown-menu {
+                height: 70vh !important;
+                overflow-x: auto !important;
+            }
+
+            .progressbar li {
+                font-size: calc(6px + 0.390625vw) !important;
+            }
+
+            .verticalContainer ul li {
+                font-size: calc(6px + 0.390625vw) !important;
+            }
+
+            .verticalContainer li span {
+
+                font-size: calc(6px + 0.390625vw) !important;
+
+            }
+        }
+
+        /*
+        .modal,
+        .modal-background,
+        .modal-card {
+            z-index: 7 !important;
+        }
+        */
+
+        /* keep code for progress bar, but container needs position attribute and z-index to work */
+
+        .dropdown-content {
+            position: relative;
+            z-index: -9999 !important;
+        }
     </style>
 </head>
 
 <body>
-    <div class="main" style="margin-bottom: 20%;">
+
+    <div class="mainAlt">
+        <div id="buttonDiv">
+            <div class="columns">
+                <div class="column">
+                    <button class="button mb-5 is-light" id="updateBtn"><i class="fa-solid fa-pen-to-square mr-3"></i>Update Status</button>
+                    <button class="button mb-5 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="dropdown is-active" id="dropdownElement">
+            <div class="dropdown-trigger">
+                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu2" id="dropdownBtn">
+                    <span id="titleSpan">Shipment Details</span>
+                    <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu2" role="menu">
+                <div class="dropdown-content">
+                    <div class="dropdown-item">
+                        <p class="title is-4" id="shipmentTitle">Shipment <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["shipmentNumber"] ?></p>
+                    </div>
+
+                    <hr class="dropdown-divider">
+                    <div class="dropdown-item" id="descriptionDiv">
+                        <p class="title mb-6" id="shipmentDescriptionTitle">Description:</p>
+                        <p class="subtitle" id="shipmentDescriptionSubtitle"><?php echo $_SESSION["shipmentDescription"] ?></p>
+                    </div>
+
+                    <hr class="dropdown-divider">
+                    <div class="dropdown-item" id="progressBarDiv">
+
+                        <ul class="progressbar" id="progressbarId">
+                        </ul>
+
+                    </div>
+
+                    <hr class="dropdown-divider">
+                    <div class="dropdown-item" id="progressLogDiv">
+                        <div class="container verticalContainer has-text-centered" style="padding: 10%;">
+                            <ul id="verticalContainerUl">
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <hr class="dropdown-divider">
+                    <div class="dropdown-item" id="infoDiv">
+                        <div class="container">
+                            <div class="tile is-ancestor">
+                                <div class="tile is-parent">
+                                    <div class="tile is-child">
+                                        <p class="title is-6 mb-6" id="dateOfDeliveryTitle">Expected Date of Delivery:</p>
+                                        <p class="subtitle is-6" id="dateOfDeliverySubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["dateOfDelivery"] ?></p>
+                                        <p class="title is-6 mb-6" id="destinationTitle">Destination:</p>
+                                        <p class="subtitle is-6" id="destinationSubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["destination"] ?></p>
+                                        <p class="title is-6 mb-6" id="clientNameTitle">Client:</p>
+                                        <p class="subtitle is-6" id="clientNameSubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["clientName"] ?></p>
+
+                                    </div>
+
+                                    <div class="tile is-child">
+                                        <p class="title is-6 mb-6" id="personnelTitle">Personnel:</p>
+                                        <p class="subtitle is-6" id="driverSubtitle"></p>
+                                        <p class="subtitle is-6" id="helperSubtitle"></p>
+                                        <p class="subtitle is-6" id="plateNumberSubtitle" style="margin-bottom: 75px;"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPDATE MODAL START-->
+    <div class="modal" id="updateModal">
+        <div class="modal-background" id="updateModalBg"></div>
+        <div class="modal-card p-4">
+
+            <header class="modal-card-head has-background-light">
+                <p class="modal-card-title has-text-black"><i class="fa-solid fa-pen-to-square mr-3"></i>Update Status</p>
+                <button class="delete" aria-label="close" onclick="closeUpdate()"></button>
+            </header>
+
+            <section class="modal-card-body">
+                <p class="title is-4 has-text-centered mt-6" id="stepDescription"></p>
+                <p class="subtitle is-5 has-text-centered" id="stepNumber"></p>
+
+                <div class="field is-hidden" id="shipmentRemarksField">
+                    <label for="" class="label">Remarks</label>
+                    <div class="control">
+                        <textarea class="textarea" placeholder="Enter remarks here" name="shipmentRemarks" id="shipmentRemarks" style="resize: none;"></textarea>
+                    </div>
+                    <p class="help" id="shipmentRemarksHelp"></p>
+                </div>
+
+                <div class="field has-text-centered mt-6">
+                    <button class="button is-dark has-text-white is-rounded" name="submitUpdateForm" id="submitUpdateForm">
+                        <i class="fa-solid fa-check mr-3"></i>Mark this step as completed
+                    </button>
+                    <p class="help" id="submitUpdateFormHelp" style="text-align: center;"></p>
+                </div>
+
+            </section>
+        </div>
+    </div>
+    <!-- UPDATE MODAL END-->
+
+    <div id="map"></div>
+
+
+    <div class="container is-hidden" style="margin-bottom: 20%;">
         <div class="container firstContainer" style="margin-bottom: 5%;">
-            <button class="button is-rounded mb-5 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
-            <button class="button is-rounded mb-5 is-light" id="updateBtn"><i class="fa-solid fa-pen-to-square mr-3"></i>Update Status</button>
+
             <p class="title is-4" id="shipmentTitle">Shipment <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["shipmentNumber"] ?></p>
             <p class="title is-4 is-hidden" id="shipmentNumberHidden"><?php echo $_SESSION["shipmentNumber"] ?></p>
             <p class="title is-4 is-hidden" id="shipmentTitleHidden"><?php echo $_SESSION["shipmentId"] ?></p>
@@ -292,138 +715,8 @@ include_once 'navbar-subcontractor.php';
             <p class="title is-4 is-hidden" id="isDriverHidden"><?php echo $_SESSION["isDriver"] ?></p>
             <p class="title is-4 is-hidden" id="isHelperHidden"><?php echo $_SESSION["isHelper"] ?></p>
         </div>
-
-
-
-        <div class="container" id="mapContainer">
-            <div id="map" class="">
-
-            </div>
-        </div>
-
-        <!-- DESCRIPTION -->
-        <div class="container" style="padding: 50px;">
-            <p class="title is-5 mb-6" id="shipmentDescriptionTitle">Shipment Description:</p>
-            <p class="subtitle is-6" id="shipmentDescriptionSubtitle" style="margin-bottom: 100px;"><?php echo $_SESSION["shipmentDescription"] ?></p>
-        </div>
-        <!-- DESCRIPTION -->
-
-        <!-- PROGRESS BAR + LOG -->
-        <div class="container">
-            <ul class="progressbar" id="progressbarId">
-                <!--
-                <li class="active" id="shipmentPlacedId">
-                    <p style="color: black;">Shipment Placed</p>
-                </li>
-                <li class="" id="shipmentPickupId">
-                    <p style="color: black;">Shipment Pickup</p>
-                </li>
-                <li class="" id="shipmentDropoffId">
-                    <p style="color: black;">Shipment Drop-off</p>
-                </li>
-                <li class="" id="completedDeliveryId">
-                    <p style="color: black;">Completed Delivery</p>
-                </li>-->
-            </ul>
-        </div>
-        <div class="container verticalContainer" style="padding: 10%;">
-            <ul id="verticalContainerUl">
-                <!--
-                <li>
-                    <span>2022-07-20 03:35</span>
-                    <div>This is an update.</div>
-                </li>
-                <li>
-                    <span>2022-07-20 03:35</span>
-                    <div>This is an update.</div>
-                </li>
-                <li>
-                    <span>2022-07-20 03:35</span>
-                    <div>This is an update.</div>
-                </li>
-                <li>
-                    <span>2022-07-20 03:35</span>
-                    <div>This is an update.</div>
-                </li>
-                <li>
-                    <span>2022-07-20 03:35</span>
-                    <div>This is an update.</div>
-                </li>
-                <li>
-                    <span>2022-07-20 03:35</span>
-                    <div>This is an update.</div>
-                </li>
-                <li class="selected">
-                    <span>2022-07-20 03:35</span>
-                    <div>This is the latest update.</div>
-                </li>-->
-
-            </ul>
-        </div>
-        <!-- PROGRESS BAR + LOG -->
-
-
-
-        <!-- DETAILS ******************************* USE TILES WITH THREE COLUMNS ****************************** -->
-        <div class="container" style="padding-left: 50px; padding-right: 50px">
-            <div class="tile is-ancestor">
-                <div class="tile is-parent">
-                    <div class="tile is-child">
-                        <p class="title is-5 mb-6">Expected Date of Delivery:</p>
-                        <p class="subtitle is-6" id="dateOfDeliverySubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["dateOfDelivery"] ?></p>
-                        <p class="title is-5 mb-6">Destination:</p>
-                        <p class="subtitle is-6" id="destinationSubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["destination"] ?></p>
-                        <p class="title is-5 mb-6">Client:</p>
-                        <p class="subtitle is-6" id="clientNameSubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["clientName"] ?></p>
-
-                    </div>
-                    <div class="tile is-child">
-                        <p class="title is-5 mb-6">Personnel:</p>
-                        <p class="subtitle is-6" id="driverSubtitle"></p>
-                        <p class="subtitle is-6" id="helperSubtitle"></p>
-                        <p class="subtitle is-6" id="plateNumberSubtitle" style="margin-bottom: 75px;"></p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!-- DETAILS ******************************* USE TILES WITH THREE COLUMNS ****************************** -->
-
-        <!-- UPDATE MODAL START-->
-        <div class="modal" id="updateModal">
-            <div class="modal-background" id="updateModalBg"></div>
-            <div class="modal-card">
-
-                <header class="modal-card-head has-background-info">
-                    <p class="modal-card-title has-text-white"><i class="fa-solid fa-pen-to-square mr-3"></i>Update Status</p>
-                    <button class="delete" aria-label="close" onclick="closeUpdate()"></button>
-                </header>
-
-                <section class="modal-card-body">
-                    <p class="title is-4 has-text-centered mt-6" id="stepDescription"></p>
-                    <p class="subtitle is-5 has-text-centered" id="stepNumber"></p>
-
-                    <div class="field is-hidden" id="shipmentRemarksField">
-                        <label for="" class="label">Remarks</label>
-                        <div class="control">
-                            <textarea class="textarea" placeholder="Enter remarks here" name="shipmentRemarks" id="shipmentRemarks" style="resize: none;"></textarea>
-                        </div>
-                        <p class="help" id="shipmentRemarksHelp"></p>
-                    </div>
-
-                    <div class="field has-text-centered mt-6">
-                        <button class="button is-info has-text-white is-rounded" name="submitUpdateForm" id="submitUpdateForm">
-                            <i class="fa-solid fa-check mr-3"></i>Mark this step as completed
-                        </button>
-                        <p class="help" id="submitUpdateFormHelp" style="text-align: center;"></p>
-                    </div>
-
-                </section>
-            </div>
-        </div>
-        <!-- UPDATE MODAL END-->
-
     </div>
+
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->
@@ -450,6 +743,7 @@ include_once 'navbar-subcontractor.php';
 
     if (isDriverHidden.innerHTML == "Yes" || isHelperHidden.innerHTML == "Yes") {
         shipmentIndividualBtn.classList.remove("is-hidden");
+        manageLabel.classList.add("is-hidden");
     };
     if (shipmentStatusHidden.innerHTML == "Completed" || isOwnerHidden.innerHTML == "Yes") {
         updateBtn.classList.add("is-hidden");
@@ -467,13 +761,20 @@ include_once 'navbar-subcontractor.php';
 
     // You can remove the following line if you don't need support for RTL (right-to-left) labels:
     //maplibregl.setRTLTextPlugin('https://cdn.maptiler.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js');
+    /*
     var map = new maplibregl.Map({
         container: 'map',
         style: 'https://api.maptiler.com/maps/streets/style.json?key=MROowlWHhkfBGNBrkA3C',
         center: [121.261588, 14.295503],
         zoom: 7
-    });
+    });*/
 
+    var map = new maplibregl.Map({
+        container: 'map', // container id
+        style: 'https://api.maptiler.com/maps/streets/style.json?key=MROowlWHhkfBGNBrkA3C', // style URL
+        center: [121.261588, 14.295503], // starting position [lng, lat]
+        zoom: 7 // starting zoom
+    });
     //var laguna = new maplibregl.Marker(el).setLngLat([121.261588, 14.295503]).addTo(map);
     /*
         var laguna_popup = new maplibregl.Popup({
@@ -515,7 +816,7 @@ include_once 'navbar-subcontractor.php';
         */
         // Populate the popup and set its coordinates
         // based on the feature found.
-        popup.setLngLat([long, lat]).setHTML("<h1 class='title is-6 p-1'><i class='fa-solid fa-clock mr-3'></i>"+ "Last Update: </h1> <h1 class='subtitle is-6 p-1'>" + update_time + "</h1>").addTo(map);
+        popup.setLngLat([long, lat]).setHTML("<h1 class='title is-6 p-1'><i class='fa-solid fa-clock mr-3'></i>" + "Last Update: </h1> <h1 class='subtitle is-6 p-1'>" + update_time + "</h1>").addTo(map);
         //alert("mouse on");
     });
 
@@ -524,7 +825,6 @@ include_once 'navbar-subcontractor.php';
         popup.remove();
         //alert("mouse off");
     });
-
 </script>
 
 </html>

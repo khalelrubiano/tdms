@@ -46,7 +46,27 @@ function generateEventList1() {
 }
 
 function generateEventList2() {
+    $.post("./classes/load-shipment-event-completed.class.php", {
+
+    }, function (data) {
+        var jsonArray = JSON.parse(data);
+        calendar.addEventSource(jsonArray);
+        //alert(data);
+    });
+}
+
+function generateEventList3() {
     $.post("./classes/load-billing-event-unsettled.class.php", {
+
+    }, function (data) {
+        var jsonArray = JSON.parse(data);
+        calendar.addEventSource(jsonArray);
+        //alert(data);
+    });
+}
+
+function generateEventList3() {
+    $.post("./classes/load-billing-event-settled.class.php", {
 
     }, function (data) {
         var jsonArray = JSON.parse(data);
@@ -57,6 +77,8 @@ function generateEventList2() {
 
 generateEventList1();
 generateEventList2();
+generateEventList3();
+generateEventList4();
 //alert("data");
 //alert(jsonHidden.innerHTML);
 //c

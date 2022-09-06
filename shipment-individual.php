@@ -35,6 +35,25 @@ include_once 'navbar-subcontractor.php';
 
   <!--INTERNAL CSS-->
   <style>
+    html {
+      background-color: #f4faff;
+    }
+
+    #tabUl li {
+
+      background-color: white !important;
+    }
+
+    table {
+      table-layout: fixed;
+    }
+
+    td {
+      text-align: center !important;
+      white-space: nowrap;
+      font-size: calc(8px + 0.390625vw);
+    }
+
     @media (min-width: 1000px) {
 
       #selectSortDiv {
@@ -56,13 +75,39 @@ include_once 'navbar-subcontractor.php';
       #selectSortDiv {
         margin-bottom: 5%;
       }
+
+      #tabUl li {
+        font-size: 1.5vh !important;
+        background-color: white !important;
+      }
+
+      #logBtn {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 45%;
+      }
+
+      #addBtn {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 45%;
+      }
+
+      #selectSortDiv {
+        margin-bottom: 10%;
+      }
+
+      #firstContainer {
+        text-align: center !important;
+      }
+
     }
   </style>
 </head>
 
 <body>
   <div class="main" style="margin-bottom: 20%;">
-    <div class="container" style="margin-bottom: 2%;">
+    <div class="container" style="margin-bottom: 2%;" id="firstContainer">
       <p class="title is-hidden" id="arrayLengthHidden">sample</p>
       <p class="title is-hidden" id="test_indicator"><?php echo $_SESSION["companyId"] ?></p>
       <p class="title is-hidden" id="indicator">Live Search Indicator</p>
@@ -90,7 +135,7 @@ include_once 'navbar-subcontractor.php';
     </div>
     <div class="container">
       <div class="tabs is-centered is-toggle">
-        <ul>
+        <ul id="tabUl">
           <li class="is-active" id="allTabLi"><a id="allTabLink">All</a></li>
           <li id="inProgressTabLi"><a id="inProgressTabLink">In-progress</a></li>
           <li id="completedTabLi"><a id="completedTabLink">Completed</a></li>
@@ -105,7 +150,7 @@ include_once 'navbar-subcontractor.php';
     </div>
 
   </div>
-  
+
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->
@@ -123,15 +168,16 @@ include_once 'navbar-subcontractor.php';
   userBtn.classList.remove("is-hidden");
   shipmentIndividualBtn.classList.add("is-active");
 
-  if(isOwnerHidden.innerHTML == "Yes"){
+  if (isOwnerHidden.innerHTML == "Yes") {
     //shipmentGroupBtn.classList.remove("is-hidden");
     shipmentIndividualBtn.classList.remove("is-hidden");
     payslipBtn.classList.remove("is-hidden");
     vehicleBtn.classList.remove("is-hidden");
   };
 
-  if(isDriverHidden.innerHTML == "Yes" || isHelperHidden.innerHTML == "Yes"){
+  if (isDriverHidden.innerHTML == "Yes" || isHelperHidden.innerHTML == "Yes") {
     shipmentIndividualBtn.classList.remove("is-hidden");
+    manageLabel.classList.add("is-hidden");
   };
 </script>
 
