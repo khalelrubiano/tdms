@@ -14,10 +14,17 @@ function generateUserList1() {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
+
+        let i = 1;
+        while (i <= finalLength) {
+            generateUserList2(i, selectSort.value, finalLength);
+            i++;
+        }
+
     });
 }
 
-function generateUserList2(currentPageNumberVar, orderByVar) {
+function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
     $.post("./classes/load-vehicle-subcontractor.class.php", {
         currentPageNumber: currentPageNumberVar,
         orderBy: orderByVar
@@ -26,7 +33,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
         var jsonArray = JSON.parse(data);
         indicator.innerHTML = "call success";
 
-        if (currentPageNumber <= arrayLengthHidden.innerHTML) {
+        if (currentPageNumber <= finalLengthVar) {
             indicator.innerHTML = "condition success";
 
             var newParentTile = document.createElement("div");
@@ -45,6 +52,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 //CARD
                 var newCard = document.createElement("div");
                 newCard.classList.add('card');
+                newCard.setAttribute("style", "border-radius: 5%;");
                 newChildTile.appendChild(newCard);
 
                 //CARD HEADER
@@ -173,6 +181,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr1);
 
                 var newContentTableTbodyTr1Td1 = document.createElement("td");
+                newContentTableTbodyTr1Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr1Td1.innerHTML = "Plate Number:";
                 newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td1);
 
@@ -185,6 +194,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr2);
 
                 var newContentTableTbodyTr2Td1 = document.createElement("td");
+                newContentTableTbodyTr2Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr2Td1.innerHTML = "Commission Rate:";
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
 
@@ -197,6 +207,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr3);
 
                 var newContentTableTbodyTr3Td1 = document.createElement("td");
+                newContentTableTbodyTr3Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr3Td1.innerHTML = "Driver:";
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
 
@@ -209,6 +220,7 @@ function generateUserList2(currentPageNumberVar, orderByVar) {
                 newContentTableTbody.appendChild(newContentTableTbodyTr4);
 
                 var newContentTableTbodyTr4Td1 = document.createElement("td");
+                newContentTableTbodyTr4Td1.classList.add('has-text-weight-bold');
                 newContentTableTbodyTr4Td1.innerHTML = "Helper:";
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
@@ -296,6 +308,7 @@ function generateUserList4(vehicleIdVar, plateNumberVar, commissionRateVar, vehi
     //CARD
     var newCard = document.createElement("div");
     newCard.classList.add('card');
+    newCard.setAttribute("style", "border-radius: 5%;");
     newChildTile.appendChild(newCard);
 
     //CARD HEADER
@@ -395,6 +408,7 @@ function generateUserList4(vehicleIdVar, plateNumberVar, commissionRateVar, vehi
     newContentTableTbody.appendChild(newContentTableTbodyTr1);
 
     var newContentTableTbodyTr1Td1 = document.createElement("td");
+    newContentTableTbodyTr1Td1.classList.add('has-text-weight-bold');
     newContentTableTbodyTr1Td1.innerHTML = "Plate Number:";
     newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td1);
 
@@ -407,6 +421,7 @@ function generateUserList4(vehicleIdVar, plateNumberVar, commissionRateVar, vehi
     newContentTableTbody.appendChild(newContentTableTbodyTr2);
 
     var newContentTableTbodyTr2Td1 = document.createElement("td");
+    newContentTableTbodyTr2Td1.classList.add('has-text-weight-bold');
     newContentTableTbodyTr2Td1.innerHTML = "Commission Rate:";
     newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
 
@@ -419,6 +434,7 @@ function generateUserList4(vehicleIdVar, plateNumberVar, commissionRateVar, vehi
     newContentTableTbody.appendChild(newContentTableTbodyTr3);
 
     var newContentTableTbodyTr3Td1 = document.createElement("td");
+    newContentTableTbodyTr3Td1.classList.add('has-text-weight-bold');
     newContentTableTbodyTr3Td1.innerHTML = "Driver:";
     newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
 
@@ -431,6 +447,7 @@ function generateUserList4(vehicleIdVar, plateNumberVar, commissionRateVar, vehi
     newContentTableTbody.appendChild(newContentTableTbodyTr4);
 
     var newContentTableTbodyTr4Td1 = document.createElement("td");
+    newContentTableTbodyTr4Td1.classList.add('has-text-weight-bold');
     newContentTableTbodyTr4Td1.innerHTML = "Helper:";
     newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
@@ -462,10 +479,10 @@ function generateUserList4(vehicleIdVar, plateNumberVar, commissionRateVar, vehi
 }
 
 function refreshList() {
-    generateUserList1();
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
-    generateUserList2(1, selectSort.value);
+    generateUserList1();
+    //generateUserList2(1, selectSort.value);
 }
 
 function vehicleStatusUpdate1(vehicleIdVar1, vehicleStatusVar1) {
@@ -497,22 +514,16 @@ function vehicleStatusUpdate2(vehicleIdVar2, vehicleStatusVar2) {
 selectSort.addEventListener('change', () => {
 
     indicator.innerHTML = selectSort.value;
-    ancestorTile.innerHTML = "";
-    currentPageNumber = 1;
-    generateUserList2(1, selectSort.value);
-
+    refreshList();
 
 });
 
 searchBarInput.addEventListener('input', () => {
     generateUserList3(searchBarInput.value);
     if (searchBarInput.value == "") {
-        ancestorTile.innerHTML = "";
-        currentPageNumber = 1;
-        generateUserList2(1, selectSort.value);
+        refreshList();
 
     }
 });
 
-generateUserList1();
-generateUserList2(1, selectSort.value);
+refreshList();

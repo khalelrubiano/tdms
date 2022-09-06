@@ -42,6 +42,21 @@ include_once 'navbar-subcontractor.php';
 
         }
 
+        html {
+            background-color: #f4faff;
+        }
+
+
+        table {
+            table-layout: fixed;
+        }
+
+        td {
+            text-align: center !important;
+            white-space: nowrap;
+            font-size: calc(6px + 0.390625vw);
+        }
+
         @media (min-width: 1000px) {
 
 
@@ -67,6 +82,18 @@ include_once 'navbar-subcontractor.php';
             #searchBarForm {
                 padding-top: 10px;
                 padding-bottom: 10px;
+            }
+
+            td {
+                font-size: calc(8px + 0.390625vw);
+            }
+
+            #selectSortDiv {
+                margin-bottom: 10%;
+            }
+
+            #firstContainer {
+                text-align: center !important;
             }
         }
 
@@ -136,7 +163,7 @@ include_once 'navbar-subcontractor.php';
 
 <body>
     <div class="main">
-        <div class="container">
+        <div class="container" id="firstContainer">
             <p class="title is-hidden" id="arrayLengthHidden">sample</p>
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>

@@ -91,6 +91,72 @@ include_once 'navbar-subcontractor.php';
     #addressHeader {
       text-transform: uppercase;
     }
+
+    #subcontractorRole {
+      font-size: calc(8px + 0.390625vw);
+    }
+
+    #nameTitle {
+      font-size: calc(12px + 0.390625vw);
+    }
+
+    #usernameTitle {
+      font-size: calc(8px + 0.390625vw);
+    }
+
+    #changePassword {
+      font-size: calc(8px + 0.390625vw);
+    }
+
+    #companyInfoTitle {
+      font-size: calc(14px + 0.390625vw);
+    }
+
+    #nameHeader {
+      font-size: calc(16px + 0.390625vw);
+    }
+
+    #contactHeader {
+      font-size: calc(10px + 0.390625vw);
+    }
+
+    #addressHeader {
+      font-size: calc(6px + 0.390625vw);
+    }
+
+    @media (max-width: 1000px) {
+      #roleNameTitle {
+        font-size: calc(10px + 0.390625vw);
+      }
+
+      #nameTitle {
+        font-size: calc(14px + 0.390625vw);
+      }
+
+      #usernameTitle {
+        font-size: calc(10px + 0.390625vw);
+      }
+
+      #changePassword {
+        font-size: calc(10px + 0.390625vw);
+      }
+
+      #companyInfoTitle {
+        font-size: calc(16px + 0.390625vw);
+      }
+
+      #nameHeader {
+        font-size: calc(18px + 0.390625vw);
+      }
+
+      #contactHeader {
+        font-size: calc(12px + 0.390625vw);
+      }
+
+      #addressHeader {
+        font-size: calc(8px + 0.390625vw);
+      }
+    }
   </style>
 </head>
 
@@ -107,8 +173,8 @@ include_once 'navbar-subcontractor.php';
             <i class="fa-solid fa-user fa-10x mb-4"></i>
             <h1 class="title is-4" id="subcontractorRole"></h1>
 
-            <p class="title is-3"><?php echo $_SESSION['firstName'] . " " . $_SESSION['middleName'] . " " . $_SESSION['lastName'] ?></p>
-            <p class="subtitle is-4 mb-6">@<?php echo $_SESSION['username'] ?></p>
+            <p class="title is-3" id="nameTitle"><?php echo $_SESSION['firstName'] . " " . $_SESSION['middleName'] . " " . $_SESSION['lastName'] ?></p>
+            <p class="subtitle is-4 mb-6" id="usernameTitle">@<?php echo $_SESSION['username'] ?></p>
 
             <button class="button is-rounded is-info" id="changePassword" onclick="openEdit()"> <i class="fa-solid fa-pen-to-square mr-3"></i>Change Password</button>
           </div>
@@ -116,7 +182,7 @@ include_once 'navbar-subcontractor.php';
 
         <div class="tile is-parent m-4">
           <div class="tile is-child p-6">
-            <p class="title is-3 has-text-white box has-background-grey-dark mb-6">Company Info</p>
+            <p class="title is-3 has-text-white box has-background-grey-dark mb-6" id="companyInfoTitle">Company Info</p>
             <h1 class="title is-4" id="nameHeader"></h1>
             <h1 class="subtitle is-5 mb-6" id="contactHeader"></h1>
 
