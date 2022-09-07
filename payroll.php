@@ -157,6 +157,12 @@ include_once 'navbar.php';
     </div>
   </div>
   <!-- LOG MODAL END-->
+  <p class="is-hidden" id="access1"><?php echo $_SESSION['shipmentAccess'] ?></p>
+  <p class="is-hidden" id="access2"><?php echo $_SESSION['employeeAccess'] ?></p>
+  <p class="is-hidden" id="access3"><?php echo $_SESSION['subcontractorAccess'] ?></p>
+  <p class="is-hidden" id="access4"><?php echo $_SESSION['clientAccess'] ?></p>
+  <p class="is-hidden" id="access5"><?php echo $_SESSION['billingAccess'] ?></p>
+  <p class="is-hidden" id="access6"><?php echo $_SESSION['payrollAccess'] ?></p>
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->
@@ -168,6 +174,29 @@ include_once 'navbar.php';
   userBtn.innerHTML = "<?php echo $_SESSION['username'] ?>";
   userBtn.classList.remove("is-hidden");
   payrollBtn.classList.add("is-active");
+
+  let access1 = document.getElementById('access1');
+  let access2 = document.getElementById('access2');
+  let access3 = document.getElementById('access3');
+  let access4 = document.getElementById('access4');
+  let access5 = document.getElementById('access5');
+
+
+  if (access1.innerHTML == 'false') {
+    shipmentBtn.classList.add("is-hidden");
+  }
+  if (access2.innerHTML == 'false') {
+    employeeBtn.classList.add("is-hidden");
+  }
+  if (access3.innerHTML == 'false') {
+    subcontractorBtn.classList.add("is-hidden");
+  }
+  if (access4.innerHTML == 'false') {
+    clientBtn.classList.add("is-hidden");
+  }
+  if (access5.innerHTML == 'false') {
+    billingBtn.classList.add("is-hidden");
+  }
 </script>
 
 </html>

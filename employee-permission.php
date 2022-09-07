@@ -130,10 +130,10 @@ include_once 'navbar.php';
 <body>
     <div class="main">
         <div class="container" id="firstContainer">
-        <button class="button is-rounded mb-6 is-info" onclick="openAdd()" id="createBtn"> <i class="fa-solid fa-plus mr-3"></i>Add New Role</button>
+            <button class="button is-rounded mb-6 is-info" onclick="openAdd()" id="createBtn"> <i class="fa-solid fa-plus mr-3"></i>Add New Role</button>
         </div>
         <div class="container box">
-       
+
             <div id="card" class="mb-4 has-text-centered pt-4">
                 <table>
                     <thead>
@@ -242,7 +242,7 @@ include_once 'navbar.php';
 
                 <div class="field has-text-centered mt-6">
                     <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
-                    <i class="fa-solid fa-check mr-3"></i>Submit
+                        <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
                 </div>
@@ -318,7 +318,7 @@ include_once 'navbar.php';
 
                 <div class="field has-text-centered mt-6">
                     <button class="button is-dark has-text-white is-rounded" name="submitEditForm" id="submitEditForm">
-                    <i class="fa-solid fa-check mr-3"></i>Submit
+                        <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitEditFormHelp" style="text-align: center;"></p>
                 </div>
@@ -326,6 +326,12 @@ include_once 'navbar.php';
             </section>
         </div>
     </div>
+    <p class="is-hidden" id="access1"><?php echo $_SESSION['shipmentAccess'] ?></p>
+  <p class="is-hidden" id="access2"><?php echo $_SESSION['employeeAccess'] ?></p>
+  <p class="is-hidden" id="access3"><?php echo $_SESSION['subcontractorAccess'] ?></p>
+  <p class="is-hidden" id="access4"><?php echo $_SESSION['clientAccess'] ?></p>
+  <p class="is-hidden" id="access5"><?php echo $_SESSION['billingAccess'] ?></p>
+  <p class="is-hidden" id="access6"><?php echo $_SESSION['payrollAccess'] ?></p>
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->
@@ -337,6 +343,30 @@ include_once 'navbar.php';
     userBtn.innerHTML = "<?php echo $_SESSION['username'] ?>";
     userBtn.classList.remove("is-hidden");
     employeePermissionBtn.classList.add("is-active");
+
+    let access1 = document.getElementById('access1');
+
+    let access3 = document.getElementById('access3');
+    let access4 = document.getElementById('access4');
+    let access5 = document.getElementById('access5');
+    let access6 = document.getElementById('access6');
+
+    if (access1.innerHTML == 'false') {
+        shipmentBtn.classList.add("is-hidden");
+    }
+
+    if (access3.innerHTML == 'false') {
+        subcontractorBtn.classList.add("is-hidden");
+    }
+    if (access4.innerHTML == 'false') {
+        clientBtn.classList.add("is-hidden");
+    }
+    if (access5.innerHTML == 'false') {
+        billingBtn.classList.add("is-hidden");
+    }
+    if (access6.innerHTML == 'false') {
+        payrollBtn.classList.add("is-hidden");
+    }
 </script>
 
 </html>

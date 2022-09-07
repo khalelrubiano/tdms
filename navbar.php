@@ -98,7 +98,7 @@ if (!isset($_SESSION)) {
                 Manage
             </p>
             <ul class="menu-list">
-                <li>
+                <li id="employeeBtn">
                     <a class="">Employee</a>
                     <ul>
                         <li><a id="employeeViewListBtn">View List</a></li>
@@ -106,7 +106,7 @@ if (!isset($_SESSION)) {
                     </ul>
                 </li>
 
-                <li>
+                <li id="subcontractorBtn">
                     <a class="">Subcontractor</a>
                     <ul>
                         <li><a id="subcontractorViewListBtn">View List</a></li>
@@ -116,7 +116,7 @@ if (!isset($_SESSION)) {
                     </ul>
                 </li>
 
-                <li>
+                <li id="clientBtn">
                     <a class="">Client</a>
                     <ul>
                         <li><a id="clientViewListBtn">View List</a></li>

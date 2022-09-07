@@ -22,6 +22,9 @@ let clientViewListBtn = document.getElementById("clientViewListBtn")
 let userBtn = document.getElementById("userBtn")
 let sideNavbarClass = document.querySelector(".sideNavbarClass")
 
+let employeeBtn = document.getElementById("employeeBtn")
+let subcontractorBtn = document.getElementById("subcontractorBtn")
+let clientBtn = document.getElementById("clientBtn")
 
 navbarBurger.addEventListener('click', () => {
     navbarLinks.classList.toggle('is-active');
