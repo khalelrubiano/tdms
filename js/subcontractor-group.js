@@ -12,7 +12,7 @@ let searchBarInput = document.getElementById('searchBarInput')
 //MODALS
 function openAdd() {
     addModal.classList.add('is-active');
-    populateSelect1();
+    
     //populateUsernameAdd();
 }
 
@@ -30,7 +30,6 @@ function closeAdd() {
 
 function openEdit(idVar, nameVar) {
     editModal.classList.add('is-active');
-    populateSelect2();
     editHeader.innerHTML = "Edit " + nameVar;
     editHeader2.innerHTML = idVar;
     //populateUsernameAdd();
@@ -650,6 +649,8 @@ searchBarInput.addEventListener('input', () => {
     }
 });*/
 
+populateSelect1();
+populateSelect2();
 refreshList();
 
 //generateUserList1();

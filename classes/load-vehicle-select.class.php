@@ -62,7 +62,8 @@ try {
     driver_id, 
     helper_id,
     vehicle_status 
-    FROM vehicle";
+    FROM vehicle
+    WHERE vehicle_status = 'Available'";
 
     $stmt = $pdoVessel->prepare($sql);
 
