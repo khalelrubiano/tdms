@@ -140,10 +140,10 @@ function populateTable() {
         let var3 = parseFloat(subtotalTD.innerHTML) * 0.12;
         let var4 = parseFloat(subtotalTD.innerHTML) + parseFloat(taxTD.innerHTML) + parseFloat(penaltyTD.innerHTML);
 
-        truckRateTD.innerHTML = var1.toFixed(2);
-        subtotalTD.innerHTML = var2.toFixed(2);
+        truckRateTD.innerHTML = parseFloat(jsonArray[0][0]);
+        subtotalTD.innerHTML = parseFloat(truckRateTD.innerHTML) + parseFloat(dropFeeTD.innerHTML) + parseFloat(parkingFeeTD.innerHTML) + parseFloat(demurrageTD.innerHTML) + parseFloat(otherChargesTD.innerHTML);
         taxTD.innerHTML = parseFloat(subtotalTD.innerHTML) * 0.12;
-        totalTD.innerHTML = var4.toFixed(2);
+        totalTD.innerHTML = parseFloat(subtotalTD.innerHTML) + parseFloat(taxTD.innerHTML) + parseFloat(penaltyTD.innerHTML);
         /*
                 for (var i = 0; i < jsonArray.length; i++) {
                     var newOption = document.createElement("option");

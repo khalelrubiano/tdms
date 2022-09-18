@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION["billingId"] = $_POST['billingId'];
     $_SESSION["ownerId"] = $_POST['ownerId'];
     $_SESSION["payrollStatus"] = $_POST['payrollStatus'];
+    $_SESSION["plateNumber"] = $_POST['plateNumber'];
 
     //header("location: ../subcontractor-group-profile.php");
     //exit();

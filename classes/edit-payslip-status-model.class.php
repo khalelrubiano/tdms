@@ -8,14 +8,16 @@ class EditPayslipModel
 {
     private $billingId;
     private $ownerId;
-
+    private $plateNumber;
 
     public function __construct(
         $billingId,
-        $ownerId
+        $ownerId,
+        $plateNumber
     ) {
         $this->billingId = $billingId;
         $this->ownerId = $ownerId;
+        $this->plateNumber = $plateNumber;
     }
 
     public function editPayslipRecord()
@@ -155,15 +157,18 @@ class EditPayslipModel
         INNER JOIN payroll
         ON shipment.shipment_id = payroll.shipment_id
         WHERE billing.billing_id = :billing_id
-        AND ownergroup.owner_id = :owner_id";
+        AND ownergroup.owner_id = :owner_id
+        AND vehicle.plate_number = :plate_number";
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":billing_id", $param1, PDO::PARAM_STR);
             $stmt->bindParam(":owner_id", $param2, PDO::PARAM_STR);
+            $stmt->bindParam(":plate_number", $param3, PDO::PARAM_STR);
 
             $param1 = $this->billingId;
             $param2 = $this->ownerId;
+            $param3 = $this->plateNumber;
 
             if ($stmt->execute()) {
                 $row = $stmt->fetchAll();

@@ -8,7 +8,7 @@ let ownerIdHidden = document.getElementById('ownerIdHidden');
 let statusHeader = document.getElementById('statusHeader');
 let payrollStatusHidden = document.getElementById('payrollStatusHidden');
 let invoiceNumberHidden = document.getElementById('invoiceNumberHidden');
-
+let plateNumberHidden = document.getElementById('plateNumberHidden');
 const arrayLengthHidden = document.getElementById('arrayLengthHidden')
 
 
@@ -42,10 +42,11 @@ function addBillingLog(logDescriptionVar, billingDescriptionVar) {
 }
 */
 
-function generatePayslip1(billingIdVar, ownerIdVar) {
+function generatePayslip1(billingIdVar, ownerIdVar, plateNumberVar) {
     $.post("./classes/load-payslip-profile.class.php", {
         billingId: billingIdVar,
-        ownerId: ownerIdVar
+        ownerId: ownerIdVar,
+        plateNumber: plateNumberVar
     }, function (data) {
         
         var jsonArray = JSON.parse(data);
@@ -62,10 +63,11 @@ function generatePayslip1(billingIdVar, ownerIdVar) {
     });
 }
 
-function generatePayslip2(billingIdVar, ownerIdVar) {
+function generatePayslip2(billingIdVar, ownerIdVar, plateNumberVar) {
     $.post("./classes/load-payslip-profile.class.php", {
         billingId: billingIdVar,
-        ownerId: ownerIdVar
+        ownerId: ownerIdVar,
+        plateNumber: plateNumberVar
     }, function (data) {
 
         var jsonArray = JSON.parse(data);
@@ -177,7 +179,8 @@ function updatePayslipStatus() {
     if (confirm("Mark this payslip as settled?")) {
         $.post("./classes/edit-payslip-status-controller.class.php", {
             billingId: billingIdHidden.innerHTML,
-            ownerId: ownerIdHidden.innerHTML
+            ownerId: ownerIdHidden.innerHTML,
+            plateNumber: plateNumberHidden.innerHTML
         }, function (data) {
             //$("#submitAddFormHelp").html(data);
             //$("#submitAddFormHelp").attr('class', 'help is-success');
@@ -187,6 +190,7 @@ function updatePayslipStatus() {
             alert(data);
             //refreshList();
             addPayrollLog("Updated");
+            window.location.href = "payroll.php";
         });
     }
 }
@@ -201,8 +205,8 @@ function addPayrollLog(logDescriptionVar) {
     });
 }
 
-generatePayslip1(billingIdHidden.innerHTML, ownerIdHidden.innerHTML);
-generatePayslip2(billingIdHidden.innerHTML, ownerIdHidden.innerHTML);
+generatePayslip1(billingIdHidden.innerHTML, ownerIdHidden.innerHTML, plateNumberHidden.innerHTML);
+generatePayslip2(billingIdHidden.innerHTML, ownerIdHidden.innerHTML, plateNumberHidden.innerHTML);
 //generateShipmentListTable2(1);
 //populateTable();
 

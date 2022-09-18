@@ -272,7 +272,7 @@ function generatePayslipList1(tabValueVar, orderByVar) {
 
                         //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                         var newCardFooterLink = document.createElement("a");
-                        newCardFooterLink.setAttribute("onclick", "redirectToPayslipProfile('" + jsonArray[i5][0] + "','" + jsonArray[i5][16] + "','" + jsonArray[i5][13] + "')");
+                        newCardFooterLink.setAttribute("onclick", "redirectToPayslipProfile('" + jsonArray[i5][0] + "','" + jsonArray[i5][16] + "','" + jsonArray[i5][13]+ "','" + jsonArray[i5][8] + "')");
                         newCardFooterLink.classList.add('card-footer-item');
                         newCardFooterLink.innerHTML = "View Details";
                         newCardFooter.appendChild(newCardFooterLink);
@@ -304,11 +304,12 @@ function generatePayslipList1(tabValueVar, orderByVar) {
     });
 }
 
-function redirectToPayslipProfile(billingIdVar, ownerIdVar, payrollStatusVar) {
+function redirectToPayslipProfile(billingIdVar, ownerIdVar, payrollStatusVar, plateNumberVar) {
     $.post("./classes/set-payslip-session-variable.class.php", {
         billingId: billingIdVar,
         ownerId: ownerIdVar,
-        payrollStatus: payrollStatusVar
+        payrollStatus: payrollStatusVar,
+        plateNumber: plateNumberVar
     }, function (data) {
         //var jsonArray = JSON.parse(data);
         //alert("success call");

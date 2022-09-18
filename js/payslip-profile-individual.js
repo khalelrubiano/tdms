@@ -10,7 +10,7 @@ let payrollStatusHidden = document.getElementById('payrollStatusHidden');
 let invoiceNumberHidden = document.getElementById('invoiceNumberHidden');
 
 const arrayLengthHidden = document.getElementById('arrayLengthHidden')
-
+let plateNumberHidden = document.getElementById('plateNumberHidden');
 
 const ancestorTile = document.getElementById('ancestorTile');
 
@@ -42,10 +42,11 @@ function addBillingLog(logDescriptionVar, billingDescriptionVar) {
 }
 */
 
-function generatePayslip1(billingIdVar, ownerIdVar) {
+function generatePayslip1(billingIdVar, ownerIdVar, plateNumberVar) {
     $.post("./classes/load-payslip-profile.class.php", {
         billingId: billingIdVar,
-        ownerId: ownerIdVar
+        ownerId: ownerIdVar,
+        plateNumber: plateNumberVar
     }, function (data) {
         
         var jsonArray = JSON.parse(data);
@@ -62,10 +63,11 @@ function generatePayslip1(billingIdVar, ownerIdVar) {
     });
 }
 
-function generatePayslip2(billingIdVar, ownerIdVar) {
+function generatePayslip2(billingIdVar, ownerIdVar, plateNumberVar) {
     $.post("./classes/load-payslip-profile.class.php", {
         billingId: billingIdVar,
-        ownerId: ownerIdVar
+        ownerId: ownerIdVar,
+        plateNumber: plateNumberVar
     }, function (data) {
 
         var jsonArray = JSON.parse(data);
@@ -201,8 +203,8 @@ function addPayrollLog(logDescriptionVar) {
     });
 }
 
-generatePayslip1(billingIdHidden.innerHTML, ownerIdHidden.innerHTML);
-generatePayslip2(billingIdHidden.innerHTML, ownerIdHidden.innerHTML);
+generatePayslip1(billingIdHidden.innerHTML, ownerIdHidden.innerHTML, plateNumberHidden.innerHTML);
+generatePayslip2(billingIdHidden.innerHTML, ownerIdHidden.innerHTML, plateNumberHidden.innerHTML);
 //generateShipmentListTable2(1);
 //populateTable();
 

@@ -166,13 +166,14 @@ include_once 'navbar.php';
     <div class="main" style="margin-bottom: 20%;">
         <div class="container firstContainer" style="margin-bottom: 5%;" id="firstContainer">
             <button class="button is-rounded mb-6 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
-            <button class="button is-rounded mb-6 is-light" id="updateBtn" onclick="updatePayslipStatus()"><i class="fa-solid fa-check mr-3"></i>Mark as Settled</button>
+            <button class="button is-rounded mb-6 is-primary" id="updateBtn" onclick="updatePayslipStatus()"><i class="fa-solid fa-check mr-3"></i>Mark as Settled</button>
             <p class="title is-4 has-text-centered" id="payrollTitle">Batch <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["billingId"] ?></p>
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
             <p class="title is-hidden" id="billingIdHidden"><?php echo $_SESSION["billingId"] ?></p>
             <p class="title is-hidden" id="ownerIdHidden"><?php echo $_SESSION["ownerId"] ?></p>
             <p class="title is-hidden" id="payrollStatusHidden"><?php echo $_SESSION["payrollStatus"] ?></p>
+            <p class="title is-hidden" id="plateNumberHidden"><?php echo $_SESSION["plateNumber"] ?></p>
         </div>
 
         <div class="container box" style="margin-bottom: 2.5%;">

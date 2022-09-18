@@ -202,10 +202,10 @@ include_once 'navbar-subcontractor.php';
   <!-- EDIT MODAL -->
   <div class="modal" id="editModal">
     <div class="modal-background" id="editModalBg"></div>
-    <div class="modal-card">
+    <div class="modal-card p-4">
 
       <header class="modal-card-head has-background-info">
-        <p class="modal-card-title has-text-white"><i class="fas fa-edit mr-3"></i>Change Account Password</p>
+        <p class="modal-card-title has-text-white"><i class="fas fa-edit mr-3"></i>Change Password</p>
         <button class="delete" aria-label="close" onclick="closeEdit()"></button>
       </header>
 

@@ -172,6 +172,7 @@ include_once 'navbar-subcontractor.php';
             <p class="title is-hidden" id="billingIdHidden"><?php echo $_SESSION["billingId"] ?></p>
             <p class="title is-hidden" id="ownerIdHidden"><?php echo $_SESSION["ownerId"] ?></p>
             <p class="title is-hidden" id="payrollStatusHidden"><?php echo $_SESSION["payrollStatus"] ?></p>
+            <p class="title is-hidden" id="plateNumberHidden"><?php echo $_SESSION["plateNumber"] ?></p>
             <p class="title is-4 is-hidden" id="isOwnerHidden"><?php echo $_SESSION["isOwner"] ?></p>
             <p class="title is-4 is-hidden" id="isDriverHidden"><?php echo $_SESSION["isDriver"] ?></p>
             <p class="title is-4 is-hidden" id="isHelperHidden"><?php echo $_SESSION["isHelper"] ?></p>

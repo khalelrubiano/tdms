@@ -8,12 +8,12 @@ require_once "../config.php";
 
 $billingId = $_POST["billingId"];
 $ownerId = $_POST["ownerId"];
-
+$plateNumber = $_POST["plateNumber"];
 // billing_id, invoice_number, shipment_id, shipment_number, destination, area_name, area_rate, created_at (progress_description - 'Delivery Completed'), plate_number, created_at (billing date settled), first_name, middle_name, last_name
 
 
 //billing, billedshipment, shipment, clientarea, shipmentprogress, vehicle, ownergroup, subcontractor
- 
+
 try {
 
     $configObj = new Config();
@@ -60,16 +60,19 @@ try {
     ON shipment.shipment_id = payroll.shipment_id
     WHERE shipmentprogress.progress_description = 'Delivery Completed'
     AND billing.billing_id = :billing_id
-    AND ownergroup.owner_id = :owner_id";
+    AND ownergroup.owner_id = :owner_id
+    AND vehicle.plate_number = :plate_number";
 
     $stmt = $pdoVessel->prepare($sql);
-    
+
     $stmt->bindParam(":billing_id", $param1, PDO::PARAM_STR);
     $stmt->bindParam(":owner_id", $param2, PDO::PARAM_STR);
+    $stmt->bindParam(":plate_number", $param3, PDO::PARAM_STR);
 
     $param1 = $billingId;
     $param2 = $ownerId;
-
+    $param3 = $plateNumber;
+    
     $stmt->execute();
     $row = $stmt->fetchAll();
     $json = json_encode($row);

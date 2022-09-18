@@ -167,6 +167,7 @@ function addAjax() {
         //refreshTable();
         addBillingLog("Added", "Invoice #" + invoiceNumberAdd.value);
         refreshList();
+        closeAdd();
     });
     //refreshTable();
 

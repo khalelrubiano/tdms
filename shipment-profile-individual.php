@@ -457,7 +457,7 @@ include_once 'navbar-subcontractor.php';
             .transferLi:before,
             .cancelLi:before {
 
-                line-height: 3;
+                line-height: 27px;
 
             }
 
@@ -553,12 +553,12 @@ include_once 'navbar-subcontractor.php';
             }
 
             .verticalContainer ul li {
-                font-size: calc(6px + 0.390625vw) !important;
+                font-size: calc(10px + 0.390625vw) !important;
             }
 
             .verticalContainer li span {
 
-                font-size: calc(6px + 0.390625vw) !important;
+                font-size: calc(10px + 0.390625vw) !important;
 
             }
         }

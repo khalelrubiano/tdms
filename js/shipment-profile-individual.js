@@ -541,7 +541,7 @@ function updateShipmentProgress(shipmentIdVar, shipmentDescriptionVar) {
         //alert(data);
 
         closeUpdate();
-
+        //refreshList();
     });
 }
 
