@@ -93,18 +93,22 @@ let submitAddForm = document.getElementById('submitAddForm'); //save changes but
 let submitAddFormHelp = document.getElementById('submitAddFormHelp'); //save changes button
 
 let areaNameAdd = document.getElementById('areaNameAdd');
+let destinationAdd = document.getElementById('destinationAdd');
 let areaRateAdd = document.getElementById('areaRateAdd');
 let clientIdHidden = document.getElementById('clientIdHidden');
-
+let typeAdd = document.getElementById('typeAdd');
 let areaNameAddHelp = document.getElementById('areaNameAddHelp');
+let destinationAddHelp = document.getElementById('destinationAddHelp');
 let areaRateAddHelp = document.getElementById('areaRateAddHelp');
 
 
 function addAjax() {
     $.post("./classes/add-client-area-controller.class.php", {
         areaNameAdd: areaNameAdd.value,
+        destinationAdd: destinationAdd.value,
         areaRateAdd: areaRateAdd.value,
-        clientId: clientIdHidden.innerHTML
+        clientId: clientIdHidden.innerHTML,
+        typeAdd: typeAdd.value
     }, function (data) {
         $("#submitAddFormHelp").html(data);
         //$("#submitAddFormHelp").attr('class', 'help is-success');
@@ -183,13 +187,37 @@ function clearAddFormHelp() {
     areaRateAddHelp.className = "help"
     areaRateAddHelp.innerText = ""
 
+    destinationAdd.className = "input is-rounded"
+    destinationAddHelp.className = "help"
+    destinationAddHelp.innerText = ""
+
 }
 
 function clearAddFormInput() {
     areaNameAdd.value = null;
     areaRateAdd.value = null;
 
+    destinationAdd.value = null;
 }
+
+function populateSelect5() {
+    $.post("./classes/load-vehicle-type-select.class.php", {
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            var newOption = document.createElement("option");
+            newOption.value = jsonArray[i][0];
+            newOption.innerHTML = jsonArray[i][0];
+            typeAdd.options.add(newOption);
+            //helperAdd.options.add(newOption);
+        }
+
+        //closeSelect();
+    });
+}
+
 //EDIT AJAX CALLS WITH VALIDATION
 let submitEditForm = document.getElementById('submitEditForm'); //save changes button
 let submitEditFormHelp = document.getElementById('submitEditFormHelp'); //save changes button
@@ -871,6 +899,8 @@ function generateClientAreaListTable2(currentPageNumberVar) {
             var newTableData2 = document.createElement("td");
 
             var newTableData3 = document.createElement("td");
+            var newTableData4 = document.createElement("td");
+            var newTableData5 = document.createElement("td");
 
             //EDIT BUTTON
             var newEditBtn = document.createElement("button");
@@ -892,22 +922,30 @@ function generateClientAreaListTable2(currentPageNumberVar) {
             newDeleteBtn.appendChild(newDeleteBtnIcon);
 
 
-            newTableData3.appendChild(newEditBtn);
-            newTableData3.appendChild(newDeleteBtn);
+            newTableData5.appendChild(newEditBtn);
+            newTableData5.appendChild(newDeleteBtn);
 
             newTableData1.setAttribute("data-label", "Area Name");
 
-            newTableData2.setAttribute("data-label", "Area Rate");
+            newTableData2.setAttribute("data-label", "Destination");
 
-            newTableData3.setAttribute("data-label", "");
+            newTableData3.setAttribute("data-label", "Vehicle Type");
+
+            newTableData4.setAttribute("data-label", "Area Rate");
+
+            newTableData5.setAttribute("data-label", "");
 
             newTableData1.innerHTML = jsonArray[i][1];
             newTableData2.innerHTML = jsonArray[i][2];
+            newTableData3.innerHTML = jsonArray[i][3];
+            newTableData4.innerHTML = jsonArray[i][4];
 
             newTableRow.appendChild(newTableData1);
             newTableRow.appendChild(newTableData2);
             newTableRow.appendChild(newTableData3);
-
+            newTableRow.appendChild(newTableData4);
+            newTableRow.appendChild(newTableData5);
+            
 
         }
     });
@@ -921,7 +959,7 @@ function refreshTable() {
 
 generateClientAreaListTable1();
 generateClientAreaListTable2(1);
-
+populateSelect5();
 returnBtn.addEventListener('click', () => {
     window.location.href = "client-view-list.php";
 });

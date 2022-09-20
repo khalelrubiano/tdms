@@ -12,13 +12,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $driverAdd = $_POST['driverAdd'];
     $helperAdd = $_POST['helperAdd'];
     $groupIdAdd = $_SESSION["groupId"];
+    $typeAdd = $_POST["typeAdd"];
 
     $addObj = new AddVehicleModel(
         $plateNumberAdd,
         $commissionRateAdd,
         $driverAdd,
         $helperAdd,
-        $groupIdAdd
+        $groupIdAdd,
+        $typeAdd
     );
 
     $addObj->addVehicleRecord();

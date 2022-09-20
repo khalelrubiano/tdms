@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION["clientName"] = $_POST['clientName'];
     $_SESSION["clientAddress"] = $_POST['clientAddress'];
     $_SESSION["companyId"] = $_SESSION["companyId"];
-
+    $_SESSION["clientTin"] = $_POST['clientTin'];
     //header("location: ../subcontractor-group-profile.php");
     //exit();
 

@@ -54,14 +54,17 @@ let submitAddForm = document.getElementById('submitAddForm'); //save changes but
 let submitAddFormHelp = document.getElementById('submitAddFormHelp'); //save changes button
 
 let clientNameAdd = document.getElementById('clientNameAdd');
+let clientTinAdd = document.getElementById('clientTinAdd');
 let clientAddressAdd = document.getElementById('clientAddressAdd');
 
 let clientNameAddHelp = document.getElementById('clientNameAddHelp');
+let clientTinAddHelp = document.getElementById('clientTinAddHelp');
 let clientAddressAddHelp = document.getElementById('clientAddressAddHelp');
 
 function addAjax() {
     $.post("./classes/add-client-controller.class.php", {
         clientNameAdd: clientNameAdd.value,
+        clientTinAdd: clientTinAdd.value,
         clientAddressAdd: clientAddressAdd.value
 
     }, function (data) {
@@ -314,7 +317,7 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                 var newCardFooterLink1 = document.createElement("a");
-                newCardFooterLink1.setAttribute("onclick", "redirectToClientProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "')");
+                newCardFooterLink1.setAttribute("onclick", "redirectToClientProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "')");
                 newCardFooterLink1.classList.add('card-footer-item');
                 newCardFooterLink1.classList.add('has-text-info');
                 newCardFooterLink1.innerHTML = "View";
@@ -491,11 +494,12 @@ function refreshList() {
     //generateUserList2(1, selectSort.value);
 }
 
-function redirectToClientProfile(clientIdVar, clientNameVar, clientAddressVar) {
+function redirectToClientProfile(clientIdVar, clientNameVar, clientAddressVar, clientTinVar) {
     $.post("./classes/set-client-session-variable.class.php", {
         clientId: clientIdVar,
         clientName: clientNameVar,
-        clientAddress: clientAddressVar
+        clientAddress: clientAddressVar,
+        clientTin: clientTinVar
     }, function (data) {
         //var jsonArray = JSON.parse(data);
         //alert("success call");

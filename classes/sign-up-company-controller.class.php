@@ -15,8 +15,9 @@ if(isset($_POST["submit"])){
     $province = $_POST["province"];
     $city = $_POST["city"];
     $barangay = $_POST["barangay"];
+    $tin = $_POST["tin"];
 
-    $signUpCompanyObj = new SignUpCompanyModel($username, $password, $companyName, $companyEmail, $companyNumber, $companyAddress, $region, $province, $city, $barangay);
+    $signUpCompanyObj = new SignUpCompanyModel($username, $password, $companyName, $companyEmail, $companyNumber, $companyAddress, $region, $province, $city, $barangay, $tin);
 
     $signUpCompanyObj->signUpCompany();
 

@@ -9,16 +9,21 @@ class AddClientAreaModel
     private $areaNameAdd;
     private $areaRateAdd;
     private $clientId;
-
+    private $destinationAdd;
+    private $typeAdd;
     public function __construct(
         $areaNameAdd,
         $areaRateAdd,
-        $clientId
+        $clientId,
+        $destinationAdd,
+        $typeAdd,
     ) {
 
         $this->areaNameAdd = $areaNameAdd;
         $this->areaRateAdd = $areaRateAdd;
         $this->clientId = $clientId;
+        $this->destinationAdd = $destinationAdd;
+        $this->typeAdd = $typeAdd;
     }
 
     public function addClientAreaRecord()
@@ -37,10 +42,14 @@ class AddClientAreaModel
 
         $sql = "INSERT INTO clientarea 
         (area_name,
+        destination,
+        vehicle_type,
         area_rate,
         client_id) 
         VALUES 
         (:area_name,
+        :destination,
+        :vehicle_type,
         :area_rate,
         :client_id)";
 
@@ -53,10 +62,14 @@ class AddClientAreaModel
             $stmt->bindParam(":area_name", $paramAreaNameAdd, PDO::PARAM_STR);
             $stmt->bindParam(":area_rate", $paramAreaRateAdd, PDO::PARAM_STR);
             $stmt->bindParam(":client_id", $paramClientId, PDO::PARAM_STR);
+            $stmt->bindParam(":destination", $param4, PDO::PARAM_STR);
+            $stmt->bindParam(":vehicle_type", $param5, PDO::PARAM_STR);
 
             $paramAreaNameAdd = $this->areaNameAdd;
             $paramAreaRateAdd = $this->areaRateAdd;
             $paramClientId = $this->clientId;
+            $param4 = $this->destinationAdd;
+            $param5 = $this->typeAdd;
 
             if ($stmt->execute()) {
                 /*

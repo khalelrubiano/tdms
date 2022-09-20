@@ -588,6 +588,7 @@ include_once 'navbar-subcontractor.php';
                 <div class="column">
                     <button class="button mb-5 is-light" id="updateBtn"><i class="fa-solid fa-pen-to-square mr-3"></i>Update Status</button>
                     <button class="button mb-5 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
+                    <p class="title is-4 is-hidden" id="shipmentTitleHidden"><?php echo $_SESSION["shipmentId"] ?></p>
                 </div>
             </div>
 
@@ -706,7 +707,7 @@ include_once 'navbar-subcontractor.php';
 
             <p class="title is-4" id="shipmentTitle">Shipment <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["shipmentNumber"] ?></p>
             <p class="title is-4 is-hidden" id="shipmentNumberHidden"><?php echo $_SESSION["shipmentNumber"] ?></p>
-            <p class="title is-4 is-hidden" id="shipmentTitleHidden"><?php echo $_SESSION["shipmentId"] ?></p>
+            
             <p class="title is-4 is-hidden" id="areaIdHidden"><?php echo $_SESSION["areaId"] ?></p>
             <p class="title is-4 is-hidden" id="vehicleIdHidden"><?php echo $_SESSION["vehicleId"] ?></p>
             <p class="title is-4 is-hidden" id="shipmentStatusHidden"><?php echo $_SESSION["shipmentStatus"] ?></p>

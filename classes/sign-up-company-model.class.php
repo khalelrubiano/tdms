@@ -16,8 +16,8 @@ class SignUpCompanyModel
     private $province;
     private $city;
     private $barangay;
-
-    public function __construct($username, $password, $companyName, $companyEmail, $companyNumber, $companyAddress, $region, $province, $city, $barangay)
+    private $tin;
+    public function __construct($username, $password, $companyName, $companyEmail, $companyNumber, $companyAddress, $region, $province, $city, $barangay, $tin)
     {
 
         $this->username = $username;
@@ -30,6 +30,7 @@ class SignUpCompanyModel
         $this->province = $province;
         $this->city = $city;
         $this->barangay = $barangay;
+        $this->tin = $tin;
     }
 
     public function signUpCompany()
@@ -241,7 +242,7 @@ class SignUpCompanyModel
     private function companySubmit()
     {
 
-        $sql = "INSERT INTO company (company_name, company_email, company_number, company_address, region, province, city, barangay) VALUES (:company_name, :company_email, :company_number, :company_address, :region, :province, :city, :barangay)";
+        $sql = "INSERT INTO company (company_name, tin, company_email, company_number, company_address, region, province, city, barangay) VALUES (:company_name, :tin, :company_email, :company_number, :company_address, :region, :province, :city, :barangay)";
 
         $configObj = new Config();
 
@@ -250,6 +251,7 @@ class SignUpCompanyModel
         if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":company_name", $paramCompanyName, PDO::PARAM_STR);
+            $stmt->bindParam(":tin", $paramTin, PDO::PARAM_STR);
             $stmt->bindParam(":company_email", $paramCompanyEmail, PDO::PARAM_STR);
             $stmt->bindParam(":company_number", $paramCompanyNumber, PDO::PARAM_STR);
             $stmt->bindParam(":company_address", $paramCompanyAddress, PDO::PARAM_STR);
@@ -266,7 +268,7 @@ class SignUpCompanyModel
             $paramProvince = $this->provinceConverter($this->province);
             $paramCity = $this->cityConverter($this->city);
             $paramBarangay = strtoupper($this->barangayConverter($this->barangay));
-
+            $paramTin = $this->tin;
 
             if ($stmt->execute()) {
             } else {

@@ -57,7 +57,9 @@ include_once 'navbar.php';
         }
 
         @media (min-width: 1000px) {
-            #registerBtn {
+
+            #registerBtn,
+            #addTypeBtn {
                 float: left;
             }
 
@@ -120,6 +122,7 @@ include_once 'navbar.php';
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
             <button class="button is-rounded mb-5 is-info" id="registerBtn" onclick="openAdd()"><i class="fa-solid fa-plus mr-3"></i>Register Vehicle</button>
+            <button class="button is-rounded mb-5 ml-1 is-link" id="addTypeBtn" onclick="openAdd2()"><i class="fa-solid fa-plus mr-3"></i>Add Vehicle Type</button>
             <button class="button is-rounded mb-5 has-background-light has-text-black" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
             <p class="title has-text-centered is-3" id="nameHeader"><?php echo $_SESSION["groupName"] ?></p>
             <p class="title is-hidden" id="groupIdHidden"><?php echo $_SESSION["groupId"] ?></p>
@@ -172,6 +175,17 @@ include_once 'navbar.php';
                         </span>
                     </div>
                     <p class="help" id="plateNumberAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Vehicle Type</label>
+                    <div class="control">
+                        <div class="select is-rounded" id="typeAddDiv">
+                            <select id="typeAdd" name="typeAdd">
+                            </select>
+                        </div>
+                    </div>
+                    <p class="help" id="typeAddHelp"></p>
                 </div>
 
                 <div class="field">
@@ -274,6 +288,42 @@ include_once 'navbar.php';
         </div>
     </div>
     <!-- EDIT MODAL END-->
+
+    <!-- ADD MODAL 2 START-->
+    <div class="modal" id="add2Modal">
+        <div class="modal-background" id="add2ModalBg"></div>
+        <div class="modal-card">
+
+            <header class="modal-card-head has-background-link">
+                <p class="modal-card-title has-text-white"><i class="fa-solid fa-plus mr-3"></i>Add Vehicle Type</p>
+                <button class="delete" aria-label="close" onclick="closeAdd2()"></button>
+            </header>
+
+            <section class="modal-card-body">
+
+                <div class="field">
+                    <label for="" class="label">Vehicle Type</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter vehicle type here" class="input is-rounded" name="typeAdd2" id="typeAdd2">
+                        <span class="icon is-small is-left">
+                        <i class="fa-solid fa-truck"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="typeAdd2Help"></p>
+                </div>
+
+                <div class="field has-text-centered mt-6">
+                    <button class="button is-link has-text-white is-rounded" name="submitAdd2Form" id="submitAdd2Form">
+                        <i class="fa-solid fa-check mr-3"></i>Submit
+                    </button>
+                    <p class="help" id="submitAdd2FormHelp" style="text-align: center;"></p>
+                </div>
+
+            </section>
+        </div>
+    </div>
+    <!-- ADD MODAL 2 END-->
+
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->

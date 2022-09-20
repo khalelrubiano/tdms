@@ -68,7 +68,9 @@ try {
     commission_rate, 
     driver_id, 
     helper_id,
-    vehicle_status 
+    vehicle_status, 
+    vehicle_type,
+    status_remark
     FROM vehicle
     INNER JOIN ownergroup
     ON ownergroup.group_id = vehicle.group_id
@@ -89,7 +91,7 @@ try {
     for ($i = 0; $i < count($row); $i++) {
         //echo $row[$i][1] . "<br>";
 
-        $childArray = array($row[$i][0], $row[$i][1], $row[$i][2], $row[$i][5], getSubcontractorDetails($row[$i][3]), getSubcontractorDetails($row[$i][4]));
+        $childArray = array($row[$i][0], $row[$i][1], $row[$i][2], $row[$i][5], getSubcontractorDetails($row[$i][3]), getSubcontractorDetails($row[$i][4]), $row[$i][6], $row[$i][7]);
 
         array_push($parentArray, $childArray);
     }

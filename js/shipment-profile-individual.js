@@ -67,6 +67,7 @@ function openUpdate() {
     updateModal.classList.add('is-active');
     //populateSelect1();
     //populateUsernameAdd();
+    setProgressStep();
 }
 
 function closeUpdate() {
@@ -563,10 +564,11 @@ submitUpdateForm.addEventListener('click', () => {
     if (stepDescription.innerHTML == "" && shipmentRemarks.value != "") {
         updateShipmentProgress(shipmentTitleHidden.innerHTML, "Remarks: " + shipmentRemarks.value);
         updateShipmentProgress(shipmentTitleHidden.innerHTML, "Delivery Completed");
-        //alert('success');
-        updateBtn.classList.add("is-hidden");
-        refreshList();
 
+        //alert('success');
+        //updateBtn.classList.add("is-hidden");
+        //refreshList();
+        window.location.href = "shipment-individual.php";
     }
 
 });

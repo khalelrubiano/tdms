@@ -3,17 +3,18 @@ if (!isset($_SESSION)) {
     session_start();
 }
 //PART OF NEW SYSTEM
-include 'edit-vehicle-status-model.class.php';
+include 'edit-vehicle-reason-model.class.php';
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $vehicleStatusEdit = $_POST['vehicleStatus'];
     $vehicleIdEdit = $_POST['vehicleId'];
-    $vehicleIdEdit = $_POST['vehicleId'];
+    $reason = $_POST['reason'];
 
     $editObj = new EditVehicleModel(
         $vehicleStatusEdit,
-        $vehicleIdEdit
+        $vehicleIdEdit,
+        $reason
     );
 
     $editObj->editVehicleRecord();

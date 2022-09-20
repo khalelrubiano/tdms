@@ -300,6 +300,18 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 newContentParagraphIcon.classList.add('fa-2x');
                 newContentParagraph.appendChild(newContentParagraphIcon);
 
+                if (jsonArray[i][3] == "Unavailable") {
+                    //CONTENT PARAGRAPH
+                    var newContentParagraph2 = document.createElement("p");
+                    newContentParagraph2.classList.add('title');
+                    newContentParagraph2.classList.add('is-5');
+                    newContentParagraph2.classList.add('mb-5');
+                    newContentParagraph2.classList.add('has-text-danger');
+                    newContentParagraph2.classList.add('has-text-centered');
+                    newContentParagraph2.innerHTML = jsonArray[i][9];
+                    newContent.appendChild(newContentParagraph2);
+                }
+
                 //CONTENT TABLE
                 var newContentTable = document.createElement("table");
                 //newContentTable.setAttribute("style", "height: 100%;");
@@ -325,19 +337,33 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 var newContentTableTbodyTr1Td2 = document.createElement("td");
                 newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][1];
                 newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);
-/*
-                //CONTENT TABLE TBODY TR 2
-                var newContentTableTbodyTr2 = document.createElement("tr");
-                newContentTableTbody.appendChild(newContentTableTbodyTr2);
 
-                var newContentTableTbodyTr2Td1 = document.createElement("td");
-                newContentTableTbodyTr2Td1.innerHTML = "Commission Rate:";
-                newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
+                //CONTENT TABLE TBODY TR 5
+                var newContentTableTbodyTr5 = document.createElement("tr");
+                newContentTableTbody.appendChild(newContentTableTbodyTr5);
 
-                var newContentTableTbodyTr2Td2 = document.createElement("td");
-                newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][2] + "%";
-                newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td2);
-*/
+                var newContentTableTbodyTr5Td1 = document.createElement("td");
+                newContentTableTbodyTr5Td1.classList.add('has-text-weight-bold');
+                newContentTableTbodyTr5Td1.innerHTML = "Vehicle Type:";
+                newContentTableTbodyTr5.appendChild(newContentTableTbodyTr5Td1);
+
+                var newContentTableTbodyTr5Td2 = document.createElement("td");
+                newContentTableTbodyTr5Td2.innerHTML = jsonArray[i][8];
+                newContentTableTbodyTr5.appendChild(newContentTableTbodyTr5Td2);
+
+                /*
+                                //CONTENT TABLE TBODY TR 2
+                                var newContentTableTbodyTr2 = document.createElement("tr");
+                                newContentTableTbody.appendChild(newContentTableTbodyTr2);
+                
+                                var newContentTableTbodyTr2Td1 = document.createElement("td");
+                                newContentTableTbodyTr2Td1.innerHTML = "Commission Rate:";
+                                newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
+                
+                                var newContentTableTbodyTr2Td2 = document.createElement("td");
+                                newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][2] + "%";
+                                newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td2);
+                */
                 //CONTENT TABLE TBODY TR 3
                 var newContentTableTbodyTr3 = document.createElement("tr");
                 newContentTableTbody.appendChild(newContentTableTbodyTr3);

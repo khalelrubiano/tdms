@@ -157,6 +157,7 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 newContentParagraph.classList.add('is-5');
                 newContentParagraph.classList.add('mb-5');
                 newContentParagraph.classList.add('has-text-centered');
+                //newContentParagraph.innerHTML = 'test';
                 newContent.appendChild(newContentParagraph);
 
                 //CONTENT PARAGRAPH ICON
@@ -165,6 +166,20 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 newContentParagraphIcon.classList.add('fa-truck');
                 newContentParagraphIcon.classList.add('fa-2x');
                 newContentParagraph.appendChild(newContentParagraphIcon);
+
+                if (jsonArray[i][3] == "Unavailable") {
+                    //CONTENT PARAGRAPH
+                    var newContentParagraph2 = document.createElement("p");
+                    newContentParagraph2.classList.add('title');
+                    newContentParagraph2.classList.add('is-5');
+                    newContentParagraph2.classList.add('mb-5');
+                    newContentParagraph2.classList.add('has-text-danger');
+                    newContentParagraph2.classList.add('has-text-centered');
+                    newContentParagraph2.innerHTML = jsonArray[i][7];
+                    newContent.appendChild(newContentParagraph2);
+                }
+
+
 
                 //CONTENT TABLE
                 var newContentTable = document.createElement("table");
@@ -188,6 +203,19 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 var newContentTableTbodyTr1Td2 = document.createElement("td");
                 newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][1];
                 newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);
+
+                //CONTENT TABLE TBODY TR 5
+                var newContentTableTbodyTr5 = document.createElement("tr");
+                newContentTableTbody.appendChild(newContentTableTbodyTr5);
+
+                var newContentTableTbodyTr5Td1 = document.createElement("td");
+                newContentTableTbodyTr5Td1.classList.add('has-text-weight-bold');
+                newContentTableTbodyTr5Td1.innerHTML = "Vehicle Type:";
+                newContentTableTbodyTr5.appendChild(newContentTableTbodyTr5Td1);
+
+                var newContentTableTbodyTr5Td2 = document.createElement("td");
+                newContentTableTbodyTr5Td2.innerHTML = jsonArray[i][6];
+                newContentTableTbodyTr5.appendChild(newContentTableTbodyTr5Td2);
 
                 //CONTENT TABLE TBODY TR 2
                 var newContentTableTbodyTr2 = document.createElement("tr");
@@ -491,7 +519,7 @@ function vehicleStatusUpdate1(vehicleIdVar1, vehicleStatusVar1) {
     switch (vehicleStatusVar1) {
         case "Available":
             // code block
-            vehicleStatusUpdate2(vehicleIdVar1, "Unavailable")
+            vehicleStatusUpdate3(vehicleIdVar1, "Unavailable")
             break;
         case "Unavailable":
             // code block
@@ -509,6 +537,28 @@ function vehicleStatusUpdate2(vehicleIdVar2, vehicleStatusVar2) {
         //alert("call success");
         refreshList();
     });
+}
+
+//DELETE AJAX CALL
+function vehicleStatusUpdate3(vehicleIdVar2, vehicleStatusVar2) {
+    let reason = prompt("Please enter reason", "n/a");
+
+    //alert(reason);
+    if (reason != null) {
+        $.post("./classes/edit-vehicle-reason-controller.class.php", {
+            vehicleStatus: vehicleStatusVar2,
+            vehicleId: vehicleIdVar2,
+            reason: reason
+        }, function (data) {
+            //$("#submitAddFormHelp").html(data);
+            //$("#submitAddFormHelp").attr('class', 'help is-success');
+            //clearAddFormHelp();
+            //clearAddFormInput();
+            //addModal.classList.remove('is-active');
+            //alert(data);
+            refreshList();
+        });
+    }
 }
 
 selectSort.addEventListener('change', () => {

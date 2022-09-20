@@ -168,6 +168,7 @@ include_once 'navbar.php';
         <div class="container box">
 
             <p class="title has-text-centered is-3 has-text-black mt-6"><?php echo $_SESSION["clientName"] ?></p>
+            <p class="subtitle has-text-centered is-5 has-text-black mb-6">TIN #<?php echo $_SESSION["clientTin"] ?></p>
             <p class="subtitle has-text-centered is-5 has-text-black mb-6"><?php echo $_SESSION["clientAddress"] ?></p>
 
             <div id="card" class="mb-4 has-text-centered">
@@ -175,6 +176,8 @@ include_once 'navbar.php';
                     <thead>
                         <tr>
                             <th style="text-align: center;">Area</th>
+                            <th>Destination</th>
+                            <th>Vehicle Type</th>
                             <th>Rate</th>
                             <th>Action</th>
                         </tr>
@@ -226,6 +229,28 @@ include_once 'navbar.php';
                         </span>
                     </div>
                     <p class="help" id="areaNameAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Destination</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter destination here" class="input is-rounded" name="destinationAdd" id="destinationAdd">
+                        <span class="icon is-small is-left">
+                        <i class="fa-solid fa-location-arrow"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="destinationAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Vehicle Type</label>
+                    <div class="control">
+                        <div class="select is-rounded" id="typeAddDiv">
+                            <select id="typeAdd" name="typeAdd">
+                            </select>
+                        </div>
+                    </div>
+                    <p class="help" id="typeAddHelp"></p>
                 </div>
 
                 <div class="field">

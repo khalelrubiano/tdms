@@ -4,33 +4,25 @@
 
 require_once "../config.php";
 
-class AddVehicleModel
+class EditVehicleModel
 {
-    private $plateNumberAdd;
-    private $commissionRateAdd;
-    private $driverAdd;
-    private $helperAdd;
-    private $groupIdAdd;
-    private $typeAdd;
+    private $vehicleStatusEdit;
+    private $vehicleIdEdit;
+    private $reason;
+
 
     public function __construct(
-        $plateNumberAdd,
-        $commissionRateAdd,
-        $driverAdd,
-        $helperAdd,
-        $groupIdAdd,
-        $typeAdd
+        $vehicleStatusEdit,
+        $vehicleIdEdit,
+        $reason
     ) {
 
-        $this->plateNumberAdd = $plateNumberAdd;
-        $this->commissionRateAdd = $commissionRateAdd;
-        $this->driverAdd = $driverAdd;
-        $this->helperAdd = $helperAdd;
-        $this->groupIdAdd = $groupIdAdd;
-        $this->typeAdd = $typeAdd;
+        $this->vehicleStatusEdit = $vehicleStatusEdit;
+        $this->vehicleIdEdit = $vehicleIdEdit;
+        $this->reason = $reason;
     }
 
-    public function addVehicleRecord()
+    public function editVehicleRecord()
     {
 /*
         if ($this->usernameValidator() == false) {
@@ -38,29 +30,18 @@ class AddVehicleModel
             exit();
         }
 */
-        $this->addVehicleSubmit();
+        $this->editVehicleSubmit();
     }
 
-    private function addVehicleSubmit()
+    private function editVehicleSubmit()
     {
-
-        $sql = "INSERT INTO 
+        $sql = "UPDATE
         vehicle 
-        (plate_number, 
-        vehicle_type,
-        commission_rate, 
-        driver_id, 
-        helper_id, 
-        group_id,
-        vehicle_status) 
-        VALUES 
-        (:plate_number, 
-        :vehicle_type,
-        :commission_rate, 
-        :driver_id, 
-        :helper_id, 
-        :group_id,
-        :vehicle_status)";
+        SET
+        vehicle_status = :vehicle_status,
+        status_remark = :status_remark
+        WHERE
+        vehicle_id = :vehicle_id";
 
         $configObj = new Config();
 
@@ -68,21 +49,13 @@ class AddVehicleModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":plate_number", $paramPlateNumberAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":commission_rate", $paramCommissionRateAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":driver_id", $paramDriverIdAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":helper_id", $paramHelperIdAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":group_id", $paramGroupIdAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":vehicle_status", $paramVehicleStatusAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":vehicle_type", $paramVehicleTypeAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":vehicle_status", $paramVehicleStatusEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":vehicle_id", $paramVehicleIdEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":status_remark", $param3, PDO::PARAM_STR);
 
-            $paramPlateNumberAdd = $this->plateNumberAdd;
-            $paramCommissionRateAdd = $this->commissionRateAdd;
-            $paramDriverIdAdd = $this->driverAdd;
-            $paramHelperIdAdd = $this->helperAdd;
-            $paramGroupIdAdd = $this->groupIdAdd;
-            $paramVehicleStatusAdd = "Unavailable";
-            $paramVehicleTypeAdd = $this->typeAdd;
+            $paramVehicleStatusEdit = $this->vehicleStatusEdit;
+            $paramVehicleIdEdit = $this->vehicleIdEdit;
+            $param3 = $this->reason;
 
             if ($stmt->execute()) {
                 /*
@@ -91,13 +64,13 @@ class AddVehicleModel
                 header('location: ../prompt.php');
                 exit();
                 */
-                echo "Successfully registered a vehicle!";
+                echo "Successfully edited a record!";
             } else {
 /*
                 $_SESSION["prompt"] = "Something went wrong!";
                 header('location: ../prompt.php');
                 exit();*/
-                echo "Something went wrong, registration was not successful!";
+                echo "Something went wrong, edit was not successful!";
             }
 
 
@@ -106,7 +79,7 @@ class AddVehicleModel
         unset($pdoVessel);
     }
 
-    private function addSubcontractorGroupSubmit()
+    private function editSubcontractorGroupSubmit()
     {
 
         $sql = "INSERT INTO 
@@ -123,11 +96,11 @@ class AddVehicleModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":group_name", $paramGroupNameAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":owner_id", $paramGroupOwnerAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":group_name", $paramGroupNameEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":owner_id", $paramGroupOwnerEdit, PDO::PARAM_STR);
 
-            $paramGroupNameAdd = $this->groupNameAdd;
-            $paramGroupOwnerAdd = $this->groupOwnerAdd;
+            $paramGroupNameEdit = $this->groupNameEdit;
+            $paramGroupOwnerEdit = $this->groupOwnerEdit;
 
             if ($stmt->execute()) {
                 echo "Successfully created a group!";
@@ -152,11 +125,11 @@ class AddVehicleModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":username", $paramUsernameAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":username", $paramUsernameEdit, PDO::PARAM_STR);
             $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
             
 
-            $paramUsernameAdd = $this->usernameAdd;
+            $paramUsernameEdit = $this->usernameEdit;
             $paramCompanyId = $this->companyId;
 
             if ($stmt->execute()) {
@@ -186,10 +159,10 @@ class AddVehicleModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":username", $paramUsernameAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":username", $paramUsernameEdit, PDO::PARAM_STR);
 
 
-            $paramUsernameAdd = $this->usernameAdd;
+            $paramUsernameEdit = $this->usernameEdit;
 
 
             if ($stmt->execute()) {

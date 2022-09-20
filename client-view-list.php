@@ -126,6 +126,18 @@ include_once 'navbar.php';
                     <p class="help" id="clientNameAddHelp"></p>
                 </div>
 
+
+                <div class="field">
+                    <label for="" class="label">Taxpayer Identifier Number</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter TIN here" class="input is-rounded" name="clientTinAdd" id="clientTinAdd">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-hashtag"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="clientTinAddHelp"></p>
+                </div>
+
                 <div class="field">
                     <label for="" class="label">Client Address</label>
                     <div class="control">
@@ -145,11 +157,11 @@ include_once 'navbar.php';
         </div>
     </div>
     <p class="is-hidden" id="access1"><?php echo $_SESSION['shipmentAccess'] ?></p>
-  <p class="is-hidden" id="access2"><?php echo $_SESSION['employeeAccess'] ?></p>
-  <p class="is-hidden" id="access3"><?php echo $_SESSION['subcontractorAccess'] ?></p>
-  <p class="is-hidden" id="access4"><?php echo $_SESSION['clientAccess'] ?></p>
-  <p class="is-hidden" id="access5"><?php echo $_SESSION['billingAccess'] ?></p>
-  <p class="is-hidden" id="access6"><?php echo $_SESSION['payrollAccess'] ?></p>
+    <p class="is-hidden" id="access2"><?php echo $_SESSION['employeeAccess'] ?></p>
+    <p class="is-hidden" id="access3"><?php echo $_SESSION['subcontractorAccess'] ?></p>
+    <p class="is-hidden" id="access4"><?php echo $_SESSION['clientAccess'] ?></p>
+    <p class="is-hidden" id="access5"><?php echo $_SESSION['billingAccess'] ?></p>
+    <p class="is-hidden" id="access6"><?php echo $_SESSION['payrollAccess'] ?></p>
 </body>
 
 <!--EXTERNAL JAVASCRIPT-->

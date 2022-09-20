@@ -111,6 +111,17 @@ include_once 'navbar.php';
                             </div>
 
                             <div class="field">
+                                <label for="" class="label">Taxpayer Identifier Number </label>
+                                <div class="control has-icons-left">
+                                    <input type="text" placeholder="Enter TIN here" class="input is-rounded" name="tin" id="tin">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-hashtag"></i>
+                                    </span>
+                                </div>
+                                <p class="help" id="tinHelp"></p>
+                            </div>
+
+                            <div class="field">
                                 <label for="" class="label">Company Email</label>
                                 <div class="control has-icons-left">
                                     <input type="text" placeholder="Enter company email here" class="input is-rounded" name="companyEmail" id="companyEmail">

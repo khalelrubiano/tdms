@@ -8,6 +8,7 @@ let searchBarInput = document.getElementById('searchBarInput')
 let currentPageNumber = 1;
 const editModal = document.getElementById('editModal');
 const addModal = document.getElementById('addModal');
+const add2Modal = document.getElementById('add2Modal');
 let vehicleIdHidden = document.getElementById('vehicleIdHidden');
 
 //MODALS
@@ -49,6 +50,24 @@ function closeEdit() {
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
 
+function openAdd2() {
+    add2Modal.classList.add('is-active');
+    //populateUsernameAdd();
+}
+
+function closeAdd2() {
+
+    clearAdd2FormHelp();
+    clearAdd2FormInput();
+
+    submitAdd2FormHelp.className = "help"
+    submitAdd2FormHelp.innerText = ""
+
+    add2Modal.classList.remove('is-active');
+    
+    //removeSelectAdd(document.getElementById('usernameAdd'));
+}
+
 //DELETE AJAX CALL
 function deleteAjax(deleteVar) {
     if (confirm("Are you sure?")) {
@@ -75,6 +94,7 @@ let commissionRateAdd = document.getElementById('commissionRateAdd');
 let driverAdd = document.getElementById('driverAdd');
 let helperAdd = document.getElementById('helperAdd');
 let groupIdHidden = document.getElementById('groupIdHidden')
+let typeAdd = document.getElementById('typeAdd');
 
 let plateNumberAddHelp = document.getElementById('plateNumberAddHelp');
 let commissionRateAddHelp = document.getElementById('commissionRateAddHelp');
@@ -86,7 +106,8 @@ function addAjax() {
         commissionRateAdd: commissionRateAdd.value,
         driverAdd: driverAdd.value,
         helperAdd: helperAdd.value,
-        groupIdAdd: groupIdHidden.innerHTML
+        groupIdAdd: groupIdHidden.innerHTML,
+        typeAdd: typeAdd.value
     }, function (data) {
         $("#submitAddFormHelp").html(data);
         //$("#submitAddFormHelp").attr('class', 'help is-success');
@@ -245,6 +266,120 @@ function clearEditFormHelp() {
 function clearEditFormInput() {
     commissionRateEdit.value = null;
 
+}
+
+//ADD 2 AJAX CALLS WITH VALIDATION
+let submitAdd2Form = document.getElementById('submitAdd2Form'); //save changes button
+let submitAdd2FormHelp = document.getElementById('submitAdd2FormHelp'); //save changes button
+
+let typeAdd2 = document.getElementById('typeAdd2');
+
+let typeAdd2Help = document.getElementById('typeAdd2Help');
+
+
+function addAjax2() {
+    $.post("./classes/add-vehicle-type-controller.class.php", {
+        typeAdd2: typeAdd2.value
+    }, function (data) {
+        $("#submitAdd2FormHelp").html(data);
+        $("#submitAddFormHelp").attr('class', 'help is-success');
+        //clearAddFormHelp();
+        //clearAddFormInput();
+        //addModal.classList.remove('is-active');
+        closeAdd2();
+        //refreshList();
+    });
+}
+/*
+var pattern1 = /^[a-zA-Z0-9_]+$/
+var pattern2 = /^[a-zA-Z0-9\s]+$/
+var pattern3 = /^[a-zA-Z\s]+$/
+var pattern4 = /^[0-9]+$/
+*/
+submitAdd2Form.addEventListener('click', (e) => {
+    clearAdd2FormHelp();
+    //clearAddFormInput();
+
+    addAjax2();
+
+    /*
+        let plateNumberAddMessages = []
+    
+    
+        //Plate Number Validation
+    
+        if (plateNumberAdd.value === "" || plateNumberAdd.value == null) {
+            plateNumberAdd.className = "input is-danger is-rounded"
+            plateNumberAddHelp.className = "help is-danger"
+            plateNumberAddMessages.push('Vehicle plate number is required!')
+        }
+        if (plateNumberAdd.value.length < 1) {
+            plateNumberAdd.className = "input is-danger is-rounded"
+            plateNumberAddHelp.className = "help is-danger"
+            plateNumberAddMessages.push('Vehicle plate number must be longer than 1 character!')
+        }
+    
+        if (plateNumberAdd.value.length >= 255) {
+            plateNumberAdd.className = "input is-danger is-rounded"
+            plateNumberAddHelp.className = "help is-danger"
+            plateNumberAddMessages.push('Vehicle plate number must be less than 50 characters!')
+        }
+    
+        //Commission Rate Validation
+    
+        if (commissionRateAdd.value === "" || commissionRateAdd.value == null) {
+            commissionRateAdd.className = "input is-danger is-rounded"
+            commissionRateAddHelp.className = "help is-danger"
+            commissionRateAddMessages.push('Commission rate is required!')
+        }
+    
+        //Messages
+        if (plateNumberAddMessages.length > 0) {
+            e.preventDefault()
+            plateNumberAddHelp.innerText = plateNumberAddMessages.join(', ');
+        }
+        if (commissionRateAddMessages.length > 0) {
+            e.preventDefault()
+            commissionRateAddHelp.innerText = commissionRateAddMessages.join(', ');
+        }
+        if (
+            plateNumberAddMessages.length <= 0 &&
+            commissionRateAddMessages.length <= 0
+        ) {
+            addAjax();
+        }
+    */
+})
+
+function clearAdd2FormHelp() {
+    //RESETTING FORM ELEMENTS
+    typeAdd2.className = "input is-rounded"
+    typeAdd2Help.className = "help"
+    typeAdd2Help.innerText = ""
+
+}
+
+function clearAdd2FormInput() {
+    typeAdd2.value = null;
+
+}
+
+function populateSelect5() {
+    $.post("./classes/load-vehicle-type-select.class.php", {
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            var newOption = document.createElement("option");
+            newOption.value = jsonArray[i][0];
+            newOption.innerHTML = jsonArray[i][0];
+            typeAdd.options.add(newOption);
+            //helperAdd.options.add(newOption);
+        }
+
+        //closeSelect();
+    });
 }
 
 function populateSelect1() {
@@ -445,6 +580,18 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 newContentParagraphIcon.classList.add('fa-2x');
                 newContentParagraph.appendChild(newContentParagraphIcon);
 
+                if (jsonArray[i][3] == "Unavailable") {
+                    //CONTENT PARAGRAPH
+                    var newContentParagraph2 = document.createElement("p");
+                    newContentParagraph2.classList.add('title');
+                    newContentParagraph2.classList.add('is-5');
+                    newContentParagraph2.classList.add('mb-5');
+                    newContentParagraph2.classList.add('has-text-danger');
+                    newContentParagraph2.classList.add('has-text-centered');
+                    newContentParagraph2.innerHTML = jsonArray[i][7];
+                    newContent.appendChild(newContentParagraph2);
+                }
+
                 //CONTENT TABLE
                 var newContentTable = document.createElement("table");
                 newContentTable.classList.add('table');
@@ -467,6 +614,19 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 var newContentTableTbodyTr1Td2 = document.createElement("td");
                 newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][1];
                 newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);
+
+                //CONTENT TABLE TBODY TR 5
+                var newContentTableTbodyTr5 = document.createElement("tr");
+                newContentTableTbody.appendChild(newContentTableTbodyTr5);
+
+                var newContentTableTbodyTr5Td1 = document.createElement("td");
+                newContentTableTbodyTr5Td1.classList.add('has-text-weight-bold');
+                newContentTableTbodyTr5Td1.innerHTML = "Vehicle Type:";
+                newContentTableTbodyTr5.appendChild(newContentTableTbodyTr5Td1);
+
+                var newContentTableTbodyTr5Td2 = document.createElement("td");
+                newContentTableTbodyTr5Td2.innerHTML = jsonArray[i][6];
+                newContentTableTbodyTr5.appendChild(newContentTableTbodyTr5Td2);
 
                 //CONTENT TABLE TBODY TR 2
                 var newContentTableTbodyTr2 = document.createElement("tr");
@@ -767,6 +927,7 @@ function refreshList() {
     ancestorTile.innerHTML = "";
     currentPageNumber = 1;
     generateUserList1();
+
     //generateUserList2(1, selectSort.value);
 }
 
@@ -794,7 +955,7 @@ searchBarInput.addEventListener('input', () => {
 
 populateSelect1();
 populateSelect2();
-
+populateSelect5();
 refreshList();
 //generateUserList1();
 //generateUserList2(1, selectSort.value);

@@ -70,7 +70,9 @@ try {
             vehicle.helper_id,
             vehicle.vehicle_status,
             tracking.tracking_id,
-            tracking.tracking_number
+            tracking.tracking_number,
+            vehicle.vehicle_type,
+            vehicle.status_remark
             FROM vehicle
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
@@ -90,7 +92,9 @@ try {
             vehicle.helper_id,
             vehicle.vehicle_status,
             tracking.tracking_id,
-            tracking.tracking_number
+            tracking.tracking_number,
+            vehicle.vehicle_type,
+            vehicle.status_remark
             FROM vehicle
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
@@ -111,7 +115,9 @@ try {
             vehicle.helper_id,
             vehicle.vehicle_status,
             tracking.tracking_id,
-            tracking.tracking_number
+            tracking.tracking_number,
+            vehicle.vehicle_type,
+            vehicle.status_remark
             FROM vehicle
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
@@ -132,7 +138,9 @@ try {
             vehicle.helper_id,
             vehicle.vehicle_status,
             tracking.tracking_id,
-            tracking.tracking_number
+            tracking.tracking_number,
+            vehicle.vehicle_type,
+            vehicle.status_remark
             FROM vehicle
             INNER JOIN ownergroup
             ON vehicle.group_id = ownergroup.group_id
@@ -174,7 +182,7 @@ try {
     for ($i = 0; $i < count($row); $i++) {
         //echo $row[$i][1] . "<br>";
 
-        $childArray = array($row[$i][0], $row[$i][1], $row[$i][2], $row[$i][5], getSubcontractorDetails($row[$i][3]), getSubcontractorDetails($row[$i][4]), $row[$i][6], $row[$i][7]);
+        $childArray = array($row[$i][0], $row[$i][1], $row[$i][2], $row[$i][5], getSubcontractorDetails($row[$i][3]), getSubcontractorDetails($row[$i][4]), $row[$i][6], $row[$i][7], $row[$i][8], $row[$i][9]);
 
         array_push($parentArray, $childArray);
     }

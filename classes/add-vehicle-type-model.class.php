@@ -4,27 +4,21 @@
 
 require_once "../config.php";
 
-class AddClientModel
+class AddVehicleModel
 {
-    private $clientNameAdd;
-    private $clientTinAdd;
-    private $clientAddressAdd;
-    private $companyId;
+    private $typeAdd2;
+    private $groupIdAdd;
 
     public function __construct(
-        $clientNameAdd,
-        $clientTinAdd,
-        $clientAddressAdd,
+        $typeAdd2,
         $companyId
     ) {
 
-        $this->clientNameAdd = $clientNameAdd;
-        $this->clientTinAdd = $clientTinAdd;
-        $this->clientAddressAdd = $clientAddressAdd;
+        $this->typeAdd2 = $typeAdd2;
         $this->companyId = $companyId;
     }
 
-    public function addClientRecord()
+    public function addVehicleRecord()
     {
 /*
         if ($this->usernameValidator() == false) {
@@ -32,21 +26,18 @@ class AddClientModel
             exit();
         }
 */
-        $this->addClientSubmit();
+        $this->addVehicleSubmit();
     }
 
-    private function addClientSubmit()
+    private function addVehicleSubmit()
     {
 
-        $sql = "INSERT INTO client 
-        (client_name,
-        client_tin,
-        client_address,
+        $sql = "INSERT INTO 
+        vehicletype 
+        (vehicle_type, 
         company_id) 
         VALUES 
-        (:client_name,
-        :client_tin,
-        :client_address,
+        (:vehicle_type, 
         :company_id)";
 
         $configObj = new Config();
@@ -55,15 +46,11 @@ class AddClientModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":client_name", $paramClientNameAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":client_tin", $paramClientTin, PDO::PARAM_STR);
-            $stmt->bindParam(":client_address", $paramClientAddressAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
+            $stmt->bindParam(":vehicle_type", $param1, PDO::PARAM_STR);
+            $stmt->bindParam(":company_id", $param2, PDO::PARAM_STR);
 
-            $paramClientNameAdd = $this->clientNameAdd;
-            $paramClientTin = $this->clientTinAdd;
-            $paramClientAddressAdd = $this->clientAddressAdd;
-            $paramCompanyId = $this->companyId;
+            $param1 = $this->typeAdd2;
+            $param2 = $this->companyId;
 
             if ($stmt->execute()) {
                 /*
@@ -72,13 +59,13 @@ class AddClientModel
                 header('location: ../prompt.php');
                 exit();
                 */
-                echo "Successfully registered a client!";
+                echo "Successfully added vehicle type!";
             } else {
 /*
                 $_SESSION["prompt"] = "Something went wrong!";
                 header('location: ../prompt.php');
                 exit();*/
-                echo "Something went wrong, client registration was not successful!";
+                echo "Something went wrong, registration was not successful!";
             }
 
 
@@ -87,22 +74,58 @@ class AddClientModel
         unset($pdoVessel);
     }
 
-   /*
-    public function getPermissionId()
+    private function addSubcontractorGroupSubmit()
+    {
+
+        $sql = "INSERT INTO 
+        ownergroup 
+        (group_name, 
+        owner_id) 
+        VALUES 
+        (:group_name, 
+        :owner_id) ";
+
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":group_name", $paramGroupNameAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":owner_id", $paramGroupOwnerAdd, PDO::PARAM_STR);
+
+            $paramGroupNameAdd = $this->groupNameAdd;
+            $paramGroupOwnerAdd = $this->groupOwnerAdd;
+
+            if ($stmt->execute()) {
+                echo "Successfully created a group!";
+            } else {
+                echo "Something went wrong, group creation was not successful!";
+            }
+
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+   
+    public function getSubcontractorId()
     {
         $configObj = new Config();
 
         $pdoVessel = $configObj->pdoConnect();
 
-        $sql = "SELECT * FROM permission WHERE role_name = :role_name AND company_id = :company_id";
+        $sql = "SELECT * FROM subcontractor WHERE username = :username AND company_id = :company_id";
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
+            $stmt->bindParam(":username", $paramUsernameAdd, PDO::PARAM_STR);
             $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
-            $stmt->bindParam(":role_name", $paramRoleName, PDO::PARAM_STR);
+            
 
+            $paramUsernameAdd = $this->usernameAdd;
             $paramCompanyId = $this->companyId;
-            $paramRoleName = "Default";
 
             if ($stmt->execute()) {
                 $row = $stmt->fetchAll();
@@ -119,19 +142,19 @@ class AddClientModel
             return $returnValue;
         }
         unset($pdoVessel);
-    }*/
-/*
+    }
+
     public function usernameValidator()
     {
         $configObj = new Config();
 
         $pdoVessel = $configObj->pdoConnect();
 
-        $sql = "SELECT * FROM user WHERE user_name = :user_name";
+        $sql = "SELECT * FROM employee WHERE username = :username";
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":user_name", $paramUsernameAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":username", $paramUsernameAdd, PDO::PARAM_STR);
 
 
             $paramUsernameAdd = $this->usernameAdd;
@@ -144,10 +167,6 @@ class AddClientModel
                     $result = true;
                 }
             } else {
-
-                $_SESSION["prompt"] = "Something went wrong!";
-                header('location: ../prompt.php');
-                exit();
             }
 
             unset($stmt);
@@ -155,5 +174,5 @@ class AddClientModel
             return $result;
         }
         unset($pdoVessel);
-    }*/
+    }
 }
