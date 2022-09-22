@@ -42,6 +42,8 @@ let shipmentRemarksHelp = document.getElementById('shipmentRemarksHelp');
 let dropdownBtn = document.getElementById('dropdownBtn');
 let dropdownElement = document.getElementById('dropdownElement');
 
+let progressStep;
+
 function myFunction1() {
     dropdownElement.classList.toggle("is-active");
 }
@@ -82,7 +84,6 @@ function closeUpdate() {
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
 
-
 function generateLatestMarker() {
     $.post("./classes/load-tracker.class.php", {
         vehicleId: vehicleIdHidden.innerHTML,
@@ -111,18 +112,20 @@ generateLatestMarker();
 
 function generateVehicleDetails() {
     $.post("./classes/load-vehicle-details.class.php", {
-        vehicleId: vehicleIdHidden.innerHTML
+        driverId: driverIdHidden.innerHTML,
+        helperId: helperIdHidden.innerHTML
     }, function (data) {
         //indicatorHidden.innerHTML = "Call Success";
+        //alert(data);
         var jsonArray = JSON.parse(data);
 
         //var finalLength = Math.ceil(jsonArray.length / 4)
         //arrayLengthHidden.innerHTML = finalLength;
 
         //indicatorHidden.innerHTML = jsonArray[0][0] + " " + jsonArray[0][1] + " " + jsonArray[0][2] + " " + jsonArray[0][3] + " " + jsonArray[0][4] + " " + jsonArray[0][5];
-        driverSubtitle.innerHTML = "Driver: " + jsonArray[0][4];
-        helperSubtitle.innerHTML = "Helper: " + jsonArray[0][5];
-        plateNumberSubtitle.innerHTML = "Vehicle Plate Number: " + jsonArray[0][1];
+        driverSubtitle.innerHTML = "Driver: " + jsonArray[0][0];
+        helperSubtitle.innerHTML = "Helper: " + jsonArray[0][1];
+        //plateNumberSubtitle.innerHTML = "Vehicle Plate Number: " + jsonArray[0][1];
     });
 }
 
@@ -492,33 +495,45 @@ function setProgressStep() {
         switch (jsonArray[0][1]) {
             case "Shipment Placed":
                 stepDescription.innerHTML = "Warehouse Arrival";
-                stepNumber.innerHTML = "Step 1 out of 6";
-
+                stepNumber.innerHTML = "Step 1 out of 8";
+                progressStep = "Warehouse Arrival";
                 break;
             case "Warehouse Arrival":
                 stepDescription.innerHTML = "Start Loading";
-                stepNumber.innerHTML = "Step 2 out of 6";
-
+                stepNumber.innerHTML = "Step 2 out of 8";
+                progressStep = "Start Loading";
                 break;
             case "Start Loading":
+                stepDescription.innerHTML = "Finished Loading";
+                stepNumber.innerHTML = "Step 3 out of 8";
+                progressStep = "Finished Loading";
+                break;
+            case "Finished Loading":
                 stepDescription.innerHTML = "Depart Warehouse";
-                stepNumber.innerHTML = "Step 3 out of 6";
+                stepNumber.innerHTML = "Step 4 out of 8";
                 submitUpdateForm.innerHTML = "<i class='fa-solid fa-check mr-3'></i>Complete Shipment Pick-up"
+                progressStep = "Depart Warehouse";
                 break;
             case "Depart Warehouse":
                 stepDescription.innerHTML = "Store Arrival";
-                stepNumber.innerHTML = "Step 4 out of 6";
-
+                stepNumber.innerHTML = "Step 5 out of 8";
+                progressStep = "Store Arrival";
                 break;
             case "Store Arrival":
                 stepDescription.innerHTML = "Start Unloading";
-                stepNumber.innerHTML = "Step 5 out of 6";
-
+                stepNumber.innerHTML = "Step 6 out of 8";
+                progressStep = "Start Unloading";
                 break;
             case "Start Unloading":
+                stepDescription.innerHTML = "Finished Unloading";
+                stepNumber.innerHTML = "Step 7 out of 8";
+                progressStep = "Finished Unloading";
+                break;
+            case "Finished Unloading":
                 stepDescription.innerHTML = "Store Out";
-                stepNumber.innerHTML = "Step 6 out of 6";
+                stepNumber.innerHTML = "Step 8 out of 8";
                 submitUpdateForm.innerHTML = "<i class='fa-solid fa-check mr-3'></i>Complete Shipment Drop-off"
+                progressStep = "Store Out";
                 break;
             case "Store Out":
                 stepDescription.innerHTML = "";
@@ -546,6 +561,13 @@ function updateShipmentProgress(shipmentIdVar, shipmentDescriptionVar) {
     });
 }
 
+function createShipmentFees(shipmentIdVar) {
+    $.post("./classes/add-shipment-fees-controller.class.php", {
+        shipmentId: shipmentIdVar
+    }, function (data) {
+    });
+}
+
 returnBtn.addEventListener('click', () => {
     window.location.href = "shipment-individual.php";
 });
@@ -556,7 +578,7 @@ updateBtn.addEventListener('click', () => {
 
 submitUpdateForm.addEventListener('click', () => {
     if (stepDescription.innerHTML != "") {
-        updateShipmentProgress(shipmentTitleHidden.innerHTML, stepDescription.innerHTML);
+        updateShipmentProgress(shipmentTitleHidden.innerHTML, progressStep);
         //alert('success');
         refreshList();
     }
@@ -568,6 +590,7 @@ submitUpdateForm.addEventListener('click', () => {
         //alert('success');
         //updateBtn.classList.add("is-hidden");
         //refreshList();
+        createShipmentFees(shipmentTitleHidden.innerHTML);
         window.location.href = "shipment-individual.php";
     }
 
@@ -578,7 +601,7 @@ function refreshList() {
     verticalContainerUl.innerHTML = "";
     generateVehicleDetails();
     generateProgressBarDetails();
-    setProgressStep();
+    //setProgressStep();
 }
 
 refreshList();

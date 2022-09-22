@@ -6,34 +6,37 @@ if (!isset($_SESSION)) {
 }
 require_once "../config.php";
 
-//$shipmentNumber = $_POST["shipmentNumber"];
 
-//echo $startingLimitNumber;
-
+$shipmentId = $_POST["shipmentId"];
 
 try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-
     $sql = "SELECT 
-    *
+    shipment.area_rate,
+    shipmentfees.drop_fee,
+    shipmentfees.parking_fee,
+    shipmentfees.demurrage,
+    shipmentfees.other_charges,
+    shipmentfees.penalty
     FROM shipment 
-    INNER JOIN client 
-    ON shipment.client_id = client.client_id
-    WHERE shipment_number = :shipment_number";
+    INNER JOIN shipmentfees 
+    ON shipment.shipment_id = shipmentfees.shipment_id 
+    WHERE shipmentfees.shipment_id = :shipment_id";
 
     $stmt = $pdoVessel->prepare($sql);
 
-    $stmt->bindParam(":shipment_number", $param1, PDO::PARAM_STR);
+    $stmt->bindParam(":shipment_id", $param1, PDO::PARAM_STR);
 
-    $param1 = $_POST["shipmentNumber"];
+    $param1 = $_POST["shipmentId"];
 
     $stmt->execute();
     $row = $stmt->fetchAll();
     $json = json_encode($row);
 
     echo $json;
+    
 } catch (Exception $ex) {
     session_start();
     $_SESSION['prompt'] = "Something went wrong!";

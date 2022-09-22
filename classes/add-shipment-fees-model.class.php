@@ -7,18 +7,12 @@ require_once "../config.php";
 class AddShipmentProgressModel
 {
     private $shipmentId;
-    private $shipmentDescription;
-    private $vehicleId;
 
     public function __construct(
-        $shipmentId,
-        $shipmentDescription,
-        $vehicleId
+        $shipmentId
     ) {
 
         $this->shipmentId = $shipmentId;
-        $this->shipmentDescription = $shipmentDescription;
-        $this->vehicleId = $vehicleId;
     }
 
     public function addShipmentProgressRecord()
@@ -46,11 +40,7 @@ class AddShipmentProgressModel
         }
 */
 
-        $this->addShipmentProgressSubmit();
-        if ($this->shipmentDescription == "Delivery Completed") {
-            $this->updateShipmentSubmit();
-            $this->editVehicleSubmit();
-        }
+        $this->addShipmentFeesSubmit();
     }
     /*
     public function getVehicleInfo()
@@ -162,16 +152,24 @@ class AddShipmentProgressModel
         unset($pdoVessel);
     }
 
-    public function addShipmentProgressSubmit()
+    public function addShipmentFeesSubmit()
     {
 
         $sql = "INSERT INTO 
-                shipmentprogress(
-                progress_description,
+                shipmentfees(
+                drop_fee,
+                parking_fee,
+                demurrage,
+                other_charges,
+                penalty,
                 shipment_id
                 ) 
                 VALUES( 
-                :progress_description,
+                0,
+                0,
+                0,
+                0,
+                0,
                 :shipment_id
                 )";
 
@@ -181,10 +179,8 @@ class AddShipmentProgressModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":progress_description", $paramProgressDescription, PDO::PARAM_STR);
             $stmt->bindParam(":shipment_id", $paramShipmentId, PDO::PARAM_STR);
 
-            $paramProgressDescription = $this->shipmentDescription;
             $paramShipmentId = $this->shipmentId;
 
             if ($stmt->execute()) {

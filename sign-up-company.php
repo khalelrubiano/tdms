@@ -65,6 +65,17 @@ include_once 'navbar.php';
                             <h3 class="title is-4 has-text-centered"> <i class="fas fa-user-cog mr-3"></i> Company Admin Account</h3>
 
                             <div class="field">
+                            <label for="" class="label">Employee Number</label>
+                                <div class="control has-icons-left">
+                                <input type="text" placeholder="Enter number here" class="input is-rounded" name="employeeNumberAdd" id="employeeNumberAdd">
+                                <span class="icon is-small is-left">
+                                <i class="fa-solid fa-hashtag"></i>
+                             </span>
+                             </div>
+                            <p class="help" id="employeeNumberAddHelp"></p>
+                                </div>
+                
+                            <div class="field">
                                 <label for="" class="label">Username</label>
                                 <div class="control has-icons-left">
                                     <input type="text" placeholder="Enter username here" class="input is-rounded" name="username" id="username">

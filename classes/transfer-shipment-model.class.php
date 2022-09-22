@@ -8,34 +8,26 @@ class TransferShipmentModel
 {
     private $shipmentId;
     private $shipmentNumber;
-    private $shipmentDescription;
-    private $destination;
-    private $dateOfDelivery;
-    private $areaId;
     private $vehicleId;
     private $vehicleIdOld;
-
-
+    private $companyId;
+    private $transferReason;
 
     public function __construct(
         $shipmentId,
         $shipmentNumber,
-        $shipmentDescription,
-        $destination,
-        $dateOfDelivery,
-        $areaId,
         $vehicleId,
-        $vehicleIdOld
+        $vehicleIdOld,
+        $companyId,
+        $transferReason
     ) {
 
         $this->shipmentId = $shipmentId;
         $this->shipmentNumber = $shipmentNumber;
-        $this->shipmentDescription = $shipmentDescription;
-        $this->destination = $destination;
-        $this->dateOfDelivery = $dateOfDelivery;
-        $this->areaId = $areaId;
         $this->vehicleId = $vehicleId;
         $this->vehicleIdOld = $vehicleIdOld;
+        $this->companyId = $companyId;
+        $this->transferReason = $transferReason;
     }
 
     public function transferShipmentRecord()
@@ -72,6 +64,76 @@ class TransferShipmentModel
         $this->editVehicleSubmit("On-Delivery", $vehicleId1);
         //echo $vehicleId2 . "sample" . $vehicleId1;
         $this->editVehicleSubmit("Available", $vehicleId2);
+    }
+
+    public function getVehicleInfoNew()
+    {
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        $sql = "SELECT 
+        plate_number, 
+        commission_rate, 
+        driver_id,
+        helper_id
+        FROM vehicle WHERE plate_number = :plate_number";
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":plate_number", $paramVehicleId, PDO::PARAM_STR);
+
+            $paramVehicleId = $this->vehicleId;
+
+            if ($stmt->execute()) {
+                $row = $stmt->fetchAll();
+                $returnValue = $row;
+            } else {
+                session_start();
+                $_SESSION["prompt"] = "Something went wrong!";
+                header('location: ../prompt.php');
+                exit();
+            }
+
+            unset($stmt);
+
+            return $returnValue;
+        }
+        unset($pdoVessel);
+    }
+
+    public function getShipmentInfo()
+    {
+        $configObj = new Config();
+
+        $pdoVessel = $configObj->pdoConnect();
+
+        $sql = "SELECT 
+        *
+        FROM shipment
+        WHERE shipment_id = :shipment_id";
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            $stmt->bindParam(":shipment_id", $param1, PDO::PARAM_STR);
+
+            $param1 = $this->shipmentId;
+
+            if ($stmt->execute()) {
+                $row = $stmt->fetchAll();
+                $returnValue = $row;
+            } else {
+                session_start();
+                $_SESSION["prompt"] = "Something went wrong!";
+                header('location: ../prompt.php');
+                exit();
+            }
+
+            unset($stmt);
+
+            return $returnValue;
+        }
+        unset($pdoVessel);
     }
 
     public function transferShipmentSubmit1()
@@ -133,7 +195,7 @@ class TransferShipmentModel
 
 
             $paramShipmentId = $this->shipmentId;
-            $paramCancelReason = "Transferred";
+            $paramCancelReason = "Transferred: " . $this->transferReason;
 
 
             if ($stmt->execute()) {
@@ -151,25 +213,43 @@ class TransferShipmentModel
 
     public function transferShipmentSubmit3()
     {
+        $array1 = $this->getShipmentInfo();
+        $array2 = $this->getVehicleInfoNew();
 
         $sql = "INSERT INTO 
                 shipment(
                 shipment_number, 
                 shipment_status, 
                 shipment_description,
-                destination,
-                date_of_delivery,
-                area_id,
-                vehicle_id
+                date_of_delivery, 
+                call_time, 
+                client_id, 
+                area_name, 
+                destination, 
+                area_rate, 
+                vehicle_type, 
+                plate_number, 
+                commission_rate, 
+                driver_id, 
+                helper_id,
+                company_id
                 ) 
                 VALUES( 
                 :shipment_number, 
                 :shipment_status, 
                 :shipment_description,
-                :destination,
-                :date_of_delivery,
-                :area_id,
-                :vehicle_id
+                :date_of_delivery, 
+                :call_time, 
+                :client_id, 
+                :area_name, 
+                :destination, 
+                :area_rate, 
+                :vehicle_type, 
+                :plate_number, 
+                :commission_rate, 
+                :driver_id, 
+                :helper_id,
+                :company_id
                 )";
 
         $configObj = new Config();
@@ -178,21 +258,37 @@ class TransferShipmentModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":shipment_number", $paramShipmentNumberAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":shipment_status", $paramShipmentStatusAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":shipment_description", $paramShipmentDescriptionAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":destination", $paramDestinationAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":date_of_delivery", $paramDateOfDeliveryAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":area_id", $paramAreaIdAdd, PDO::PARAM_STR);
-            $stmt->bindParam(":vehicle_id", $paramVehicleIdAdd, PDO::PARAM_STR);
+            $stmt->bindParam(":shipment_number", $param1, PDO::PARAM_STR);
+            $stmt->bindParam(":shipment_status", $param2, PDO::PARAM_STR);
+            $stmt->bindParam(":shipment_description", $param3, PDO::PARAM_STR);
+            $stmt->bindParam(":date_of_delivery", $param4, PDO::PARAM_STR);
+            $stmt->bindParam(":call_time", $param5, PDO::PARAM_STR);
+            $stmt->bindParam(":client_id", $param6, PDO::PARAM_STR);
+            $stmt->bindParam(":area_name", $param7, PDO::PARAM_STR);
+            $stmt->bindParam(":destination", $param8, PDO::PARAM_STR);
+            $stmt->bindParam(":area_rate", $param9, PDO::PARAM_STR);
+            $stmt->bindParam(":vehicle_type", $param10, PDO::PARAM_STR);
+            $stmt->bindParam(":plate_number", $param11, PDO::PARAM_STR);
+            $stmt->bindParam(":commission_rate", $param12, PDO::PARAM_STR);
+            $stmt->bindParam(":driver_id", $param13, PDO::PARAM_STR);
+            $stmt->bindParam(":helper_id", $param14, PDO::PARAM_STR);
+            $stmt->bindParam(":company_id", $param15, PDO::PARAM_STR);
 
-            $paramShipmentNumberAdd = $this->shipmentNumber;
-            $paramShipmentStatusAdd = "In-progress";
-            $paramShipmentDescriptionAdd = $this->shipmentDescription;
-            $paramDestinationAdd = $this->destination;
-            $paramDateOfDeliveryAdd = $this->dateOfDelivery;
-            $paramAreaIdAdd = $this->areaId;
-            $paramVehicleIdAdd = $this->vehicleId;
+            $param1 = $array1[0][1];
+            $param2 = "In-progress";
+            $param3 = $array1[0][3];
+            $param4 = $array1[0][4];
+            $param5 = $array1[0][5];
+            $param6 = $array1[0][7];
+            $param7 = $array1[0][8];
+            $param8 = $array1[0][9];
+            $param9 = $array1[0][10];
+            $param10 = $array1[0][11];
+            $param11 = $array2[0][0];
+            $param12 = $array2[0][1];
+            $param13 = $array2[0][2];
+            $param14 = $array2[0][3];
+            $param15 = $this->companyId;
 
             if ($stmt->execute()) {
                 echo "Successfully transferred a record!";
@@ -247,16 +343,17 @@ class TransferShipmentModel
 
     public function getShipmentId()
     {
+
         $configObj = new Config();
 
         $pdoVessel = $configObj->pdoConnect();
 
-        $sql = "SELECT shipment_id FROM shipment WHERE shipment_number = :shipment_number AND vehicle_id = :vehicle_id";
+        $sql = "SELECT shipment_id FROM shipment WHERE shipment_number = :shipment_number AND plate_number = :plate_number";
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":shipment_number", $paramShipmentNumber, PDO::PARAM_STR);
-            $stmt->bindParam(":vehicle_id", $paramVehicleId, PDO::PARAM_STR);
+            $stmt->bindParam(":plate_number", $paramVehicleId, PDO::PARAM_STR);
 
             $paramShipmentNumber = $this->shipmentNumber;
             $paramVehicleId = $this->vehicleId;
@@ -285,7 +382,7 @@ class TransferShipmentModel
         SET
         vehicle_status = :vehicle_status
         WHERE
-        vehicle_id = :vehicle_id";
+        plate_number = :plate_number";
 
         $configObj = new Config();
 
@@ -294,7 +391,7 @@ class TransferShipmentModel
         if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":vehicle_status", $paramVehicleStatusEdit, PDO::PARAM_STR);
-            $stmt->bindParam(":vehicle_id", $paramVehicleIdEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":plate_number", $paramVehicleIdEdit, PDO::PARAM_STR);
 
             $paramVehicleStatusEdit = $statusVar;
             $paramVehicleIdEdit = $vehicleIdVar;

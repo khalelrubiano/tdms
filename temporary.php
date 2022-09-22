@@ -1,34 +1,31 @@
- <!-- ADD MODAL 2 START-->
- <div class="modal" id="add2Modal">
-        <div class="modal-background" id="add2ModalBg"></div>
-        <div class="modal-card">
+<?php 
+include_once 'navbar.php';
+?>
+<!DOCTYPE html>
+<html lang="en">
 
-            <header class="modal-card-head has-background-info">
-                <p class="modal-card-title has-text-white"><i class="fa-solid fa-plus mr-3"></i>Add Vehicle Type</p>
-                <button class="delete" aria-label="close" onclick="closeAdd2()"></button>
-            </header>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEMP</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--BULMA CDN-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!--FONTAWESOME CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
 
-            <section class="modal-card-body">
-
-                <div class="field">
-                    <label for="" class="label">Vehicle Type</label>
-                    <div class="control has-icons-left">
-                        <input type="text" placeholder="Enter vehicle type here" class="input is-rounded" name="typeAdd2" id="typeAdd2">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-hashtag"></i>
-                        </span>
-                    </div>
-                    <p class="help" id="typeAdd2Help"></p>
-                </div>
-
-                <div class="field has-text-centered mt-6">
-                    <button class="button is-info has-text-white is-rounded" name="submitAdd2Form" id="submitAdd2Form">
-                        <i class="fa-solid fa-check mr-3"></i>Submit
-                    </button>
-                    <p class="help" id="submitAdd2FormHelp" style="text-align: center;"></p>
-                </div>
-
-            </section>
-        </div>
+<body>
+    <div class="container" id="firstContainer">
+        <p class="title p-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo numquam quae consectetur. Deserunt necessitatibus est possimus odio atque eaque, mollitia illo eveniet odit dolorum totam sequi similique exercitationem vero molestiae.</p>
     </div>
-    <!-- ADD MODAL 2 END-->
+
+</body>
+
+<script>
+    var element = document.getElementById('firstContainer');
+    html2pdf(element);
+</script>
+
+</html>

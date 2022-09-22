@@ -86,18 +86,20 @@ generateLatestMarker();
 
 function generateVehicleDetails() {
     $.post("./classes/load-vehicle-details-client.class.php", {
-        vehicleId: vehicleIdHidden.innerHTML
+        driverId: driverIdHidden.innerHTML,
+        helperId: helperIdHidden.innerHTML
     }, function (data) {
         //indicatorHidden.innerHTML = "Call Success";
+        //alert(data);
         var jsonArray = JSON.parse(data);
 
         //var finalLength = Math.ceil(jsonArray.length / 4)
         //arrayLengthHidden.innerHTML = finalLength;
 
         //indicatorHidden.innerHTML = jsonArray[0][0] + " " + jsonArray[0][1] + " " + jsonArray[0][2] + " " + jsonArray[0][3] + " " + jsonArray[0][4] + " " + jsonArray[0][5];
-        driverSubtitle.innerHTML = "Driver: " + jsonArray[0][4];
-        helperSubtitle.innerHTML = "Helper: " + jsonArray[0][5];
-        plateNumberSubtitle.innerHTML = "Vehicle Plate Number: " + jsonArray[0][1];
+        driverSubtitle.innerHTML = "Driver: " + jsonArray[0][0];
+        helperSubtitle.innerHTML = "Helper: " + jsonArray[0][1];
+        //plateNumberSubtitle.innerHTML = "Vehicle Plate Number: " + jsonArray[0][1];
     });
 }
 
@@ -184,7 +186,7 @@ function generateProgressBarDetails() {
         //TRANSFERRED
 
         for (var i = 0; i < jsonArray.length; i++) {
-            if (jsonArray[i][1] == "Transferred" && jsonArray[i][3] == "Cancelled") {
+            if (jsonArray[i][1].search('Transferred') != -1 && jsonArray[i][3] == "Cancelled") {
                 //alert("Transferred");
 
                 //5
@@ -279,7 +281,8 @@ function generateProgressBarDetails() {
         //CANCELLED
 
         //for (var i = 0; i < jsonArray.length; i++) {
-        if (jsonArray[jsonArray.length - 1][1] != "Transferred" && jsonArray[jsonArray.length - 1][3] == "Cancelled") {
+
+        if (jsonArray[jsonArray.length - 1][1].search('Transferred') == -1 && jsonArray[jsonArray.length - 1][3] == "Cancelled") {
             //alert("Transferred");
 
             //9

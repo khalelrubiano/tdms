@@ -97,7 +97,7 @@ if (!isset($_SESSION)) {
             </ul>
 
             <ul class="menu-list">
-                <li><a id="shipmentIndividualBtn" class="is-hidden">Shipment</a></li>
+                <li><a id="shipmentIndividualBtn">Shipment</a></li>
             </ul>
 
             <p class="menu-label" id="manageLabel">

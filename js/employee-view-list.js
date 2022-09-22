@@ -70,7 +70,7 @@ function testAjax() {
 //ADD AJAX CALLS WITH VALIDATION
 let submitAddForm = document.getElementById('submitAddForm'); //save changes button
 let submitAddFormHelp = document.getElementById('submitAddFormHelp'); //save changes button
-
+let employeeNumberAdd = document.getElementById('employeeNumberAdd')
 let usernameAdd = document.getElementById('usernameAdd')
 let passwordAdd = document.getElementById('passwordAdd')
 let confirmPasswordAdd = document.getElementById('confirmPasswordAdd')
@@ -79,6 +79,7 @@ let middleNameAdd = document.getElementById('middleNameAdd')
 let lastNameAdd = document.getElementById('lastNameAdd')
 let roleNameAdd = document.getElementById('roleNameAdd')
 
+let employeeNumberAddHelp = document.getElementById('employeeNumberAddHelp')
 let usernameAddHelp = document.getElementById('usernameAddHelp')
 let passwordAddHelp = document.getElementById('passwordAddHelp')
 let confirmPasswordAddHelp = document.getElementById('confirmPasswordAddHelp')
@@ -88,6 +89,7 @@ let lastNameAddHelp = document.getElementById('lastNameAddHelp')
 
 function addAjax() {
     $.post("./classes/add-employee-controller.class.php", {
+        employeeNumberAdd: employeeNumberAdd.value,
         usernameAdd: usernameAdd.value,
         passwordAdd: passwordAdd.value,
         firstNameAdd: firstNameAdd.value,
@@ -561,9 +563,9 @@ function generateUserList1() {
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
-        
+
         let i = 1;
-        while(i <= finalLength){
+        while (i <= finalLength) {
             generateUserList2(i, selectSort.value, finalLength);
             i++;
         }
@@ -611,25 +613,25 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 //CARD HEADER PARAGRAPH
                 var newCardHeaderParagraph = document.createElement("p");
                 newCardHeaderParagraph.classList.add('card-header-title');
-                newCardHeaderParagraph.innerHTML = jsonArray[i][4];
+                newCardHeaderParagraph.innerHTML = jsonArray[i][4] + ' - ' + 'ID: ' + jsonArray[i][6];
                 newCardHeader.appendChild(newCardHeaderParagraph);
-/*
-                //CARD HEADER BUTTON
-                var newCardHeaderButton = document.createElement("button");
-                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
-                newCardHeaderButton.classList.add('card-header-icon');
-                newCardHeader.appendChild(newCardHeaderButton);
-
-                var newCardHeaderButtonSpan = document.createElement("span");
-                newCardHeaderButtonSpan.classList.add('icon');
-                newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
-
-                var newCardHeaderButtonSpanI = document.createElement("i");
-                newCardHeaderButtonSpanI.classList.add('fa-solid');
-                newCardHeaderButtonSpanI.classList.add('fa-trash-can');
-                newCardHeaderButtonSpanI.classList.add('has-text-danger');
-                newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
-*/
+                /*
+                                //CARD HEADER BUTTON
+                                var newCardHeaderButton = document.createElement("button");
+                                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
+                                newCardHeaderButton.classList.add('card-header-icon');
+                                newCardHeader.appendChild(newCardHeaderButton);
+                
+                                var newCardHeaderButtonSpan = document.createElement("span");
+                                newCardHeaderButtonSpan.classList.add('icon');
+                                newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
+                
+                                var newCardHeaderButtonSpanI = document.createElement("i");
+                                newCardHeaderButtonSpanI.classList.add('fa-solid');
+                                newCardHeaderButtonSpanI.classList.add('fa-trash-can');
+                                newCardHeaderButtonSpanI.classList.add('has-text-danger');
+                                newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
+                */
                 //newCardHeaderButton.innerHTML = jsonArray[i][4];
                 //newCardHeader.appendChild(newCardHeaderParagraph);
 
@@ -799,23 +801,23 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     newCardHeaderParagraph.classList.add('card-header-title');
     newCardHeaderParagraph.innerHTML = roleNameVar;
     newCardHeader.appendChild(newCardHeaderParagraph);
-/*
-    //CARD HEADER BUTTON
-    var newCardHeaderButton = document.createElement("button");
-    newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + usernameVar + "')");
-    newCardHeaderButton.classList.add('card-header-icon');
-    newCardHeader.appendChild(newCardHeaderButton);
-
-    var newCardHeaderButtonSpan = document.createElement("span");
-    newCardHeaderButtonSpan.classList.add('icon');
-    newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
-
-    var newCardHeaderButtonSpanI = document.createElement("i");
-    newCardHeaderButtonSpanI.classList.add('fa-solid');
-    newCardHeaderButtonSpanI.classList.add('fa-trash-can');
-    newCardHeaderButtonSpanI.classList.add('has-text-danger');
-    newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
-*/
+    /*
+        //CARD HEADER BUTTON
+        var newCardHeaderButton = document.createElement("button");
+        newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + usernameVar + "')");
+        newCardHeaderButton.classList.add('card-header-icon');
+        newCardHeader.appendChild(newCardHeaderButton);
+    
+        var newCardHeaderButtonSpan = document.createElement("span");
+        newCardHeaderButtonSpan.classList.add('icon');
+        newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
+    
+        var newCardHeaderButtonSpanI = document.createElement("i");
+        newCardHeaderButtonSpanI.classList.add('fa-solid');
+        newCardHeaderButtonSpanI.classList.add('fa-trash-can');
+        newCardHeaderButtonSpanI.classList.add('has-text-danger');
+        newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
+    */
     //CARD CONTENT
     var newCardContent = document.createElement("div");
     newCardContent.classList.add('card-content');
@@ -915,7 +917,7 @@ selectSort.addEventListener('change', () => {
 
 
 });
-
+/*
 searchBarInput.addEventListener('input', () => {
     generateUserList3(searchBarInput.value);
     if (searchBarInput.value == "") {
@@ -925,5 +927,5 @@ searchBarInput.addEventListener('input', () => {
 
     }
 });
-
+*/
 refreshList();

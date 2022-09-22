@@ -6,6 +6,7 @@ require_once "../config.php";
 
 class SignUpCompanyModel
 {
+    private $employeeNumberAdd;
     private $username;
     private $password;
     private $companyName;
@@ -17,9 +18,9 @@ class SignUpCompanyModel
     private $city;
     private $barangay;
     private $tin;
-    public function __construct($username, $password, $companyName, $companyEmail, $companyNumber, $companyAddress, $region, $province, $city, $barangay, $tin)
+    public function __construct($employeeNumberAdd, $username, $password, $companyName, $companyEmail, $companyNumber, $companyAddress, $region, $province, $city, $barangay, $tin)
     {
-
+        $this->employeeNumberAdd = $employeeNumberAdd;
         $this->username = $username;
         $this->password = $password;
         $this->companyName = $companyName;
@@ -55,9 +56,9 @@ class SignUpCompanyModel
 
         //PUT THESE IN IF STATEMENT
         $this->companySubmit();
-        
+
         $this->roleAdminSubmit();
-        
+
         $this->accountSubmit();
     }
 
@@ -186,15 +187,18 @@ class SignUpCompanyModel
     private function accountSubmit()
     {
 
-        $sql = "INSERT INTO employee 
-        (username, 
+        $sql = "INSERT INTO 
+        employee 
+        (employee_number,
+        username, 
         password, 
         first_name, 
         middle_name, 
         last_name, 
         permission_id) 
         VALUES 
-        (:username, 
+        (:employee_number,
+        :username, 
         :password, 
         :first_name, 
         :middle_name, 
@@ -207,6 +211,7 @@ class SignUpCompanyModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
+            $stmt->bindParam(":employee_number", $param1, PDO::PARAM_STR);
             $stmt->bindParam(":username", $paramUsername, PDO::PARAM_STR);
             $stmt->bindParam(":password", $paramPassword, PDO::PARAM_STR);
             $stmt->bindParam(":first_name", $paramFirstName, PDO::PARAM_STR);
@@ -214,6 +219,7 @@ class SignUpCompanyModel
             $stmt->bindParam(":last_name", $paramLastName, PDO::PARAM_STR);
             $stmt->bindParam(":permission_id", $paramPermissionId, PDO::PARAM_STR);
 
+            $param1 = $this->employeeNumberAdd;
             $paramUsername = $this->username;
             $paramPassword = password_hash($this->password, PASSWORD_DEFAULT);
             $paramFirstName = 'Company';

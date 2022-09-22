@@ -4,7 +4,7 @@
 include 'sign-up-company-model.class.php';
 
 if(isset($_POST["submit"])){
-
+    $employeeNumberAdd = $_POST["employeeNumberAdd"];
     $username = $_POST["username"];
     $password = $_POST["password"];
     $companyName = $_POST["companyName"];
@@ -17,7 +17,7 @@ if(isset($_POST["submit"])){
     $barangay = $_POST["barangay"];
     $tin = $_POST["tin"];
 
-    $signUpCompanyObj = new SignUpCompanyModel($username, $password, $companyName, $companyEmail, $companyNumber, $companyAddress, $region, $province, $city, $barangay, $tin);
+    $signUpCompanyObj = new SignUpCompanyModel($employeeNumberAdd, $username, $password, $companyName, $companyEmail, $companyNumber, $companyAddress, $region, $province, $city, $barangay, $tin);
 
     $signUpCompanyObj->signUpCompany();
 

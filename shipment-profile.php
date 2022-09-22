@@ -342,6 +342,8 @@ include_once 'navbar.php';
             #driverSubtitle,
             #helperSubtitle,
             #plateNumberSubtitle,
+            #typeTitle,
+            #vehicleTypeSubtitle,
             #titleSpan {
                 font-size: calc(6px + 0.390625vw);
             }
@@ -531,6 +533,8 @@ include_once 'navbar.php';
             #driverSubtitle,
             #helperSubtitle,
             #plateNumberSubtitle,
+            #typeTitle,
+            #vehicleTypeSubtitle,
             #titleSpan {
                 font-size: calc(12px + 0.390625vw);
             }
@@ -639,20 +643,23 @@ include_once 'navbar.php';
                             <div class="tile is-ancestor">
                                 <div class="tile is-parent">
                                     <div class="tile is-child">
-                                        <p class="title is-6 mb-6" id="dateOfDeliveryTitle">Expected Date of Delivery:</p>
-                                        <p class="subtitle is-6" id="dateOfDeliverySubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["dateOfDelivery"] ?></p>
-                                        <p class="title is-6 mb-6" id="destinationTitle">Destination:</p>
-                                        <p class="subtitle is-6" id="destinationSubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["destination"] ?></p>
                                         <p class="title is-6 mb-6" id="clientNameTitle">Client:</p>
                                         <p class="subtitle is-6" id="clientNameSubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["clientName"] ?></p>
+                                        <p class="title is-6 mb-6" id="dateOfDeliveryTitle">Date of Delivery:</p>
+                                        <p class="subtitle is-6" id="dateOfDeliverySubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["dateOfDelivery"] ?></p>
+                                        <p class="title is-6 mb-6" id="destinationTitle">Destination:</p>
+                                        <p class="subtitle is-6" id="destinationSubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["destination"] . ', ' . $_SESSION["areaName"] ?></p>
+
 
                                     </div>
 
                                     <div class="tile is-child">
                                         <p class="title is-6 mb-6" id="personnelTitle">Personnel:</p>
-                                        <p class="subtitle is-6" id="driverSubtitle"></p>
-                                        <p class="subtitle is-6" id="helperSubtitle"></p>
-                                        <p class="subtitle is-6" id="plateNumberSubtitle" style="margin-bottom: 75px;"></p>
+                                        <p class="subtitle is-6" id="driverSubtitle">sample</p>
+                                        <p class="subtitle is-6" id="helperSubtitle">sample</p>
+                                        <p class="subtitle is-6" id="plateNumberSubtitle" style="margin-bottom: 75px;">Plate Number: <?php echo $_SESSION["plateNumber"] ?></p>
+                                        <p class="title is-6 mb-6" id="typeTitle">Vehicle Type:</p>
+                                        <p class="subtitle is-6" id="vehicleTypeSubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["vehicleType"] ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -734,15 +741,48 @@ include_once 'navbar.php';
             <section class="modal-card-body">
 
                 <div class="field">
-                    <label for="" class="label">Transfer to</label>
-                    <div class="control">
-                        <div class="select is-rounded" id="vehicleTransferDiv">
-                            <select id="vehicleTransfer" name="vehicleTransfer">
-                            </select>
+
+                    <div class="field mb-6">
+                        <label for="" class="label">Transfer to</label>
+                        <div class="control">
+                            <div class="select is-rounded" id="vehicleTransferDiv">
+                                <select id="vehicleTransfer" name="vehicleTransfer">
+                                </select>
+                            </div>
                         </div>
+                        <p class="help" id="vehicleTransferHelp"></p>
                     </div>
-                    <p class="help" id="vehicleTransferHelp"></p>
+
+                    <label for="" class="label">Reason for Transfer</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="transferReason" value="Failed Delivery">
+                            Failed Delivery
+                        </label>
+                        <br>
+                        <label class="radio">
+                            <input type="radio" name="transferReason" value="Incorrect Shipment">
+                            Incorrect Shipment
+                        </label>
+                        <br>
+                        <label class="radio">
+                            <input type="radio" name="transferReason" value="Others">
+                            Others, specify:
+                        </label>
+                    </div>
+                    <p class="help" id="transferReasonHelp"></p>
                 </div>
+
+
+                <div class="field">
+                    <label for="" class="label"></label>
+                    <div class="control">
+                        <textarea class="textarea" placeholder="Enter reason here" name="othersTransferReason" id="othersTransferReason" style="resize: none;"></textarea>
+                    </div>
+                    <p class="help" id="othersTransferReasonHelp"></p>
+                </div>
+
+
 
                 <div class="field has-text-centered mt-6">
                     <button class="button is-dark has-text-white is-rounded" name="submitTransferForm" id="submitTransferForm">
@@ -762,12 +802,13 @@ include_once 'navbar.php';
     <div class="container is-hidden" style="margin-bottom: 20%;">
         <div class="container firstContainer" style="margin-bottom: 5%;">
 
-
-
             <p class="title is-4 is-hidden" id="shipmentNumberHidden"><?php echo $_SESSION["shipmentNumber"] ?></p>
             <p class="title is-4 is-hidden" id="shipmentTitleHidden"><?php echo $_SESSION["shipmentId"] ?></p>
             <p class="title is-4 is-hidden" id="areaIdHidden"><?php echo $_SESSION["areaId"] ?></p>
-            <p class="title is-4 is-hidden" id="vehicleIdHidden"><?php echo $_SESSION["vehicleId"] ?></p>
+            <p class="title is-4 is-hidden" id="vehicleIdHidden"><?php echo $_SESSION["plateNumber"] ?></p>
+            <p class="title is-4 is-hidden" id="driverIdHidden"><?php echo $_SESSION["driverId"] ?></p>
+            <p class="title is-4 is-hidden" id="helperIdHidden"><?php echo $_SESSION["helperId"] ?></p>
+            <p class="title is-4 is-hidden" id="vehicleTypeHidden"><?php echo $_SESSION["vehicleType"] ?></p>
             <p class="title is-4 is-hidden" id="shipmentStatusHidden"><?php echo $_SESSION["shipmentStatus"] ?></p>
             <p class="title is-4 is-hidden" id="indicatorHidden">result here</p>
         </div>

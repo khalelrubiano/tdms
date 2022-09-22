@@ -17,20 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $_SESSION["shipmentId"] = $_POST['shipmentId'];
     $_SESSION["shipmentNumber"] = $_POST['shipmentNumber'];
-    $_SESSION["shipmentStatus"] = $_POST['shipmentStatus'];
-    $_SESSION["shipmentDescription"] = $_POST['shipmentDescription'];
-    $_SESSION["dateOfDelivery"] = $_POST["dateOfDelivery"];
-    $_SESSION["callTime"] = $_POST["callTime"];
-    $_SESSION["clientId"] = $_POST["clientId"];
-    $_SESSION["areaName"] = $_POST["areaName"];
-    $_SESSION["destination"] = $_POST["destination"];
-    $_SESSION["areaRate"] = $_POST["areaRate"];
-    $_SESSION["vehicleType"] = $_POST["vehicleType"];
-    $_SESSION["plateNumber"] = $_POST["plateNumber"];
-    $_SESSION["commissionRate"] = $_POST["commissionRate"];
-    $_SESSION["driverId"] = $_POST["driverId"];
-    $_SESSION["helperId"] = $_POST["helperId"];
-    $_SESSION["clientName"] = $_POST["clientName"];
 
     //header("location: ../subcontractor-group-profile.php");
     //exit();

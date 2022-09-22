@@ -7,18 +7,27 @@ require_once "../config.php";
 class AddShipmentProgressModel
 {
     private $shipmentId;
-    private $shipmentDescription;
-    private $vehicleId;
+    private $dropFeeAdd;
+    private $parkingFeeAdd;
+    private $demurrageAdd;
+    private $otherChargesAdd;
+    private $penaltyAdd;
 
     public function __construct(
         $shipmentId,
-        $shipmentDescription,
-        $vehicleId
+        $dropFeeAdd,
+        $parkingFeeAdd,
+        $demurrageAdd,
+        $otherChargesAdd,
+        $penaltyAdd
     ) {
 
         $this->shipmentId = $shipmentId;
-        $this->shipmentDescription = $shipmentDescription;
-        $this->vehicleId = $vehicleId;
+        $this->dropFeeAdd = $dropFeeAdd;
+        $this->parkingFeeAdd = $parkingFeeAdd;
+        $this->demurrageAdd = $demurrageAdd;
+        $this->otherChargesAdd = $otherChargesAdd;
+        $this->penaltyAdd = $penaltyAdd;
     }
 
     public function addShipmentProgressRecord()
@@ -46,11 +55,7 @@ class AddShipmentProgressModel
         }
 */
 
-        $this->addShipmentProgressSubmit();
-        if ($this->shipmentDescription == "Delivery Completed") {
-            $this->updateShipmentSubmit();
-            $this->editVehicleSubmit();
-        }
+        $this->updateShipmentFeeSubmit();
     }
     /*
     public function getVehicleInfo()
@@ -128,12 +133,16 @@ class AddShipmentProgressModel
         unset($pdoVessel);
     }
 */
-    public function updateShipmentSubmit()
+    public function updateShipmentFeeSubmit()
     {
 
-        $sql = "UPDATE shipment
+        $sql = "UPDATE shipmentfees
         SET 
-        shipment_status = :shipment_status
+        drop_fee = :drop_fee,
+        parking_fee = :parking_fee,
+        demurrage = :demurrage,
+        other_charges = :other_charges,
+        penalty = :penalty
         WHERE shipment_id = :shipment_id";
 
         $configObj = new Config();
@@ -143,10 +152,18 @@ class AddShipmentProgressModel
         if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":shipment_id", $paramShipmentId, PDO::PARAM_STR);
-            $stmt->bindParam(":shipment_status", $paramShipmentStatus, PDO::PARAM_STR);
+            $stmt->bindParam(":drop_fee", $param2, PDO::PARAM_STR);
+            $stmt->bindParam(":parking_fee", $param3, PDO::PARAM_STR);
+            $stmt->bindParam(":demurrage", $param4, PDO::PARAM_STR);
+            $stmt->bindParam(":other_charges", $param5, PDO::PARAM_STR);
+            $stmt->bindParam(":penalty", $param6, PDO::PARAM_STR);
 
             $paramShipmentId = $this->shipmentId;
-            $paramShipmentStatus = "Completed";
+            $param2 = $this->dropFeeAdd;
+            $param3 = $this->parkingFeeAdd;
+            $param4 = $this->demurrageAdd;
+            $param5 = $this->otherChargesAdd;
+            $param6 = $this->penaltyAdd;
 
 
             if ($stmt->execute()) {
@@ -162,16 +179,24 @@ class AddShipmentProgressModel
         unset($pdoVessel);
     }
 
-    public function addShipmentProgressSubmit()
+    public function addShipmentFeesSubmit()
     {
 
         $sql = "INSERT INTO 
-                shipmentprogress(
-                progress_description,
+                shipmentfees(
+                drop_fee,
+                parking_fee,
+                demurrage,
+                other_charges,
+                penalty,
                 shipment_id
                 ) 
                 VALUES( 
-                :progress_description,
+                0,
+                0,
+                0,
+                0,
+                0,
                 :shipment_id
                 )";
 
@@ -181,10 +206,8 @@ class AddShipmentProgressModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":progress_description", $paramProgressDescription, PDO::PARAM_STR);
             $stmt->bindParam(":shipment_id", $paramShipmentId, PDO::PARAM_STR);
 
-            $paramProgressDescription = $this->shipmentDescription;
             $paramShipmentId = $this->shipmentId;
 
             if ($stmt->execute()) {

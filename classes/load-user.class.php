@@ -26,7 +26,8 @@ try {
     employee.middle_name, 
     employee.last_name, 
     permission.role_name, 
-    employee.employee_id 
+    employee.employee_id, 
+    employee.employee_number
     FROM permission INNER JOIN employee ON permission.permission_id = employee.permission_id 
     WHERE permission.company_id = :company_id " . 
     "ORDER BY " . $orderBy . " ASC " .  

@@ -72,7 +72,7 @@ function testAjax() {
 //ADD AJAX CALLS WITH VALIDATION
 let submitAddForm = document.getElementById('submitAddForm'); //save changes button
 let submitAddFormHelp = document.getElementById('submitAddFormHelp'); //save changes button
-
+let subcontractorNumberAdd = document.getElementById('subcontractorNumberAdd')
 let usernameAdd = document.getElementById('usernameAdd')
 let passwordAdd = document.getElementById('passwordAdd')
 let confirmPasswordAdd = document.getElementById('confirmPasswordAdd')
@@ -80,6 +80,7 @@ let firstNameAdd = document.getElementById('firstNameAdd')
 let middleNameAdd = document.getElementById('middleNameAdd')
 let lastNameAdd = document.getElementById('lastNameAdd')
 
+let subcontractorNumberAddHelp = document.getElementById('subcontractorNumberAddHelp')
 let usernameAddHelp = document.getElementById('usernameAddHelp')
 let passwordAddHelp = document.getElementById('passwordAddHelp')
 let confirmPasswordAddHelp = document.getElementById('confirmPasswordAddHelp')
@@ -89,6 +90,7 @@ let lastNameAddHelp = document.getElementById('lastNameAddHelp')
 
 function addAjax() {
     $.post("./classes/add-subcontractor-controller.class.php", {
+        subcontractorNumberAdd: subcontractorNumberAdd.value,
         usernameAdd: usernameAdd.value,
         passwordAdd: passwordAdd.value,
         firstNameAdd: firstNameAdd.value,

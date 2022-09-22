@@ -6,6 +6,7 @@ require_once "../config.php";
 
 class AddSubcontractorModel
 {
+    private $subcontractorNumberAdd;
     private $usernameAdd;
     private $passwordAdd;
     private $firstNameAdd;
@@ -14,6 +15,7 @@ class AddSubcontractorModel
     private $companyId;
 
     public function __construct(
+        $subcontractorNumberAdd,
         $usernameAdd,
         $passwordAdd,
         $firstNameAdd,
@@ -21,7 +23,7 @@ class AddSubcontractorModel
         $lastNameAdd,
         $companyId
     ) {
-
+        $this->subcontractorNumberAdd = $subcontractorNumberAdd;
         $this->usernameAdd = $usernameAdd;
         $this->passwordAdd = $passwordAdd;
         $this->firstNameAdd = $firstNameAdd;
@@ -46,14 +48,16 @@ class AddSubcontractorModel
 
         $sql = "INSERT INTO 
         subcontractor 
-        (username, 
+        (subcontractor_number,
+        username, 
         password, 
         first_name, 
         middle_name, 
         last_name,
         company_id) 
         VALUES 
-        (:username, 
+        (:subcontractor_number,
+        :username, 
         :password, 
         :first_name, 
         :middle_name, 
@@ -66,6 +70,7 @@ class AddSubcontractorModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
+            $stmt->bindParam(":subcontractor_number", $param1, PDO::PARAM_STR);
             $stmt->bindParam(":username", $paramUsernameAdd, PDO::PARAM_STR);
             $stmt->bindParam(":password", $paramPasswordAdd, PDO::PARAM_STR);
             $stmt->bindParam(":first_name", $paramFirstNameAdd, PDO::PARAM_STR);
@@ -73,6 +78,7 @@ class AddSubcontractorModel
             $stmt->bindParam(":last_name", $paramLastNameAdd, PDO::PARAM_STR);
             $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
 
+            $param1 = $this->subcontractorNumberAdd;
             $paramUsernameAdd = $this->usernameAdd;
             $paramPasswordAdd = password_hash($this->passwordAdd, PASSWORD_DEFAULT);
             $paramFirstNameAdd = $this->firstNameAdd;

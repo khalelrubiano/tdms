@@ -9,18 +9,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $shipmentNumberAdd = $_POST['shipmentNumberAdd'];
     $shipmentDescriptionAdd = $_POST['shipmentDescriptionAdd'];
-    $destinationAdd = $_POST['destinationAdd'];
     $dateOfDeliveryAdd = $_POST['dateOfDeliveryAdd'];
-    $areaRateAdd = $_POST['areaRateAdd'];
+    $callTimeAdd = $_POST['callTimeAdd'];
+    $clientAdd = $_POST['clientAdd'];
+    $destinationAdd = $_POST['destinationAdd'];
     $vehicleAdd = $_POST['vehicleAdd'];
+    $companyId = $_SESSION['companyId'];
 
     $addObj = new AddShipmentModel(
         $shipmentNumberAdd, 
         $shipmentDescriptionAdd, 
+        $dateOfDeliveryAdd, 
+        $callTimeAdd, 
+        $clientAdd,
         $destinationAdd, 
-        $dateOfDeliveryAdd,
-        $areaRateAdd, 
         $vehicleAdd,
+        $companyId
     );
 
     $addObj->addShipmentRecord();

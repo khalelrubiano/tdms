@@ -6,6 +6,7 @@ require_once "../config.php";
 
 class AddEmployeeModel
 {
+    private $employeeNumberAdd;
     private $usernameAdd;
     private $passwordAdd;
     private $firstNameAdd;
@@ -14,6 +15,7 @@ class AddEmployeeModel
     private $roleNameAdd;
 
     public function __construct(
+        $employeeNumberAdd,
         $usernameAdd,
         $passwordAdd,
         $firstNameAdd,
@@ -21,7 +23,7 @@ class AddEmployeeModel
         $lastNameAdd,
         $roleNameAdd
     ) {
-
+        $this->employeeNumberAdd = $employeeNumberAdd;
         $this->usernameAdd = $usernameAdd;
         $this->passwordAdd = $passwordAdd;
         $this->firstNameAdd = $firstNameAdd;
@@ -46,14 +48,16 @@ class AddEmployeeModel
 
         $sql = "INSERT INTO 
         employee 
-        (username, 
+        (employee_number,
+        username, 
         password, 
         first_name, 
         middle_name, 
         last_name, 
         permission_id) 
         VALUES 
-        (:username, 
+        (:employee_number,
+        :username, 
         :password, 
         :first_name, 
         :middle_name, 
@@ -66,6 +70,7 @@ class AddEmployeeModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
+            $stmt->bindParam(":employee_number", $param1, PDO::PARAM_STR);
             $stmt->bindParam(":username", $paramUsernameAdd, PDO::PARAM_STR);
             $stmt->bindParam(":password", $paramPasswordAdd, PDO::PARAM_STR);
             $stmt->bindParam(":first_name", $paramFirstNameAdd, PDO::PARAM_STR);
@@ -73,6 +78,7 @@ class AddEmployeeModel
             $stmt->bindParam(":last_name", $paramLastNameAdd, PDO::PARAM_STR);
             $stmt->bindParam(":permission_id", $paramPermissionId, PDO::PARAM_STR);
 
+            $param1 = $this->employeeNumberAdd;
             $paramUsernameAdd = $this->usernameAdd;
             $paramPasswordAdd = password_hash($this->passwordAdd, PASSWORD_DEFAULT);
             $paramFirstNameAdd = $this->firstNameAdd;
@@ -89,7 +95,7 @@ class AddEmployeeModel
                 */
                 echo "Successfully created an account!";
             } else {
-/*
+                /*
                 $_SESSION["prompt"] = "Something went wrong!";
                 header('location: ../prompt.php');
                 exit();*/
@@ -102,7 +108,7 @@ class AddEmployeeModel
         unset($pdoVessel);
     }
 
-   /*
+    /*
     public function getPermissionId()
     {
         $configObj = new Config();
@@ -159,7 +165,7 @@ class AddEmployeeModel
                     $result = true;
                 }
             } else {
-/*
+                /*
                 $_SESSION["prompt"] = "Something went wrong!";
                 header('location: ../prompt.php');
                 exit();*/

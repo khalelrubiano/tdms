@@ -42,15 +42,12 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
         currentPageNumber: currentPageNumberVar,
         orderBy: orderByVar
     }, function (data) {
-
+        console.log("js code was loaded");
         var jsonArray = JSON.parse(data);
-        indicator.innerHTML = jsonArray[0][1];
-        indicator.innerHTML = currentPageNumber;
-        indicator.innerHTML = arrayLengthHidden.innerHTML;
-
+        indicator.innerHTML = "call success";
         if (currentPageNumber <= finalLengthVar) {
 
-            //alert("success");
+
             var newParentTile = document.createElement("div");
             newParentTile.classList.add('tile');
             newParentTile.classList.add('is-parent');
@@ -109,9 +106,9 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
                         break;
 
                 }
-
-                //CARD HEADER BUTTON
                 /*
+                                //CARD HEADER BUTTON
+                
                                 var newCardHeaderButton = document.createElement("button");
                                 newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "')");
                                 newCardHeaderButton.classList.add('card-header-icon');
@@ -167,17 +164,18 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
                 var newContentTableTbody = document.createElement("tbody");
                 newContentTable.appendChild(newContentTableTbody);
 
-                /*CONTENT TABLE TBODY TR 1
+                //CONTENT TABLE TBODY TR 1
                 var newContentTableTbodyTr1 = document.createElement("tr");
                 newContentTableTbody.appendChild(newContentTableTbodyTr1);
 
                 var newContentTableTbodyTr1Td1 = document.createElement("td");
-                newContentTableTbodyTr1Td1.innerHTML = "Starting Point:";
+                newContentTableTbodyTr1Td1.classList.add('has-text-weight-bold');
+                newContentTableTbodyTr1Td1.innerHTML = "Client:";
                 newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td1);
 
                 var newContentTableTbodyTr1Td2 = document.createElement("td");
-                newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][3];
-                newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);*/
+                newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][18];
+                newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);
 
                 //CONTENT TABLE TBODY TR 2
                 var newContentTableTbodyTr2 = document.createElement("tr");
@@ -189,7 +187,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
 
                 var newContentTableTbodyTr2Td2 = document.createElement("td");
-                newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][4];
+                newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][9] + ', ' + jsonArray[i][8];
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td2);
 
                 //CONTENT TABLE TBODY TR 3
@@ -198,11 +196,11 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
 
                 var newContentTableTbodyTr3Td1 = document.createElement("td");
                 newContentTableTbodyTr3Td1.classList.add('has-text-weight-bold');
-                newContentTableTbodyTr3Td1.innerHTML = "Expected Date of Delivery:";
+                newContentTableTbodyTr3Td1.innerHTML = "Date of Delivery:";
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
 
                 var newContentTableTbodyTr3Td2 = document.createElement("td");
-                newContentTableTbodyTr3Td2.innerHTML = jsonArray[i][5];
+                newContentTableTbodyTr3Td2.innerHTML = jsonArray[i][4];
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td2);
 
                 //CONTENT TABLE TBODY TR 4
@@ -215,7 +213,7 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
                 var newContentTableTbodyTr4Td2 = document.createElement("td");
-                newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][7];
+                newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][12];
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td2);
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE
@@ -225,17 +223,19 @@ function generateShipmentList2(tabValueVar, currentPageNumberVar, orderByVar, fi
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                 var newCardFooterLink = document.createElement("a");
-                newCardFooterLink.setAttribute("onclick", "redirectToShipmentProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][6] + "','" + jsonArray[i][7] + "','" + jsonArray[i][8] + "','" + jsonArray[i][9] + "')");
+                newCardFooterLink.setAttribute("onclick", "redirectToShipmentProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][7] + "','" + jsonArray[i][8] + "','" + jsonArray[i][9] + "','" + jsonArray[i][10] + "','" + jsonArray[i][11] + "','" + jsonArray[i][12] + "','" + jsonArray[i][13] + "','" + jsonArray[i][14] + "','" + jsonArray[i][15] + "','" + jsonArray[i][18] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
-                newCardFooterLink.innerHTML = "View Details";
+                newCardFooterLink.innerHTML = "View";
+                newCardFooterLink.classList.add('has-text-info');
                 newCardFooter.appendChild(newCardFooterLink);
-                /*
-                                var newCardFooterLink2 = document.createElement("a");
-                                newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
-                                newCardFooterLink2.classList.add('card-footer-item');
-                                newCardFooterLink2.innerHTML = "Edit Details";
-                                newCardFooter.appendChild(newCardFooterLink2);
-                */
+/*
+                var newCardFooterLink2 = document.createElement("a");
+                newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "')");
+                newCardFooterLink2.classList.add('card-footer-item');
+                newCardFooterLink2.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Delete";
+                newCardFooterLink2.classList.add('has-text-danger');
+                newCardFooter.appendChild(newCardFooterLink2);
+*/
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
                 newParentTile.appendChild(newChildTile);
 
@@ -458,18 +458,24 @@ function generateShipmentList4(shipmentIdVar, shipmentNumberVar, shipmentStatusV
 }
 
 //shipmentId, shipmentNumber, shipmentStatus, shipmentDescription, destination, dateOfDelivery, plateNumber, shipmentDescription, 
-function redirectToShipmentProfile(shipmentIdVar, shipmentNumberVar, shipmentStatusVar, shipmentDescriptionVar, destinationVar, dateOfDeliveryVar, clientNameVar, plateNumberVar, vehicleIdVar, areaIdVar) {
+function redirectToShipmentProfile(shipmentIdVar, shipmentNumberVar, shipmentStatusVar, shipmentDescriptionVar, dateOfDeliveryVar, callTimeVar, clientIdVar, areaNameVar, destinationVar, areaRateVar, vehicleTypeVar, plateNumberVar, commissionRateVar, driverIdVar, helperIdVar, clientNameVar) {
     $.post("./classes/set-shipment-session-variable.class.php", {
         shipmentId: shipmentIdVar,
         shipmentNumber: shipmentNumberVar,
         shipmentStatus: shipmentStatusVar,
         shipmentDescription: shipmentDescriptionVar,
-        destination: destinationVar,
         dateOfDelivery: dateOfDeliveryVar,
-        clientName: clientNameVar,
+        callTime: callTimeVar,
+        clientId: clientIdVar,
+        areaName: areaNameVar,
+        destination: destinationVar,
+        areaRate: areaRateVar,
+        vehicleType: vehicleTypeVar,
         plateNumber: plateNumberVar,
-        vehicleId: vehicleIdVar,
-        areaId: areaIdVar
+        commissionRate: commissionRateVar,
+        driverId: driverIdVar,
+        helperId: helperIdVar,
+        clientName: clientNameVar
     }, function (data) {
         //var jsonArray = JSON.parse(data);
         //alert("success call");

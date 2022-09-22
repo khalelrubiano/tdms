@@ -111,7 +111,7 @@ class CancelShipmentModel
 
 
             $paramShipmentId = $this->shipmentId;
-            $paramCancelReason = $this->cancelReason;
+            $paramCancelReason = "Cancelled: " . $this->cancelReason;
 
 
             if ($stmt->execute()) {
@@ -134,7 +134,7 @@ class CancelShipmentModel
         SET
         vehicle_status = :vehicle_status
         WHERE
-        vehicle_id = :vehicle_id";
+        plate_number = :plate_number";
 
         $configObj = new Config();
 
@@ -143,7 +143,7 @@ class CancelShipmentModel
         if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":vehicle_status", $paramVehicleStatusEdit, PDO::PARAM_STR);
-            $stmt->bindParam(":vehicle_id", $paramVehicleIdEdit, PDO::PARAM_STR);
+            $stmt->bindParam(":plate_number", $paramVehicleIdEdit, PDO::PARAM_STR);
 
             $paramVehicleStatusEdit = "Available";
             $paramVehicleIdEdit = $this->vehicleId;

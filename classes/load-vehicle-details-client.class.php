@@ -6,8 +6,6 @@ if (!isset($_SESSION)) {
 }
 require_once "../config.php";
 
-$vehicleId = $_POST["vehicleId"];
-
 function getSubcontractorDetails($idVar)
 {
     $configObj = new Config();
@@ -28,15 +26,12 @@ function getSubcontractorDetails($idVar)
             $row = $stmt->fetchAll();
 
             for ($i = 0; $i < count($row); $i++) {
-                
-                if($idVar == $row[$i][0]){
+
+                if ($idVar == $row[$i][0]) {
                     $returnValue = $row[$i][2] . " " . $row[$i][3] . " " . $row[$i][4];
                 }
-                
             }
-            
         } else {
-
         }
 
         unset($stmt);
@@ -48,7 +43,7 @@ function getSubcontractorDetails($idVar)
 
 
 try {
-
+    /*
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
@@ -70,26 +65,26 @@ try {
 
     $stmt->execute();
     $row = $stmt->fetchAll();
+*/
+    $driverId = $_POST["driverId"];
+    $helperId = $_POST["helperId"];
 
     $parentArray = array();
 
-    for ($i = 0; $i < count($row); $i++) {
-        //echo $row[$i][1] . "<br>";
 
-        $childArray = array($row[$i][0], $row[$i][1], $row[$i][2], $row[$i][5], getSubcontractorDetails($row[$i][3]), getSubcontractorDetails($row[$i][4]));
 
-        array_push($parentArray, $childArray);
-    }
+    $childArray = array(getSubcontractorDetails($driverId), getSubcontractorDetails($helperId));
+
+    array_push($parentArray, $childArray);
+
 
     $jsonData = json_encode($parentArray);
 
     echo $jsonData;
-
 } catch (Exception $ex) {
-    
+
     session_start();
     $_SESSION['prompt'] = "Something went wrong!";
     header('location: ../prompt.php');
     exit();
-    
 }

@@ -49,6 +49,35 @@ function getSubcontractorDetails($idVar)
     unset($pdoVessel);
 }
 
+function getAreaVehicleType()
+{
+    $configObj = new Config();
+
+    $pdoVessel = $configObj->pdoConnect();
+
+    $sql = "SELECT vehicle_type
+    FROM clientarea
+    WHERE area_id = :area_id";
+
+    if ($stmt = $pdoVessel->prepare($sql)) {
+
+        $stmt->bindParam(":area_id", $param1, PDO::PARAM_STR);
+
+        $param1 = $_POST["areaId"];
+
+        if ($stmt->execute()) {
+            $row = $stmt->fetchAll();
+            $returnValue = $row[0][0];
+        } else {
+
+        }
+
+        unset($stmt);
+
+        return $returnValue;
+    }
+    unset($pdoVessel);
+}
 
 try {
 
@@ -63,9 +92,14 @@ try {
     helper_id,
     vehicle_status 
     FROM vehicle
-    WHERE vehicle_status = 'Available'";
+    WHERE vehicle_status = 'Available'
+    AND vehicle_type = :vehicle_type";
 
     $stmt = $pdoVessel->prepare($sql);
+
+    $stmt->bindParam(":vehicle_type", $param2, PDO::PARAM_STR);
+
+    $param2 = getAreaVehicleType();
 
     $stmt->execute();
     $row = $stmt->fetchAll();

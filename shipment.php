@@ -179,25 +179,25 @@ include_once 'navbar.php';
         </div>
 
         <div class="field">
-          <label for="" class="label">Destination</label>
-          <div class="control has-icons-left">
-            <input type="text" placeholder="Enter destination here" class="input is-rounded" name="destinationAdd" id="destinationAdd">
-            <span class="icon is-small is-left">
-              <i class="fa-solid fa-location-arrow"></i>
-            </span>
-          </div>
-          <p class="help" id="destinationAddHelp"></p>
-        </div>
-
-        <div class="field">
-          <label for="" class="label">Expected Date of Delivery</label>
+          <label for="" class="label">Date of Delivery</label>
           <div class="control has-icons-left">
             <input type="date" class="input is-rounded" name="dateOfDeliveryAdd" id="dateOfDeliveryAdd">
             <span class="icon is-small is-left">
-              <i class="far fa-calendar-alt"></i>
+              <i class="fa-solid fa-calendar-days"></i>
             </span>
           </div>
           <p class="help" id="dateOfDeliveryAddHelp"></p>
+        </div>
+
+        <div class="field">
+          <label for="" class="label">Call Time</label>
+          <div class="control has-icons-left">
+            <input type="time" class="input is-rounded" name="callTimeAdd" id="callTimeAdd">
+            <span class="icon is-small is-left">
+              <i class="fa-regular fa-clock"></i>
+            </span>
+          </div>
+          <p class="help" id="callTimeAddHelp"></p>
         </div>
 
         <div class="field">
@@ -208,18 +208,18 @@ include_once 'navbar.php';
               </select>
             </div>
           </div>
-          <p class="help" id="clientAdd"></p>
+          <p class="help" id="clientAddHelp"></p>
         </div>
 
         <div class="field">
-          <label for="" class="label">Area</label>
+          <label for="" class="label">Destination</label>
           <div class="control">
-            <div class="select is-rounded" id="areaRateAddDiv">
-              <select id="areaRateAdd" name="areaRateAdd">
+            <div class="select is-rounded" id="destinationAddDiv">
+              <select id="destinationAdd" name="destinationAdd">
               </select>
             </div>
           </div>
-          <p class="help" id="areaRateAddHelp"></p>
+          <p class="help" id="destinationAddHelp"></p>
         </div>
 
         <div class="field">
@@ -283,7 +283,7 @@ include_once 'navbar.php';
   userBtn.classList.remove("is-hidden");
   shipmentBtn.classList.add("is-active");
 
- 
+
   let access2 = document.getElementById('access2');
   let access3 = document.getElementById('access3');
   let access4 = document.getElementById('access4');
@@ -306,7 +306,6 @@ include_once 'navbar.php';
   if (access6.innerHTML == 'false') {
     payrollBtn.classList.add("is-hidden");
   }
-
 </script>
 
 </html>

@@ -1,4 +1,5 @@
 //PART OF NEW SYSTEM
+const employeeNumberAdd = document.getElementById('employeeNumberAdd')
 const username = document.getElementById('username')
 const password = document.getElementById('password')
 

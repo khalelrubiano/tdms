@@ -584,7 +584,6 @@ include_once 'navbar.php';
 
     <div class="mainAlt">
 
-
         <div class="dropdown is-active" id="dropdownElement">
             <div class="dropdown-trigger">
                 <button class="button" aria-haspopup="true" aria-controls="dropdown-menu2" id="dropdownBtn">
@@ -629,20 +628,23 @@ include_once 'navbar.php';
                             <div class="tile is-ancestor">
                                 <div class="tile is-parent">
                                     <div class="tile is-child">
-                                        <p class="title is-6 mb-6" id="dateOfDeliveryTitle">Expected Date of Delivery:</p>
-                                        <p class="subtitle is-6" id="dateOfDeliverySubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["dateOfDelivery"] ?></p>
-                                        <p class="title is-6 mb-6" id="destinationTitle">Destination:</p>
-                                        <p class="subtitle is-6" id="destinationSubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["destination"] ?></p>
                                         <p class="title is-6 mb-6" id="clientNameTitle">Client:</p>
                                         <p class="subtitle is-6" id="clientNameSubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["clientName"] ?></p>
+                                        <p class="title is-6 mb-6" id="dateOfDeliveryTitle">Date of Delivery:</p>
+                                        <p class="subtitle is-6" id="dateOfDeliverySubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["dateOfDelivery"] ?></p>
+                                        <p class="title is-6 mb-6" id="destinationTitle">Destination:</p>
+                                        <p class="subtitle is-6" id="destinationSubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["destination"] . ', ' . $_SESSION["areaName"] ?></p>
+
 
                                     </div>
 
                                     <div class="tile is-child">
                                         <p class="title is-6 mb-6" id="personnelTitle">Personnel:</p>
-                                        <p class="subtitle is-6" id="driverSubtitle"></p>
-                                        <p class="subtitle is-6" id="helperSubtitle"></p>
-                                        <p class="subtitle is-6" id="plateNumberSubtitle" style="margin-bottom: 75px;"></p>
+                                        <p class="subtitle is-6" id="driverSubtitle">sample</p>
+                                        <p class="subtitle is-6" id="helperSubtitle">sample</p>
+                                        <p class="subtitle is-6" id="plateNumberSubtitle" style="margin-bottom: 75px;">Plate Number: <?php echo $_SESSION["plateNumber"] ?></p>
+                                        <p class="title is-6 mb-6" id="typeTitle">Vehicle Type:</p>
+                                        <p class="subtitle is-6" id="vehicleTypeSubtitle" style="margin-bottom: 75px;"><?php echo $_SESSION["vehicleType"] ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -667,7 +669,10 @@ include_once 'navbar.php';
             <p class="title is-4 is-hidden" id="shipmentNumberHidden"><?php echo $_SESSION["shipmentNumber"] ?></p>
             <p class="title is-4 is-hidden" id="shipmentTitleHidden"><?php echo $_SESSION["shipmentId"] ?></p>
             <p class="title is-4 is-hidden" id="areaIdHidden"><?php echo $_SESSION["areaId"] ?></p>
-            <p class="title is-4 is-hidden" id="vehicleIdHidden"><?php echo $_SESSION["vehicleId"] ?></p>
+            <p class="title is-4 is-hidden" id="vehicleIdHidden"><?php echo $_SESSION["plateNumber"] ?></p>
+            <p class="title is-4 is-hidden" id="driverIdHidden"><?php echo $_SESSION["driverId"] ?></p>
+            <p class="title is-4 is-hidden" id="helperIdHidden"><?php echo $_SESSION["helperId"] ?></p>
+            <p class="title is-4 is-hidden" id="vehicleTypeHidden"><?php echo $_SESSION["vehicleType"] ?></p>
             <p class="title is-4 is-hidden" id="shipmentStatusHidden"><?php echo $_SESSION["shipmentStatus"] ?></p>
             <p class="title is-4 is-hidden" id="indicatorHidden">result here</p>
         </div>

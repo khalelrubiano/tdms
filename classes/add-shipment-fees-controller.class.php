@@ -3,18 +3,14 @@ if ( !isset($_SESSION) ) {
     session_start();
 }
 
-include 'add-shipment-progress-model.class.php';
+include 'add-shipment-fees-model.class.php';
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $shipmentId = $_POST['shipmentId'];
-    $shipmentDescription = $_POST['shipmentDescription'];
-    $vehicleId = $_SESSION['plateNumber'];
 
     $addObj = new AddShipmentProgressModel(
-        $shipmentId, 
-        $shipmentDescription,
-        $vehicleId
+        $shipmentId
     );
 
     $addObj->addShipmentProgressRecord();

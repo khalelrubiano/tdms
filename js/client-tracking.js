@@ -7,25 +7,30 @@ function getData() {
         shipmentNumber: shipmentNumber.value
     }, function (data) {
         var jsonArray = JSON.parse(data);
+        //alert(data);
         //alert(jsonArray[0][0]);
-        redirectToShipmentProfile(jsonArray[0][0], jsonArray[0][1], jsonArray[0][2], jsonArray[0][3], jsonArray[0][4], jsonArray[0][5], jsonArray[0][6], jsonArray[0][7], jsonArray[0][8], jsonArray[0][9])
+        redirectToShipmentProfile(jsonArray[0][0], jsonArray[0][1], jsonArray[0][2], jsonArray[0][3], jsonArray[0][4], jsonArray[0][5], jsonArray[0][7], jsonArray[0][8], jsonArray[0][9], jsonArray[0][10], jsonArray[0][11], jsonArray[0][12], jsonArray[0][13], jsonArray[0][14], jsonArray[0][15], jsonArray[0][18]);
     });
 }
 
-
-
-function redirectToShipmentProfile(shipmentIdVar, shipmentNumberVar, shipmentStatusVar, shipmentDescriptionVar, destinationVar, dateOfDeliveryVar, clientNameVar, plateNumberVar, vehicleIdVar, areaIdVar) {
+function redirectToShipmentProfile(shipmentIdVar, shipmentNumberVar, shipmentStatusVar, shipmentDescriptionVar, dateOfDeliveryVar, callTimeVar, clientIdVar, areaNameVar, destinationVar, areaRateVar, vehicleTypeVar, plateNumberVar, commissionRateVar, driverIdVar, helperIdVar, clientNameVar) {
     $.post("./classes/set-shipment-session-variable.class.php", {
         shipmentId: shipmentIdVar,
         shipmentNumber: shipmentNumberVar,
         shipmentStatus: shipmentStatusVar,
         shipmentDescription: shipmentDescriptionVar,
-        destination: destinationVar,
         dateOfDelivery: dateOfDeliveryVar,
-        clientName: clientNameVar,
+        callTime: callTimeVar,
+        clientId: clientIdVar,
+        areaName: areaNameVar,
+        destination: destinationVar,
+        areaRate: areaRateVar,
+        vehicleType: vehicleTypeVar,
         plateNumber: plateNumberVar,
-        vehicleId: vehicleIdVar,
-        areaId: areaIdVar
+        commissionRate: commissionRateVar,
+        driverId: driverIdVar,
+        helperId: helperIdVar,
+        clientName: clientNameVar
     }, function (data) {
         //var jsonArray = JSON.parse(data);
         //alert("success call");

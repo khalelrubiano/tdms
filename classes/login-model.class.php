@@ -151,6 +151,7 @@ class LoginModel
                             
                             $this->getSubcontractorRole1($subcontractorId);
                             $this->getSubcontractorRole2($subcontractorId);
+                            //$this->getSubcontractorRole3($subcontractorId);
 
                             header("location: ../dashboard-subcontractor.php");
                         } else {
@@ -235,7 +236,7 @@ class LoginModel
         $sql = "SELECT 
         driver_id,
         helper_id
-        FROM vehicle";
+        FROM shipment";
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
@@ -305,6 +306,58 @@ class LoginModel
                         $_SESSION["isDriver"] = "No";
                         $_SESSION["isHelper"] = "No";
                     } 
+                }
+            } else {
+            }
+
+            unset($stmt);
+        }
+        unset($pdoVessel);
+    }
+
+    private function getSubcontractorRole3($idVar)
+    {
+
+        $configObj = new Config();
+        $pdoVessel = $configObj->pdoConnect();
+
+        $sql = "SELECT 
+        driver_id,
+        helper_id
+        FROM shipment WHERE shipment_status = 'Completed'";
+
+        if ($stmt = $pdoVessel->prepare($sql)) {
+
+            //$stmt->bindParam(":permission_id", $paramPermissionId, PDO::PARAM_STR);
+
+            //$paramPermissionId = $_SESSION["permissionId"];
+
+            if ($stmt->execute()) {
+                $row = $stmt->fetchAll();
+
+                for ($i = 0; $i < count($row); $i++) {
+                    /*
+                    if ($idVar == $row[$i][0]) {
+                        //$returnValue = $row[$i][2] . " " . $row[$i][3] . " " . $row[$i][4];
+                        $_SESSION["isOwner"] = "Yes";
+                    }
+                    if ($idVar == $row[$i][1]) {
+                        //$returnValue = $row[$i][2] . " " . $row[$i][3] . " " . $row[$i][4];
+                        $_SESSION["isDriver"] = "Yes";
+                    }
+                    */
+                    switch ($idVar) {
+                        case $row[$i][0]:
+                            $_SESSION["isOwner"] = "No";
+                            $_SESSION["isPreviousDriver"] = "Yes";
+                            $_SESSION["isPreviousHelper"] = "No";
+                            break;
+                        case $row[$i][1]:
+                            $_SESSION["isOwner"] = "No";
+                            $_SESSION["isPreviousDriver"] = "No";
+                            $_SESSION["isPreviousHelper"] = "Yes";
+                            break;
+                    }
                 }
             } else {
             }

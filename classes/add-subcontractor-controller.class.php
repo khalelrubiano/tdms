@@ -8,6 +8,7 @@ include 'add-subcontractor-model.class.php';
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
+    $subcontractorNumberAdd = $_POST['subcontractorNumberAdd'];
     $usernameAdd = $_POST['usernameAdd'];
     $passwordAdd = $_POST['passwordAdd'];
     $firstNameAdd = $_POST['firstNameAdd'];
@@ -16,6 +17,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $companyId = $_SESSION["companyId"];
 
     $addObj = new AddSubcontractorModel(
+        $subcontractorNumberAdd,
         $usernameAdd,
         $passwordAdd,
         $firstNameAdd,

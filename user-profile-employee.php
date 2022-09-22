@@ -35,6 +35,7 @@ include_once 'navbar.php';
   <!--NAVBAR CSS-->
   <link rel="stylesheet" href="navbar.css">
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <!--FULLCALENDAR
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.2/main.min.js"></script>-->
@@ -171,7 +172,7 @@ include_once 'navbar.php';
 </head>
 
 <body>
-  <div class="main">
+  <div class="main" id="pdfbody">
     <div class="container" style="margin-bottom: 5%;">
 
       <div class="tile is-ancestor">
@@ -259,6 +260,7 @@ include_once 'navbar.php';
   logoutBtn.classList.remove("is-hidden");
   userBtn.innerHTML = "<?php echo $_SESSION['username'] ?>";
   userBtn.classList.remove("is-hidden");
+
 </script>
 
 </html>

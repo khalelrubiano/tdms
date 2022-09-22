@@ -6,6 +6,7 @@ let invoiceTitle = document.getElementById('invoiceTitle');
 let statusHeader = document.getElementById('statusHeader');
 let billingStatusHidden = document.getElementById('billingStatusHidden');
 let invoiceNumberHidden = document.getElementById('invoiceNumberHidden');
+
 let truckRateTD = document.getElementById('truckRateTD');
 let dropFeeTD = document.getElementById('dropFeeTD');
 let parkingFeeTD = document.getElementById('parkingFeeTD');

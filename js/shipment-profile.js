@@ -3,7 +3,9 @@ let areaIdHidden = document.getElementById('areaIdHidden');
 let vehicleIdHidden = document.getElementById('vehicleIdHidden');
 let shipmentStatus = document.getElementById('shipmentStatus');
 let indicatorHidden = document.getElementById('indicatorHidden');
-
+let driverIdHidden = document.getElementById('driverIdHidden');
+let helperIdHidden = document.getElementById('helperIdHidden');
+let vehicleTypeHidden = document.getElementById('vehicleTypeHidden');
 let driverSubtitle = document.getElementById('driverSubtitle');
 let helperSubtitle = document.getElementById('helperSubtitle');
 let plateNumberSubtitle = document.getElementById('plateNumberSubtitle');
@@ -121,18 +123,20 @@ generateLatestMarker();
 
 function generateVehicleDetails() {
     $.post("./classes/load-vehicle-details.class.php", {
-        vehicleId: vehicleIdHidden.innerHTML
+        driverId: driverIdHidden.innerHTML,
+        helperId: helperIdHidden.innerHTML
     }, function (data) {
         //indicatorHidden.innerHTML = "Call Success";
+        //alert(data);
         var jsonArray = JSON.parse(data);
 
         //var finalLength = Math.ceil(jsonArray.length / 4)
         //arrayLengthHidden.innerHTML = finalLength;
 
         //indicatorHidden.innerHTML = jsonArray[0][0] + " " + jsonArray[0][1] + " " + jsonArray[0][2] + " " + jsonArray[0][3] + " " + jsonArray[0][4] + " " + jsonArray[0][5];
-        driverSubtitle.innerHTML = "Driver: " + jsonArray[0][4];
-        helperSubtitle.innerHTML = "Helper: " + jsonArray[0][5];
-        plateNumberSubtitle.innerHTML = "Vehicle Plate Number: " + jsonArray[0][1];
+        driverSubtitle.innerHTML = "Driver: " + jsonArray[0][0];
+        helperSubtitle.innerHTML = "Helper: " + jsonArray[0][1];
+        //plateNumberSubtitle.innerHTML = "Vehicle Plate Number: " + jsonArray[0][1];
     });
 }
 
@@ -219,7 +223,7 @@ function generateProgressBarDetails() {
         //TRANSFERRED
 
         for (var i = 0; i < jsonArray.length; i++) {
-            if (jsonArray[i][1] == "Transferred" && jsonArray[i][3] == "Cancelled") {
+            if (jsonArray[i][1].search('Transferred') != -1 && jsonArray[i][3] == "Cancelled") {
                 //alert("Transferred");
 
                 //5
@@ -314,7 +318,8 @@ function generateProgressBarDetails() {
         //CANCELLED
 
         //for (var i = 0; i < jsonArray.length; i++) {
-        if (jsonArray[jsonArray.length - 1][1] != "Transferred" && jsonArray[jsonArray.length - 1][3] == "Cancelled") {
+        
+        if (jsonArray[jsonArray.length - 1][1].search('Transferred') == -1 && jsonArray[jsonArray.length - 1][3] == "Cancelled") {
             //alert("Transferred");
 
             //9
@@ -522,9 +527,53 @@ function cancelShipment2(cancelReasonVar) {
     });
 }
 
-function populateSelect3() {
-    $.post("./classes/load-vehicle-select.class.php", {
+var transferReason = document.getElementsByName('transferReason');
+var othersTransferReason = document.getElementById('othersTransferReason');
 
+function transferShipment1() {
+
+    for (var i = 0, length = transferReason.length; i < length; i++) {
+        if (transferReason[i].checked) {
+            // do whatever you want with the checked radio
+            if (transferReason[i].value == "Others") {
+                //alert(othersCancellationReason.value);
+                transferShipment2(othersTransferReason.value)
+            } else {
+                //alert(cancellationReason[i].value);
+                transferShipment2(transferReason[i].value)
+            }
+
+
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+
+};
+
+function transferShipment2(transferReasonVar) {
+    $.post("./classes/transfer-shipment-controller.class.php", {
+        shipmentId: shipmentTitleHidden.innerHTML,
+        shipmentNumber: shipmentNumberHidden.innerHTML,
+        vehicleId: vehicleTransfer.value,
+        vehicleIdOld: vehicleIdHidden.innerHTML,
+        transferReason: transferReasonVar
+    }, function (data) {
+        $("#submitTransferFormHelp").html(data);
+        //$("#submitAddFormHelp").attr('class', 'help is-success');
+        //clearAddFormHelp();
+        //clearAddFormInput();
+        //refreshTable();
+        addShipmentLog("Transferred", "Shipment #" + shipmentNumberHidden.innerHTML);
+        window.location.href = "shipment.php";
+        //closeTransfer(); 
+        //indicatorHidden.innerHTML = jsonArray[0][0] + " " + jsonArray[0][1] + " " + jsonArray[0][2] + " " + jsonArray[0][3] + " " + jsonArray[0][4] + " " + jsonArray[0][5];
+    });
+}
+
+function populateSelect3(typeVar) {
+    $.post("./classes/load-vehicle-select2.class.php", {
+        vehicleType: typeVar
     }, function (data) {
         //alert("call success");
         var jsonArray = JSON.parse(data);
@@ -532,7 +581,7 @@ function populateSelect3() {
         for (var i = 0; i < jsonArray.length; i++) {
             //alert(jsonArray[i][0]);
             var newOption = document.createElement("option");
-            newOption.value = jsonArray[i][0];
+            newOption.value = jsonArray[i][1];
             newOption.innerHTML = "Plate Number: " + jsonArray[i][1] + " Driver: " + jsonArray[i][4];
             vehicleTransfer.options.add(newOption);
             //helperAdd.options.add(newOption);
@@ -546,10 +595,6 @@ function transferShipment() {
     $.post("./classes/transfer-shipment-controller.class.php", {
         shipmentId: shipmentTitleHidden.innerHTML,
         shipmentNumber: shipmentNumberHidden.innerHTML,
-        shipmentDescription: shipmentDescriptionSubtitle.innerHTML,
-        destination: destinationSubtitle.innerHTML,
-        dateOfDelivery: dateOfDeliverySubtitle.innerHTML,
-        areaId: areaIdHidden.innerHTML,
         vehicleId: vehicleTransfer.value,
         vehicleIdOld: vehicleIdHidden.innerHTML
     }, function (data) {
@@ -606,12 +651,30 @@ cancellationReason[2].addEventListener('change', () => {
     othersCancellationReason.removeAttribute("readonly");
 });
 
+transferReason[0].addEventListener('change', () => {
+    //alert("0");
+    othersTransferReason.value = "";
+    othersTransferReason.setAttribute("readonly", "true");
+});
+
+transferReason[1].addEventListener('change', () => {
+    //alert("1");
+    othersTransferReason.value = "";
+    othersTransferReason.setAttribute("readonly", "true");
+});
+
+transferReason[2].addEventListener('change', () => {
+    //alert("1");
+    othersTransferReason.value = "";
+    othersTransferReason.removeAttribute("readonly");
+});
+
 transferBtn.addEventListener('click', () => {
     openTransfer();
 });
 
 submitTransferForm.addEventListener('click', (e) => {
-    transferShipment();
+    transferShipment1();
 });
 
 if (shipmentStatusHidden.innerHTML != "In-progress") {
@@ -621,7 +684,7 @@ if (shipmentStatusHidden.innerHTML != "In-progress") {
 
 generateVehicleDetails();
 generateProgressBarDetails();
-populateSelect3();
+populateSelect3(vehicleTypeHidden.innerHTML);
 /*
 
 shipmentlog table
