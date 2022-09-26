@@ -17,17 +17,11 @@ try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT clientarea.area_rate, shipment.shipment_number, vehicle.plate_number, shipmentprogress.created_at 
+    $sql = "SELECT shipment.area_rate, shipment.shipment_number, shipment.plate_number, shipment.date_of_delivery 
     FROM billedshipment
     INNER JOIN shipment
     ON billedshipment.shipment_id = shipment.shipment_id
-    INNER JOIN clientarea
-    ON shipment.area_id = clientarea.area_id
-    INNER JOIN vehicle
-    ON shipment.vehicle_id = vehicle.vehicle_id
-    INNER JOIN shipmentprogress
-    ON billedshipment.shipment_id = shipmentprogress.shipment_id
-    WHERE billedshipment.billing_id = :billing_id AND shipmentprogress.progress_description = 'Delivery Completed'
+    WHERE billedshipment.billing_id = :billing_id
     ORDER BY shipment.shipment_number ASC
     LIMIT " . $startingLimitNumber . ',' . '5';
 

@@ -10,13 +10,11 @@ try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT SUM(clientarea.area_rate)
-    FROM billedshipment
-    INNER JOIN shipment
-    ON billedshipment.shipment_id = shipment.shipment_id
-    INNER JOIN clientarea
-    ON shipment.area_id = clientarea.area_id
-    WHERE billedshipment.billing_id = :billing_id";
+    $sql = "SELECT * 
+    FROM billing 
+    INNER JOIN client
+    ON billing.client_id = client.client_id
+    WHERE billing.billing_id = :billing_id";
 
     $stmt = $pdoVessel->prepare($sql);
 

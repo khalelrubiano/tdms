@@ -59,6 +59,7 @@ include_once 'navbar.php';
             }
         }
 
+
         @media (max-width: 1000px) {
 
             #payrollTitle {
@@ -81,7 +82,7 @@ include_once 'navbar.php';
             width: 50% !important;
         }
 
-        table {
+        #shipmentTable {
             border: 1px solid #ccc;
             width: 100%;
             margin: 0;
@@ -90,20 +91,20 @@ include_once 'navbar.php';
             border-spacing: 0;
         }
 
-        table tr {
+        #shipmentTable tr {
             border: 1px solid #ddd;
             padding: 5px;
             background: #fff;
 
         }
 
-        table th,
-        table td {
+        #shipmentTable th,
+        #shipmentTable td {
             padding: 10px;
             text-align: center;
         }
 
-        table th {
+        #shipmentTable th {
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -157,7 +158,7 @@ include_once 'navbar.php';
         .firstTableTd {
             table-layout: fixed;
             border: none !important;
-            text-align: left;
+            text-align: center;
         }
     </style>
 </head>
@@ -167,127 +168,58 @@ include_once 'navbar.php';
         <div class="container firstContainer" style="margin-bottom: 5%;" id="firstContainer">
             <button class="button is-rounded mb-6 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
             <button class="button is-rounded mb-6 is-primary" id="updateBtn" onclick="updatePayslipStatus()"><i class="fa-solid fa-check mr-3"></i>Mark as Settled</button>
-            <p class="title is-4 has-text-centered" id="payrollTitle">Batch <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["billingId"] ?></p>
+            <p class="title is-4 has-text-centered" id="payrollTitle">Invoice <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["payrollId"] ?></p>
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
-            <p class="title is-hidden" id="billingIdHidden"><?php echo $_SESSION["billingId"] ?></p>
-            <p class="title is-hidden" id="ownerIdHidden"><?php echo $_SESSION["ownerId"] ?></p>
-            <p class="title is-hidden" id="payrollStatusHidden"><?php echo $_SESSION["payrollStatus"] ?></p>
-            <p class="title is-hidden" id="plateNumberHidden"><?php echo $_SESSION["plateNumber"] ?></p>
-        </div>
-
-        <div class="container box" style="margin-bottom: 2.5%;">
-            <div class="columns">
-                <div class="column is-6">
-                    <table class="table firstTable">
-                        <tbody>
-                            <tr class="firstTable">
-                                <td class="firstTableTd"><strong>Status:</strong></td>
-                                <td class="firstTableTd"><?php echo $_SESSION["payrollStatus"] ?></td>
-                            </tr>
-                            <tr class="firstTable">
-                                <td class="firstTableTd"><strong>Plate Number:</strong></td>
-                                <td class="firstTableTd" id="plateNumberHeader"><?php echo $_SESSION["invoiceDate"] ?></td>
-                            </tr>
-                            <tr class="firstTable">
-                                <td class="firstTableTd"><strong>Vehicle Owner:</strong></td>
-                                <td class="firstTableTd" id="ownerHeader"><?php echo $_SESSION["dueDate"] ?></td>
-                            </tr>
-                            <tr class="firstTable">
-                                <td class="firstTableTd"><strong>Date:</strong></td>
-                                <td class="firstTableTd" id="dateHeader"><?php echo $_SESSION["startDate"] . " to " . $_SESSION["endDate"] ?></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="container is-hidden" style="margin-bottom: 5%;">
-            <p class="title is-4 mb-6" id="statusHeader">Status: <?php echo $_SESSION["payrollStatus"] ?> </p>
-
-        </div>
-
-        <div class="container box" style="margin-bottom: 5%;">
-            <div class="columns is-centered">
-                <div class="column is-12">
-                    <table class="table is-bordered is-fullwidth">
-                        <thead>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="table1TD">Truck Rate:</td>
-                                <td class="table1TD" id="truckRateTD">0</td>
-                            </tr>
-                            <tr>
-                                <td class="table1TD">Drop Off:</th>
-                                <td class="table1TD" id="dropFeeTD">0</td>
-                            </tr>
-
-                            <tr>
-                                <td class="table1TD">Penalty:</td>
-                                <td class="table1TD" id="penaltyTD">0</td>
-                            </tr>
-
-                            <tr>
-                                <th class="table1TH">Total:</th>
-                                <td class="table1TD" id="subtotalTD">0</td>
-                            </tr>
-
-                            <tr>
-                                <td class="table1TD">1% Withholding Tax:</td>
-                                <td class="table1TD" id="whtTD">0</td>
-                            </tr>
-                            <tr>
-                                <td class="table1TD">Commission Rate:</td>
-                                <td class="table1TD" id="commissionTD">0</td>
-                            </tr>
-                            <tr>
-                                <th class="table1TH">Net Pay:</th>
-                                <td class="table1TD" id="netpayTD">0</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-
+            <p class="title is-hidden" id="payrollIdHidden"><?php echo $_SESSION["payrollId"] ?></p>
+            <p class="title is-hidden" id="ownerIdHidden"></p>
+            <p class="title is-hidden" id="payrollStatusHidden"></p>
+            <p class="title is-hidden" id="plateNumberHidden"></p>
         </div>
 
         <div class="container box">
-            <p class="title is-4 mb-6">Shipment Summary</p>
-            <div id="card" class="mb-4 has-text-centered">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="text-align: center;">Date</th>
-                            <th>Shipment Number</th>
-                            <th>Destination</th>
-                            <th>Area</th>
-                            <th>Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableTbody">
-                        <!--
-                        <tr>
-                            <td data-label="First Name"> John</td>
-                            <td data-label="Last Name">Doe</td>
-                            <td data-label="Address">123 Main Street</td>
-                            <td data-label="City">Anytown</td>
--->
-                    </tbody>
-                </table>
+            <div class="container" style="margin-bottom: 5%;">
+                <div class="columns is-centered">
+                    <div class="column"> 
+                        <p class="title has-text-centered is-5" id="plateNumberHeader">Test</p>
+                        <p class="title has-text-centered is-5" id="ownerHeader">Test</p>
+                        <p class="title has-text-centered is-5" id="dateHeader">Test</p>
+                    </div>
+                </div>
             </div>
-            <nav class="pagination mt-6">
-                <ul class="pagination-list">
-                    <li>
-                        <a class="pagination-link is-current is-hidden" id="paginationIndicatorBtn">1</a>
-                        <a class="pagination-link is-hidden" id="arrayLengthHidden"></a>
-                    </li>
-                </ul>
-                <a class="pagination-previous is-disabled" id="paginationPreviousBtn">Previous</a>
-                <a class="pagination-next" id="paginationNextBtn">Next page</a>
-            </nav>
+
+
+            <div class="container">
+                <p class="title is-4 mb-6">Shipment Summary</p>
+                <div id="card" class="mb-4 has-text-centered">
+                    <table id="shipmentTable">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">Date</th>
+                                <th>Shipment Number</th>
+                                <th>Destination</th>
+                                <th>Area</th>
+                                <th>Rate</th>
+                                <th>Drop Off</th>
+                                <th>Penalty</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableTbody">
+
+                        </tbody>
+                    </table>
+                </div>
+                <nav class="pagination mt-6">
+                    <ul class="pagination-list">
+                        <li>
+                            <a class="pagination-link is-current is-hidden" id="paginationIndicatorBtn">1</a>
+                            <a class="pagination-link is-hidden" id="arrayLengthHidden"></a>
+                        </li>
+                    </ul>
+                    <a class="pagination-previous is-disabled" id="paginationPreviousBtn">Previous</a>
+                    <a class="pagination-next" id="paginationNextBtn">Next page</a>
+                </nav>
+            </div>
         </div>
     </div>
 

@@ -1,6 +1,9 @@
 let truckRateTD = document.getElementById('truckRateTD');
 let dropFeeTD = document.getElementById('dropFeeTD');
 let parkingFeeTD = document.getElementById('parkingFeeTD');
+let tollFeeTD = document.getElementById('tollFeeTD');
+let fuelChargeTD = document.getElementById('fuelChargeTD');
+let extraHelperFeeTD = document.getElementById('extraHelperFeeTD');
 let demurrageTD = document.getElementById('demurrageTD');
 let otherChargesTD = document.getElementById('otherChargesTD');
 let penaltyTD = document.getElementById('penaltyTD');
@@ -8,12 +11,18 @@ let shipmentIdHidden = document.getElementById('shipmentIdHidden');
 
 let dropFeeAdd = document.getElementById('dropFeeAdd')
 let parkingFeeAdd = document.getElementById('parkingFeeAdd')
+let tollFeeAdd = document.getElementById('tollFeeAdd')
+let fuelChargeAdd = document.getElementById('fuelChargeAdd')
+let extraHelperFeeAdd = document.getElementById('extraHelperFeeAdd')
 let demurrageAdd = document.getElementById('demurrageAdd')
 let otherChargesAdd = document.getElementById('otherChargesAdd')
 let penaltyAdd = document.getElementById('penaltyAdd')
 
 let dropFeeAddHelp = document.getElementById('dropFeeAddHelp')
 let parkingFeeAddHelp = document.getElementById('parkingFeeAddHelp')
+let tollFeeAddHelp = document.getElementById('tollFeeAddHelp')
+let fuelChargeAddHelp = document.getElementById('fuelChargeAddHelp')
+let extraHelperFeeAddHelp = document.getElementById('extraHelperFeeAddHelp')
 let demurrageAddHelp = document.getElementById('demurrageAddHelp')
 let otherChargesAddHelp = document.getElementById('otherChargesAddHelp')
 let penaltyAddHelp = document.getElementById('penaltyAddHelp')
@@ -52,9 +61,12 @@ function generateShipmentFees() {
         truckRateTD.innerHTML = jsonArray[0][0];
         dropFeeTD.innerHTML = jsonArray[0][1];
         parkingFeeTD.innerHTML = jsonArray[0][2];
-        demurrageTD.innerHTML = jsonArray[0][3];
-        otherChargesTD.innerHTML = jsonArray[0][4];
-        penaltyTD.innerHTML = jsonArray[0][5];
+        tollFeeTD.innerHTML = jsonArray[0][3];
+        fuelChargeTD.innerHTML = jsonArray[0][4];
+        extraHelperFeeTD.innerHTML = jsonArray[0][5];
+        demurrageTD.innerHTML = jsonArray[0][6];
+        otherChargesTD.innerHTML = jsonArray[0][7];
+        penaltyTD.innerHTML = jsonArray[0][8];
     });
 }
 
@@ -69,6 +81,9 @@ function addAjax() {
         shipmentId: shipmentIdHidden.innerHTML,
         dropFeeAdd: dropFeeAdd.value,
         parkingFeeAdd: parkingFeeAdd.value,
+        tollFeeAdd: tollFeeAdd.value,
+        fuelChargeAdd: fuelChargeAdd.value,
+        extraHelperFeeAdd: extraHelperFeeAdd.value,
         demurrageAdd: demurrageAdd.value,
         otherChargesAdd: otherChargesAdd.value,
         penaltyAdd: penaltyAdd.value

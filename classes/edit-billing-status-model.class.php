@@ -17,14 +17,13 @@ class EditBillingModel
 
     public function editBillingRecord()
     {
-/*
+        /*
         if ($this->usernameValidator() == false) {
             echo "The username you entered is already taken!";
             exit();
         }
 */
         $this->editSubmit();
-        
     }
 
     private function editSubmit()
@@ -32,7 +31,8 @@ class EditBillingModel
         $sql = "UPDATE
         billing 
         SET
-        billing_status = 'Settled'
+        billing_status = 'Settled',
+        date_settled = :date_settled
         WHERE
         billing_id = :billing_id";
 
@@ -43,12 +43,16 @@ class EditBillingModel
         if ($stmt = $pdoVessel->prepare($sql)) {
 
             $stmt->bindParam(":billing_id", $param1, PDO::PARAM_STR);
+            $stmt->bindParam(":date_settled", $param2, PDO::PARAM_STR);
+
+            $date = date('Y-m-d');
 
             $param1 = $this->billingId;
+            $param2 = $date;
 
             if ($stmt->execute()) {
-                $this->getBilledShipment();
-                $this->editDateSubmit();
+                //$this->getBilledShipment();
+                //$this->editDateSubmit();
                 /*
                 session_start();
                 $_SESSION["prompt"] = "Sign-up was successful!";
@@ -57,7 +61,7 @@ class EditBillingModel
                 */
                 echo "Invoice status was updated!";
             } else {
-/*
+                /*
                 $_SESSION["prompt"] = "Something went wrong!";
                 header('location: ../prompt.php');
                 exit();*/
@@ -134,7 +138,7 @@ class EditBillingModel
         unset($pdoVessel);
     }
 
-   
+
     public function getBilledShipment()
     {
         $configObj = new Config();
@@ -161,7 +165,6 @@ class EditBillingModel
                 for ($i = 0; $i < count($row); $i++) {
                     $this->editPayrollSubmit($row[$i][0]);
                 }
-
             } else {
                 session_start();
                 $_SESSION["prompt"] = "Something went wrong!";

@@ -111,6 +111,7 @@ include_once 'navbar.php';
           </span>
         </p>
       </div>
+      <button class="button is-rounded mr-4 is-info mb-6" onclick="openAdd()" id="addBtn"> <i class="fa-solid fa-plus mr-3"></i> Create Payslip</button>
       <button class="button is-rounded mr-4 is-link mb-6" onclick="openLog()" id="logBtn"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
       <div class="select is-rounded mr-3" id="selectSortDiv">
         <select id="selectSort">
@@ -135,6 +136,66 @@ include_once 'navbar.php';
 
     </div>
 
+  </div>
+
+  <!-- ADD MODAL -->
+  <div class="modal" id="addModal">
+    <div class="modal-background" id="addModalBg"></div>
+    <div class="modal-card p-4">
+
+      <header class="modal-card-head has-background-info">
+        <p class="modal-card-title has-text-white"><i class="fa-solid fa-plus mr-3"></i>Create Payslip</p>
+        <button class="delete" aria-label="close" onclick="closeAdd()"></button>
+      </header>
+
+      <section class="modal-card-body">
+
+        <div class="field">
+          <label for="" class="label">Type</label>
+          <div class="control">
+            <div class="select is-rounded" id="typeAddDiv">
+              <select id="typeAdd" name="typeAdd">
+                <option value="batch">Batch</option>
+                <option value="single">Single</option>
+              </select>
+            </div>
+          </div>
+          <p class="help" id="typeAddHelp"></p>
+        </div>
+
+
+        <div class="field">
+          <label for="" class="label">Invoice Number</label>
+          <div class="control">
+            <div class="select is-rounded" id="invoiceNumberAddDiv">
+              <select id="invoiceNumberAdd" name="invoiceNumberAdd">
+  
+              </select>
+            </div>
+          </div>
+          <p class="help" id="invoiceNumberAddHelp"></p>
+        </div>
+
+        <div class="field is-hidden" id="vehicleAddField">
+          <label for="" class="label">Vehicle</label>
+          <div class="control">
+            <div class="select is-rounded" id="vehicleAddDiv">
+              <select id="vehicleAdd" name="vehicleAdd">
+              </select>
+            </div>
+          </div>
+          <p class="help" id="vehicleAddHelp"></p>
+        </div>
+
+        <div class="field has-text-centered mt-6">
+          <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
+            <i class="fa-solid fa-check mr-3"></i>Submit
+          </button>
+          <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
+        </div>
+
+      </section>
+    </div>
   </div>
 
   <!-- LOG MODAL START-->

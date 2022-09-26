@@ -24,6 +24,31 @@ let tabValueHidden = document.getElementById('tabValueHidden')
 
 let logList = document.getElementById('logList')
 
+let addModal = document.getElementById('addModal')
+let typeAdd = document.getElementById('typeAdd')
+let invoiceNumberAdd = document.getElementById('invoiceNumberAdd')
+let invoiceNumberAddTemp = '';
+let vehicleAdd = document.getElementById('vehicleAdd')
+let vehicleAddField = document.getElementById('vehicleAddField')
+
+function openAdd() {
+    addModal.classList.add('is-active');
+    //populateSelect1();
+    //populateUsernameAdd();
+}
+
+function closeAdd() {
+    /*clearAddFormHelp();
+    clearAddFormInput();
+
+    submitAddFormHelp.className = "help"
+    submitAddFormHelp.innerText = ""*/
+
+    addModal.classList.remove('is-active');
+
+    //removeSelectAdd(document.getElementById('usernameAdd'));
+}
+
 function openLog() {
     logModal.classList.add('is-active');
     //populateSelect1();
@@ -41,6 +66,52 @@ function closeLog() {
 
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
+
+function populateSelect1() {
+    $.post("./classes/load-invoice-no-payroll.class.php", {
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+        //alert(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            var newOption = document.createElement("option");
+            newOption.value = jsonArray[i][0];
+            newOption.innerHTML = jsonArray[i][1];
+            invoiceNumberAdd.options.add(newOption);
+            //helperAdd.options.add(newOption);
+        }
+
+        invoiceNumberAddTemp = jsonArray[0][0];
+
+        //getClientShipment();
+        //closeSelect();
+    });
+}
+
+function populateSelect2(billingIdVar) {
+    $.post("./classes/load-vehicle-no-payroll.class.php", {
+        billingId: billingIdVar
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+        //alert(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            var newOption = document.createElement("option");
+            newOption.value = jsonArray[i];
+            newOption.innerHTML = jsonArray[i];
+            vehicleAdd.options.add(newOption);
+            //helperAdd.options.add(newOption);
+        }
+
+        //getClientShipment();
+        //closeSelect();
+
+    });
+}
+
+
 
 function generatePayslipList1(tabValueVar, orderByVar) {
     $.post("./classes/load-payslip.class.php", {
@@ -92,15 +163,15 @@ function generatePayslipList1(tabValueVar, orderByVar) {
 
             newCardHeaderParagraph.appendChild(newCardHeaderParagraphIcon);
 
-            switch (jsonArray[i][13]) {
+            switch (jsonArray[i][0]) {
                 case "Settled":
                     newCardHeaderParagraph.classList.add('has-text-primary');
-                    newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-check mr-3 has-text-primary'></i>" + jsonArray[i][13] + " - " + jsonArray[i][17];
+                    newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-check mr-3 has-text-primary'></i>" + jsonArray[i][0] + " - " + jsonArray[i][2];
                     newCardHeader.appendChild(newCardHeaderParagraph);
                     break;
                 case "Unsettled":
                     newCardHeaderParagraph.classList.add('has-text-warning');
-                    newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-exclamation mr-3 has-text-warning'></i>" + jsonArray[i][13];
+                    newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-exclamation mr-3 has-text-warning'></i>" + jsonArray[i][0];
                     newCardHeader.appendChild(newCardHeaderParagraph);
                     break;
 
@@ -186,11 +257,11 @@ function generatePayslipList1(tabValueVar, orderByVar) {
 
             var newContentTableTbodyTr1Td1 = document.createElement("td");
             newContentTableTbodyTr1Td1.classList.add('has-text-weight-bold');
-            newContentTableTbodyTr1Td1.innerHTML = "Batch Number:";
+            newContentTableTbodyTr1Td1.innerHTML = "Invoice Number:";
             newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td1);
 
             var newContentTableTbodyTr1Td2 = document.createElement("td");
-            newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][0];
+            newContentTableTbodyTr1Td2.innerHTML = jsonArray[i][3];
             newContentTableTbodyTr1.appendChild(newContentTableTbodyTr1Td2);
 
             //CONTENT TABLE TBODY TR 2
@@ -203,7 +274,7 @@ function generatePayslipList1(tabValueVar, orderByVar) {
             newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
 
             var newContentTableTbodyTr2Td2 = document.createElement("td");
-            newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][8];
+            newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][1];
             newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td2);
 
             //CONTENT TABLE TBODY TR 3
@@ -216,7 +287,7 @@ function generatePayslipList1(tabValueVar, orderByVar) {
             newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td1);
 
             var newContentTableTbodyTr3Td2 = document.createElement("td");
-            newContentTableTbodyTr3Td2.innerHTML = jsonArray[i][9] + " " + jsonArray[i][10] + " " + jsonArray[i][11];
+            newContentTableTbodyTr3Td2.innerHTML = jsonArray[i][4] + " " + jsonArray[i][5] + " " + jsonArray[i][6];
             newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td2);
 
             //CONTENT TABLE TBODY TR 4
@@ -229,7 +300,7 @@ function generatePayslipList1(tabValueVar, orderByVar) {
             newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
             var newContentTableTbodyTr4Td2 = document.createElement("td");
-            newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][15];
+            newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][7];
             newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td2);
 
             //CARD CONTENT MEDIA-CONTENT SUBTITLE
@@ -239,7 +310,7 @@ function generatePayslipList1(tabValueVar, orderByVar) {
 
             //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
             var newCardFooterLink = document.createElement("a");
-            newCardFooterLink.setAttribute("onclick", "redirectToPayslipProfile('" + jsonArray[i][0] + "','" + jsonArray[i][16] + "','" + jsonArray[i][13] + "','" + jsonArray[i][8] + "')");
+            newCardFooterLink.setAttribute("onclick", "redirectToPayslipProfile('" + jsonArray[i][8] + "')");
             newCardFooterLink.classList.add('card-footer-item');
             newCardFooterLink.innerHTML = "View Details";
             newCardFooter.appendChild(newCardFooterLink);
@@ -429,12 +500,9 @@ function generatePayslipList1(tabValueVar, orderByVar) {
     });
 }
 
-function redirectToPayslipProfile(billingIdVar, ownerIdVar, payrollStatusVar, plateNumberVar) {
+function redirectToPayslipProfile(payrollIdVar) {
     $.post("./classes/set-payslip-session-variable.class.php", {
-        billingId: billingIdVar,
-        ownerId: ownerIdVar,
-        payrollStatus: payrollStatusVar,
-        plateNumber: plateNumberVar
+        payrollId: payrollIdVar
     }, function (data) {
         //var jsonArray = JSON.parse(data);
         //alert("success call");
@@ -456,9 +524,63 @@ function generatePayrollLog() {
     });
 }
 
-generatePayrollLog();
+typeAdd.addEventListener('change', () => {
+    //shipmentTable.innerHTML = "";
+    //getClientShipment();
+    //alert(clientAdd.value);
+    $("#invoiceNumberAdd option").remove();
+    populateSelect1();
+
+    if (typeAdd.value == 'single') {
+        $("#vehicleAdd option").remove();
+        vehicleAddField.classList.remove('is-hidden');
+        populateSelect2(invoiceNumberAddTemp);
+    } else {
+        vehicleAddField.classList.add('is-hidden');
+    }
+
+});
+
+invoiceNumberAdd.addEventListener('change', () => {
+    //shipmentTable.innerHTML = "";
+    //getClientShipment();
+    //alert(clientAdd.value);
+    $("#vehicleAdd option").remove();
+
+    populateSelect2(invoiceNumberAddTemp);
+    //populateSelect1();
+
+});
+
+function generateAjax() {
+    $.post("./classes/generate-payroll-controller.class.php", {
+        typeAdd: typeAdd.value,
+        invoiceNumberAdd: invoiceNumberAdd.value,
+        vehicleAdd: vehicleAdd.value
+    }, function (data) {
+        /*
+        $("#submitAddFormHelp").html("Successfully added a record!");
+        $("#submitAddFormHelp").attr('class', 'help is-success');
+        
+        clearAddFormHelp();
+        clearAddFormInput();
+        */
+        //addBillingLog("Added", "Invoice #" + invoiceNumberAdd.value);
+        //window.location.href = "billing.php";
+        alert('SUCCESS');
+    });
+    //shipmentDatatable.ajax.reload();
+}
+
+populateSelect1();
+
+//generatePayrollLog();
 
 generatePayslipList1(tabValueHidden.innerHTML, selectSort.value);
+
+submitAddForm.addEventListener('click', (e) => {
+    generateAjax();
+});
 
 allTabLink.addEventListener('click', () => {
     settledTabLi.classList.remove('is-active');

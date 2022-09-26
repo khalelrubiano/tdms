@@ -17,6 +17,9 @@ try {
     shipment.area_rate,
     shipmentfees.drop_fee,
     shipmentfees.parking_fee,
+    shipmentfees.toll_fee,
+    shipmentfees.fuel_charge,
+    shipmentfees.extra_helper,
     shipmentfees.demurrage,
     shipmentfees.other_charges,
     shipmentfees.penalty

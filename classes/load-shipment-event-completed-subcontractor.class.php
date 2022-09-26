@@ -16,29 +16,17 @@ try {
         shipment.shipment_number,
         shipment.date_of_delivery
         FROM shipment
-        INNER JOIN clientarea
-        ON shipment.area_id = clientarea.area_id
-        INNER JOIN client
-        ON clientarea.client_id = client.client_id
-        INNER JOIN vehicle
-        ON vehicle.vehicle_id = shipment.vehicle_id
-        WHERE client.company_id = :company_id
-        AND vehicle.driver_id = :subcontractor_id
+        WHERE shipment.driver_id = :subcontractor_id
         AND shipment.shipment_status = 'Completed'";
     }
+
+
     if ($_SESSION["isHelper"] == "Yes") {
         $sql = "SELECT 
         shipment.shipment_number,
         shipment.date_of_delivery
         FROM shipment
-        INNER JOIN clientarea
-        ON shipment.area_id = clientarea.area_id
-        INNER JOIN client
-        ON clientarea.client_id = client.client_id
-        INNER JOIN vehicle
-        ON vehicle.vehicle_id = shipment.vehicle_id
-        WHERE client.company_id = :company_id
-        AND vehicle.helper_id = :subcontractor_id
+        WHERE shipment.helper_id = :subcontractor_id
         AND shipment.shipment_status = 'Completed'";
     }
 
@@ -47,25 +35,18 @@ try {
         shipment.shipment_number,
         shipment.date_of_delivery
         FROM shipment
-        INNER JOIN clientarea
-        ON shipment.area_id = clientarea.area_id
-        INNER JOIN client
-        ON clientarea.client_id = client.client_id
         INNER JOIN vehicle
-        ON vehicle.vehicle_id = shipment.vehicle_id
+        ON shipment.plate_number = vehicle.plate_number
         INNER JOIN ownergroup
-        ON ownergroup.group_id = vehicle.group_id
-        WHERE client.company_id = :company_id
-        AND ownergroup.owner_id = :subcontractor_id
+        ON vehicle.group_id = ownergroup.group_id
+        WHERE ownergroup.owner_id = :subcontractor_id
         AND shipment.shipment_status = 'Completed'";
     }
 
     $stmt = $pdoVessel->prepare($sql);
 
-    $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
     $stmt->bindParam(":subcontractor_id", $paramSubcontractorId, PDO::PARAM_STR);
 
-    $paramCompanyId = $_SESSION["companyId"];
     $paramSubcontractorId = $_SESSION["subcontractorId"];
 
     $stmt->execute();

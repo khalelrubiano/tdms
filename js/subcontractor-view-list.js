@@ -275,6 +275,10 @@ submitAddForm.addEventListener('click', (e) => {
 
 function clearAddFormHelp() {
     //RESETTING FORM ELEMENTS
+    subcontractorNumberAdd.className = "input is-rounded"
+    subcontractorNumberAddHelp.className = "help"
+    subcontractorNumberAddHelp.innerText = ""
+
     usernameAdd.className = "input is-rounded"
     usernameAddHelp.className = "help"
     usernameAddHelp.innerText = ""
@@ -524,7 +528,7 @@ function generateUserList1() {
         arrayLengthHidden.innerHTML = finalLength;
 
         let i = 1;
-        while(i <= finalLength){
+        while (i <= finalLength) {
             generateUserList2(i, selectSort.value, finalLength);
             i++;
         }
@@ -562,7 +566,8 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 newCard.classList.add('card');
                 newCard.setAttribute("style", "border-radius: 5%;");
                 newChildTile.appendChild(newCard);
-/*
+
+
                 //CARD HEADER
                 var newCardHeader = document.createElement("header");
                 newCardHeader.classList.add('card-header');
@@ -571,9 +576,10 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 //CARD HEADER PARAGRAPH
                 var newCardHeaderParagraph = document.createElement("p");
                 newCardHeaderParagraph.classList.add('card-header-title');
-                //newCardHeaderParagraph.innerHTML = jsonArray[i][4];
+                newCardHeaderParagraph.innerHTML = "ID: " + jsonArray[i][5];
                 newCardHeader.appendChild(newCardHeaderParagraph);
 
+                /*
                 //CARD HEADER BUTTON
                 var newCardHeaderButton = document.createElement("button");
                 newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
@@ -659,7 +665,7 @@ function generateUserList2(currentPageNumberVar, orderByVar, finalLengthVar) {
                 newCardFooter.appendChild(newCardFooterLink);
 
                 var newCardFooterLink2 = document.createElement("a");
-                newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + jsonArray[i][1] + "')");
+                newCardFooterLink2.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "')");
                 newCardFooterLink2.classList.add('card-footer-item');
                 newCardFooterLink2.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Delete";
                 newCardFooterLink2.classList.add('has-text-danger');
@@ -741,18 +747,18 @@ function generateUserList4(usernameVar, firstNameVar, middleNameVar, lastNameVar
     newCard.classList.add('card');
     newCard.setAttribute("style", "border-radius: 5%;");
     newChildTile.appendChild(newCard);
-/*
-    //CARD HEADER
-    var newCardHeader = document.createElement("header");
-    newCardHeader.classList.add('card-header');
-    newCard.appendChild(newCardHeader);
-
-    //CARD HEADER PARAGRAPH
-    var newCardHeaderParagraph = document.createElement("p");
-    newCardHeaderParagraph.classList.add('card-header-title');
-    newCardHeaderParagraph.innerHTML = jsonArray[i][4];
-    newCardHeader.appendChild(newCardHeaderParagraph);
-*/
+    /*
+        //CARD HEADER
+        var newCardHeader = document.createElement("header");
+        newCardHeader.classList.add('card-header');
+        newCard.appendChild(newCardHeader);
+    
+        //CARD HEADER PARAGRAPH
+        var newCardHeaderParagraph = document.createElement("p");
+        newCardHeaderParagraph.classList.add('card-header-title');
+        newCardHeaderParagraph.innerHTML = jsonArray[i][4];
+        newCardHeader.appendChild(newCardHeaderParagraph);
+    */
     //CARD HEADER BUTTON
     var newCardHeaderButton = document.createElement("button");
     newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + usernameVar + "')");

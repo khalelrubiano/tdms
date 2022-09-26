@@ -16,20 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $companyId = $_SESSION["companyId"];*/
 
     $_SESSION["billingId"] = $_POST['billingId'];
-    $_SESSION["invoiceNumber"] = $_POST['invoiceNumber'];
-    $_SESSION["invoiceDate"] = $_POST['invoiceDate'];
-    $_SESSION["billingStatus"] = $_POST['billingStatus'];
-    $_SESSION["clientName"] = $_POST["clientName"];
-    $_SESSION["dropFee"] = $_POST['dropFee'];
-    $_SESSION["parkingFee"] = $_POST['parkingFee'];
-    $_SESSION["demurrage"] = $_POST['demurrage'];
-    $_SESSION["otherCharges"] = $_POST['otherCharges'];
-    $_SESSION["penalty"] = $_POST['penalty'];
-    $_SESSION["startDate"] = $_POST['startDate'];
-    $_SESSION["endDate"] = $_POST['endDate'];
-    $_SESSION["dueDate"] = $_POST['dueDate'];
-    $_SESSION["clientAddress"] = $_POST['clientAddress'];
-
+    $_SESSION["invoiceStatus"] = $_POST['invoiceStatus'];
+    
     //header("location: ../subcontractor-group-profile.php");
     //exit();
 

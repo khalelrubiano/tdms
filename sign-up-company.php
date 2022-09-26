@@ -60,7 +60,7 @@ include_once 'navbar.php';
             <div class="container">
                 <div class="columns">
                     <div class="column is-6 is-offset-3">
-                        <form id="signUpCompanyForm" action="classes/sign-up-company-controller.class.php" class="box has-background-white-ter p-6" method="POST">
+                        <form id="signUpCompanyForm" action="classes/sign-up-company-controller.class.php" class="box has-background-white-ter p-6" method="POST" enctype="multipart/form-data">
 
                             <h3 class="title is-4 has-text-centered"> <i class="fas fa-user-cog mr-3"></i> Company Admin Account</h3>
 
@@ -202,7 +202,7 @@ include_once 'navbar.php';
                                 <p class="help" id="cityHelp"></p>
                             </div>
 
-                            <div class="field" style="margin-bottom: 10%;">
+                            <div class="field" style="margin-bottom: 5%;">
                                 <label for="" class="label">Barangay</label>
                                 <div class="control">
                                     <div class="select is-rounded" id="barangayDiv">
@@ -212,6 +212,14 @@ include_once 'navbar.php';
                                     </div>
                                 </div>
                                 <p class="help" id="barangayHelp"></p>
+                            </div>
+
+                            <div class="field" style="margin-bottom: 10%;">
+                                <label for="" class="label">Company Logo</label>
+                                <div class="control">
+                                    <input type="file" name="file">
+                                </div>
+                                <p class="help" id="logoHelp"></p>
                             </div>
 
                             <div class="field mt-5 has-text-centered">

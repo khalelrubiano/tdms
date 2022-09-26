@@ -23,71 +23,26 @@ try {
     switch ($tabValue) {
         case "All":
             $sql = "SELECT 
-            billing.billing_id,
-            billing.invoice_number,
-            billing.invoice_date,
-            billing.billing_status,
-            client.client_name,
-            billing.drop_fee,
-            billing.parking_fee,
-            billing.demurrage,
-            billing.other_charges,
-            billing.less_penalties,
-            billing.start_date,
-            billing.end_date,
-            billing.due_date,
-            client.client_address,
-            billingdate.created_at
+            *
             FROM billing
             INNER JOIN client
             ON billing.client_id = client.client_id
-            LEFT JOIN billingdate
-            ON billing.billing_id = billingdate.billing_id
             WHERE client.company_id = :company_id
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
         case "Settled":
             $sql = "SELECT 
-            billing.billing_id,
-            billing.invoice_number,
-            billing.invoice_date,
-            billing.billing_status,
-            client.client_name,
-            billing.drop_fee,
-            billing.parking_fee,
-            billing.demurrage,
-            billing.other_charges,
-            billing.less_penalties,
-            billing.start_date,
-            billing.end_date,
-            billing.due_date,
-            client.client_address,
-            billingdate.created_at
+            *
             FROM billing
             INNER JOIN client
             ON billing.client_id = client.client_id
-            LEFT JOIN billingdate
-            ON billing.billing_id = billingdate.billing_id
             WHERE client.company_id = :company_id
             AND billing.billing_status = 'Settled'
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
         case "Unsettled":
             $sql = "SELECT 
-            billing.billing_id,
-            billing.invoice_number,
-            billing.invoice_date,
-            billing.billing_status,
-            client.client_name,
-            billing.drop_fee,
-            billing.parking_fee,
-            billing.demurrage,
-            billing.other_charges,
-            billing.less_penalties,
-            billing.start_date,
-            billing.end_date,
-            billing.due_date,
-            client.client_address
+            *
             FROM billing
             INNER JOIN client
             ON billing.client_id = client.client_id

@@ -25,7 +25,8 @@ try {
     username, 
     first_name, 
     middle_name, 
-    last_name
+    last_name, 
+    subcontractor_number
     FROM subcontractor
     WHERE company_id = :company_id " . 
     "ORDER BY " . $orderBy . " ASC " .  

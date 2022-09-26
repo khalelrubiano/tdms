@@ -11,6 +11,13 @@ require_once "../config.php";
 
 //billing, billedshipment, shipment, clientarea, shipmentprogress, vehicle, ownergroup, subcontractor
 
+$currentPageNumber = $_POST["currentPageNumber"];
+
+//$test = 2;
+$startingLimitNumber = ($currentPageNumber - 1) * 5;
+
+//echo $startingLimitNumber;
+
 try {
 
     $configObj = new Config();
@@ -30,7 +37,9 @@ try {
     ON shipment.shipment_id = shipmentfees.shipment_id
     INNER JOIN payrollshipment
     ON shipment.shipment_id = payrollshipment.shipment_id
-    WHERE payrollshipment.payroll_id = :payroll_id";
+    WHERE payrollshipment.payroll_id = :payroll_id
+    ORDER BY shipment.created_at ASC
+    LIMIT " . $startingLimitNumber . ',' . '5';
 
     $stmt = $pdoVessel->prepare($sql);
 
@@ -38,7 +47,7 @@ try {
 
     $param1 = $_POST["payrollId"];
 
-    
+
     $stmt->execute();
     $row = $stmt->fetchAll();
     $json = json_encode($row);

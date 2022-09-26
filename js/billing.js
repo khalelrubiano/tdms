@@ -141,12 +141,19 @@ function populateSelect1() {
     });
 }
 
+let addBtn = document.getElementById('addBtn');
+
+addBtn.addEventListener('click', (e) => {
+    window.location.href = "generate-invoice.php";
+});
+
+
 //ADD AJAX CALLS WITH VALIDATION
 
 var pattern1 = /^[a-zA-Z0-9]+$/ //Alphanumeric
 var pattern2 = /^[a-zA-Z0-9\s]+$/ //Alphanumeric whitespace
 var pattern4 = /^[0-9]+$/ //Numbers only
-
+/*
 function addAjax() {
     $.post("./classes/add-billing-controller.class.php", {
         invoiceNumberAdd: invoiceNumberAdd.value,
@@ -172,6 +179,7 @@ function addAjax() {
     //refreshTable();
 
 }
+
 
 submitAddForm.addEventListener('click', (e) => {
     //clearAddFormHelp();
@@ -368,8 +376,11 @@ submitAddForm.addEventListener('click', (e) => {
         addAjax();
     }
     //refreshTable();
-})
+    
 
+
+})
+*/
 function generateBillingList1(tabValueVar) {
     $.post("./classes/load-billing.class.php", {}, function (data) {
         var jsonArray = JSON.parse(data);
@@ -395,7 +406,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
 
         var jsonArray = JSON.parse(data);
         indicator.innerHTML = "call success";
-        
+
         if (currentPageNumber <= finalLengthVar) {
 
 
@@ -439,40 +450,40 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
 
                 //newCardHeaderParagraph.appendChild(newCardHeaderParagraphIcon);
 
-                switch (jsonArray[i][3]) {
+                switch (jsonArray[i][5]) {
                     case "Settled":
                         newCardHeaderParagraph.classList.add('has-text-primary');
-                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-check mr-3 has-text-primary'></i>" + jsonArray[i][3] + " - " + jsonArray[i][14];
+                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-check mr-3 has-text-primary'></i>" + jsonArray[i][5] + " - " + jsonArray[i][16];
                         newCardHeader.appendChild(newCardHeaderParagraph);
                         break;
                     case "Unsettled":
                         newCardHeaderParagraph.classList.add('has-text-warning');
-                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-exclamation mr-3 has-text-warning'></i>" + jsonArray[i][3];
+                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle-exclamation mr-3 has-text-warning'></i>" + jsonArray[i][5];
                         newCardHeader.appendChild(newCardHeaderParagraph);
                         break;
 
                 }
-/*
-                //CARD HEADER BUTTON
-
-                var newCardHeaderButton = document.createElement("button");
-                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "')");
-                newCardHeaderButton.classList.add('card-header-icon');
-                newCardHeader.appendChild(newCardHeaderButton);
-
-                var newCardHeaderButtonSpan = document.createElement("span");
-                newCardHeaderButtonSpan.classList.add('icon');
-                newCardHeaderButtonSpan.classList.add('is-right');
-                newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
-
-                var newCardHeaderButtonSpanI = document.createElement("i");
-                newCardHeaderButtonSpanI.classList.add('fa-solid');
-                newCardHeaderButtonSpanI.classList.add('fa-xmark');
-                newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
-
-                //newCardHeaderButton.innerHTML = jsonArray[i][4];
-                //newCardHeader.appendChild(newCardHeaderParagraph);
-*/
+                /*
+                                //CARD HEADER BUTTON
+                
+                                var newCardHeaderButton = document.createElement("button");
+                                newCardHeaderButton.setAttribute("onclick", "deleteAjax('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "')");
+                                newCardHeaderButton.classList.add('card-header-icon');
+                                newCardHeader.appendChild(newCardHeaderButton);
+                
+                                var newCardHeaderButtonSpan = document.createElement("span");
+                                newCardHeaderButtonSpan.classList.add('icon');
+                                newCardHeaderButtonSpan.classList.add('is-right');
+                                newCardHeaderButton.appendChild(newCardHeaderButtonSpan);
+                
+                                var newCardHeaderButtonSpanI = document.createElement("i");
+                                newCardHeaderButtonSpanI.classList.add('fa-solid');
+                                newCardHeaderButtonSpanI.classList.add('fa-xmark');
+                                newCardHeaderButtonSpan.appendChild(newCardHeaderButtonSpanI);
+                
+                                //newCardHeaderButton.innerHTML = jsonArray[i][4];
+                                //newCardHeader.appendChild(newCardHeaderParagraph);
+                */
                 //CARD CONTENT
                 var newCardContent = document.createElement("div");
                 newCardContent.classList.add('card-content');
@@ -529,13 +540,13 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
 
                 var newContentTableTbodyTr2Td1 = document.createElement("td");
                 newContentTableTbodyTr2Td1.classList.add('has-text-weight-bold');
-                newContentTableTbodyTr2Td1.innerHTML = "Start Date:";
+                newContentTableTbodyTr2Td1.innerHTML = "Covered Date:";
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td1);
 
                 var newContentTableTbodyTr2Td2 = document.createElement("td");
-                newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][10];
+                newContentTableTbodyTr2Td2.innerHTML = jsonArray[i][3];
                 newContentTableTbodyTr2.appendChild(newContentTableTbodyTr2Td2);
-
+/*
                 //CONTENT TABLE TBODY TR 3
                 var newContentTableTbodyTr3 = document.createElement("tr");
                 newContentTableTbody.appendChild(newContentTableTbodyTr3);
@@ -548,7 +559,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 var newContentTableTbodyTr3Td2 = document.createElement("td");
                 newContentTableTbodyTr3Td2.innerHTML = jsonArray[i][11];
                 newContentTableTbodyTr3.appendChild(newContentTableTbodyTr3Td2);
-
+*/
                 //CONTENT TABLE TBODY TR 4
                 var newContentTableTbodyTr4 = document.createElement("tr");
                 newContentTableTbody.appendChild(newContentTableTbodyTr4);
@@ -559,7 +570,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td1);
 
                 var newContentTableTbodyTr4Td2 = document.createElement("td");
-                newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][4];
+                newContentTableTbodyTr4Td2.innerHTML = jsonArray[i][19];
                 newContentTableTbodyTr4.appendChild(newContentTableTbodyTr4Td2);
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE
@@ -569,7 +580,7 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                 var newCardFooterLink = document.createElement("a");
-                newCardFooterLink.setAttribute("onclick", "redirectToBillingProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "','" + jsonArray[i][2] + "','" + jsonArray[i][3] + "','" + jsonArray[i][4] + "','" + jsonArray[i][5] + "','" + jsonArray[i][6] + "','" + jsonArray[i][7] + "','" + jsonArray[i][8] + "','" + jsonArray[i][9] + "','" + jsonArray[i][10] + "','" + jsonArray[i][11] + "','" + jsonArray[i][12] + "','" + jsonArray[i][13] + "')");
+                newCardFooterLink.setAttribute("onclick", "redirectToBillingProfile('" + jsonArray[i][0] + "','" + jsonArray[i][5] + "')");
                 newCardFooterLink.classList.add('card-footer-item');
                 newCardFooterLink.innerHTML = "View";
                 newCardFooter.appendChild(newCardFooterLink);
@@ -581,13 +592,13 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 newCardFooterLink2.classList.add('has-text-danger');
                 newCardFooter.appendChild(newCardFooterLink2);
 
-/*
-                var newCardFooterLink2 = document.createElement("a");
-                newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
-                newCardFooterLink2.classList.add('card-footer-item');
-                newCardFooterLink2.innerHTML = "Edit Details";
-                newCardFooter.appendChild(newCardFooterLink2);
-*/
+                /*
+                                var newCardFooterLink2 = document.createElement("a");
+                                newCardFooterLink2.setAttribute("onclick", "openEdit('" + jsonArray[i][5] + "','" + jsonArray[i][6] + "')");
+                                newCardFooterLink2.classList.add('card-footer-item');
+                                newCardFooterLink2.innerHTML = "Edit Details";
+                                newCardFooter.appendChild(newCardFooterLink2);
+                */
                 //newChildTile.innerHTML = "entry number: " + jsonArray[i - 1][0];
                 newParentTile.appendChild(newChildTile);
 
@@ -597,22 +608,10 @@ function generateBillingList2(tabValueVar, currentPageNumberVar, orderByVar, fin
     });
 }
 
-function redirectToBillingProfile(billingIdVar, invoiceNumberVar, invoiceDateVar, billingStatusVar, clientNameVar, dropFeeVar, parkingFeeVar, demurrageVar, otherChargesVar, penaltyVar, startDateVar, endDateVar, dueDateVar, clientAddressVar) {
+function redirectToBillingProfile(billingIdVar, statusVar) {
     $.post("./classes/set-billing-session-variable.class.php", {
         billingId: billingIdVar,
-        invoiceNumber: invoiceNumberVar,
-        invoiceDate: invoiceDateVar,
-        billingStatus: billingStatusVar,
-        clientName: clientNameVar,
-        dropFee: dropFeeVar,
-        parkingFee: parkingFeeVar,
-        demurrage: demurrageVar,
-        otherCharges: otherChargesVar,
-        penalty: penaltyVar,
-        startDate: startDateVar,
-        endDate: endDateVar,
-        dueDate: dueDateVar,
-        clientAddress: clientAddressVar
+        invoiceStatus: statusVar
     }, function (data) {
         //var jsonArray = JSON.parse(data);
         //alert("success call");

@@ -6,21 +6,27 @@ if (!isset($_SESSION)) {
 }
 require_once "../config.php";
 
+
 try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT shipment.area_rate, shipment.shipment_number, shipment.plate_number, shipment.date_of_delivery 
-    FROM billedshipment
-    INNER JOIN shipment
-    ON billedshipment.shipment_id = shipment.shipment_id
-    WHERE billedshipment.billing_id = :billing_id";
+    $sql = "SELECT 
+    shipment.shipment_id,
+    shipment.shipment_number,
+    shipment.date_of_delivery
+    FROM shipment
+    LEFT JOIN billedshipment
+    ON shipment.shipment_id = billedshipment.shipment_id
+    WHERE shipment.client_id = :client_id 
+    AND shipment.shipment_status = 'Completed'
+    AND billedshipment.billedshipment_id IS NULL";
 
     $stmt = $pdoVessel->prepare($sql);
 
-    $stmt->bindParam(":billing_id", $param1, PDO::PARAM_STR);
+    $stmt->bindParam(":client_id", $param1, PDO::PARAM_STR);
 
-    $param1 = $_POST["billingId"];
+    $param1 = $_POST["clientAdd"];
 
     $stmt->execute();
     $row = $stmt->fetchAll();

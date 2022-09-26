@@ -115,7 +115,7 @@ include_once 'navbar.php';
         </p>
       </div>
 
-      <button class="button is-rounded is-info mb-6" onclick="openAdd()" id="addBtn"> <i class="fa-solid fa-plus mr-3"></i>Billing Invoice</button>
+      <button class="button is-rounded is-info mb-6" id="addBtn"> <i class="fa-solid fa-plus mr-3"></i>Billing Invoice</button>
       <button class="button is-rounded is-link mb-6" onclick="openLog()" id="logBtn"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
 
       <div class="select is-rounded mr-3" id="selectSortDiv">

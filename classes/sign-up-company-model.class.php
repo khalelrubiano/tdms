@@ -18,7 +18,9 @@ class SignUpCompanyModel
     private $city;
     private $barangay;
     private $tin;
-    public function __construct($employeeNumberAdd, $username, $password, $companyName, $companyEmail, $companyNumber, $companyAddress, $region, $province, $city, $barangay, $tin)
+    private $fileNameNew;
+
+    public function __construct($employeeNumberAdd, $username, $password, $companyName, $companyEmail, $companyNumber, $companyAddress, $region, $province, $city, $barangay, $tin, $fileNameNew)
     {
         $this->employeeNumberAdd = $employeeNumberAdd;
         $this->username = $username;
@@ -32,6 +34,7 @@ class SignUpCompanyModel
         $this->city = $city;
         $this->barangay = $barangay;
         $this->tin = $tin;
+        $this->fileNameNew = $fileNameNew;
     }
 
     public function signUpCompany()
@@ -123,65 +126,9 @@ class SignUpCompanyModel
         unset($pdoVessel);
     }
 
-    private function roleDefaultSubmit()
+    private function submitLogo()
     {
-        //UPDATE THIS FOR EACH MODULE
-        $sql = "INSERT INTO 
-        permission 
-        (role_name,  
-        shipment_access, 
-        employee_access, 
-        subcontractor_access, 
-        client_access, 
-        billing_access, 
-        payroll_access, 
-        company_id) 
-        VALUES 
-        (:role_name, 
-        :shipment_access, 
-        :employee_access, 
-        :subcontractor_access, 
-        :client_access, 
-        :billing_access, 
-        :payroll_access, 
-        :company_id)";
-
-        $configObj = new Config();
-
-        $pdoVessel = $configObj->pdoConnect();
-
-        if ($stmt = $pdoVessel->prepare($sql)) {
-
-            $stmt->bindParam(":role_name", $paramRoleName, PDO::PARAM_STR);
-            $stmt->bindParam(":shipment_access", $paramShipmentAccess, PDO::PARAM_STR);
-            $stmt->bindParam(":employee_access", $paramEmployeeAccess, PDO::PARAM_STR);
-            $stmt->bindParam(":subcontractor_access", $paramSubcontractorAccess, PDO::PARAM_STR);
-            $stmt->bindParam(":client_access", $paramClientAccess, PDO::PARAM_STR);
-            $stmt->bindParam(":billing_access", $paramBillingAccess, PDO::PARAM_STR);
-            $stmt->bindParam(":payroll_access", $paramPayrollAccess, PDO::PARAM_STR);
-            $stmt->bindParam(":company_id", $paramCompanyId, PDO::PARAM_STR);
-
-            $paramRoleName = 'Default';
-            $paramShipmentAccess = 'false';
-            $paramEmployeeAccess = 'false';
-            $paramSubcontractorAccess = 'false';
-            $paramClientAccess = 'false';
-            $paramBillingAccess = 'false';
-            $paramPayrollAccess = 'false';
-            $paramCompanyId = $this->getCompanyId();
-
-            if ($stmt->execute()) {
-            } else {
-                session_start();
-                $_SESSION["prompt"] = "Something went wrong!";
-                header('location: ../prompt.php');
-                exit();
-            }
-
-
-            unset($stmt);
-        }
-        unset($pdoVessel);
+       
     }
 
     private function accountSubmit()
@@ -248,7 +195,7 @@ class SignUpCompanyModel
     private function companySubmit()
     {
 
-        $sql = "INSERT INTO company (company_name, tin, company_email, company_number, company_address, region, province, city, barangay) VALUES (:company_name, :tin, :company_email, :company_number, :company_address, :region, :province, :city, :barangay)";
+        $sql = "INSERT INTO company (company_name, tin, company_email, company_number, company_address, region, province, city, barangay, logo_name) VALUES (:company_name, :tin, :company_email, :company_number, :company_address, :region, :province, :city, :barangay, :logo_name)";
 
         $configObj = new Config();
 
@@ -265,6 +212,7 @@ class SignUpCompanyModel
             $stmt->bindParam(":province", $paramProvince, PDO::PARAM_STR);
             $stmt->bindParam(":city", $paramCity, PDO::PARAM_STR);
             $stmt->bindParam(":barangay", $paramBarangay, PDO::PARAM_STR);
+            $stmt->bindParam(":logo_name", $paramLogoName, PDO::PARAM_STR);
 
             $paramCompanyName = $this->companyName;
             $paramCompanyEmail = $this->companyEmail;
@@ -275,6 +223,7 @@ class SignUpCompanyModel
             $paramCity = $this->cityConverter($this->city);
             $paramBarangay = strtoupper($this->barangayConverter($this->barangay));
             $paramTin = $this->tin;
+            $paramLogoName = $this->fileNameNew;
 
             if ($stmt->execute()) {
             } else {

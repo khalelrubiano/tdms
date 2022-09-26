@@ -9,6 +9,9 @@ class AddShipmentProgressModel
     private $shipmentId;
     private $dropFeeAdd;
     private $parkingFeeAdd;
+    private $tollFeeAdd;
+    private $fuelChargeAdd;
+    private $extraHelperFeeAdd;
     private $demurrageAdd;
     private $otherChargesAdd;
     private $penaltyAdd;
@@ -17,6 +20,9 @@ class AddShipmentProgressModel
         $shipmentId,
         $dropFeeAdd,
         $parkingFeeAdd,
+        $tollFeeAdd,
+        $fuelChargeAdd,
+        $extraHelperFeeAdd,
         $demurrageAdd,
         $otherChargesAdd,
         $penaltyAdd
@@ -25,6 +31,9 @@ class AddShipmentProgressModel
         $this->shipmentId = $shipmentId;
         $this->dropFeeAdd = $dropFeeAdd;
         $this->parkingFeeAdd = $parkingFeeAdd;
+        $this->tollFeeAdd = $tollFeeAdd;
+        $this->fuelChargeAdd = $fuelChargeAdd;
+        $this->extraHelperFeeAdd = $extraHelperFeeAdd;
         $this->demurrageAdd = $demurrageAdd;
         $this->otherChargesAdd = $otherChargesAdd;
         $this->penaltyAdd = $penaltyAdd;
@@ -140,6 +149,9 @@ class AddShipmentProgressModel
         SET 
         drop_fee = :drop_fee,
         parking_fee = :parking_fee,
+        toll_fee = :toll_fee,
+        fuel_charge = :fuel_charge,
+        extra_helper = :extra_helper,
         demurrage = :demurrage,
         other_charges = :other_charges,
         penalty = :penalty
@@ -151,19 +163,25 @@ class AddShipmentProgressModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":shipment_id", $paramShipmentId, PDO::PARAM_STR);
+            $stmt->bindParam(":shipment_id", $param1, PDO::PARAM_STR);
             $stmt->bindParam(":drop_fee", $param2, PDO::PARAM_STR);
             $stmt->bindParam(":parking_fee", $param3, PDO::PARAM_STR);
-            $stmt->bindParam(":demurrage", $param4, PDO::PARAM_STR);
-            $stmt->bindParam(":other_charges", $param5, PDO::PARAM_STR);
-            $stmt->bindParam(":penalty", $param6, PDO::PARAM_STR);
+            $stmt->bindParam(":toll_fee", $param4, PDO::PARAM_STR);
+            $stmt->bindParam(":fuel_charge", $param5, PDO::PARAM_STR);
+            $stmt->bindParam(":extra_helper", $param6, PDO::PARAM_STR);
+            $stmt->bindParam(":demurrage", $param7, PDO::PARAM_STR);
+            $stmt->bindParam(":other_charges", $param8, PDO::PARAM_STR);
+            $stmt->bindParam(":penalty", $param9, PDO::PARAM_STR);
 
-            $paramShipmentId = $this->shipmentId;
+            $param1 = $this->shipmentId;
             $param2 = $this->dropFeeAdd;
             $param3 = $this->parkingFeeAdd;
-            $param4 = $this->demurrageAdd;
-            $param5 = $this->otherChargesAdd;
-            $param6 = $this->penaltyAdd;
+            $param4 = $this->tollFeeAdd;
+            $param5 = $this->fuelChargeAdd;
+            $param6 = $this->extraHelperFeeAdd;
+            $param7 = $this->demurrageAdd;
+            $param8 = $this->otherChargesAdd;
+            $param9 = $this->penaltyAdd;
 
 
             if ($stmt->execute()) {

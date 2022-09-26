@@ -159,12 +159,18 @@ class AddShipmentProgressModel
                 shipmentfees(
                 drop_fee,
                 parking_fee,
+                toll_fee,
+                fuel_charge,
+                extra_helper,
                 demurrage,
                 other_charges,
                 penalty,
                 shipment_id
                 ) 
                 VALUES( 
+                0,
+                0,
+                0,
                 0,
                 0,
                 0,

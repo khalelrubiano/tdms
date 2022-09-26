@@ -90,7 +90,7 @@ include_once 'navbar.php';
         <div class="container" style="margin-bottom: 5%;" id="pdfbody">
             <div class="columns is-centered">
                 <div class="column is-12">
-                    
+
                     <table class="table is-bordered is-fullwidth">
                         <thead>
                         </thead>
@@ -106,6 +106,18 @@ include_once 'navbar.php';
                             <tr>
                                 <td class="table1TD has-text-weight-bold">Parking Fee:</th>
                                 <td class="table1TD" id="parkingFeeTD">0</th>
+                            </tr>
+                            <tr>
+                                <td class="table1TD has-text-weight-bold">Toll Fee:</th>
+                                <td class="table1TD" id="tollFeeTD">0</th>
+                            </tr>
+                            <tr>
+                                <td class="table1TD has-text-weight-bold">Fuel Charge:</th>
+                                <td class="table1TD" id="fuelChargeTD">0</th>
+                            </tr>
+                            <tr>
+                                <td class="table1TD has-text-weight-bold">Extra Helper Fee:</th>
+                                <td class="table1TD" id="extraHelperFeeTD">0</th>
                             </tr>
                             <tr>
                                 <td class="table1TD has-text-weight-bold">Demurrage:</th>
@@ -163,6 +175,39 @@ include_once 'navbar.php';
                 </div>
 
                 <div class="field">
+                    <label for="" class="label">Toll Fee</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter toll fee here" class="input is-rounded" name="tollFeeAdd" id="tollFeeAdd">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-peso-sign"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="tollFeeAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Fuel Charge</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter fuel charge here" class="input is-rounded" name="fuelChargeAdd" id="fuelChargeAdd">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-peso-sign"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="fuelChargeAddHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Extra Helper Fee</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter extra helper fee here" class="input is-rounded" name="extraHelperFeeAdd" id="extraHelperFeeAdd">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-peso-sign"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="extraHelperFeeAddHelp"></p>
+                </div>
+
+                <div class="field">
                     <label for="" class="label">Demurrage</label>
                     <div class="control has-icons-left">
                         <input type="text" placeholder="Enter demurrage here" class="input is-rounded" name="demurrageAdd" id="demurrageAdd">
@@ -214,7 +259,6 @@ include_once 'navbar.php';
 
 <!--INTERNAL JAVASCRIPT-->
 <script>
-
     logoutBtn.classList.remove("is-hidden");
     userBtn.innerHTML = "<?php echo $_SESSION['username'] ?>";
     userBtn.classList.remove("is-hidden");
