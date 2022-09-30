@@ -9,22 +9,19 @@ class AddLogModel
     private $logDescription;
     private $userDescription;
     private $companyId;
-    private $billingId;
-    private $ownerId;
+    private $payrollDescription;
 
     public function __construct(
         $logDescription,
         $userDescription,
         $companyId,
-        $billingId,
-        $ownerId
+        $payrollDescription
     ) {
 
         $this->logDescription = $logDescription;
         $this->userDescription = $userDescription;
         $this->companyId = $companyId;
-        $this->billingId = $billingId;
-        $this->ownerId = $ownerId;
+        $this->payrollDescription = $payrollDescription;
     }
 
     public function addLogRecord()
@@ -51,11 +48,12 @@ class AddLogModel
             exit();
         }
 */
-        $this->getBilledShipment();
+        $this->addLogSubmit();
+        //echo $this->logDescription . $this->userDescription . $this->payrollDescription . $this->companyId;
         
     }
 
-    public function addLogSubmit($var1, $var2)
+    public function addLogSubmit()
     {
 
         $sql = "INSERT INTO 
@@ -85,14 +83,14 @@ class AddLogModel
 
             $paramLogDescription = $this->logDescription;
             $paramUserDescription = $this->userDescription;
-            $paramPayrollDescription = "Batch " . $var1 . " - Plate Number: " . $var2;
+            $paramPayrollDescription = $this->payrollDescription;
             $paramCompanyId = $this->companyId;
 
             if ($stmt->execute()) {
-                //echo "Successfully added a record!";
+                echo "Successfully added a record!";
             } else {
 
-                //echo "Something went wrong, shipment was not successfully added!";
+                echo "Something went wrong, shipment was not successfully added!";
             }
 
 

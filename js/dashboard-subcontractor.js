@@ -51,7 +51,7 @@ function generateEventList2() {
     }, function (data) {
         var jsonArray = JSON.parse(data);
         calendar.addEventSource(jsonArray);
-        //alert(data);
+         //alert(data);
     });
 }
 

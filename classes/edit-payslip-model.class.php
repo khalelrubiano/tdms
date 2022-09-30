@@ -6,11 +6,20 @@ require_once "../config.php";
 
 class EditPayslipModel
 {
+    private $dropOffEdit;
+    private $penaltyEdit;
+    private $remarksEdit;
     private $payrollId;
 
     public function __construct(
+        $dropOffEdit,
+        $penaltyEdit,
+        $remarksEdit,
         $payrollId
     ) {
+        $this->dropOffEdit = $dropOffEdit;
+        $this->penaltyEdit = $penaltyEdit;
+        $this->remarksEdit = $remarksEdit;
         $this->payrollId = $payrollId;
     }
 
@@ -24,8 +33,9 @@ class EditPayslipModel
         $sql = "UPDATE
         payroll 
         SET
-        payroll_status = 'Settled',
-        date_settled = :date_settled
+        drop_off = :drop_off,
+        penalty = :penalty,
+        remarks = :remarks
         WHERE
         payroll_id = :payroll_id";
 
@@ -35,11 +45,15 @@ class EditPayslipModel
 
         if ($stmt = $pdoVessel->prepare($sql)) {
 
-            $stmt->bindParam(":payroll_id", $param1, PDO::PARAM_STR);
-            $stmt->bindParam(":date_settled", $param2, PDO::PARAM_STR);
+            $stmt->bindParam(":drop_off", $param1, PDO::PARAM_STR);
+            $stmt->bindParam(":penalty", $param2, PDO::PARAM_STR);
+            $stmt->bindParam(":remarks", $param3, PDO::PARAM_STR);
+            $stmt->bindParam(":payroll_id", $param4, PDO::PARAM_STR);
 
-            $param1 = $this->payrollId;
-            $param2 = date("Y-m-d");
+            $param1 = $this->dropOffEdit;
+            $param2 = $this->penaltyEdit;
+            $param3 = $this->remarksEdit;
+            $param4 = $this->payrollId;
 
             if ($stmt->execute()) {
                 //$this->getBilledShipment();
@@ -50,7 +64,7 @@ class EditPayslipModel
                 header('location: ../prompt.php');
                 exit();
                 */
-                echo "Payslip status was updated!";
+                echo "Payslip was updated!";
             } else {
                 /*
                 $_SESSION["prompt"] = "Something went wrong!";

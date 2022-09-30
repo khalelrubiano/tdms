@@ -111,12 +111,12 @@ include_once 'navbar.php';
           </span>
         </p>
       </div>
-      <button class="button is-rounded mr-4 is-info mb-6" onclick="openAdd()" id="addBtn"> <i class="fa-solid fa-plus mr-3"></i> Create Payslip</button>
-      <button class="button is-rounded mr-4 is-link mb-6" onclick="openLog()" id="logBtn"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
+      <button class="button is-rounded mr-1 is-info mb-6" onclick="openAdd()" id="addBtn"> <i class="fa-solid fa-plus mr-3"></i> Create Payslip</button>
+      <button class="button is-rounded mr-1 is-link mb-6" onclick="openLog()" id="logBtn"> <i class="fa-solid fa-clipboard-list mr-3"></i> Log</button>
+      <button class="button is-rounded mb-6 is-link" onclick="openPDF()" id="downloadBtn"><i class="fa-solid fa-file-arrow-down mr-3"></i>Download PDF by Batch</button>
       <div class="select is-rounded mr-3" id="selectSortDiv">
         <select id="selectSort">
           <option value="billing.billing_id" selected>Sort By Batch Number</option>
-          <option value="subcontractor.username">Sort By Vehicle Owner</option>
         </select>
       </div>
 
@@ -192,6 +192,41 @@ include_once 'navbar.php';
             <i class="fa-solid fa-check mr-3"></i>Submit
           </button>
           <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
+        </div>
+
+      </section>
+    </div>
+  </div>
+
+  <!-- PDF MODAL -->
+  <div class="modal" id="pdfModal">
+    <div class="modal-background" id="pdfModalBg"></div>
+    <div class="modal-card p-4">
+
+      <header class="modal-card-head has-background-link">
+        <p class="modal-card-title has-text-white"><i class="fa-solid fa-file-arrow-down mr-3"></i>Download PDF by Batch</p>
+        <button class="delete" aria-label="close" onclick="closePDF()"></button>
+      </header>
+
+      <section class="modal-card-body">
+
+        <div class="field">
+          <label for="" class="label">Invoice Number</label>
+          <div class="control">
+            <div class="select is-rounded" id="invoiceNumberPDFDiv">
+              <select id="invoiceNumberPDF" name="invoiceNumberPDF">
+  
+              </select>
+            </div>
+          </div>
+          <p class="help" id="invoiceNumberPDFHelp"></p>
+        </div>
+
+        <div class="field has-text-centered mt-6">
+          <button class="button is-link has-text-white is-rounded" name="submitPDFForm" id="submitPDFForm">
+            <i class="fa-solid fa-check mr-3"></i>Submit
+          </button>
+          <p class="help" id="submitPDFFormHelp" style="text-align: center;"></p>
         </div>
 
       </section>

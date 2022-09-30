@@ -15,11 +15,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $groupName = $_POST['groupName'];
     $companyId = $_SESSION["companyId"];*/
 
-    $_SESSION["payrollId"] = $_POST['payrollId'];
-    $_SESSION["payrollStatusHidden"] = $_POST['payrollStatusHidden'];
+    $_SESSION["invoiceNumberPDF"] = $_POST['invoiceNumberPDF'];
+    $_SESSION["ownerHeader"] = '0';
+    $_SESSION["plateNumberHeader"] = '0';
+    $_SESSION["dateHeader"] = '0';
+    $_SESSION["remarksHeader"] = '0';
+    $_SESSION["truckRateTD"] = '0';
+    $_SESSION["dropOffTD"] = '0';
+    $_SESSION["penaltyTD"] = '0';
+    $_SESSION["totalTD"] = '0';
+    $_SESSION["taxTD"] = '0';
+    $_SESSION["lessTDHeader"] = '0';
+    $_SESSION["lessTD"] = '0';
+    $_SESSION["netPayTD"] = '0';
+    $_SESSION["shipmenthtml"] = '0';
+
     //header("location: ../subcontractor-group-profile.php");
     //exit();
 
     //echo $roleNameEdit . $dashboardAccessEdit . $shipmentAccessEdit . $employeeAccessEdit . $subcontractorAccessEdit . $permissionIdEdit . $companyId;
-    //echo "test";
+    //echo $_SESSION["invoiceNumberPDF"];
 }

@@ -15,11 +15,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $groupName = $_POST['groupName'];
     $companyId = $_SESSION["companyId"];*/
 
-    $_SESSION["payrollId"] = $_POST['payrollId'];
-    $_SESSION["payrollStatusHidden"] = $_POST['payrollStatusHidden'];
+    $_SESSION["vehicleIdVehicle"] = $_POST['vehicleIdVehicle'];
+    $_SESSION["plateNumberVehicle"] = $_POST['plateNumberVehicle'];
+
+
     //header("location: ../subcontractor-group-profile.php");
     //exit();
 
     //echo $roleNameEdit . $dashboardAccessEdit . $shipmentAccessEdit . $employeeAccessEdit . $subcontractorAccessEdit . $permissionIdEdit . $companyId;
-    //echo "test";
+    //echo $_SESSION["invoiceNumberPDF"];
 }

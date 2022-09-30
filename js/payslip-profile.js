@@ -1,7 +1,7 @@
 let returnBtn = document.getElementById('returnBtn');
 
 let updateBtn = document.getElementById('updateBtn');
-
+let downloadBtn = document.getElementById('downloadBtn');
 let billingIdHidden = document.getElementById('billingIdHidden');
 let ownerIdHidden = document.getElementById('ownerIdHidden');
 let payrollIdHidden = document.getElementById('payrollIdHidden');
@@ -16,21 +16,27 @@ const ancestorTile = document.getElementById('ancestorTile');
 
 const test_indicator = document.getElementById('test_indicator');
 
-let plateNumberHeader = document.getElementById('plateNumberHeader');
-let ownerHeader = document.getElementById('ownerHeader');
-let dateHeader = document.getElementById('dateHeader');
+
 
 const paginationIndicatorBtn = document.getElementById('paginationIndicatorBtn')
 const paginationPreviousBtn = document.getElementById('paginationPreviousBtn')
 const paginationNextBtn = document.getElementById('paginationNextBtn')
 const tableTbody = document.getElementById('tableTbody')
+let lessTDHeader = document.getElementById('lessTDHeader');
+
+let invoiceNumberHeader = document.getElementById('invoiceNumberHeader');
+let plateNumberHeader = document.getElementById('plateNumberHeader');
+let ownerHeader = document.getElementById('ownerHeader');
+let dateHeader = document.getElementById('dateHeader');
 
 let truckRateTD = document.getElementById('truckRateTD');
-let subtotalTD = document.getElementById('subtotalTD');
-let whtTD = document.getElementById('whtTD');
-let commissionTD = document.getElementById('commissionTD');
-let netpayTD = document.getElementById('netpayTD');
-
+let dropOffTD = document.getElementById('dropOffTD');
+let penaltyTD = document.getElementById('penaltyTD');
+let totalTD = document.getElementById('totalTD');
+let taxTD = document.getElementById('taxTD');
+let lessTD = document.getElementById('lessTD');
+let netPayTD = document.getElementById('netPayTD');
+let remarksParagraph = document.getElementById('remarksParagraph');
 let currentPageNumber = 1;
 
 /*
@@ -43,6 +49,31 @@ function addBillingLog(logDescriptionVar, billingDescriptionVar) {
     });
 }
 */
+
+function generatePayslipFees(payrollIdVar) {
+    $.post("./classes/load-payslip-profile-fees.class.php", {
+        payrollId: payrollIdVar
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+        invoiceNumberHeader.innerHTML = 'Invoice Number: ' + jsonArray[0][0];
+        plateNumberHeader.innerHTML = 'Plate Number: ' + jsonArray[0][1];
+        ownerHeader.innerHTML = 'Vehicle Owner: ' + jsonArray[0][2] + ' ' + jsonArray[0][3] + ' ' + jsonArray[0][4];
+        dateHeader.innerHTML = 'Date: ' + jsonArray[0][5];
+
+        truckRateTD.innerHTML = jsonArray[0][6];
+        dropOffTD.innerHTML = jsonArray[0][7];
+        penaltyTD.innerHTML = jsonArray[0][8];
+        totalTD.innerHTML = parseFloat(jsonArray[0][6]) + parseFloat(jsonArray[0][7]) - parseFloat(jsonArray[0][8]);
+        taxTD.innerHTML = (parseFloat(jsonArray[0][6]) + parseFloat(jsonArray[0][7]) - parseFloat(jsonArray[0][8])) * 0.01;
+
+        lessTDHeader.innerHTML = 'LESS ' + jsonArray[0][9] + '%';
+
+        lessTD.innerHTML = (parseFloat(jsonArray[0][6]) + parseFloat(jsonArray[0][7]) - parseFloat(jsonArray[0][8])) * (parseFloat(jsonArray[0][9]) / 100);
+        netPayTD.innerHTML = parseFloat(totalTD.innerHTML) - (parseFloat(taxTD.innerHTML) + parseFloat(lessTD.innerHTML));
+
+    });
+}
 
 function generatePayslip1(payrollIdVar) {
     $.post("./classes/load-payslip-profile.class.php", {
@@ -236,9 +267,7 @@ function generatePayslip3(billingIdVar, ownerIdVar, plateNumberVar) {
 function updatePayslipStatus() {
     if (confirm("Mark this payslip as settled?")) {
         $.post("./classes/edit-payslip-status-controller.class.php", {
-            billingId: billingIdHidden.innerHTML,
-            ownerId: ownerIdHidden.innerHTML,
-            plateNumber: plateNumberHidden.innerHTML
+            payrollId: payrollIdHidden.innerHTML
         }, function (data) {
             //$("#submitAddFormHelp").html(data);
             //$("#submitAddFormHelp").attr('class', 'help is-success');
@@ -247,24 +276,116 @@ function updatePayslipStatus() {
             //addModal.classList.remove('is-active');
             alert(data);
             //refreshList();
-            addPayrollLog("Updated");
+            addPayrollLog("Updated", invoiceNumberHeader.innerHTML + " - " + plateNumberHeader.innerHTML);
             window.location.href = "payroll.php";
         });
     }
 }
 
-function addPayrollLog(logDescriptionVar) {
+function addPayrollLog(logDescriptionVar, payrollDescriptionVar) {
     $.post("./classes/add-payroll-log-controller.class.php", {
         logDescription: logDescriptionVar,
-        billingId: billingIdHidden.innerHTML,
-        ownerId: ownerIdHidden.innerHTML
+        payrollDescription: payrollDescriptionVar
     }, function (data) {
         //alert(data);
     });
 }
 
+function redirectToPDF() {
+    $.post("./classes/set-payslip-session-variable2.class.php", {
+        payrollId: payrollIdHidden.innerHTML
+    }, function (data) {
+        //alert(data);
+        window.location.href = "payslip-pdf.php";
+    });
+}
+
+function openEdit() {
+    editModal.classList.add('is-active');
+    /*
+    editHeader.innerHTML = "Edit " + nameVar;
+    editHeader2.innerHTML = idVar;
+    //populateUsernameAdd();
+    */
+}
+
+function closeEdit() {
+    
+    clearEditFormHelp();
+    clearEditFormInput();
+
+    submitEditFormHelp.className = "help"
+    submitEditFormHelp.innerText = ""
+
+    editModal.classList.remove('is-active');
+
+    //removeSelectAdd(document.getElementById('usernameAdd'));
+}
+
+//EDIT AJAX CALLS WITH VALIDATION
+let submitEditForm = document.getElementById('submitEditForm'); //save changes button
+let submitEditFormHelp = document.getElementById('submitEditFormHelp'); //save changes button
+
+let dropOffEdit = document.getElementById('dropOffEdit')
+let dropOffEditHelp = document.getElementById('dropOffEditHelp')
+
+let penaltyEdit = document.getElementById('penaltyEdit')
+let penaltyEditHelp = document.getElementById('penaltyEditHelp')
+
+let remarksEdit = document.getElementById('remarksEdit')
+let remarksEditHelp = document.getElementById('remarksEditHelp')
+
+
+function editAjax() {
+    $.post("./classes/edit-payslip-controller.class.php", {
+        dropOffEdit: dropOffEdit.value,
+        penaltyEdit: penaltyEdit.value,
+        remarksEdit: remarksEdit.value,
+        payrollId: payrollIdHidden.innerHTML
+    }, function (data) {
+        $("#submitEditFormHelp").html(data);
+        //$("#submitEditFormHelp").attr('class', 'help is-success');
+        //clearEditFormHelp();
+        //clearEditFormInput();
+        //editModal.classList.remove('is-active');
+        closeEdit();
+        //refreshList();
+        addPayrollLog("Updated", invoiceNumberHeader.innerHTML + " - " + plateNumberHeader.innerHTML);
+        window.location.href = "payroll.php";
+    });
+}
+
+submitEditForm.addEventListener('click', (e) => {
+    clearEditFormHelp();
+    //clearEditFormInput();
+    editAjax();
+
+})
+
+function clearEditFormHelp() {
+    //RESETTING FORM ELEMENTS
+    dropOffEdit.className = "input is-rounded"
+    dropOffEditHelp.className = "help"
+    dropOffEditHelp.innerText = ""
+
+    penaltyEdit.className = "input is-rounded"
+    penaltyEditHelp.className = "help"
+    penaltyEditHelp.innerText = ""
+
+    remarksEdit.className = "input is-rounded"
+    remarksEditHelp.className = "help"
+    remarksEditHelp.innerText = ""
+}
+
+function clearEditFormInput() {
+    dropOffEdit.value = null;
+    penaltyEdit.value = null;
+    remarksEdit.value = null;
+}
+
 generatePayslip1(payrollIdHidden.innerHTML);
 generatePayslip2(1, payrollIdHidden.innerHTML);
+generatePayslipFees(payrollIdHidden.innerHTML);
 
 //generateShipmentListTable2(1);
 //populateTable();
@@ -273,6 +394,10 @@ generatePayslip2(1, payrollIdHidden.innerHTML);
 
 returnBtn.addEventListener('click', () => {
     window.location.href = "payroll.php";
+});
+
+downloadBtn.addEventListener('click', () => {
+    redirectToPDF();
 });
 
 paginationNextBtn.addEventListener('click', () => {

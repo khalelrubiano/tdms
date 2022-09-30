@@ -59,6 +59,7 @@ include_once 'navbar-subcontractor.php';
             }
         }
 
+
         @media (max-width: 1000px) {
 
             #payrollTitle {
@@ -81,7 +82,7 @@ include_once 'navbar-subcontractor.php';
             width: 50% !important;
         }
 
-        table {
+        #shipmentTable {
             border: 1px solid #ccc;
             width: 100%;
             margin: 0;
@@ -90,20 +91,20 @@ include_once 'navbar-subcontractor.php';
             border-spacing: 0;
         }
 
-        table tr {
+        #shipmentTable tr {
             border: 1px solid #ddd;
             padding: 5px;
             background: #fff;
 
         }
 
-        table th,
-        table td {
+        #shipmentTable th,
+        #shipmentTable td {
             padding: 10px;
             text-align: center;
         }
 
-        table th {
+        #shipmentTable th {
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -166,137 +167,150 @@ include_once 'navbar-subcontractor.php';
     <div class="main" style="margin-bottom: 20%;">
         <div class="container firstContainer" style="margin-bottom: 5%;" id="firstContainer">
             <button class="button is-rounded mb-6 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
-            <p class="title is-4 has-text-centered" id="payrollTitle">Batch <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["billingId"] ?></p>
+            <p class="title is-4 has-text-centered is-hidden" id="payrollTitle">Invoice <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["payrollId"] ?></p>
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
-            <p class="title is-hidden" id="billingIdHidden"><?php echo $_SESSION["billingId"] ?></p>
-            <p class="title is-hidden" id="ownerIdHidden"><?php echo $_SESSION["ownerId"] ?></p>
-            <p class="title is-hidden" id="payrollStatusHidden"><?php echo $_SESSION["payrollStatus"] ?></p>
-            <p class="title is-hidden" id="plateNumberHidden"><?php echo $_SESSION["plateNumber"] ?></p>
+            <p class="title is-hidden" id="payrollIdHidden"><?php echo $_SESSION["payrollId"] ?></p>
+            <p class="title is-hidden" id="ownerIdHidden"></p>
+            <p class="title is-hidden" id="payrollStatusHidden"><?php echo $_SESSION["payrollStatusHidden"] ?></p>
+            <p class="title is-hidden" id="plateNumberHidden"></p>
             <p class="title is-4 is-hidden" id="isOwnerHidden"><?php echo $_SESSION["isOwner"] ?></p>
             <p class="title is-4 is-hidden" id="isDriverHidden"><?php echo $_SESSION["isDriver"] ?></p>
             <p class="title is-4 is-hidden" id="isHelperHidden"><?php echo $_SESSION["isHelper"] ?></p>
         </div>
 
-        <div class="container box" style="margin-bottom: 2.5%;">
-            <div class="columns">
-                <div class="column is-6">
-                    <table class="table firstTable">
-                        <tbody>
-                            <tr class="firstTable">
-                                <td class="firstTableTd"><strong>Status:</strong></td>
-                                <td class="firstTableTd"><?php echo $_SESSION["payrollStatus"] ?></td>
-                            </tr>
-                            <tr class="firstTable">
-                                <td class="firstTableTd"><strong>Plate Number:</strong></td>
-                                <td class="firstTableTd" id="plateNumberHeader"><?php echo $_SESSION["invoiceDate"] ?></td>
-                            </tr>
-                            <tr class="firstTable">
-                                <td class="firstTableTd"><strong>Vehicle Owner:</strong></td>
-                                <td class="firstTableTd" id="ownerHeader"><?php echo $_SESSION["dueDate"] ?></td>
-                            </tr>
-                            <tr class="firstTable">
-                                <td class="firstTableTd"><strong>Date:</strong></td>
-                                <td class="firstTableTd" id="dateHeader"><?php echo $_SESSION["startDate"] . " to " . $_SESSION["endDate"] ?></td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="container box p-6">
+            <div class="container" style="margin-bottom: 5%;">
+                <div class="columns">
+                    <div class="column">
+                        <table class="table is-fullwidth is-bordered firstTable" style="table-layout: fixed;">
+                            <tbody>
+                                <tr class="firstTableTr">
+                                    <td class="firstTableTd">
+                                        <p class="title is-5" id="invoiceNumberHeader" style="line-height: 0.5;">Invoice Number:</p>
+                                    </td>
+                                </tr>
+                                <tr class="firstTableTr">
+                                    <td class="firstTableTd">
+                                        <p class="title is-5" id="ownerHeader" style="line-height: 0.5;">Vehicle Owner:</p>
+                                    </td>
+
+                                </tr>
+                                <tr class="firstTableTr">
+                                    <td class="firstTableTd">
+                                        <p class="title is-5" id="plateNumberHeader" style="line-height: 0.5;">Plate Number:</p>
+                                    </td>
+
+                                </tr>
+                                <tr class="firstTableTr">
+                                    <td class="firstTableTd">
+                                        <p class="title is-5" id="dateHeader" style="line-height: 0.5;">Date:</p>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="container is-hidden" style="margin-bottom: 5%;">
-            <p class="title is-4 mb-6" id="statusHeader">Status: <?php echo $_SESSION["payrollStatus"] ?> </p>
-
-            <p class="subtitle is-5 mb-4" id="plateNumberHeader">Plate Number:</p>
-            <p class="subtitle is-5 mb-4" id="ownerHeader">Vehicle Owner:</p>
-            <p class="subtitle is-5 mb-4" id="dateHeader">Date:</p>
-
-        </div>
-
-        <div class="container box" style="margin-bottom: 5%;">
-            <div class="columns is-centered">
-                <div class="column is-12">
-                    <table class="table is-bordered is-fullwidth">
+            <div class="container" style="margin-bottom: 5%;">
+                <p class="title is-4 mb-6">Shipment Summary</p>
+                <div id="card" class="mb-4 has-text-centered">
+                    <table id="shipmentTable">
                         <thead>
+                            <tr>
+                                <th style="text-align: center;">Date</th>
+                                <th>Shipment Number</th>
+                                <th>Destination</th>
+                                <th>Area</th>
+                                <th>Rate</th>
+                                <th>Drop Off</th>
+                                <th>Penalty</th>
+                            </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="table1TD">Truck Rate:</td>
-                                <td class="table1TD" id="truckRateTD">0</td>
-                            </tr>
-                            <tr>
-                                <td class="table1TD">Drop Off:</th>
-                                <td class="table1TD" id="dropFeeTD">0</td>
-                            </tr>
+                        <tbody id="tableTbody">
 
-                            <tr>
-                                <td class="table1TD">Penalty:</td>
-                                <td class="table1TD" id="penaltyTD">0</td>
-                            </tr>
-
-                            <tr>
-                                <th class="table1TH">Total:</th>
-                                <td class="table1TD" id="subtotalTD">0</td>
-                            </tr>
-
-                            <tr>
-                                <td class="table1TD">1% Withholding Tax:</td>
-                                <td class="table1TD" id="whtTD">0</td>
-                            </tr>
-                            <tr>
-                                <td class="table1TD">Commission Rate:</td>
-                                <td class="table1TD" id="commissionTD">0</td>
-                            </tr>
-                            <tr>
-                                <th class="table1TH">Net Pay:</th>
-                                <td class="table1TD" id="netpayTD">0</td>
-                            </tr>
                         </tbody>
                     </table>
+                </div>
+                <nav class="pagination mt-6">
+                    <ul class="pagination-list">
+                        <li>
+                            <a class="pagination-link is-current is-hidden" id="paginationIndicatorBtn">1</a>
+                            <a class="pagination-link is-hidden" id="arrayLengthHidden"></a>
+                        </li>
+                    </ul>
+                    <a class="pagination-previous is-disabled" id="paginationPreviousBtn">Previous</a>
+                    <a class="pagination-next" id="paginationNextBtn">Next page</a>
+                </nav>
+            </div>
+
+            <div class="container" style="margin-bottom: 5%; min-height:100px">
+                <div class="columns">
+                    <div class="column">
+                        <p class="title is-5" id="remarksHeader" style="line-height: 0.5;">Remarks:</p>
+                        <p class="title is-6" id="remarksParagraph" style="line-height: 0.5;"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" style="margin-bottom: 5%;">
+                <div class="columns">
+
+                    <div class="column">
+                        <table class="table is-fullwidth is-bordered" style="table-layout: fixed;">
+                            <tbody>
+                                <tr>
+                                    <td>TRUCK RATE:</td>
+                                    <td id="truckRateTD">0</td>
+                                </tr>
+                                <tr>
+                                    <td>DROP OFF:</td>
+                                    <td id="dropOffTD">0</td>
+                                </tr>
+                                <tr>
+                                    <td>PENALTY:</td>
+                                    <td id="penaltyTD">0</td>
+                                </tr>
+                                <tr>
+                                    <td class="has-text-weight-bold">TOTAL:</td>
+                                    <td class="has-text-weight-bold" id="totalTD">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="column">
+                        <table class="table is-fullwidth is-bordered" style="table-layout: fixed;">
+                            <tbody>
+                                <tr>
+                                    <td>WITHOLDING TAX 1%:</td>
+                                    <td id="taxTD">0</td>
+                                </tr>
+                                <tr>
+                                    <td id="lessTDHeader">LESS %</td>
+                                    <td id="lessTD">0</td>
+                                </tr>
+                                <tr>
+                                    <td class="has-text-weight-bold">NET PAY:</td>
+                                    <td class="has-text-weight-bold" id="netPayTD">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>
             </div>
 
-        </div>
-
-        <div class="container box">
-            <p class="title is-4 mb-6">Shipment Summary</p>
-            <div id="card" class="mb-4 has-text-centered">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="text-align: center;">Date</th>
-                            <th>Shipment Number</th>
-                            <th>Destination</th>
-                            <th>Area</th>
-                            <th>Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableTbody">
-                        <!--
-                        <tr>
-                            <td data-label="First Name"> John</td>
-                            <td data-label="Last Name">Doe</td>
-                            <td data-label="Address">123 Main Street</td>
-                            <td data-label="City">Anytown</td>
--->
-                    </tbody>
-                </table>
-            </div>
-            <nav class="pagination mt-6">
-                <ul class="pagination-list">
-                    <li>
-                        <a class="pagination-link is-current is-hidden" id="paginationIndicatorBtn">1</a>
-                        <a class="pagination-link is-hidden" id="arrayLengthHidden"></a>
-                    </li>
-                </ul>
-                <a class="pagination-previous is-disabled" id="paginationPreviousBtn">Previous</a>
-                <a class="pagination-next" id="paginationNextBtn">Next page</a>
-            </nav>
         </div>
     </div>
 
+   
 
 
 </body>
@@ -304,8 +318,6 @@ include_once 'navbar-subcontractor.php';
 <!--EXTERNAL JAVASCRIPT-->
 <script src="js/payslip-profile-individual.js"></script>
 
-
-<!--INTERNAL JAVASCRIPT-->
 <script>
     let isOwnerHidden = document.getElementById('isOwnerHidden')
     let isDriverHidden = document.getElementById('isDriverHidden')

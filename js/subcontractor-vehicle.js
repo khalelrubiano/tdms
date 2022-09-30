@@ -218,7 +218,7 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                         break;
                     case "Unavailable":
                         newCardHeaderParagraph.classList.add('has-text-danger');
-                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-danger'></i>" + jsonArray[i][3];
+                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-danger'></i>" + jsonArray[i][3] + ' - ' + jsonArray[i][9];
                         newCardHeader.appendChild(newCardHeaderParagraph);
                         break;
                     case "On-Delivery":
@@ -299,18 +299,46 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 newContentParagraphIcon.classList.add('fa-truck');
                 newContentParagraphIcon.classList.add('fa-2x');
                 newContentParagraph.appendChild(newContentParagraphIcon);
+                /*
+                                if (jsonArray[i][3] == "Unavailable") {
+                                    //CONTENT PARAGRAPH
+                                    var newContentParagraph2 = document.createElement("p");
+                                    newContentParagraph2.classList.add('title');
+                                    newContentParagraph2.classList.add('is-5');
+                                    newContentParagraph2.classList.add('mb-5');
+                                    newContentParagraph2.classList.add('has-text-danger');
+                                    newContentParagraph2.classList.add('has-text-centered');
+                                    newContentParagraph2.innerHTML = jsonArray[i][9];
+                                    newContent.appendChild(newContentParagraph2);
+                                }
+                */
 
-                if (jsonArray[i][3] == "Unavailable") {
-                    //CONTENT PARAGRAPH
-                    var newContentParagraph2 = document.createElement("p");
-                    newContentParagraph2.classList.add('title');
-                    newContentParagraph2.classList.add('is-5');
-                    newContentParagraph2.classList.add('mb-5');
-                    newContentParagraph2.classList.add('has-text-danger');
-                    newContentParagraph2.classList.add('has-text-centered');
-                    newContentParagraph2.innerHTML = jsonArray[i][9];
-                    newContent.appendChild(newContentParagraph2);
-                }
+                var newContentParagraph3 = document.createElement("p");
+                newContentParagraph3.classList.add('title');
+                //newContentParagraph3.classList.add('is-6');
+                newContentParagraph3.classList.add('mb-1');
+                newContentParagraph3.classList.add('deliveriesP');
+                newContentParagraph3.classList.add('has-text-centered');
+                newContentParagraph3.innerHTML = 'Weekly Deliveries: ' + jsonArray[i][10];
+                newContent.appendChild(newContentParagraph3);
+
+                var newContentParagraph4 = document.createElement("p");
+                newContentParagraph4.classList.add('title');
+                //newContentParagraph4.classList.add('is-6');
+                newContentParagraph4.classList.add('mb-5');
+                newContentParagraph4.classList.add('deliveriesP');
+                newContentParagraph4.classList.add('has-text-centered');
+                newContentParagraph4.innerHTML = 'Monthly Deliveries: ' + jsonArray[i][11];
+                newContent.appendChild(newContentParagraph4);
+
+                var newContentParagraph5 = document.createElement("p");
+                newContentParagraph5.classList.add('title');
+                //newContentParagraph5.classList.add('is-6');
+                newContentParagraph5.classList.add('mb-5');
+                newContentParagraph5.classList.add('deliveriesP');
+                newContentParagraph5.classList.add('has-text-centered');
+                newContentParagraph5.innerHTML = 'Latest Delivery: ' + jsonArray[i][12];
+                newContent.appendChild(newContentParagraph5);
 
                 //CONTENT TABLE
                 var newContentTable = document.createElement("table");
@@ -399,6 +427,14 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                 newCard.appendChild(newCardFooter);
 
                 //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
+                var newCardFooterLink2 = document.createElement("a");
+                newCardFooterLink2.setAttribute("onclick", "redirectToVehicleProfile('" + jsonArray[i][0] + "','" + jsonArray[i][1] + "')");
+                newCardFooterLink2.classList.add('card-footer-item');
+                newCardFooterLink2.innerHTML = "View Shipments";
+                newCardFooterLink2.classList.add('has-text-info');
+                newCardFooter.appendChild(newCardFooterLink2);
+
+                //CARD CONTENT MEDIA-CONTENT SUBTITLE ( NEEDS HREF )
                 var newCardFooterLink = document.createElement("a");
                 //newCardFooterLink.setAttribute("onclick", "openEdit('" + jsonArray[i][0] + "')");
 
@@ -407,7 +443,7 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                     case true:
                         newCardFooterLink.setAttribute("onclick", "openAdd('" + jsonArray[i][0] + "')");
                         newCardFooterLink.classList.add('card-footer-item');
-                        newCardFooterLink.innerHTML = "<i class='fa-solid fa-plus p-1 mr-1'></i> Add Tracker";
+                        newCardFooterLink.innerHTML = "Add Tracker";
                         newCardFooterLink.classList.add('has-text-info');
                         newCardFooter.appendChild(newCardFooterLink);
                         break;
@@ -415,7 +451,7 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                     case false:
                         newCardFooterLink.setAttribute("onclick", "deleteAjax('" + jsonArray[i][6] + "')");
                         newCardFooterLink.classList.add('card-footer-item');
-                        newCardFooterLink.innerHTML = "<i class='fa-solid fa-trash-can p-1 mr-1'></i> Remove Tracker #" + jsonArray[i][7];
+                        newCardFooterLink.innerHTML = "Remove Tracker #" + jsonArray[i][7];
                         newCardFooterLink.classList.add('has-text-danger');
                         newCardFooter.appendChild(newCardFooterLink);
                         break;
@@ -659,6 +695,17 @@ function refreshList() {
     ancestorTile.innerHTML = "";
     //currentPageNumber = 1;
     generateVehicleList1(tabValueHidden.innerHTML);
+}
+
+function redirectToVehicleProfile(vehicleIdVar, plateNumberVar) {
+    $.post("./classes/set-vehicle-profile-session-variable.class.php", {
+        vehicleIdVehicle: vehicleIdVar,
+        plateNumberVehicle: plateNumberVar
+    }, function (data) {
+        //var jsonArray = JSON.parse(data);
+        //alert("success call");
+        window.location.href = "vehicle-profile.php";
+    });
 }
 
 allTabLink.addEventListener('click', () => {

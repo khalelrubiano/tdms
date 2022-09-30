@@ -53,10 +53,8 @@ try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT billing.invoice_number, billingdate.created_at 
+    $sql = "SELECT invoice_number, date_settled 
     FROM billing
-    INNER JOIN billingdate
-    ON billing.billing_id = billingdate.billing_id
     WHERE billing_status = 'Settled'";
 
     $stmt = $pdoVessel->prepare($sql);

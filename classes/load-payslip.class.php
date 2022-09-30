@@ -63,7 +63,7 @@ try {
             ON vehicle.group_id = ownergroup.group_id
             INNER JOIN subcontractor 
             ON ownergroup.owner_id = subcontractor.subcontractor_id
-            WHERE company_id = :company_id
+            WHERE payroll.company_id = :company_id 
             AND payroll.payroll_status = 'Settled'
             ORDER BY " . $orderBy;
             break;
@@ -87,11 +87,13 @@ try {
             ON vehicle.group_id = ownergroup.group_id
             INNER JOIN subcontractor 
             ON ownergroup.owner_id = subcontractor.subcontractor_id
-            WHERE company_id = :company_id
+            WHERE payroll.company_id = :company_id 
             AND payroll.payroll_status = 'Unsettled'
             ORDER BY " . $orderBy;
             break;
     }
+
+    //echo $sql;
     /*
     $sql = "SELECT 
     billing.billing_id, 

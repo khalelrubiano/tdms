@@ -54,6 +54,104 @@ function getSubcontractorDetails($idVar)
     unset($pdoVessel);
 }
 
+function getMonthly($plateNumber)
+{
+    $configObj = new Config();
+
+    $pdoVessel = $configObj->pdoConnect();
+
+    $sql = "SELECT 
+    COUNT(shipment_number) 
+    FROM shipment  
+    WHERE date_of_delivery > now() - INTERVAL 30 day
+    AND plate_number = :plate_number";
+
+    if ($stmt = $pdoVessel->prepare($sql)) {
+
+        $stmt->bindParam(":plate_number", $param1, PDO::PARAM_STR);
+
+        $param1 = $plateNumber;
+
+        if ($stmt->execute()) {
+            $row = $stmt->fetchAll();
+            $returnValue = $row[0][0];
+            
+        } else {
+
+        }
+
+        unset($stmt);
+
+        return $returnValue;
+    }
+    unset($pdoVessel);
+}
+
+function getWeekly($plateNumber)
+{
+    $configObj = new Config();
+
+    $pdoVessel = $configObj->pdoConnect();
+
+    $sql = "SELECT 
+    COUNT(shipment_number) 
+    FROM shipment  
+    WHERE date_of_delivery > now() - INTERVAL 7 day
+    AND plate_number = :plate_number";
+
+    if ($stmt = $pdoVessel->prepare($sql)) {
+
+        $stmt->bindParam(":plate_number", $param1, PDO::PARAM_STR);
+
+        $param1 = $plateNumber;
+
+        if ($stmt->execute()) {
+            $row = $stmt->fetchAll();
+            $returnValue = $row[0][0];
+            
+        } else {
+
+        }
+
+        unset($stmt);
+
+        return $returnValue;
+    }
+    unset($pdoVessel);
+}
+
+function getLatest($plateNumber)
+{
+    $configObj = new Config();
+
+    $pdoVessel = $configObj->pdoConnect();
+
+    $sql = "SELECT 
+    date_of_delivery 
+    FROM shipment  
+    WHERE plate_number = :plate_number 
+    ORDER BY date_of_delivery DESC";
+
+    if ($stmt = $pdoVessel->prepare($sql)) {
+
+        $stmt->bindParam(":plate_number", $param1, PDO::PARAM_STR);
+
+        $param1 = $plateNumber;
+
+        if ($stmt->execute()) {
+            $row = $stmt->fetchAll();
+            $returnValue = $row[0][0];
+            
+        } else {
+
+        }
+
+        unset($stmt);
+
+        return $returnValue;
+    }
+    unset($pdoVessel);
+}
 
 try {
 
@@ -182,7 +280,7 @@ try {
     for ($i = 0; $i < count($row); $i++) {
         //echo $row[$i][1] . "<br>";
 
-        $childArray = array($row[$i][0], $row[$i][1], $row[$i][2], $row[$i][5], getSubcontractorDetails($row[$i][3]), getSubcontractorDetails($row[$i][4]), $row[$i][6], $row[$i][7], $row[$i][8], $row[$i][9]);
+        $childArray = array($row[$i][0], $row[$i][1], $row[$i][2], $row[$i][5], getSubcontractorDetails($row[$i][3]), getSubcontractorDetails($row[$i][4]), $row[$i][6], $row[$i][7], $row[$i][8], $row[$i][9], getWeekly($row[$i][1]), getMonthly($row[$i][1]), getLatest($row[$i][1]));
 
         array_push($parentArray, $childArray);
     }

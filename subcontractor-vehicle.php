@@ -55,6 +55,13 @@ include_once 'navbar.php';
     }
 
 
+    .deliveriesP {
+      font-size: calc(8px + 0.390625vw);
+    }
+
+    .card-footer {
+      min-height: 75px !important;
+    }
 
     @media (min-width: 1000px) {
 

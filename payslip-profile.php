@@ -158,7 +158,7 @@ include_once 'navbar.php';
         .firstTableTd {
             table-layout: fixed;
             border: none !important;
-            text-align: center;
+            text-align: left;
         }
     </style>
 </head>
@@ -168,28 +168,57 @@ include_once 'navbar.php';
         <div class="container firstContainer" style="margin-bottom: 5%;" id="firstContainer">
             <button class="button is-rounded mb-6 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
             <button class="button is-rounded mb-6 is-primary" id="updateBtn" onclick="updatePayslipStatus()"><i class="fa-solid fa-check mr-3"></i>Mark as Settled</button>
-            <p class="title is-4 has-text-centered" id="payrollTitle">Invoice <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["payrollId"] ?></p>
+            <button class="button is-rounded mb-6 is-link" id="downloadBtn"><i class="fa-solid fa-file-arrow-down mr-3"></i>Download PDF</button>
+            <button class="button is-rounded mb-6 is-info" id="editBtn" onclick="openEdit()"><i class="fa-solid fa-pen-to-square mr-3"></i>Edit Payslip</button>
+            <p class="title is-4 has-text-centered is-hidden" id="payrollTitle">Invoice <i class="fa-solid fa-hashtag"></i><?php echo "" . $_SESSION["payrollId"] ?></p>
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
             <p class="title is-hidden" id="payrollIdHidden"><?php echo $_SESSION["payrollId"] ?></p>
             <p class="title is-hidden" id="ownerIdHidden"></p>
-            <p class="title is-hidden" id="payrollStatusHidden"></p>
+            <p class="title is-hidden" id="payrollStatusHidden"><?php echo $_SESSION["payrollStatusHidden"] ?></p>
             <p class="title is-hidden" id="plateNumberHidden"></p>
         </div>
 
-        <div class="container box">
+        <div class="container box p-6">
             <div class="container" style="margin-bottom: 5%;">
-                <div class="columns is-centered">
-                    <div class="column"> 
-                        <p class="title has-text-centered is-5" id="plateNumberHeader">Test</p>
-                        <p class="title has-text-centered is-5" id="ownerHeader">Test</p>
-                        <p class="title has-text-centered is-5" id="dateHeader">Test</p>
+                <div class="columns">
+                    <div class="column">
+                        <table class="table is-fullwidth is-bordered firstTable" style="table-layout: fixed;">
+                            <tbody>
+                                <tr class="firstTableTr">
+                                    <td class="firstTableTd">
+                                        <p class="title is-5" id="invoiceNumberHeader" style="line-height: 0.5;">Invoice Number:</p>
+                                    </td>
+                                </tr>
+                                <tr class="firstTableTr">
+                                    <td class="firstTableTd">
+                                        <p class="title is-5" id="ownerHeader" style="line-height: 0.5;">Vehicle Owner:</p>
+                                    </td>
+                 
+                                </tr>
+                                <tr class="firstTableTr">
+                                    <td class="firstTableTd">
+                                        <p class="title is-5" id="plateNumberHeader" style="line-height: 0.5;">Plate Number:</p>
+                                    </td>
+                                   
+                                </tr>
+                                <tr class="firstTableTr">
+                                    <td class="firstTableTd">
+                                        <p class="title is-5" id="dateHeader" style="line-height: 0.5;">Date:</p>
+                                    </td>
+                                   
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+
                     </div>
                 </div>
             </div>
 
-
-            <div class="container">
+            <div class="container" style="margin-bottom: 5%;">
                 <p class="title is-4 mb-6">Shipment Summary</p>
                 <div id="card" class="mb-4 has-text-centered">
                     <table id="shipmentTable">
@@ -220,9 +249,119 @@ include_once 'navbar.php';
                     <a class="pagination-next" id="paginationNextBtn">Next page</a>
                 </nav>
             </div>
+
+            <div class="container" style="margin-bottom: 5%; min-height:100px">
+                <div class="columns">
+                    <div class="column">
+                        <p class="title is-5" id="remarksHeader" style="line-height: 0.5;">Remarks:</p>
+                        <p class="title is-6" id="remarksParagraph" style="line-height: 0.5;"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" style="margin-bottom: 5%;">
+                <div class="columns">
+
+                    <div class="column">
+                        <table class="table is-fullwidth is-bordered" style="table-layout: fixed;">
+                            <tbody>
+                                <tr>
+                                    <td>TRUCK RATE:</td>
+                                    <td id="truckRateTD">0</td>
+                                </tr>
+                                <tr>
+                                    <td>DROP OFF:</td>
+                                    <td id="dropOffTD">0</td>
+                                </tr>
+                                <tr>
+                                    <td>PENALTY:</td>
+                                    <td id="penaltyTD">0</td>
+                                </tr>
+                                <tr>
+                                    <td class="has-text-weight-bold">TOTAL:</td>
+                                    <td class="has-text-weight-bold" id="totalTD">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="column">
+                        <table class="table is-fullwidth is-bordered" style="table-layout: fixed;">
+                            <tbody>
+                                <tr>
+                                    <td>WITHOLDING TAX 1%:</td>
+                                    <td id="taxTD">0</td>
+                                </tr>
+                                <tr>
+                                    <td id="lessTDHeader">LESS %</td>
+                                    <td id="lessTD">0</td>
+                                </tr>
+                                <tr>
+                                    <td class="has-text-weight-bold">NET PAY:</td>
+                                    <td class="has-text-weight-bold" id="netPayTD">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
 
+    <!-- EDIT MODAL -->
+    <div class="modal" id="editModal">
+        <div class="modal-background" id="editModalBg"></div>
+        <div class="modal-card">
+
+            <header class="modal-card-head has-background-light">
+                <p class="modal-card-title has-text-black" id="editHeader"><i class="fa-solid fa-pen-to-square mr-3"></i> Edit Payslip</p>
+                <button class="delete" aria-label="close" onclick="closeEdit()"></button>
+            </header>
+
+            <section class="modal-card-body">
+
+                <div class="field">
+                    <label for="" class="label">Drop Off</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter drop off here" class="input is-rounded" name="dropOffEdit" id="dropOffEdit">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-peso-sign"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="dropOffEditHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Penalty</label>
+                    <div class="control has-icons-left">
+                        <input type="text" placeholder="Enter penalty here" class="input is-rounded" name="penaltyEdit" id="penaltyEdit">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-peso-sign"></i>
+                        </span>
+                    </div>
+                    <p class="help" id="penaltyEditHelp"></p>
+                </div>
+
+                <div class="field">
+                    <label for="" class="label">Remarks</label>
+                    <div class="control">
+                        <textarea class="textarea" placeholder="Enter remarks here" name="remarksEdit" id="remarksEdit" style="resize: none;"></textarea>
+                    </div>
+                    <p class="help" id="remarksEditHelp"></p>
+                </div>
+
+                <div class="field has-text-centered mt-6">
+                    <button class="button is-dark has-text-white is-rounded" name="submitEditForm" id="submitEditForm">
+                        <i class="fa-solid fa-check mr-3"></i>Submit
+                    </button>
+                    <p class="help" id="submitEditFormHelp" style="text-align: center;"></p>
+                </div>
+
+            </section>
+        </div>
+    </div>
 
 
 </body>
@@ -240,6 +379,7 @@ include_once 'navbar.php';
 
     if (payrollStatusHidden.innerHTML == "Settled") {
         updateBtn.classList.add("is-hidden");
+        editBtn.classList.add("is-hidden");
     }
 </script>
 

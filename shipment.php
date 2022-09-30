@@ -264,6 +264,31 @@ include_once 'navbar.php';
     </div>
   </div>
   <!-- LOG MODAL END-->
+  <!-- INFO MODAL START-->
+  <div class="modal" id="infoModal">
+    <div class="modal-background" id="infoModalBg"></div>
+    <div class="modal-card p-4">
+
+      <header class="modal-card-head has-background-link">
+        <p class="modal-card-title has-text-white"><i class="fa-solid fa-calendar-days mr-3"></i>Vehicle Info</p>
+        <button class="delete" aria-label="close" onclick="closeInfo()"></button>
+      </header>
+
+      <section class="modal-card-body">
+        <div class="content">
+          <ul id="infoList">
+            <li>
+              <h1 class="title is-4">ABC-123</h1>
+            </li>
+            <li>ABC-123</li>
+            <li>ABC-123</li>
+            <li>ABC-123</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <!-- INFO MODAL END-->
   <p class="is-hidden" id="access1"><?php echo $_SESSION['shipmentAccess'] ?></p>
   <p class="is-hidden" id="access2"><?php echo $_SESSION['employeeAccess'] ?></p>
   <p class="is-hidden" id="access3"><?php echo $_SESSION['subcontractorAccess'] ?></p>

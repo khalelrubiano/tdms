@@ -60,6 +60,13 @@ function closeLog() {
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
 
+function openInfo() {
+    infoModal.classList.add('is-active');
+}
+
+function closeInfo() {
+    infoModal.classList.remove('is-active');
+}
 
 /*
 

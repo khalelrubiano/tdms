@@ -10,7 +10,7 @@ const editModal = document.getElementById('editModal');
 const addModal = document.getElementById('addModal');
 const add2Modal = document.getElementById('add2Modal');
 let vehicleIdHidden = document.getElementById('vehicleIdHidden');
-
+const typeTable = document.getElementById('typeTable');
 //MODALS
 function openAdd() {
     addModal.classList.add('is-active');
@@ -52,6 +52,8 @@ function closeEdit() {
 
 function openAdd2() {
     add2Modal.classList.add('is-active');
+    typeTable.innerHTML = '';
+    getType();
     //populateUsernameAdd();
 }
 
@@ -64,7 +66,7 @@ function closeAdd2() {
     submitAdd2FormHelp.innerText = ""
 
     add2Modal.classList.remove('is-active');
-    
+
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
 
@@ -281,13 +283,15 @@ function addAjax2() {
     $.post("./classes/add-vehicle-type-controller.class.php", {
         typeAdd2: typeAdd2.value
     }, function (data) {
-        $("#submitAdd2FormHelp").html(data);
-        $("#submitAddFormHelp").attr('class', 'help is-success');
-        //clearAddFormHelp();
-        //clearAddFormInput();
+        //$("#submitAdd2FormHelp").html(data);
+        //$("#submitAddFormHelp").attr('class', 'help is-success');
+        clearAdd2FormHelp();
+        clearAdd2FormInput();
         //addModal.classList.remove('is-active');
-        closeAdd2();
+        //closeAdd2();
         //refreshList();
+        typeTable.innerHTML = '';
+        getType();
     });
 }
 /*
@@ -930,6 +934,55 @@ function refreshList() {
 
     //generateUserList2(1, selectSort.value);
 }
+
+//DELETE AJAX CALL
+function deleteAjax(deleteVar) {
+    if (confirm("Are you sure?")) {
+        $.post("./classes/delete-type-controller.class.php", {
+            typeId: deleteVar
+        }, function (data) {
+            //$("#submitAddFormHelp").html(data);
+            //$("#submitAddFormHelp").attr('class', 'help is-success');
+            //clearAddFormHelp();
+            //clearAddFormInput();
+            //addModal.classList.remove('is-active');
+            alert(data);
+            //refreshTable();
+            typeTable.innerHTML = '';
+            getType();
+        });
+    }
+}
+
+function testFunc(testVar) {
+    alert(testVar);
+}
+
+function getType() {
+    $.post("./classes/load-vehicle-type-select.class.php", {
+    }, function (data) {
+        var jsonArray = JSON.parse(data);
+        //alert(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            //TR
+            var newTr = document.createElement("tr");
+
+            //TD
+            var newTd = document.createElement("td");
+            newTd.setAttribute("style", "text-align: left;");
+            newTd.classList.add('typeTD');
+            //newTd.innerHTML = '<button class="mr-4" onclick="deleteAjax("' + jsonArray[i][1] + '")"><i class="fa-solid fa-xmark"></i></button>' + jsonArray[i][0]
+            newTd.innerHTML = "<button class='mr-4' onclick=deleteAjax('" + jsonArray[i][1] + "')><i class='fa-solid fa-xmark'></i></button>" + jsonArray[i][0]
+            newTr.appendChild(newTd);
+
+            //FINAL APPEND
+            typeTable.appendChild(newTr);
+        };
+    });
+}
+
+
 
 returnBtn.addEventListener('click', () => {
     window.location.href = "subcontractor-group.php";

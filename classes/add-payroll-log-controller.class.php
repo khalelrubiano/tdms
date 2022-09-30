@@ -10,15 +10,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 $logDescription = $_POST['logDescription'];
 $userDescription =  $_SESSION["firstName"] . " " . $_SESSION["middleName"] . " " . $_SESSION["lastName"];
 $companyId = $_SESSION['companyId'];
-$billingId = $_POST['billingId'];
-$ownerId = $_POST['ownerId'];
+$payrollDescription = $_POST['payrollDescription'];
 
     $addObj = new AddLogModel(
         $logDescription, 
         $userDescription, 
         $companyId,
-        $billingId,
-        $ownerId
+        $payrollDescription
     );
 
     $addObj->addLogRecord();

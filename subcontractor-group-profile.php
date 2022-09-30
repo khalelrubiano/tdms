@@ -56,6 +56,26 @@ include_once 'navbar.php';
             font-size: 80%;
         }
 
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
         @media (min-width: 1000px) {
 
             #registerBtn,
@@ -82,6 +102,10 @@ include_once 'navbar.php';
                 text-align: center;
             }
 
+            #typeDiv {
+                height: 300px;
+                overflow-y: auto;
+            }
         }
 
         @media (max-width: 1000px) {
@@ -111,6 +135,10 @@ include_once 'navbar.php';
             #nameHeader {
                 margin-top: 10%;
             }
+        }
+
+        .typeTD {
+            text-align: left !important;
         }
     </style>
 </head>
@@ -166,6 +194,7 @@ include_once 'navbar.php';
             </header>
 
             <section class="modal-card-body">
+
                 <div class="field">
                     <label for="" class="label">Vehicle Plate Number</label>
                     <div class="control has-icons-left">
@@ -301,12 +330,24 @@ include_once 'navbar.php';
 
             <section class="modal-card-body">
 
+                <p class="title is-6" id="listHeader">Vehicle Type</p>
+
+                <div class="container has-text-centered" id="typeDiv">
+                    <table class="table is-fullwidth is-bordered" id="typeTable">
+
+                        <tr>
+                            <td style="text-align: left;"><button></button> Shipment #123 - Date Delivered: 2022-09-22</td>
+                        </tr>
+
+                    </table>
+                </div>
+
                 <div class="field">
-                    <label for="" class="label">Vehicle Type</label>
+                    <label for="" class="label">Add New</label>
                     <div class="control has-icons-left">
                         <input type="text" placeholder="Enter vehicle type here" class="input is-rounded" name="typeAdd2" id="typeAdd2">
                         <span class="icon is-small is-left">
-                        <i class="fa-solid fa-truck"></i>
+                            <i class="fa-solid fa-truck"></i>
                         </span>
                     </div>
                     <p class="help" id="typeAdd2Help"></p>

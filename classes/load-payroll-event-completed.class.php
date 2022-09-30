@@ -54,32 +54,12 @@ try {
     $pdoVessel = $configObj->pdoConnect();
 
     $sql = "SELECT 
-    billing.billing_id, 
-    vehicle.plate_number,
-    payrolldate.created_at
-    FROM billing
-    INNER JOIN billedshipment
-    ON billing.billing_id = billedshipment.billing_id
-    INNER JOIN billingdate
-    ON billing.billing_id = billingdate.billing_id
-    INNER JOIN shipment
-    ON billedshipment.shipment_id = shipment.shipment_id
-    INNER JOIN clientarea
-    ON shipment.area_id = clientarea.area_id
-    INNER JOIN shipmentprogress
-    ON shipment.shipment_id = shipmentprogress.shipment_id
-    LEFT JOIN vehicle
-    ON shipment.vehicle_id = vehicle.vehicle_id
-    INNER JOIN ownergroup
-    ON vehicle.group_id = ownergroup.group_id
-    INNER JOIN subcontractor
-    ON ownergroup.owner_id = subcontractor.subcontractor_id
-    INNER JOIN payroll
-    ON shipment.shipment_id = payroll.shipment_id
-    LEFT JOIN payrolldate
-    ON payroll.payroll_id = payrolldate.payroll_id
-    WHERE shipmentprogress.progress_description = 'Delivery Completed'
-    GROUP BY vehicle.plate_number";
+    billing.invoice_number, 
+    payroll.plate_number,
+    payroll.date_settled
+    FROM payroll 
+    INNER JOIN billing 
+    ON payroll.billing_id = billing.billing_id";
 
     $stmt = $pdoVessel->prepare($sql);
 
@@ -91,7 +71,7 @@ try {
     for ($i = 0; $i < count($row); $i++) {
         //echo $row[$i][1] . "<br>";
 
-        $childArray = array('title' => 'Batch #' . $row[$i][0], 'description' => "Payslip for vehicle #" . $row[$i][1] . " was settled on " . $row[$i][2], 'start' => $row[$i][2], 'color' => '#c8e6c9', 'textColor' => '#000000');
+        $childArray = array('title' => 'Invoice #' . $row[$i][0], 'description' => "Payslip for vehicle #" . $row[$i][1] . " was settled on " . $row[$i][2], 'start' => $row[$i][2], 'color' => '#c8e6c9', 'textColor' => '#000000');
 
         array_push($parentArray, $childArray);
     }
