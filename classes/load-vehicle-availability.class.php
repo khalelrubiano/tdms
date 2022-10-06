@@ -36,15 +36,12 @@ function getSubcontractorDetails($idVar)
             $row = $stmt->fetchAll();
 
             for ($i = 0; $i < count($row); $i++) {
-                
-                if($idVar == $row[$i][0]){
+
+                if ($idVar == $row[$i][0]) {
                     $returnValue = $row[$i][2] . " " . $row[$i][4];
                 }
-                
             }
-            
         } else {
-
         }
 
         unset($stmt);
@@ -75,9 +72,7 @@ function getMonthly($plateNumber)
         if ($stmt->execute()) {
             $row = $stmt->fetchAll();
             $returnValue = $row[0][0];
-            
         } else {
-
         }
 
         unset($stmt);
@@ -108,9 +103,7 @@ function getWeekly($plateNumber)
         if ($stmt->execute()) {
             $row = $stmt->fetchAll();
             $returnValue = $row[0][0];
-            
         } else {
-
         }
 
         unset($stmt);
@@ -140,15 +133,17 @@ function getLatest($plateNumber)
 
         if ($stmt->execute()) {
             $row = $stmt->fetchAll();
-            $returnValue = $row[0][0];
-            
+            if (count($row) > 0) {
+                $returnValue = $row[0][0];
+                return $returnValue;
+            } else {
+                $returnValue = 'n/a';
+                return $returnValue;
+            }
         } else {
-
         }
 
         unset($stmt);
-
-        return $returnValue;
     }
     unset($pdoVessel);
 }
@@ -251,7 +246,7 @@ try {
             ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
     }
-/*
+    /*
     $sql = "SELECT
     vehicle_id,
     plate_number,
@@ -288,12 +283,10 @@ try {
     $jsonData = json_encode($parentArray);
 
     echo $jsonData;
-
 } catch (Exception $ex) {
-    
+
     session_start();
     $_SESSION['prompt'] = "Something went wrong!";
     header('location: ../prompt.php');
     exit();
-    
 }
