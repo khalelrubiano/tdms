@@ -60,6 +60,7 @@ function openAdd() {
     addModal.classList.add('is-active');
     //populateSelect1();
     //populateUsernameAdd();
+    //alert('add');
 }
 
 function closeAdd() {
@@ -386,7 +387,7 @@ function generatePayrollLog() {
 typeAdd.addEventListener('change', () => {
     //shipmentTable.innerHTML = "";
     //getClientShipment();
-    //alert(clientAdd.value);
+    //alert('1');
 
     $("#invoiceNumberAdd option").remove();
     populateSelect1();
@@ -405,6 +406,7 @@ invoiceNumberAdd.addEventListener('change', () => {
     //shipmentTable.innerHTML = "";
     //getClientShipment();
     //alert(clientAdd.value);
+    //alert('2');
     $("#vehicleAdd option").remove();
 
     populateSelect2(invoiceNumberAddTemp);

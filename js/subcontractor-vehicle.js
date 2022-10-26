@@ -149,6 +149,7 @@ function generateVehicleList1(tabValueVar) {
     $.post("./classes/load-vehicle-availability-all.class.php", {
         tabValue: tabValueVar
     }, function (data) {
+        //alert(data);
         var jsonArray = JSON.parse(data);
         var finalLength = Math.ceil(jsonArray.length / 4)
         arrayLengthHidden.innerHTML = finalLength;
@@ -168,7 +169,7 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
         currentPageNumber: currentPageNumberVar,
         orderBy: orderByVar
     }, function (data) {
-
+        //alert(data);
         var jsonArray = JSON.parse(data);
         indicator.innerHTML = "call success";
         if (currentPageNumber <= finalLengthVar) {
@@ -217,9 +218,16 @@ function generateVehicleList2(tabValueVar, currentPageNumberVar, orderByVar, fin
                         newCardHeader.appendChild(newCardHeaderParagraph);
                         break;
                     case "Unavailable":
-                        newCardHeaderParagraph.classList.add('has-text-danger');
-                        newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-danger'></i>" + jsonArray[i][3] + ' - ' + jsonArray[i][9];
-                        newCardHeader.appendChild(newCardHeaderParagraph);
+                        if (jsonArray[i][9] == null) {
+                            newCardHeaderParagraph.classList.add('has-text-danger');
+                            newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-danger'></i>" + jsonArray[i][3];
+                            newCardHeader.appendChild(newCardHeaderParagraph);
+                        } else {
+                            newCardHeaderParagraph.classList.add('has-text-danger');
+                            newCardHeaderParagraph.innerHTML = "<i class='fa-solid fa-circle mr-3 has-text-danger'></i>" + jsonArray[i][3] + ' - ' + jsonArray[i][9];
+                            newCardHeader.appendChild(newCardHeaderParagraph);
+                        }
+
                         break;
                     case "On-Delivery":
                         newCardHeaderParagraph.classList.add('has-text-warning');

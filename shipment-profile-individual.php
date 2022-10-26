@@ -536,7 +536,7 @@ include_once 'navbar-subcontractor.php';
             #typeTitle,
             #vehicleTypeSubtitle,
             #titleSpan {
-                font-size: calc(6px + 0.390625vw);
+                font-size: calc(12px + 0.390625vw);
             }
 
             #shipmentDescriptionTitle {

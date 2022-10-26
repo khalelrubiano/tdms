@@ -12,15 +12,12 @@ function invoiceValidator($idVar)
 
     $pdoVessel = $configObj->pdoConnect();
 
-    $sql = "SELECT DISTINCT
-    shipment.plate_number, payroll.payroll_id
+    $sql = "SELECT * 
     FROM billedshipment
-    INNER JOIN shipment
-    ON billedshipment.shipment_id = shipment.shipment_id
-    LEFT JOIN payroll
-    ON shipment.plate_number = payroll.plate_number
+    LEFT JOIN payrollshipment
+    ON billedshipment.shipment_id = payrollshipment.shipment_id
     WHERE billedshipment.billing_id = :billing_id 
-    AND payroll.payroll_id IS NULL";
+    AND payrollshipment.payrollshipment_id IS NULL";
 
     if ($stmt = $pdoVessel->prepare($sql)) {
 

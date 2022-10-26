@@ -936,7 +936,7 @@ function refreshList() {
 }
 
 //DELETE AJAX CALL
-function deleteAjax(deleteVar) {
+function deleteAjax2(deleteVar) {
     if (confirm("Are you sure?")) {
         $.post("./classes/delete-type-controller.class.php", {
             typeId: deleteVar
@@ -973,7 +973,7 @@ function getType() {
             newTd.setAttribute("style", "text-align: left;");
             newTd.classList.add('typeTD');
             //newTd.innerHTML = '<button class="mr-4" onclick="deleteAjax("' + jsonArray[i][1] + '")"><i class="fa-solid fa-xmark"></i></button>' + jsonArray[i][0]
-            newTd.innerHTML = "<button class='mr-4' onclick=deleteAjax('" + jsonArray[i][1] + "')><i class='fa-solid fa-xmark'></i></button>" + jsonArray[i][0]
+            newTd.innerHTML = "<button class='mr-4' onclick=deleteAjax2('" + jsonArray[i][1] + "')><i class='fa-solid fa-xmark'></i></button>" + jsonArray[i][0]
             newTr.appendChild(newTd);
 
             //FINAL APPEND
