@@ -62,9 +62,10 @@ function closeAdd() {
 }
 
 function openLog() {
-    logModal.classList.add('is-active');
+    //logModal.classList.add('is-active');
     //populateSelect1();
     //populateUsernameAdd();
+    window.location.href = "log.php";
 }
 
 function closeLog() {
@@ -99,9 +100,9 @@ function deleteAjax(deleteVar, deleteVar2) {
 }
 
 function addBillingLog(logDescriptionVar, billingDescriptionVar) {
-    $.post("./classes/add-billing-log-controller.class.php", {
+    $.post("./classes/add-log-controller.class.php", {
         logDescription: logDescriptionVar,
-        billingDescription: billingDescriptionVar
+        moduleDescription: billingDescriptionVar
     }, function (data) {
         //alert(data);
     });

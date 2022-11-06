@@ -36,6 +36,23 @@ let shipmentDescriptionSubtitle = document.getElementById('shipmentDescriptionSu
 let destinationSubtitle = document.getElementById('destinationSubtitle');
 let dateOfDeliverySubtitle = document.getElementById('dateOfDeliverySubtitle');
 
+let transferConfirmModal = document.getElementById('transferConfirmModal');
+let confirmTransferForm = document.getElementById('confirmTransferForm'); //save changes button
+let cancelTransferForm = document.getElementById('cancelTransferForm'); //save changes button
+
+let shipmentTransferHeader = document.getElementById('shipmentTransferHeader');
+let fromTransferHeader = document.getElementById('fromTransferHeader');
+let toTransferHeader = document.getElementById('toTransferHeader');
+let reasonTransferHeader = document.getElementById('reasonTransferHeader');
+
+let cancelConfirmModal = document.getElementById('cancelConfirmModal');
+let confirmCancelForm = document.getElementById('confirmCancelForm'); //save changes button
+let cancelCancelForm = document.getElementById('cancelCancelForm'); //save changes button
+
+let shipmentCancelHeader = document.getElementById('shipmentCancelHeader');
+let vehicleCancelHeader = document.getElementById('vehicleCancelHeader');
+let reasonCancelHeader = document.getElementById('reasonCancelHeader');
+
 function myFunction1() {
     dropdownElement.classList.toggle("is-active");
 }
@@ -82,6 +99,7 @@ function openTransfer() {
     transferModal.classList.add('is-active');
     //populateSelect1();
     //populateUsernameAdd();
+    //transferConfirmModal.classList.add('is-active');
 }
 
 function closeTransfer() {
@@ -94,6 +112,125 @@ function closeTransfer() {
 
     //removeSelectAdd(document.getElementById('usernameAdd'));
 }
+
+function openTransferConfirm() {
+    if (vehicleTransfer.value != '') {
+        for (var i = 0, length = transferReason.length; i < length; i++) {
+            if (transferReason[i].checked) {
+                // do whatever you want with the checked radio
+                if (transferReason[i].value == "Others") {
+                    //alert(othersCancellationReason.value);
+                    //transferShipment2(othersTransferReason.value)
+                    if (othersTransferReason.value != '') {
+                        shipmentTransferHeader.innerHTML = "Transfer Shipment #" + shipmentNumberHidden.innerHTML;
+                        fromTransferHeader.innerHTML = "From: " + vehicleIdHidden.innerHTML + " (" + vehicleTypeHidden.innerHTML + ")";
+                        toTransferHeader.innerHTML = "To: " + vehicleTransfer.value + " (" + vehicleTypeHidden.innerHTML + ")";
+                        reasonTransferHeader.innerHTML = othersTransferReason.value;
+                        transferConfirmModal.classList.add('is-active');
+                    }
+                } else {
+                    //alert(cancellationReason[i].value);
+                    //transferShipment2(transferReason[i].value)
+                    shipmentTransferHeader.innerHTML = "Transfer Shipment #" + shipmentNumberHidden.innerHTML;
+                    fromTransferHeader.innerHTML = "From: " + vehicleIdHidden.innerHTML + " (" + vehicleTypeHidden.innerHTML + ")";
+                    toTransferHeader.innerHTML = "To: " + vehicleTransfer.value + " (" + vehicleTypeHidden.innerHTML + ")";
+                    reasonTransferHeader.innerHTML = transferReason[i].value;
+                    transferConfirmModal.classList.add('is-active');
+                }
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
+        }
+    }
+}
+
+function closeTransferConfirm() {
+    transferConfirmModal.classList.remove('is-active');
+}
+
+function openCancelConfirm() {
+    for (var i = 0, length = cancellationReason.length; i < length; i++) {
+        if (cancellationReason[i].checked) {
+            // do whatever you want with the checked radio
+            if (cancellationReason[i].value == "Others") {
+                //alert(othersCancellationReason.value);
+                if (othersCancellationReason.value != '') {
+                    shipmentCancelHeader.innerHTML = "Cancel Shipment #" + shipmentNumberHidden.innerHTML;
+                    vehicleCancelHeader.innerHTML = "Vehicle: " + vehicleIdHidden.innerHTML + " (" + vehicleTypeHidden.innerHTML + ")";
+                    reasonCancelHeader.innerHTML = othersCancellationReason.value;
+                    cancelConfirmModal.classList.add('is-active');
+                }
+            } else {
+                //alert(cancellationReason[i].value);
+                //cancelShipment2(cancellationReason[i].value)
+                shipmentCancelHeader.innerHTML = "Cancel Shipment #" + shipmentNumberHidden.innerHTML;
+                vehicleCancelHeader.innerHTML = "Vehicle: " + vehicleIdHidden.innerHTML + " (" + vehicleTypeHidden.innerHTML + ")";
+                reasonCancelHeader.innerHTML = cancellationReason[i].value;
+                cancelConfirmModal.classList.add('is-active');
+            }
+
+
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+}
+
+function closeCancelConfirm() {
+    cancelConfirmModal.classList.remove('is-active');
+}
+
+var el = document.createElement('div');
+el.classList.add('marker');
+//el.innerHTML = "<h1 class='title is-6'><i class='fa-solid fa-truck fa-2xl'></i></h1>";
+el.setAttribute("style", "background: url(green_marker.png) no-repeat center center fixed; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;");
+//el.setAttribute("style", "background-color: #cccccc; height: 50px; background-position: center; background-repeat: no-repeat; background-size: cover;");
+el.style.width = '60px';
+el.style.height = '60px';
+
+var map = new maplibregl.Map({
+    container: 'map', // container id
+    style: 'https://api.maptiler.com/maps/streets/style.json?key=MROowlWHhkfBGNBrkA3C', // style URL
+    center: [121.261588, 14.295503], // starting position [lng, lat]
+    zoom: 5 // starting zoom
+});
+
+
+
+
+
+
+var popup = new maplibregl.Popup({
+    closeButton: false,
+    closeOnClick: false
+});
+
+
+
+let lat, long, update_time;
+
+generateLatestMarker();
+
+map.on('mouseover', function () {
+    map.getCanvas().style.cursor = 'pointer';
+    popup.setLngLat([long, lat]).setHTML("<h1 class='title is-6 p-1'><i class='fa-solid fa-clock mr-3'></i>" + "Last Update: </h1> <h1 class='subtitle is-6 p-1'>" + update_time + "</h1>").addTo(map);
+});
+
+map.on('mouseout', function () {
+    map.getCanvas().style.cursor = '';
+    popup.remove();
+});
+
+
+/*
+var map = new maplibregl.Map({
+    container: 'map', // container id
+    style: 'https://api.maptiler.com/maps/streets/style.json?key=MROowlWHhkfBGNBrkA3C', // style URL
+    center: [long, lat],
+    zoom: 12
+});
+*/
+
 
 function generateLatestMarker() {
     $.post("./classes/load-tracker.class.php", {
@@ -109,6 +246,13 @@ function generateLatestMarker() {
         lat = jsonArray[0][1];
         long = jsonArray[0][0];
         update_time = jsonArray[0][2];
+
+        map.jumpTo({
+            center: [long, lat],
+            zoom: 15
+        });
+
+
         //var finalLength = Math.ceil(jsonArray.length / 4)
         //arrayLengthHidden.innerHTML = finalLength;
 
@@ -119,7 +263,8 @@ function generateLatestMarker() {
     });
 }
 
-generateLatestMarker();
+
+
 
 function generateVehicleDetails() {
     $.post("./classes/load-vehicle-details.class.php", {
@@ -318,7 +463,7 @@ function generateProgressBarDetails() {
         //CANCELLED
 
         //for (var i = 0; i < jsonArray.length; i++) {
-        
+
         if (jsonArray[jsonArray.length - 1][1].search('Transferred') == -1 && jsonArray[jsonArray.length - 1][3] == "Cancelled") {
             //alert("Transferred");
 
@@ -590,7 +735,7 @@ function populateSelect3(typeVar) {
         //closeSelect();
     });
 }
-
+/*
 function transferShipment() {
     $.post("./classes/transfer-shipment-controller.class.php", {
         shipmentId: shipmentTitleHidden.innerHTML,
@@ -610,11 +755,11 @@ function transferShipment() {
     //refreshTable();
 
 }
-
+*/
 function addShipmentLog(logDescriptionVar, shipmentDescriptionVar) {
-    $.post("./classes/add-shipment-log-controller.class.php", {
+    $.post("./classes/add-log-controller.class.php", {
         logDescription: logDescriptionVar,
-        shipmentDescription: shipmentDescriptionVar
+        moduleDescription: shipmentDescriptionVar
     }, function (data) {
         //alert(data);
     });
@@ -622,7 +767,19 @@ function addShipmentLog(logDescriptionVar, shipmentDescriptionVar) {
 
 
 submitCancelForm.addEventListener('click', (e) => {
+    //cancelShipment1();
+    openCancelConfirm();
+});
+
+confirmCancelForm.addEventListener('click', (e) => {
     cancelShipment1();
+    //openTransferConfirm();
+    //alert('CONFIRM');
+});
+
+cancelCancelForm.addEventListener('click', (e) => {
+    //transferShipment1();
+    closeCancelConfirm();
 });
 
 returnBtn.addEventListener('click', () => {
@@ -674,7 +831,19 @@ transferBtn.addEventListener('click', () => {
 });
 
 submitTransferForm.addEventListener('click', (e) => {
+    //transferShipment1();
+    openTransferConfirm();
+});
+
+confirmTransferForm.addEventListener('click', (e) => {
     transferShipment1();
+    //openTransferConfirm();
+    //alert('CONFIRM');
+});
+
+cancelTransferForm.addEventListener('click', (e) => {
+    //transferShipment1();
+    closeTransferConfirm();
 });
 
 if (shipmentStatusHidden.innerHTML != "In-progress") {

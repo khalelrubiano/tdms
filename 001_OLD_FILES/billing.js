@@ -1,20 +1,27 @@
 //GENERATING DATATABLE
 var billingDatatable = $('#billingTable').DataTable({
-    "ajax": {
-        "url": "classes/load-billing.class.php",
-        "dataSrc": ""
-    },
-    "columns": [
-        {"data": "billingInvoiceNumber", "width": "10%"},
-        {"data": "client", "width": "10%"},
-        {"data": "billingStatus", "width": "10%"},
-        {"data": "createdAt", "width": "10%"},
-        {"data": null, "width": "10%","render": function(s_data, s_type, s_row){
+  "ajax": {
+    "url": "classes/load-billing.class.php",
+    "dataSrc": ""
+  },
+  "columns": [
+    { "data": "billingInvoiceNumber", "width": "10%" },
+    { "data": "client", "width": "10%" },
+    { "data": "billingStatus", "width": "10%" },
+    { "data": "createdAt", "width": "10%" },
+    {
+      "data": null, "width": "10%", "render": function (s_data, s_type, s_row) {
 
-            return '<button style="width: 20px;" class="button has-background-grey-dark is-size-6 has-text-white" onclick="openEdit(' + "'" + s_row[0] + "'" + ')"> <i class="fas fa-edit"></i> </button> <button style="width: 20px;" class="button has-background-grey-dark is-size-6 has-text-white" onclick="openDelete(' + "'" + s_row[0] + "'" + ')"> <i class="fas fa-trash-alt"></i> </button> <button style="width: 20px;" class="button has-background-grey-dark is-size-6 has-text-white" onclick="openInvoice(' + "'" + s_row[0] + "'" + ')"> <i class="fas fa-file-alt"></i></button> <button style="width: 20px;" class="button has-background-grey-dark is-size-6 has-text-white" onclick="openBilledShipment(' + "'" + s_row[0] + "'" + ')"> <i class="fas fa-list"></i> </button>';
-            
-        }}
-    ]
+        return '<button style="width: 20px;" class="button has-background-grey-dark is-size-6 has-text-white" onclick="openEdit(' + "'" + s_row[0] + "'" + ')"> <i class="fas fa-edit"></i> </button> <button style="width: 20px;" class="button has-background-grey-dark is-size-6 has-text-white" onclick="openDelete(' + "'" + s_row[0] + "'" + ')"> <i class="fas fa-trash-alt"></i> </button> <button style="width: 20px;" class="button has-background-grey-dark is-size-6 has-text-white" onclick="openInvoice(' + "'" + s_row[0] + "'" + ')"> <i class="fas fa-file-alt"></i></button> <button style="width: 20px;" class="button has-background-grey-dark is-size-6 has-text-white" onclick="openBilledShipment(' + "'" + s_row[0] + "'" + ')"> <i class="fas fa-list"></i> </button>';
+
+      }
+    }
+  ],
+  columnDefs: [
+    {
+      className: 'dt-right'
+    }
+  ]
 });
 
 
@@ -25,49 +32,49 @@ const billedShipmentModal = document.getElementById('billedShipmentModal');
 const deleteModal = document.getElementById('deleteModal');
 const editModal = document.getElementById('editModal');
 
-function openInvoice(invoiceVal){
+function openInvoice(invoiceVal) {
   invoiceModal.classList.add('is-active');
   invoiceAjax(invoiceVal);
 }
 
-function closeInvoice(){
+function closeInvoice() {
   invoiceModal.classList.remove('is-active');
 }
 
-function openBilledShipment(billedShipmentVal){
+function openBilledShipment(billedShipmentVal) {
   billedShipmentModal.classList.add('is-active');
   billedShipmentAjax(billedShipmentVal);
 }
 
-function closeBilledShipment(){
+function closeBilledShipment() {
   billedShipmentModal.classList.remove('is-active');
   $("#billedShipmentTable").dataTable().fnDestroy();
 }
 var deleteVar;
-function openDelete(deleteVal){
+function openDelete(deleteVal) {
   deleteModal.classList.add('is-active');
   deleteVar = deleteVal;
   return deleteVar;
 }
 
-function closeDelete(){
+function closeDelete() {
   deleteModal.classList.remove('is-active');
 }
 
 var editVar;
-function openEdit(editVal){
+function openEdit(editVal) {
   editModal.classList.add('is-active');
   editVar = editVal;
   return editVar;
 }
 
-function closeEdit(){
+function closeEdit() {
   clearEditFormHelp();
   //clearEditFormInput();
   editModal.classList.remove('is-active');
 }
 
-function refreshTable(){
+function refreshTable() {
   billingDatatable.ajax.reload();
 }
 
@@ -84,12 +91,12 @@ let valueAddedTaxInvoice = document.getElementById('valueAddedTaxInvoice');
 let lessPenaltiesInvoice = document.getElementById('lessPenaltiesInvoice');
 let totalTruckingChargesInvoice = document.getElementById('totalTruckingChargesInvoice');
 
-function invoiceAjax(invoiceNumberData){
+function invoiceAjax(invoiceNumberData) {
   //clearInfo();
 
   $.post("./classes/load-billing-detail.class.php", {
-    billingInvoiceNumber : invoiceNumberData
-  }, function(data){
+    billingInvoiceNumber: invoiceNumberData
+  }, function (data) {
     var jsonArray = JSON.parse(data);
 
     invoiceNumberInvoice.innerHTML = "Invoice Number: " + jsonArray[0][0];
@@ -114,17 +121,17 @@ function invoiceAjax(invoiceNumberData){
 
 //BILLED SHIPMENT MODAL
 
-function billedShipmentAjax(billedShipmentData){
+function billedShipmentAjax(billedShipmentData) {
   var billedShipmentDatatable = $('#billedShipmentTable').DataTable({
     "ajax": {
-        "url": "classes/load-billed-shipment.class.php?billedShipmentData=" + billedShipmentData,
-        "dataSrc": ""
+      "url": "classes/load-billed-shipment.class.php?billedShipmentData=" + billedShipmentData,
+      "dataSrc": ""
     },
     "columns": [
-        {"data": "shipmentNumber", "width": "10%"},
-        {"data": "vehiclePlateNumber", "width": "10%"},
-        {"data": "dateOfDelivery", "width": "10%"},
-        {"data": "areaRate", "width": "10%"}
+      { "data": "shipmentNumber", "width": "10%" },
+      { "data": "vehiclePlateNumber", "width": "10%" },
+      { "data": "dateOfDelivery", "width": "10%" },
+      { "data": "areaRate", "width": "10%" }
     ]
   });
 
@@ -133,20 +140,20 @@ function billedShipmentAjax(billedShipmentData){
 //DELETE AJAX
 let submitDeleteForm = document.getElementById('submitDeleteForm');
 
-function deleteInvoiceAjax(){
-    $.post("./classes/delete-invoice-controller.class.php", {
-        billingInvoiceNumberDelete : deleteVar
-    }, function(data){
-      refreshTable();
-    });
+function deleteInvoiceAjax() {
+  $.post("./classes/delete-invoice-controller.class.php", {
+    billingInvoiceNumberDelete: deleteVar
+  }, function (data) {
     refreshTable();
+  });
+  refreshTable();
 }
 
 submitDeleteForm.addEventListener('click', (e) => {
-    deleteInvoiceAjax();
-    refreshTable();
-    deleteModal.classList.remove('is-active');
-    refreshTable();
+  deleteInvoiceAjax();
+  refreshTable();
+  deleteModal.classList.remove('is-active');
+  refreshTable();
 })
 
 //EDIT AJAX CALLS WITH VALIDATION
@@ -156,54 +163,54 @@ let billingStatusEdit = document.getElementById('billingStatusEdit');
 
 let billingStatusEditHelp = document.getElementById('billingStatusEditHelp');
 
-function editInvoiceAjax(){
-    $.post("./classes/edit-invoice-controller.class.php", {
-      billingInvoiceNumberEdit: editVar,
-      billingStatusEdit : billingStatusEdit.value 
-    }, function(data){
-      
-      $("#submitEditFormHelp").html(data);
-      $("#submitEditFormHelp").attr('class', 'help is-success');
-      /*
-      clearEditFormHelp();
-      clearEditFormInput();
-      */
-      refreshTable();
-    });
+function editInvoiceAjax() {
+  $.post("./classes/edit-invoice-controller.class.php", {
+    billingInvoiceNumberEdit: editVar,
+    billingStatusEdit: billingStatusEdit.value
+  }, function (data) {
+
+    $("#submitEditFormHelp").html(data);
+    $("#submitEditFormHelp").attr('class', 'help is-success');
+    /*
+    clearEditFormHelp();
+    clearEditFormInput();
+    */
     refreshTable();
+  });
+  refreshTable();
 }
 
 submitEditForm.addEventListener('click', (e) => {
-/*
-    clearEditFormHelp();
-
-    let shipmentStatusEditMessages = []
-
-    //Shipment Status Validation
-    if (shipmentStatusEdit.value === "" || shipmentStatusEdit.value == null) {
-    shipmentStatusEdit.className = "input is-danger is-rounded"
-    shipmentStatusEditHelp.className = "help is-danger"
-    shipmentStatusEditMessages.push('Shipment status is required!')
-    }
-
-    //Messages
-    if (shipmentStatusEditMessages.length > 0) {
-    e.preventDefault()
-    shipmentStatusEditHelp.innerText = shipmentStatusEditMessages.join(', ')
-    }
-    if(
-        shipmentStatusEditMessages.length <= 0
-        ){
-            editInvoiceAjax();
-        }
-    //shipmentDatatable.ajax.reload();
-  */
-    editInvoiceAjax();
-    refreshTable();
+  /*
+      clearEditFormHelp();
+  
+      let shipmentStatusEditMessages = []
+  
+      //Shipment Status Validation
+      if (shipmentStatusEdit.value === "" || shipmentStatusEdit.value == null) {
+      shipmentStatusEdit.className = "input is-danger is-rounded"
+      shipmentStatusEditHelp.className = "help is-danger"
+      shipmentStatusEditMessages.push('Shipment status is required!')
+      }
+  
+      //Messages
+      if (shipmentStatusEditMessages.length > 0) {
+      e.preventDefault()
+      shipmentStatusEditHelp.innerText = shipmentStatusEditMessages.join(', ')
+      }
+      if(
+          shipmentStatusEditMessages.length <= 0
+          ){
+              editInvoiceAjax();
+          }
+      //shipmentDatatable.ajax.reload();
+    */
+  editInvoiceAjax();
+  refreshTable();
 })
 
 
-function clearEditFormHelp(){
+function clearEditFormHelp() {
   //RESETTING FORM ELEMENTS
   billingStatusEdit.className = "select is-rounded"
   submitEditFormHelp.className = "help"

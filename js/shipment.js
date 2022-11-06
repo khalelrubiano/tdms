@@ -43,9 +43,10 @@ function closeAdd() {
 }
 
 function openLog() {
-    logModal.classList.add('is-active');
+    //logModal.classList.add('is-active');
     //populateSelect1();
     //populateUsernameAdd();
+    window.location.href = "log.php";
 }
 
 function closeLog() {
@@ -101,9 +102,9 @@ function deleteAjax(deleteVar, deleteVar2) {
 }
 
 function addShipmentLog(logDescriptionVar, shipmentDescriptionVar) {
-    $.post("./classes/add-shipment-log-controller.class.php", {
+    $.post("./classes/add-log-controller.class.php", {
         logDescription: logDescriptionVar,
-        shipmentDescription: shipmentDescriptionVar
+        moduleDescription: shipmentDescriptionVar
     }, function (data) {
         //alert(data);
     });

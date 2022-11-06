@@ -76,9 +76,10 @@ function closeAdd() {
 }
 
 function openLog() {
-    logModal.classList.add('is-active');
+    //logModal.classList.add('is-active');
     //populateSelect1();
     //populateUsernameAdd();
+    window.location.href = "log.php";
 }
 
 function closeLog() {
@@ -362,9 +363,9 @@ function redirectToPayslipProfile(payrollIdVar, payrollStatusHiddenVar) {
 }
 
 function addPayrollLog(logDescriptionVar, payrollDescriptionVar) {
-    $.post("./classes/add-payroll-log-controller.class.php", {
+    $.post("./classes/add-log-controller.class.php", {
         logDescription: logDescriptionVar,
-        payrollDescription: payrollDescriptionVar
+        moduleDescription: payrollDescriptionVar
     }, function (data) {
         //alert(data);
     });

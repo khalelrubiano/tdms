@@ -796,6 +796,83 @@ include_once 'navbar.php';
     </div>
     <!-- TRANSFER MODAL END-->
 
+    <!-- TRANSFER CONFIRM MODAL START-->
+    <div class="modal" id="transferConfirmModal">
+        <div class="modal-background" id="transferConfirmModalBg"></div>
+        <div class="modal-card p-4">
+
+            <header class="modal-card-head has-background-light">
+                <p class="modal-card-title has-text-black"><i class="fa-solid fa-circle-exclamation mr-3"></i>Confirm Transfer</p>
+
+            </header>
+
+            <section class="modal-card-body">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <p class="title is-5" id="shipmentTransferHeader"> Transfer Shipment #10</p>
+                        <p class="title is-6" id="fromTransferHeader">From: ABC-123 (AUV)</p>
+                        <p class="title is-6" id="toTransferHeader">To: VBN-420 (AUV)</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 box">
+                    <p class="title is-5">Reason for Transfer:</p>
+                    <p class="title is-6" id="reasonTransferHeader">Vehicle Failure</p>
+                </div>
+
+
+                <div class="field has-text-centered mt-6">
+                    <button class="button is-info has-text-white is-rounded" name="confirmTransferForm" id="confirmTransferForm">
+                        <i class="fa-solid fa-check mr-3"></i>Confirm
+                    </button>
+
+                    <button class="button has-background-grey-dark has-text-white is-rounded" name="cancelTransferForm" id="cancelTransferForm">
+                        <i class="fa-solid fa-ban mr-3"></i>Cancel
+                    </button>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- TRANSFER CONFIRM MODAL END-->
+
+    <!-- CANCEL CONFIRM MODAL START-->
+    <div class="modal" id="cancelConfirmModal">
+        <div class="modal-background" id="cancelConfirmModalBg"></div>
+        <div class="modal-card p-4">
+
+            <header class="modal-card-head has-background-light">
+                <p class="modal-card-title has-text-black"><i class="fa-solid fa-circle-exclamation mr-3"></i>Confirm Cancel</p>
+
+            </header>
+
+            <section class="modal-card-body">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <p class="title is-5" id="shipmentCancelHeader"> Cancel Shipment #10</p>
+                        <p class="title is-6" id="vehicleCancelHeader">Vehicle: ABC-123 (AUV)</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 box">
+                    <p class="title is-5">Reason for Cancellation:</p>
+                    <p class="title is-6" id="reasonCancelHeader">Vehicle Failure</p>
+                </div>
+
+
+                <div class="field has-text-centered mt-6">
+                    <button class="button is-info has-text-white is-rounded" name="confirmCancelForm" id="confirmCancelForm">
+                        <i class="fa-solid fa-check mr-3"></i>Confirm
+                    </button>
+
+                    <button class="button has-background-grey-dark has-text-white is-rounded" name="cancelCancelForm" id="cancelCancelForm">
+                        <i class="fa-solid fa-ban mr-3"></i>Cancel
+                    </button>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- CANCEL CONFIRM MODAL END-->
+
     <div id="map"></div>
 
 
@@ -875,15 +952,15 @@ include_once 'navbar.php';
     userBtn.innerHTML = "<?php echo $_SESSION['username'] ?>";
     userBtn.classList.remove("is-hidden");
     shipmentBtn.classList.add("is-active");
-
-    var el = document.createElement('div');
-    el.classList.add('marker');
-    //el.innerHTML = "<h1 class='title is-6'><i class='fa-solid fa-truck fa-2xl'></i></h1>";
-    el.setAttribute("style", "background: url(green_marker.png) no-repeat center center fixed; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;");
-    //el.setAttribute("style", "background-color: #cccccc; height: 50px; background-position: center; background-repeat: no-repeat; background-size: cover;");
-    el.style.width = '60px';
-    el.style.height = '60px';
-
+    /*
+        var el = document.createElement('div');
+        el.classList.add('marker');
+        //el.innerHTML = "<h1 class='title is-6'><i class='fa-solid fa-truck fa-2xl'></i></h1>";
+        el.setAttribute("style", "background: url(green_marker.png) no-repeat center center fixed; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;");
+        //el.setAttribute("style", "background-color: #cccccc; height: 50px; background-position: center; background-repeat: no-repeat; background-size: cover;");
+        el.style.width = '60px';
+        el.style.height = '60px';
+    */
 
 
     // You can remove the following line if you don't need support for RTL (right-to-left) labels:
@@ -895,13 +972,13 @@ include_once 'navbar.php';
         center: [121.261588, 14.295503],
         zoom: 7
     });*/
-
-    var map = new maplibregl.Map({
-        container: 'map', // container id
-        style: 'https://api.maptiler.com/maps/streets/style.json?key=MROowlWHhkfBGNBrkA3C', // style URL
-        center: [121.261588, 14.295503], // starting position [lng, lat]
-        zoom: 7 // starting zoom
-    });
+    /*
+        var map = new maplibregl.Map({
+            container: 'map', // container id
+            style: 'https://api.maptiler.com/maps/streets/style.json?key=MROowlWHhkfBGNBrkA3C', // style URL
+            center: [121.261588, 14.295503], // starting position [lng, lat]
+            zoom: 5 // starting zoom
+        });*/
     //var laguna = new maplibregl.Marker(el).setLngLat([121.261588, 14.295503]).addTo(map);
     /*
         var laguna_popup = new maplibregl.Popup({
@@ -919,39 +996,65 @@ include_once 'navbar.php';
     */
     // add marker to map
     //new maplibregl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+    /*
+        var popup = new maplibregl.Popup({
+            closeButton: false,
+            closeOnClick: false
+        });
 
-    var popup = new maplibregl.Popup({
-        closeButton: false,
-        closeOnClick: false
-    });
+        let lat, long, update_time;
 
-    let lat, long, update_time;
 
-    mapContainer.addEventListener('mouseover', function() {
-        // Change the cursor style as a UI indicator.
-        map.getCanvas().style.cursor = 'pointer';
-        /*
-                var coordinates = e.features[0].geometry.coordinates.slice();
-                var description = e.features[0].properties.description;
+        var map = new maplibregl.Map({
+            container: 'map', // container id
+            style: 'https://api.maptiler.com/maps/streets/style.json?key=MROowlWHhkfBGNBrkA3C', // style URL
+            center: [long, lat],
+            zoom: 12
+        });
 
-                // Ensure that if the map is zoomed out such that multiple
-                // copies of the feature are visible, the popup appears
-                // over the copy being pointed to.
-                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                }
-        */
-        // Populate the popup and set its coordinates
-        // based on the feature found.
-        popup.setLngLat([long, lat]).setHTML("<h1 class='title is-6 p-1'><i class='fa-solid fa-clock mr-3'></i>" + "Last Update: </h1> <h1 class='subtitle is-6 p-1'>" + update_time + "</h1>").addTo(map);
-        //alert("mouse on");
-    });
+        map.on('mouseover', function() {
+            map.getCanvas().style.cursor = 'pointer';
+            popup.setLngLat([long, lat]).setHTML("<h1 class='title is-6 p-1'><i class='fa-solid fa-clock mr-3'></i>" + "Last Update: </h1> <h1 class='subtitle is-6 p-1'>" + update_time + "</h1>").addTo(map);
+            map.flyTo({
+                center: [long, lat],
+                zoom: 12
+            });
+        });
 
-    mapContainer.addEventListener('mouseout', function() {
-        map.getCanvas().style.cursor = '';
-        popup.remove();
-        //alert("mouse off");
-    });
+        map.on('mouseout', function() {
+            map.getCanvas().style.cursor = '';
+            popup.remove();
+        });
+    */
+
+
+    //map.addEventListener('mouseover', function() {
+    // Change the cursor style as a UI indicator.
+    //alert('SAMPLE');
+    // map.getCanvas().style.cursor = 'pointer';
+    /*
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var description = e.features[0].properties.description;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+    */
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    //popup.setLngLat([long, lat]).setHTML("<h1 class='title is-6 p-1'><i class='fa-solid fa-clock mr-3'></i>" + "Last Update: </h1> <h1 class='subtitle is-6 p-1'>" + update_time + "</h1>").addTo(map);
+    //alert("mouse on");
+    //});
+    /*
+        mapContainer.addEventListener('mouseout', function() {
+            map.getCanvas().style.cursor = '';
+            popup.remove();
+            //alert("mouse off");
+        });*/
+    //popup.setLngLat([long, lat]).setHTML("<h1 class='title is-6 p-1'><i class='fa-solid fa-clock mr-3'></i>" + "Last Update: </h1> <h1 class='subtitle is-6 p-1'>" + update_time + "</h1>").addTo(map);
 </script>
 
 </html>
