@@ -201,26 +201,35 @@ var map = new maplibregl.Map({
 
 
 var popup = new maplibregl.Popup({
-    closeButton: false,
-    closeOnClick: false
+    closeButton: true,
+    closeOnClick: true,
+    closeOnMove: true
 });
 
 
 
 let lat, long, update_time;
 
+setInterval(generateLatestMarker2, 10000); // Time in milliseconds
+
+/*
+function testFunc(){
+    alert("TEST");
+}*/
+
 generateLatestMarker();
 
-map.on('mouseover', function () {
+map.on('click', function () {
     map.getCanvas().style.cursor = 'pointer';
     popup.setLngLat([long, lat]).setHTML("<h1 class='title is-6 p-1'><i class='fa-solid fa-clock mr-3'></i>" + "Last Update: </h1> <h1 class='subtitle is-6 p-1'>" + update_time + "</h1>").addTo(map);
 });
 
+/*
 map.on('mouseout', function () {
     map.getCanvas().style.cursor = '';
     popup.remove();
 });
-
+*/
 
 /*
 var map = new maplibregl.Map({
@@ -231,6 +240,31 @@ var map = new maplibregl.Map({
 });
 */
 
+function generateLatestMarker2() {
+    $.post("./classes/load-tracker.class.php", {
+        vehicleId: vehicleIdHidden.innerHTML,
+        shipmentId: shipmentTitleHidden.innerHTML
+    }, function (data) {
+        //indicatorHidden.innerHTML = "Call Success";
+        var jsonArray = JSON.parse(data);
+        //alert(jsonArray[0][0]);
+
+        var laguna = new maplibregl.Marker(el).setLngLat([jsonArray[0][0], jsonArray[0][1]]).addTo(map);
+
+        lat = jsonArray[0][1];
+        long = jsonArray[0][0];
+        update_time = jsonArray[0][2];
+
+
+        //var finalLength = Math.ceil(jsonArray.length / 4)
+        //arrayLengthHidden.innerHTML = finalLength;
+
+        //indicatorHidden.innerHTML = jsonArray[0][0] + " " + jsonArray[0][1] + " " + jsonArray[0][2] + " " + jsonArray[0][3] + " " + jsonArray[0][4] + " " + jsonArray[0][5];
+        //driverSubtitle.innerHTML = "Driver: " + jsonArray[0][4];
+        //helperSubtitle.innerHTML = "Helper: " + jsonArray[0][5];
+        //plateNumberSubtitle.innerHTML = "Vehicle Plate Number: " + jsonArray[0][1];
+    });
+}
 
 function generateLatestMarker() {
     $.post("./classes/load-tracker.class.php", {

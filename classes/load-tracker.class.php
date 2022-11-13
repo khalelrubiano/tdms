@@ -15,7 +15,7 @@ try {
     ON trackingdata.tracking_id = tracking.tracking_id 
     INNER JOIN vehicle 
     ON tracking.vehicle_id = vehicle.vehicle_id 
-    WHERE vehicle.plate_number = :vehicle_id AND trackingdata.shipment_id = :shipment_id ORDER BY created_at ASC";
+    WHERE vehicle.plate_number = :vehicle_id AND trackingdata.shipment_id = :shipment_id ORDER BY created_at DESC";
 
     $stmt = $pdoVessel->prepare($sql);
 
