@@ -105,7 +105,7 @@ try {
     //$row = $stmt->fetchAll();
     //$json = json_encode($row);
 
-    //echo $json;
+    echo 'SUCCESS';
 } catch (Exception $ex) {
     //session_start();
     //$_SESSION['prompt'] = "Something went wrong!";
