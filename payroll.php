@@ -103,7 +103,7 @@ include_once 'navbar.php';
       <p class="title is-hidden" id="tabValueHidden">All</p>
 
 
-      <div class="field" id="searchBarForm">
+      <div class="field is-hidden" id="searchBarForm">
         <p class="control has-icons-right">
           <input class="input is-rounded" type="text" placeholder="Search" id="searchBarInput">
           <span class="icon is-small is-right">
@@ -116,7 +116,8 @@ include_once 'navbar.php';
       <button class="button is-rounded mb-6 is-link" onclick="openPDF()" id="downloadBtn"><i class="fa-solid fa-file-arrow-down mr-3"></i>Download PDF by Batch</button>
       <div class="select is-rounded mr-3" id="selectSortDiv">
         <select id="selectSort">
-          <option value="billing.billing_id" selected>Sort By Batch Number</option>
+          <option value="billing.invoice_number" selected>Sort By Invoice Number</option>
+          <option value="payroll.plate_number">Sort By Plate Number</option>
         </select>
       </div>
 
@@ -169,7 +170,7 @@ include_once 'navbar.php';
           <div class="control">
             <div class="select is-rounded" id="invoiceNumberAddDiv">
               <select id="invoiceNumberAdd" name="invoiceNumberAdd">
-  
+
               </select>
             </div>
           </div>
@@ -215,7 +216,7 @@ include_once 'navbar.php';
           <div class="control">
             <div class="select is-rounded" id="invoiceNumberPDFDiv">
               <select id="invoiceNumberPDF" name="invoiceNumberPDF">
-  
+
               </select>
             </div>
           </div>

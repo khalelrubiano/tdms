@@ -19,8 +19,8 @@ try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    switch ($tabValue) {
-        case "All":
+    switch ($tabValue . $orderBy) {
+        case "Allbilling.invoice_number":
             $sql = "SELECT 
             payroll.payroll_status, 
             payroll.plate_number, 
@@ -41,9 +41,32 @@ try {
             INNER JOIN subcontractor 
             ON ownergroup.owner_id = subcontractor.subcontractor_id
             WHERE payroll.company_id = :company_id
-            ORDER BY " . $orderBy;
+            ORDER BY CAST(" . $orderBy . " AS UNSIGNED)";
             break;
-        case "Settled":
+        case "Allpayroll.plate_number":
+            $sql = "SELECT 
+                payroll.payroll_status, 
+                payroll.plate_number, 
+                payroll.date_settled, 
+                billing.invoice_number, 
+                subcontractor.first_name,
+                subcontractor.middle_name,
+                subcontractor.last_name,
+                payroll.created_at,
+                payroll.payroll_id
+                FROM payroll 
+                INNER JOIN billing
+                ON payroll.billing_id = billing.billing_id
+                INNER JOIN vehicle
+                ON payroll.plate_number = vehicle.plate_number
+                INNER JOIN ownergroup 
+                ON vehicle.group_id = ownergroup.group_id
+                INNER JOIN subcontractor 
+                ON ownergroup.owner_id = subcontractor.subcontractor_id
+                WHERE payroll.company_id = :company_id
+                ORDER BY " . $orderBy;
+            break;
+        case "Settledbilling.invoice_number":
             $sql = "SELECT 
             payroll.payroll_status, 
             payroll.plate_number, 
@@ -65,9 +88,33 @@ try {
             ON ownergroup.owner_id = subcontractor.subcontractor_id
             WHERE payroll.company_id = :company_id 
             AND payroll.payroll_status = 'Settled'
-            ORDER BY " . $orderBy;
+            ORDER BY CAST(" . $orderBy . " AS UNSIGNED)";
             break;
-        case "Unsettled":
+        case "Settledpayroll.plate_number":
+            $sql = "SELECT 
+                payroll.payroll_status, 
+                payroll.plate_number, 
+                payroll.date_settled, 
+                billing.invoice_number, 
+                subcontractor.first_name,
+                subcontractor.middle_name,
+                subcontractor.last_name,
+                payroll.created_at,
+                payroll.payroll_id
+                FROM payroll 
+                INNER JOIN billing
+                ON payroll.billing_id = billing.billing_id
+                INNER JOIN vehicle
+                ON payroll.plate_number = vehicle.plate_number
+                INNER JOIN ownergroup 
+                ON vehicle.group_id = ownergroup.group_id
+                INNER JOIN subcontractor 
+                ON ownergroup.owner_id = subcontractor.subcontractor_id
+                WHERE payroll.company_id = :company_id 
+                AND payroll.payroll_status = 'Settled'
+                ORDER BY " . $orderBy;
+            break;
+        case "Unsettledbilling.invoice_number":
             $sql = "SELECT 
             payroll.payroll_status, 
             payroll.plate_number, 
@@ -89,7 +136,31 @@ try {
             ON ownergroup.owner_id = subcontractor.subcontractor_id
             WHERE payroll.company_id = :company_id 
             AND payroll.payroll_status = 'Unsettled'
-            ORDER BY " . $orderBy;
+            ORDER BY CAST(" . $orderBy . " AS UNSIGNED)";
+            break;
+        case "Unsettledpayroll.plate_number":
+            $sql = "SELECT 
+                payroll.payroll_status, 
+                payroll.plate_number, 
+                payroll.date_settled, 
+                billing.invoice_number, 
+                subcontractor.first_name,
+                subcontractor.middle_name,
+                subcontractor.last_name,
+                payroll.created_at,
+                payroll.payroll_id
+                FROM payroll 
+                INNER JOIN billing
+                ON payroll.billing_id = billing.billing_id
+                INNER JOIN vehicle
+                ON payroll.plate_number = vehicle.plate_number
+                INNER JOIN ownergroup 
+                ON vehicle.group_id = ownergroup.group_id
+                INNER JOIN subcontractor 
+                ON ownergroup.owner_id = subcontractor.subcontractor_id
+                WHERE payroll.company_id = :company_id 
+                AND payroll.payroll_status = 'Unsettled'
+                ORDER BY " . $orderBy;
             break;
     }
 

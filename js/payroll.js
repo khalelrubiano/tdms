@@ -348,7 +348,30 @@ function generatePayslipList1(tabValueVar, orderByVar) {
     });
 }
 //alert(tabValueHidden.innerHTML);
+/*
+function generatePayslipList2(searchTerm) {
+    $.post("./classes/load-payslip.class.php", {}, function (data) {
+        var jsonArray = JSON.parse(data);
+        //indicator.innerHTML = "live:" + jsonArray.length;
 
+        for (var i = 0; i < jsonArray.length; i++) {
+
+            switch (searchTerm) {
+
+                case jsonArray[i][1]:
+                    console.clear();
+                    console.log("Invoice Number" + jsonArray[i][1])
+                    indicator.innerHTML = "Invoice Number";
+                    generateBillingList4(jsonArray[i][5], jsonArray[i][16], jsonArray[i][1], jsonArray[i][2], jsonArray[i][3], jsonArray[i][19], jsonArray[i][0]);
+                    break;
+            }
+
+        }
+
+    });
+
+}
+*/
 generatePayslipList1(tabValueHidden.innerHTML, selectSort.value);
 
 function redirectToPayslipProfile(payrollIdVar, payrollStatusHiddenVar) {

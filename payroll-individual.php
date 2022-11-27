@@ -108,7 +108,7 @@ include_once 'navbar-subcontractor.php';
       <p class="title is-4 is-hidden" id="isDriverHidden"><?php echo $_SESSION["isDriver"] ?></p>
       <p class="title is-4 is-hidden" id="isHelperHidden"><?php echo $_SESSION["isHelper"] ?></p>
 
-      <div class="field" id="searchBarForm">
+      <div class="field is-hidden" id="searchBarForm">
         <p class="control has-icons-right">
           <input class="input is-rounded" type="text" placeholder="Search" id="searchBarInput">
           <span class="icon is-small is-right">
@@ -124,7 +124,7 @@ include_once 'navbar-subcontractor.php';
       </div>
 
     </div>
-    <div class="container">
+    <div class="container mt-6">
       <div class="tabs is-centered is-toggle">
         <ul id="tabUl">
           <li class="is-active" id="allTabLi"><a id="allTabLink">All</a></li>

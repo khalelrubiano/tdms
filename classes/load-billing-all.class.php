@@ -20,17 +20,26 @@ try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    switch ($tabValue) {
-        case "All":
+    switch ($tabValue . $orderBy) {
+        case "Allbilling.invoice_number":
             $sql = "SELECT 
             *
             FROM billing
             INNER JOIN client
             ON billing.client_id = client.client_id
             WHERE client.company_id = :company_id
-            ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
+            ORDER BY CAST(" . $orderBy . " AS UNSIGNED) LIMIT " . $startingLimitNumber . ',' . '4';
             break;
-        case "Settled":
+        case "Allbilling.invoice_date":
+            $sql = "SELECT 
+                *
+                FROM billing
+                INNER JOIN client
+                ON billing.client_id = client.client_id
+                WHERE client.company_id = :company_id
+                ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
+            break;
+        case "Settledbilling.invoice_number":
             $sql = "SELECT 
             *
             FROM billing
@@ -38,9 +47,19 @@ try {
             ON billing.client_id = client.client_id
             WHERE client.company_id = :company_id
             AND billing.billing_status = 'Settled'
-            ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
+            ORDER BY CAST(" . $orderBy . " AS UNSIGNED) LIMIT " . $startingLimitNumber . ',' . '4';
             break;
-        case "Unsettled":
+        case "Settledbilling.invoice_date":
+            $sql = "SELECT 
+                *
+                FROM billing
+                INNER JOIN client
+                ON billing.client_id = client.client_id
+                WHERE client.company_id = :company_id
+                AND billing.billing_status = 'Settled'
+                ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
+            break;
+        case "Unsettledbilling.invoice_number":
             $sql = "SELECT 
             *
             FROM billing
@@ -48,7 +67,17 @@ try {
             ON billing.client_id = client.client_id
             WHERE client.company_id = :company_id
             AND billing.billing_status = 'Unsettled'
-            ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
+            ORDER BY CAST(" . $orderBy . " AS UNSIGNED) LIMIT " . $startingLimitNumber . ',' . '4';
+            break;
+        case "Unsettledbilling.invoice_date":
+            $sql = "SELECT 
+                *
+                FROM billing
+                INNER JOIN client
+                ON billing.client_id = client.client_id
+                WHERE client.company_id = :company_id
+                AND billing.billing_status = 'Unsettled'
+                ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
     }
     /*

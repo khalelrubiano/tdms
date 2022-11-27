@@ -20,17 +20,26 @@ try {
     $configObj = new Config();
     $pdoVessel = $configObj->pdoConnect();
 
-    switch ($tabValue) {
-        case "All":
+    switch ($tabValue . $orderBy) {
+        case "Allshipment.shipment_number":
             $sql = "SELECT 
             *
             FROM shipment 
             INNER JOIN client 
             ON shipment.client_id = client.client_id
             WHERE shipment.company_id = :company_id
-            ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
+            ORDER BY CAST(" . $orderBy . " AS UNSIGNED) LIMIT " . $startingLimitNumber . ',' . '4';
             break;
-        case "In-progress":
+        case "Allshipment.date_of_delivery":
+            $sql = "SELECT 
+                *
+                FROM shipment 
+                INNER JOIN client 
+                ON shipment.client_id = client.client_id
+                WHERE shipment.company_id = :company_id
+                ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
+            break;
+        case "In-progressshipment.shipment_number":
             $sql = "SELECT 
             *
             FROM shipment
@@ -38,9 +47,19 @@ try {
             ON shipment.client_id = client.client_id
             WHERE shipment.company_id = :company_id
             AND shipment.shipment_status = 'In-progress' 
-            ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
+            ORDER BY CAST(" . $orderBy . " AS UNSIGNED) LIMIT " . $startingLimitNumber . ',' . '4';
             break;
-        case "Completed":
+        case "In-progressshipment.date_of_delivery":
+            $sql = "SELECT 
+                *
+                FROM shipment
+                INNER JOIN client 
+                ON shipment.client_id = client.client_id
+                WHERE shipment.company_id = :company_id
+                AND shipment.shipment_status = 'In-progress' 
+                ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
+            break;
+        case "Completedshipment.shipment_number":
             $sql = "SELECT 
             *
             FROM shipment
@@ -48,9 +67,19 @@ try {
             ON shipment.client_id = client.client_id
             WHERE shipment.company_id = :company_id
             AND shipment.shipment_status = 'Completed' 
-            ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
+            ORDER BY CAST(" . $orderBy . " AS UNSIGNED) LIMIT " . $startingLimitNumber . ',' . '4';
             break;
-        case "Cancelled":
+        case "Completedshipment.date_of_delivery":
+            $sql = "SELECT 
+                *
+                FROM shipment
+                INNER JOIN client 
+                ON shipment.client_id = client.client_id
+                WHERE shipment.company_id = :company_id
+                AND shipment.shipment_status = 'Completed' 
+                ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
+            break;
+        case "Cancelledshipment.shipment_number":
             $sql = "SELECT 
             *
             FROM shipment
@@ -58,7 +87,17 @@ try {
             ON shipment.client_id = client.client_id
             WHERE shipment.company_id = :company_id
             AND shipment.shipment_status = 'Cancelled' 
-            ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
+            ORDER BY CAST(" . $orderBy . " AS UNSIGNED) LIMIT " . $startingLimitNumber . ',' . '4';
+            break;
+        case "Cancelledshipment.date_of_delivery":
+            $sql = "SELECT 
+                *
+                FROM shipment
+                INNER JOIN client 
+                ON shipment.client_id = client.client_id
+                WHERE shipment.company_id = :company_id
+                AND shipment.shipment_status = 'Cancelled' 
+                ORDER BY " . $orderBy . " LIMIT " . $startingLimitNumber . ',' . '4';
             break;
     }
     /*

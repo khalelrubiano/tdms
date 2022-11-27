@@ -79,7 +79,7 @@ include_once 'navbar.php';
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
             <p class="title is-hidden" id="editVarHidden"></p>
 
-            <div class="field" id="searchBarForm">
+            <div class="field is-hidden" id="searchBarForm">
                 <p class="control has-icons-right">
                     <input class="input is-rounded" type="text" placeholder="Search" id="searchBarInput">
                     <span class="icon is-small is-right">
