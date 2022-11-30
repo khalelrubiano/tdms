@@ -116,6 +116,7 @@ submitAddForm.addEventListener('click', (e) => {
     clearAddFormHelp();
     //clearAddFormInput();
 
+    let employeeNumberAddMessages = []
     let usernameAddMessages = []
     let passwordAddMessages = []
     let confirmPasswordAddMessages = []
@@ -124,6 +125,32 @@ submitAddForm.addEventListener('click', (e) => {
     let middleNameAddMessages = []
     let lastNameAddMessages = []
 
+    //Username Validation
+
+    if (pattern4.test(employeeNumberAdd.value) == false) {
+        employeeNumberAdd.className = "input is-danger is-rounded"
+        employeeNumberAddHelp.className = "help is-danger"
+        employeeNumberAddMessages.push('Employee number should only consist of numbers!')
+    }
+
+    if (employeeNumberAdd.value === "" || employeeNumberAdd.value == null) {
+        employeeNumberAdd.className = "input is-danger is-rounded"
+        employeeNumberAddHelp.className = "help is-danger"
+        employeeNumberAddMessages.push('Employee number is required!')
+    }
+    /*
+    if (employeeNumberAdd.value.length <= 6) {
+        employeeNumberAdd.className = "input is-danger is-rounded"
+        employeeNumberAddHelp.className = "help is-danger"
+        employeeNumberAddMessages.push('Employee number must be longer than 1 character!')
+    }
+
+    if (employeeNumberAdd.value.length >= 20) {
+        employeeNumberAdd.className = "input is-danger is-rounded"
+        employeeNumberAddHelp.className = "help is-danger"
+        employeeNumberAddMessages.push('Employee number must be less than 20 characters!')
+    }
+*/
     //Username Validation
 
     if (pattern1.test(usernameAdd.value) == false) {
@@ -232,6 +259,11 @@ submitAddForm.addEventListener('click', (e) => {
     }
 
     //Messages
+    if (employeeNumberAddMessages.length > 0) {
+        e.preventDefault()
+        employeeNumberAddHelp.innerText = employeeNumberAddMessages.join(', ');
+    }
+
     if (usernameAddMessages.length > 0) {
         e.preventDefault()
         usernameAddHelp.innerText = usernameAddMessages.join(', ');
@@ -261,6 +293,7 @@ submitAddForm.addEventListener('click', (e) => {
     }
 
     if (
+        employeeNumberAddMessages.length <= 0 &&
         usernameAddMessages.length <= 0 &&
         passwordAddMessages.length <= 0 &&
         confirmPasswordAddMessages.length <= 0 &&
@@ -275,6 +308,10 @@ submitAddForm.addEventListener('click', (e) => {
 
 function clearAddFormHelp() {
     //RESETTING FORM ELEMENTS
+    employeeNumberAdd.className = "input is-rounded"
+    employeeNumberAddHelp.className = "help"
+    employeeNumberAddHelp.innerText = ""
+
     usernameAdd.className = "input is-rounded"
     usernameAddHelp.className = "help"
     usernameAddHelp.innerText = ""
@@ -301,6 +338,7 @@ function clearAddFormHelp() {
 }
 
 function clearAddFormInput() {
+    employeeNumberAdd.value = null;
     usernameAdd.value = null;
     passwordAdd.value = null;
     confirmPasswordAdd.value = null;
@@ -928,4 +966,84 @@ searchBarInput.addEventListener('input', () => {
     }
 });
 */
+
+function employeeNumberValidator() {
+    $.post("./classes/load-employee-number.class.php", {
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            if (employeeNumberAdd.value == jsonArray[i][0]) {
+                employeeNumberAdd.className = "input is-danger is-rounded"
+                employeeNumberAddHelp.className = "help is-danger"
+                employeeNumberAddHelp.innerText = "This employee number already exists!";
+                submitAddForm.setAttribute("disabled", "");
+                break;
+            }
+            if (employeeNumberAdd.value != jsonArray[i][0] && employeeNumberAdd.value != "") {
+                employeeNumberAdd.className = "input is-primary is-rounded"
+                employeeNumberAddHelp.className = "help is-primary"
+                employeeNumberAddHelp.innerText = "This employee number is available!";
+                submitAddForm.removeAttribute("disabled");
+            }
+        }
+    });
+}
+
+function usernameValidator() {
+    $.post("./classes/load-user-all.class.php", {
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            if (usernameAdd.value == jsonArray[i][0]) {
+                usernameAdd.className = "input is-danger is-rounded"
+                usernameAddHelp.className = "help is-danger"
+                usernameAddHelp.innerText = "This username already exists!";
+                submitAddForm.setAttribute("disabled", "");
+                break;
+            }
+            if (usernameAdd.value != jsonArray[i][0] && usernameAdd.value != "") {
+                usernameAdd.className = "input is-primary is-rounded"
+                usernameAddHelp.className = "help is-primary"
+                usernameAddHelp.innerText = "This username is available!";
+                submitAddForm.removeAttribute("disabled");
+            }
+        }
+    });
+}
+
+employeeNumberAdd.addEventListener('input', () => {
+    //alert('INPUT');
+
+    if (employeeNumberAdd.value == "") {
+        //alert('EMPTY');
+        employeeNumberAdd.className = "input is-rounded"
+        employeeNumberAddHelp.className = "help"
+        employeeNumberAddHelp.innerText = "";
+        submitAddForm.removeAttribute("disabled");
+    } else {
+        employeeNumberValidator();
+    }
+
+});
+
+usernameAdd.addEventListener('input', () => {
+    //alert('INPUT');
+
+    if (usernameAdd.value == "") {
+        //alert('EMPTY');
+        usernameAdd.className = "input is-rounded"
+        usernameAddHelp.className = "help"
+        usernameAddHelp.innerText = "";
+        submitAddForm.removeAttribute("disabled");
+    } else {
+        usernameValidator();
+    }
+
+});
+
+
 refreshList();

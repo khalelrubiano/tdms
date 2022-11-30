@@ -5,6 +5,7 @@ let shipmentTable = document.getElementById('shipmentTable');
 let submitAddForm = document.getElementById('submitAddForm');
 let submitAddFormHelp = document.getElementById('submitAddFormHelp');
 let invoiceNumberAdd = document.getElementById('invoiceNumberAdd');
+let invoiceNumberAddHelp = document.getElementById('invoiceNumberAddHelp');
 let invoiceDateAdd = document.getElementById('invoiceDateAdd');
 
 function getClientShipment() {
@@ -102,3 +103,45 @@ returnBtn.addEventListener('click', () => {
 });
 
 populateSelect1();
+
+function invoiceNumberValidator() {
+    $.post("./classes/load-invoice-number.class.php", {
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+
+            if (invoiceNumberAdd.value == jsonArray[i][0]) {
+                invoiceNumberAdd.className = "input is-danger is-rounded"
+                invoiceNumberAddHelp.className = "help is-danger"
+                invoiceNumberAddHelp.innerText = "This invoice number already exists!";
+                submitAddForm.setAttribute("disabled", "");
+                break;
+            }
+
+            if (invoiceNumberAdd.value != jsonArray[i][0] && invoiceNumberAdd.value != "") {
+                invoiceNumberAdd.className = "input is-primary is-rounded"
+                invoiceNumberAddHelp.className = "help is-primary"
+                invoiceNumberAddHelp.innerText = "This invoice number is available!";
+                submitAddForm.removeAttribute("disabled");
+            }
+
+        }
+    });
+}
+
+invoiceNumberAdd.addEventListener('input', () => {
+    //alert('INPUT');
+
+    if (invoiceNumberAdd.value == "") {
+        //alert('EMPTY');
+        invoiceNumberAdd.className = "input is-rounded"
+        invoiceNumberAddHelp.className = "help"
+        invoiceNumberAddHelp.innerText = "";
+        submitAddForm.removeAttribute("disabled");
+    } else {
+        invoiceNumberValidator();
+    }
+
+});

@@ -891,6 +891,85 @@ searchBarInput.addEventListener('input', () => {
 
     }
 });
+
+function subcontractorNumberValidator() {
+    $.post("./classes/load-subcontractor-number.class.php", {
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            if (subcontractorNumberAdd.value == jsonArray[i][0]) {
+                subcontractorNumberAdd.className = "input is-danger is-rounded"
+                subcontractorNumberAddHelp.className = "help is-danger"
+                subcontractorNumberAddHelp.innerText = "This subcontractor number already exists!";
+                submitAddForm.setAttribute("disabled", "");
+                break;
+            }
+            if (subcontractorNumberAdd.value != jsonArray[i][0] && subcontractorNumberAdd.value != "") {
+                subcontractorNumberAdd.className = "input is-primary is-rounded"
+                subcontractorNumberAddHelp.className = "help is-primary"
+                subcontractorNumberAddHelp.innerText = "This subcontractor number is available!";
+                submitAddForm.removeAttribute("disabled");
+            }
+        }
+    });
+}
+
+function usernameValidator() {
+    $.post("./classes/load-subcontractor-all.class.php", {
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+            if (usernameAdd.value == jsonArray[i][0]) {
+                usernameAdd.className = "input is-danger is-rounded"
+                usernameAddHelp.className = "help is-danger"
+                usernameAddHelp.innerText = "This username already exists!";
+                submitAddForm.setAttribute("disabled", "");
+                break;
+            }
+            if (usernameAdd.value != jsonArray[i][0] && usernameAdd.value != "") {
+                usernameAdd.className = "input is-primary is-rounded"
+                usernameAddHelp.className = "help is-primary"
+                usernameAddHelp.innerText = "This username is available!";
+                submitAddForm.removeAttribute("disabled");
+            }
+        }
+    });
+}
+
+subcontractorNumberAdd.addEventListener('input', () => {
+    //alert('INPUT');
+
+    if (subcontractorNumberAdd.value == "") {
+        //alert('EMPTY');
+        subcontractorNumberAdd.className = "input is-rounded"
+        subcontractorNumberAddHelp.className = "help"
+        subcontractorNumberAddHelp.innerText = "";
+        submitAddForm.removeAttribute("disabled");
+    } else {
+        subcontractorNumberValidator();
+    }
+
+});
+
+usernameAdd.addEventListener('input', () => {
+    //alert('INPUT');
+
+    if (usernameAdd.value == "") {
+        //alert('EMPTY');
+        usernameAdd.className = "input is-rounded"
+        usernameAddHelp.className = "help"
+        usernameAddHelp.innerText = "";
+        submitAddForm.removeAttribute("disabled");
+    } else {
+        usernameValidator();
+    }
+
+});
+
 refreshList();
 //generateUserList1();
 

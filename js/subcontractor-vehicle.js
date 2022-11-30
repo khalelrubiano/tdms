@@ -778,6 +778,48 @@ selectSort.addEventListener('change', () => {
 
 });
 
+function trackerIdValidator() {
+    $.post("./classes/load-tracker-id.class.php", {
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+
+            if (trackerIdAdd.value == jsonArray[i][0]) {
+                trackerIdAdd.className = "input is-danger is-rounded"
+                trackerIdAddHelp.className = "help is-danger"
+                trackerIdAddHelp.innerText = "This tracker number is already registered!";
+                submitAddForm.setAttribute("disabled", "");
+                break;
+            }
+
+            if (trackerIdAdd.value != jsonArray[i][0] && trackerIdAdd.value != "") {
+                trackerIdAdd.className = "input is-primary is-rounded"
+                trackerIdAddHelp.className = "help is-primary"
+                trackerIdAddHelp.innerText = "This tracker number is available!";
+                submitAddForm.removeAttribute("disabled");
+            }
+
+        }
+    });
+}
+
+trackerIdAdd.addEventListener('input', () => {
+    //alert('INPUT');
+
+    if (trackerIdAdd.value == "") {
+        //alert('EMPTY');
+        trackerIdAdd.className = "input is-rounded"
+        trackerIdAddHelp.className = "help"
+        trackerIdAddHelp.innerText = "";
+        submitAddForm.removeAttribute("disabled");
+    } else {
+        trackerIdValidator();
+    }
+
+});
+
 /*
 searchBarInput.addEventListener('input', () => {
     generateShipmentList3(searchBarInput.value);

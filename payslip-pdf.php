@@ -208,9 +208,11 @@ header("Refresh: 1; url = payslip-profile.php");
     </div>
 </body></html>`
 
+    let pdfname = '2GO_202201_2022-11-29';
+
     var opt = {
         margin: 0.75,
-        filename: 'payslip.pdf',
+        filename: pdfname + '.pdf',
         image: {
             type: 'jpeg',
             quality: 1

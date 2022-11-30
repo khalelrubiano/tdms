@@ -211,7 +211,7 @@ include_once 'navbar.php';
                 </div>
 
                 <div class="field has-text-centered mt-6">
-                    <button class="button is-info has-text-white is-rounded" name="submitAddForm" id="submitAddForm">
+                    <button class="button is-info has-text-white is-rounded is-disabled" name="submitAddForm" id="submitAddForm">
                         <i class="fa-solid fa-check mr-3"></i>Submit
                     </button>
                     <p class="help" id="submitAddFormHelp" style="text-align: center;"></p>
