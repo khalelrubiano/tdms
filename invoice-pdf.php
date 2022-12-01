@@ -108,7 +108,7 @@ header("Refresh: 1; url = billing-profile.php");
         '</tr>' +
         '<tr>' +
         '<td class="table1TD">TOLL FEE:</td>' +
-        '<td class="table1TD" id="tollFeeTD">' + '<?php echo $_SESSION["tollFeeTD"] ?>'+ '</td>' +
+        '<td class="table1TD" id="tollFeeTD">' + '<?php echo $_SESSION["tollFeeTD"] ?>' + '</td>' +
         '</tr>' +
         '<tr>' +
         '<td class="table1TD">FUEL CHARGE:</td>' +
@@ -159,9 +159,15 @@ header("Refresh: 1; url = billing-profile.php");
         '</body>' +
         '</html>'
 
+    let currentDate = new Date();
+    let cDay = ("0" + currentDate.getDate()).slice(-2);
+    let cMonth = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+    let cYear = currentDate.getFullYear();
+    let finalDate = cYear + "-" + cMonth + "-" + cDay;
+
     var opt = {
         margin: 0.5,
-        filename: 'invoice.pdf',
+        filename: '<?php echo $_SESSION["clientHidden"] ?>' + '_' + '<?php echo $_SESSION["invoiceNumberHidden"] ?>' + '_' + finalDate + '.pdf',
         image: {
             type: 'jpeg',
             quality: 1

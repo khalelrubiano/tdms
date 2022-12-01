@@ -208,11 +208,17 @@ header("Refresh: 1; url = payslip-profile.php");
     </div>
 </body></html>`
 
+    let currentDate = new Date();
+    let cDay = ("0" + currentDate.getDate()).slice(-2);
+    let cMonth = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+    let cYear = currentDate.getFullYear();
+    let finalDate = cYear + "-" + cMonth + "-" + cDay;
+
     let pdfname = '2GO_202201_2022-11-29';
 
     var opt = {
         margin: 0.75,
-        filename: pdfname + '.pdf',
+        filename: '<?php echo $_SESSION["plateNumberHeader"] ?>' + '_' + '<?php echo $_SESSION["ownerHeader"] ?>' + '_' + '<?php echo $_SESSION["invoiceNumberHeader"] ?>' + '_' + finalDate + '.pdf',
         image: {
             type: 'jpeg',
             quality: 1

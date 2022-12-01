@@ -51,7 +51,7 @@ include_once 'navbar.php';
         }
 
         td {
-            text-align: center !important;
+            text-align: left !important;
             white-space: nowrap;
             font-size: 80%;
         }

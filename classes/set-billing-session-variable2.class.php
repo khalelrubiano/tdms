@@ -39,6 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION["penaltyTD"] = $_POST['penaltyTD'];
     $_SESSION["totalTD"] = $_POST['totalTD'];
     $_SESSION["companyLogoHidden"] = $_POST['companyLogoHidden'];
+    $_SESSION["invoiceNumberHidden"] = $_POST['invoiceNumberHidden'];
+    $_SESSION["clientHidden"] = $_POST['clientHidden'];
 
     //header("location: ../subcontractor-group-profile.php");
     //exit();

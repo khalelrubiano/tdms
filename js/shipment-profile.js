@@ -196,19 +196,47 @@ var map = new maplibregl.Map({
 });
 
 
+var markerHeight = 100, markerRadius = 10, linearOffset = 25;
 
+var popupOffsets = {
+    'top': [0, 0],
+    'top-left': [0, 0],
+    'top-right': [0, 0],
+    'bottom': [0, markerHeight + 70],
+    'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+    'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+    'left': [markerRadius, (markerHeight - markerRadius) * -1],
+    'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+};
 
+var popupOffsets2 = {
+    'top': [0, 0],
+    'top-left': [0, 0],
+    'top-right': [0, 0],
+    'bottom': [0, -(markerHeight - 70)],
+    'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+    'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+    'left': [markerRadius, (markerHeight - markerRadius) * -1],
+    'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+};
 
 
 var popup = new maplibregl.Popup({
     closeButton: true,
     closeOnClick: true,
-    closeOnMove: true
+    closeOnMove: true,
+    offset: popupOffsets
+});
+
+var popup2 = new maplibregl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+    closeOnMove: false,
+    offset: popupOffsets2
 });
 
 
-
-let lat, long, update_time;
+let lat, long, update_time, plate_number;
 
 setInterval(generateLatestMarker2, 10000); // Time in milliseconds
 
@@ -218,6 +246,8 @@ function testFunc(){
 }*/
 
 generateLatestMarker();
+
+
 
 map.on('click', function () {
     map.getCanvas().style.cursor = 'pointer';
@@ -255,7 +285,7 @@ function generateLatestMarker2() {
         long = jsonArray[0][0];
         update_time = jsonArray[0][2];
 
-
+        popup2.setLngLat([long, lat]).setHTML("<h1 class='title is-6'>Plate #" + vehicleIdHidden.innerHTML + "</h1>").addTo(map);
         //var finalLength = Math.ceil(jsonArray.length / 4)
         //arrayLengthHidden.innerHTML = finalLength;
 
@@ -286,6 +316,7 @@ function generateLatestMarker() {
             zoom: 15
         });
 
+        popup2.setLngLat([long, lat]).setHTML("<h1 class='title is-6'>Plate #" + vehicleIdHidden.innerHTML + "</h1>").addTo(map);
 
         //var finalLength = Math.ceil(jsonArray.length / 4)
         //arrayLengthHidden.innerHTML = finalLength;
@@ -296,9 +327,6 @@ function generateLatestMarker() {
         //plateNumberSubtitle.innerHTML = "Vehicle Plate Number: " + jsonArray[0][1];
     });
 }
-
-
-
 
 function generateVehicleDetails() {
     $.post("./classes/load-vehicle-details.class.php", {

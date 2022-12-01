@@ -299,6 +299,10 @@ include_once 'navbar.php';
             /* make scrollbar transparent */
         }
 
+        .mapboxgl-popup-tip {
+            display: none;
+        }
+
         @media (min-width: 1000px) {
 
             #shipmentTitle {

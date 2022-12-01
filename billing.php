@@ -49,7 +49,7 @@ include_once 'navbar.php';
     }
 
     td {
-      text-align: center !important;
+      text-align: left !important;
       white-space: nowrap;
       font-size: calc(8px + 0.390625vw);
     }

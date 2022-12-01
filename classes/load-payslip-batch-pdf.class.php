@@ -20,7 +20,8 @@ function getFees()
     payroll.truck_rate, 
     payroll.drop_off,
     payroll.penalty,
-    vehicle.commission_rate
+    vehicle.commission_rate,
+    billing.invoice_number
     FROM payroll 
     INNER JOIN billing
     ON payroll.billing_id = billing.billing_id
@@ -54,8 +55,9 @@ function getFees()
     $var10 = $row[0][9];
     $var11 = ((floatval($row[0][6]) + floatval($row[0][7])) - floatval($row[0][8])) * (floatval($row[0][9]) / 100);
     $var12 = (floatval($var8) + floatval($var10)) - floatval($var7);
+    $var13 = $row[0][10];
 
-    return array($var1, $var2, $var3, $var4, $var5, $var6, $var7, $var8, $var9, $var10, $var11, $var12);
+    return array($var1, $var2, $var3, $var4, $var5, $var6, $var7, $var8, $var9, $var10, $var11, $var12, $var13);
 };
 
 function getShipmentArray()
@@ -97,9 +99,9 @@ function getShipmentArray()
     }
 
 
-    $var13 = $tablehtml;
+    $var14 = $tablehtml;
 
-    return $var13;
+    return $var14;
 };
 
 

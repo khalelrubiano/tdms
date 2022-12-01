@@ -183,7 +183,7 @@ class GenerateInvoiceModel
             $stmt->bindParam(":less_penalties", $param15, PDO::PARAM_STR);
             $stmt->bindParam(":billing_id", $param16, PDO::PARAM_STR);
 
-            $param3 = $start . ' - ' . $end;
+            $param3 = $start . ' to ' . $end;
             $param7 = $array1[0][0];
             $param8 = $array1[0][1];
             $param9 = $array1[0][2];

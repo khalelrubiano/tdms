@@ -234,6 +234,7 @@ let totalTD = document.getElementById('totalTD');
 
 let billingIdHidden = document.getElementById('billingIdHidden');
 let invoiceNumberHidden = document.getElementById('invoiceNumberHidden');
+let clientHidden = document.getElementById('clientHidden');
 let invoiceStatusHidden = document.getElementById('invoiceStatusHidden');
 let downloadBtn = document.getElementById('downloadBtn');
 let companyLogoHidden = document.getElementById('companyLogoHidden');
@@ -281,6 +282,7 @@ function populateTable1() {
 
         invoiceNumberTD.innerHTML = "<strong>BILLING INVOICE: </strong>" + jsonArray[0][1];
         invoiceNumberHidden.innerHTML = jsonArray[0][1];
+        clientHidden.innerHTML = jsonArray[0][19];
         coveredDateTD.innerHTML = "<strong>COVERED DATE: </strong>" + jsonArray[0][3];
         invoiceDateTD.innerHTML = "<strong>INVOICE DATE: </strong>" + jsonArray[0][2];
         clientTD.innerHTML = "<strong>" + jsonArray[0][19] + "</strong>";
@@ -411,6 +413,29 @@ function updateBillingStatus() {
     }
 }
 
+function dateValidator() {
+    $.post("./classes/load-invoice-date.class.php", {
+        billingId: billingIdHidden.innerHTML
+    }, function (data) {
+        let currentDate = new Date();
+        let cDay = ("0" + currentDate.getDate()).slice(-2);
+        let cMonth = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+        let cYear = currentDate.getFullYear();
+        let finalDate = cYear + "-" + cMonth + "-" + cDay;
+        var jsonArray = JSON.parse(data);
+
+
+        //alert("<b>" + cYear + "/" + cMonth + "/" + cDay + "</b>");
+        if (finalDate > jsonArray[0][0] || finalDate == jsonArray[0][0]) {
+            updateBillingStatus();
+        } else {
+            alert('This invoice cannot be marked settled before the invoice date!');
+        }
+    });
+
+
+}
+
 generateShipmentListTable1();
 generateShipmentListTable2(1);
 
@@ -442,7 +467,9 @@ function redirectToPDF() {
         vatTD: vatTD.innerHTML,
         penaltyTD: penaltyTD.innerHTML,
         totalTD: totalTD.innerHTML,
-        companyLogoHidden: companyLogoHidden.innerHTML
+        companyLogoHidden: companyLogoHidden.innerHTML,
+        invoiceNumberHidden: invoiceNumberHidden.innerHTML,
+        clientHidden: clientHidden.innerHTML
     }, function (data) {
         //alert(data);
         window.location.href = "invoice-pdf.php";
@@ -456,6 +483,7 @@ returnBtn.addEventListener('click', () => {
 
 downloadBtn.addEventListener('click', () => {
     redirectToPDF();
+    //alert(invoiceNumberHidden.innerHTML + ' ' + clientHidden.innerHTML);
 });
 
 /*

@@ -170,13 +170,14 @@ include_once 'navbar.php';
     <div class="main" style="margin-bottom: 20%;">
         <div class="container firstContainer" style="margin-bottom: 5%;" id="firstContainer">
             <button class="button is-rounded mb-6 is-light" id="returnBtn"><i class="fa-solid fa-arrow-left mr-3"></i>Return</button>
-            <button class="button is-rounded mb-5 has-background-primary has-text-white" id="updateBtn" onclick="updateBillingStatus()"><i class="fa-solid fa-check mr-3"></i>Mark as Settled</button>
+            <button class="button is-rounded mb-5 has-background-primary has-text-white" id="updateBtn" onclick="dateValidator()"><i class="fa-solid fa-check mr-3"></i>Mark as Settled</button>
             <button class="button is-rounded mb-6 is-link" id="downloadBtn"><i class="fa-solid fa-file-arrow-down mr-3"></i>Download PDF</button>
             <p class="title is-hidden" id="test_indicator">Test</p>
             <p class="title is-hidden" id="indicator">Live Search Indicator</p>
             <p class="title is-hidden" id="companyLogoHidden"></p>
             <p class="title is-hidden" id="billingIdHidden"><?php echo $_SESSION["billingId"] ?></p>
             <p class="title is-hidden" id="invoiceNumberHidden"></p>
+            <p class="title is-hidden" id="clientHidden"></p>
             <p class="title is-hidden" id="invoiceStatusHidden"><?php echo $_SESSION["invoiceStatus"] ?></p>
         </div>
         <div class="container box" style="padding: 100px;" id="pdfbody">

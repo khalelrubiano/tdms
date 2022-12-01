@@ -104,9 +104,21 @@ header("Refresh: 1; url = payroll.php");
                 json3 = ' ';
             }
 
+            let currentDate = new Date();
+            let cDay = ("0" + currentDate.getDate()).slice(-2);
+            let cMonth = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+            let cYear = currentDate.getFullYear();
+            let finalDate = cYear + "-" + cMonth + "-" + cDay;
+
+            var plateNumberVar = jsonArray[1];
+            var ownerVar = jsonArray[0];
+            var invoiceNumberVar = jsonArray[12];
+
+            var finalString = plateNumberVar + '_' + ownerVar + '_' + invoiceNumberVar + '_' + finalDate + '.pdf';
+
             var opt = {
                 margin: 0.75,
-                filename: 'payslip.pdf',
+                filename: finalString,
                 image: {
                     type: 'jpeg',
                     quality: 1
@@ -260,7 +272,7 @@ header("Refresh: 1; url = payroll.php");
                 </div>
             </body></html>`
 
-            let completehtml = tophtml + jsonArray[12] + bottomhtml;
+            let completehtml = tophtml + jsonArray[13] + bottomhtml;
 
             html2pdf(completehtml, opt);
 

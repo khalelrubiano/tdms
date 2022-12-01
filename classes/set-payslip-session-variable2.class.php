@@ -20,7 +20,8 @@ function getFees()
     payroll.truck_rate, 
     payroll.drop_off,
     payroll.penalty,
-    vehicle.commission_rate
+    vehicle.commission_rate,
+    billing.invoice_number
     FROM payroll 
     INNER JOIN billing
     ON payroll.billing_id = billing.billing_id
@@ -54,6 +55,7 @@ function getFees()
     $_SESSION["lessTDHeader"] = $row[0][9];
     $_SESSION["lessTD"] = ((floatval($row[0][6]) + floatval($row[0][7])) - floatval($row[0][8])) * (floatval($row[0][9]) / 100);
     $_SESSION["netPayTD"] = floatval($_SESSION["totalTD"]) - (floatval($_SESSION["taxTD"]) + floatval($_SESSION["lessTD"]));
+    $_SESSION["invoiceNumberHeader"] = $row[0][10];
 };
 
 function getShipmentArray()
