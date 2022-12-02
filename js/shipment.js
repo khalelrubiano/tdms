@@ -972,6 +972,49 @@ searchBarInput.addEventListener('input', () => {
 
     }
 });
+
+function shipmentNumberValidator() {
+    $.post("./classes/load-shipment.class.php", {
+    }, function (data) {
+
+        var jsonArray = JSON.parse(data);
+
+        for (var i = 0; i < jsonArray.length; i++) {
+
+            if (shipmentNumberAdd.value == jsonArray[i][1]) {
+                shipmentNumberAdd.className = "input is-danger is-rounded"
+                shipmentNumberAddHelp.className = "help is-danger"
+                shipmentNumberAddHelp.innerText = "This shipment number already exists!";
+                submitAddForm.setAttribute("disabled", "");
+                break;
+            }
+
+            if (shipmentNumberAdd.value != jsonArray[i][1] && shipmentNumberAdd.value != "") {
+                shipmentNumberAdd.className = "input is-primary is-rounded"
+                shipmentNumberAddHelp.className = "help is-primary"
+                shipmentNumberAddHelp.innerText = "This shipment number is available!";
+                submitAddForm.removeAttribute("disabled");
+            }
+
+        }
+    });
+}
+
+shipmentNumberAdd.addEventListener('input', () => {
+    //alert('INPUT');
+
+    if (shipmentNumberAdd.value == "") {
+        //alert('EMPTY');
+        shipmentNumberAdd.className = "input is-rounded"
+        shipmentNumberAddHelp.className = "help"
+        shipmentNumberAddHelp.innerText = "";
+        submitAddForm.removeAttribute("disabled");
+    } else {
+        shipmentNumberValidator();
+    }
+
+});
+
 /*
 
 POST A THIRD VARIABLE TO THE LOAD SHIPMENT ALL FILE THAT DETERMINES WHETHER THE SQL QUERY RETURNS ALL / IN-PROGRESS / COMPLETED/ CANCELLED, USE CUSTOM FUNCTIONS FOR EACH TAB CATEGORY

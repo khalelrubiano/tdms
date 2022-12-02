@@ -299,10 +299,11 @@ include_once 'navbar.php';
             /* make scrollbar transparent */
         }
 
+        /*
         .mapboxgl-popup-tip {
             display: none;
         }
-
+*/
         @media (min-width: 1000px) {
 
             #shipmentTitle {
@@ -368,6 +369,27 @@ include_once 'navbar.php';
                 top: 15vh;
                 left: 510px;
 
+            }
+
+            #personnelDiv {
+                position: absolute;
+
+                z-index: 3;
+
+                top: 15vh;
+                right: 50px;
+
+                max-width: 20vw;
+            }
+
+            table {
+                table-layout: fixed;
+            }
+
+            td {
+                text-align: left !important;
+                white-space: nowrap;
+                font-size: calc(8px + 0.390625vw);
             }
 
             /*
@@ -493,6 +515,27 @@ include_once 'navbar.php';
 
             }
 
+            #personnelDiv {
+                position: absolute;
+
+                z-index: 3;
+
+                bottom: 15vh;
+                right: 5vw;
+
+                width: 90vw;
+            }
+
+            table {
+                table-layout: fixed;
+            }
+
+            td {
+                text-align: left !important;
+                white-space: nowrap;
+                font-size: calc(10px + 0.390625vw);
+            }
+
             /*
             #returnBtn {
                 position: absolute !important;
@@ -600,6 +643,36 @@ include_once 'navbar.php';
                 </div>
             </div>
 
+        </div>
+
+        <div id="personnelDiv">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="has-text-weight-bold">Plate Number:</td>
+                                    <td><?php echo $_SESSION["plateNumber"] ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="has-text-weight-bold">Type:</td>
+                                    <td><?php echo $_SESSION["vehicleType"] ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="has-text-weight-bold">Driver:</td>
+                                    <td id="driverSubtitle2"></td>
+                                </tr>
+                                <tr>
+                                    <td class="has-text-weight-bold">Helper:</td>
+                                    <td id="helperSubtitle2"></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
 
 

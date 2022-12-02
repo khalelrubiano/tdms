@@ -8,6 +8,8 @@ let helperIdHidden = document.getElementById('helperIdHidden');
 let vehicleTypeHidden = document.getElementById('vehicleTypeHidden');
 let driverSubtitle = document.getElementById('driverSubtitle');
 let helperSubtitle = document.getElementById('helperSubtitle');
+let driverSubtitle2 = document.getElementById('driverSubtitle2');
+let helperSubtitle2 = document.getElementById('helperSubtitle2');
 let plateNumberSubtitle = document.getElementById('plateNumberSubtitle');
 
 let verticalContainerUl = document.getElementById('verticalContainerUl');
@@ -196,13 +198,13 @@ var map = new maplibregl.Map({
 });
 
 
-var markerHeight = 100, markerRadius = 10, linearOffset = 25;
+var markerHeight = 40, markerRadius = 10, linearOffset = 25;
 
 var popupOffsets = {
     'top': [0, 0],
     'top-left': [0, 0],
     'top-right': [0, 0],
-    'bottom': [0, markerHeight + 70],
+    'bottom': [0, -markerHeight],
     'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
     'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
     'left': [markerRadius, (markerHeight - markerRadius) * -1],
@@ -228,13 +230,14 @@ var popup = new maplibregl.Popup({
     offset: popupOffsets
 });
 
+/*
 var popup2 = new maplibregl.Popup({
     closeButton: false,
     closeOnClick: false,
     closeOnMove: false,
     offset: popupOffsets2
 });
-
+*/
 
 let lat, long, update_time, plate_number;
 
@@ -285,7 +288,7 @@ function generateLatestMarker2() {
         long = jsonArray[0][0];
         update_time = jsonArray[0][2];
 
-        popup2.setLngLat([long, lat]).setHTML("<h1 class='title is-6'>Plate #" + vehicleIdHidden.innerHTML + "</h1>").addTo(map);
+        //popup2.setLngLat([long, lat]).setHTML("<h1 class='title is-6'>Plate #" + vehicleIdHidden.innerHTML + "</h1>").addTo(map);
         //var finalLength = Math.ceil(jsonArray.length / 4)
         //arrayLengthHidden.innerHTML = finalLength;
 
@@ -316,7 +319,7 @@ function generateLatestMarker() {
             zoom: 15
         });
 
-        popup2.setLngLat([long, lat]).setHTML("<h1 class='title is-6'>Plate #" + vehicleIdHidden.innerHTML + "</h1>").addTo(map);
+        //popup2.setLngLat([long, lat]).setHTML("<h1 class='title is-6'>Plate #" + vehicleIdHidden.innerHTML + "</h1>").addTo(map);
 
         //var finalLength = Math.ceil(jsonArray.length / 4)
         //arrayLengthHidden.innerHTML = finalLength;
@@ -343,6 +346,8 @@ function generateVehicleDetails() {
         //indicatorHidden.innerHTML = jsonArray[0][0] + " " + jsonArray[0][1] + " " + jsonArray[0][2] + " " + jsonArray[0][3] + " " + jsonArray[0][4] + " " + jsonArray[0][5];
         driverSubtitle.innerHTML = "Driver: " + jsonArray[0][0];
         helperSubtitle.innerHTML = "Helper: " + jsonArray[0][1];
+        driverSubtitle2.innerHTML = jsonArray[0][0];
+        helperSubtitle2.innerHTML = jsonArray[0][1];
         //plateNumberSubtitle.innerHTML = "Vehicle Plate Number: " + jsonArray[0][1];
     });
 }
